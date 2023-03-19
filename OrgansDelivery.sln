@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.Web", "Organ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.DAL", "OrgansDelivery.DAL\OrgansDelivery.DAL.csproj", "{2AE28A4F-2D4A-4DDD-A64B-F25882AC41A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.BL", "OrgansDelivery.BL\OrgansDelivery.BL.csproj", "{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2AE28A4F-2D4A-4DDD-A64B-F25882AC41A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AE28A4F-2D4A-4DDD-A64B-F25882AC41A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AE28A4F-2D4A-4DDD-A64B-F25882AC41A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
