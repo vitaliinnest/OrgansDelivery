@@ -89,7 +89,7 @@ public class AuthService : IAuthService
 
         await _inviteService.AcceptInviteAsync(user, registerRequest);
 
-        //await _emailService.SendEmailConfirmationMailAsync(user);
+        await _emailService.SendEmailConfirmationMailAsync(user);
 
         return _mapper.Map<RegisterResponse>(user);
     }

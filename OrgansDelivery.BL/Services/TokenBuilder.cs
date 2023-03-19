@@ -17,10 +17,12 @@ public class TokenBuilder : ITokenBuilder
     private readonly IClaimsCalculator _claimsCalculator;
 
     public TokenBuilder(
-        IOptions<JwtSettings> jwtSettings
+        IOptions<JwtSettings> jwtSettings,
+        IClaimsCalculator claimsCalculator
         )
     {
         _jwtSettings = jwtSettings.Value;
+        _claimsCalculator = claimsCalculator;
     }
 
     public async Task<string> GenerateJwtTokenAsync(Guid userId)

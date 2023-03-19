@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace OrgansDelivery.BL.Services;
 
-internal interface IClaimsCalculator
+public interface IClaimsCalculator
 {
     Task<List<Claim>> GetClaimsForAuthUserAsync(Guid userId);
 }

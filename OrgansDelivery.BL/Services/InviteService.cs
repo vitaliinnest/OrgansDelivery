@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
@@ -7,7 +8,8 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IInviteService
 {
-    Task AcceptInviteAsync(User user, RegisterRequest registerRequest);
+    Invite FindRequestedInvite(RegisterRequest registerRequest);
+    Task<Result> AcceptInviteAsync(User user, RegisterRequest registerRequest);
     void DeleteInvite(Invite invite);
 }
 
@@ -25,20 +27,33 @@ public class InviteService : IInviteService
         _appDbContext = appDbContext;
     }
 
-    public async Task AcceptInviteAsync(User user, RegisterRequest registerRequest)
+    public Invite FindRequestedInvite(RegisterRequest registerRequest)
+    {
+        return _appDbContext.Invites.IgnoreQueryFilters()
+            .FirstOrDefault(i => i.Email == registerRequest.Email
+                && i.InviteCode == registerRequest.InviteCode);
+    }
+
+    public async Task<Result> AcceptInviteAsync(User user, RegisterRequest registerRequest)
     {
         var inviteCode = registerRequest.InviteCode;
         if (!inviteCode.HasValue)
         {
-            return;
+            return Result.Ok();
         }
 
-        var invite = _appDbContext.Invites.IgnoreQueryFilters().FirstOrDefault(i => i.Email == user.Email);
+        var invite = FindRequestedInvite(registerRequest);
+        if (invite == null)
+        {
+            return Result.Fail("Invite not found");
+        }
+
         var tenant = _appDbContext.Tenants.FirstOrDefault(t => t.Id == invite.TenantId);
-        
         await _tenantService.AddUserToTenantAsync(user, tenant);
         
         DeleteInvite(invite);
+
+        return Result.Ok();
     }
 
     public void DeleteInvite(Invite invite)
