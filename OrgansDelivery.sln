@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.Web", "OrgansDelivery.Web\OrgansDelivery.Web.csproj", "{270CC872-5836-4477-8FC9-7C147FBD1B1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.Web", "OrgansDelivery.Web\OrgansDelivery.Web.csproj", "{270CC872-5836-4477-8FC9-7C147FBD1B1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.DAL", "OrgansDelivery.DAL\OrgansDelivery.DAL.csproj", "{2AE28A4F-2D4A-4DDD-A64B-F25882AC41A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.DAL", "OrgansDelivery.DAL\OrgansDelivery.DAL.csproj", "{2AE28A4F-2D4A-4DDD-A64B-F25882AC41A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.BL", "OrgansDelivery.BL\OrgansDelivery.BL.csproj", "{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.BL", "OrgansDelivery.BL\OrgansDelivery.BL.csproj", "{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.Admin.Web", "OrgansDelivery.Admin.Web\OrgansDelivery.Admin.Web.csproj", "{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
