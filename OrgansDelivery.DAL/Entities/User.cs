@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using OrgansDelivery.DAL.Enums;
+using OrgansDelivery.DAL.Interfaces;
 
 namespace OrgansDelivery.DAL.Entities;
 
-public class User : IdentityUser<Guid>
+public class User : IdentityUser<Guid>, IMustHaveTenant
 {
-    public string Name { get; set; } = null!;
-    public string Surname { get; set; } = null!;
+    public Guid TenantId { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
     public Language Language { get; set; }
     public string PhotoUrl { get; set; }
 }
