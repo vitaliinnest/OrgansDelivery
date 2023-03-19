@@ -9,9 +9,9 @@ public static class MarkDataKeyExtension
     {
         foreach (var entityEntry in context.ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
         {
-            if (entityEntry.Entity is IMustHaveTenant hasDataKey && hasDataKey.TenantId == Guid.Empty)
+            if (entityEntry.Entity is IMustHaveTenant mustHaveTenant && mustHaveTenant.TenantId == Guid.Empty)
             {
-                hasDataKey.TenantId = tenantId;
+                mustHaveTenant.TenantId = tenantId;
             }
         }
     }
