@@ -2,9 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
+using OrgansDelivery.BL.Models.Options;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
 namespace OrgansDelivery.Web.Extensions;
@@ -13,6 +17,30 @@ public static class DependencyContainerExtensions
 {
     public static void RegisterWeb(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
+
+        services
+            .AddControllers()
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            });
+        
+        services.AddSwaggerGenNewtonsoftSupport();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("oauth2", new()
+            {
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey
+            });
+            options.OperationFilter<SecurityRequirementsOperationFilter>();
+        });
+
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("Default")));
         
@@ -25,7 +53,7 @@ public static class DependencyContainerExtensions
             {
                 RequiredLength = 8,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = false,
                 RequireDigit = false,
                 RequireNonAlphanumeric = false
             };
@@ -53,5 +81,7 @@ public static class DependencyContainerExtensions
             });
         
         services.AddScoped<IEnvironmentProvider, EnvironmentProvider>();
+        services.AddHttpContextAccessor();
+        services.AddRouting(options => options.LowercaseUrls = true);
     }
 }
