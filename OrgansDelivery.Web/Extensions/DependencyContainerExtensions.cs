@@ -18,6 +18,7 @@ public static class DependencyContainerExtensions
     public static void RegisterWeb(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
+        services.Configure<SmtpSettings>(configuration.GetSection("Smtp"));
 
         services
             .AddControllers()
