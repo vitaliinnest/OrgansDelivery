@@ -1,8 +1,10 @@
+using OrgansDelivery.DAL.Extensions;
+using OrgansDelivery.BL.Extensions;
+using OrgansDelivery.Web.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+ConfigureServices(builder);
 
 var app = builder.Build();
 
@@ -19,3 +21,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static void ConfigureServices(WebApplicationBuilder builder)
+{
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+    builder.Services.RegisterDAL(builder.Configuration);
+    builder.Services.RegisterBL(builder.Configuration);
+    builder.Services.RegisterWeb(builder.Configuration);
+}
