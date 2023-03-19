@@ -23,6 +23,7 @@ public class AuthService : IAuthService
     private readonly IMapper _mapper;
     private readonly IRolesService _rolesService;
     private readonly IEmailService _emailService;
+    private readonly IInviteService _inviteService;
 
     public AuthService(
         UserManager<User> userManager,
@@ -30,7 +31,8 @@ public class AuthService : IAuthService
         ITokenBuilder tokenBuilder,
         IMapper mapper,
         IRolesService rolesService,
-        IEmailService emailService)
+        IEmailService emailService,
+        IInviteService inviteService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -38,6 +40,7 @@ public class AuthService : IAuthService
         _mapper = mapper;
         _rolesService = rolesService;
         _emailService = emailService;
+        _inviteService = inviteService;
     }
 
     public async Task<Result<LoginResponse>> LoginAsync(LoginRequest loginRequest)
@@ -66,24 +69,25 @@ public class AuthService : IAuthService
     public async Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest registerRequest)
     {
         // validation
-        //await _genericValidator.EnsureValidAsync(request);
+        // await _genericValidator.EnsureValidAsync(request);
+        // ! todo: verify invite
 
         var foundUser = await _userManager.FindByEmailAsync(registerRequest.Email);
         if (foundUser != null)
         {
-            Result.Fail("User with given email already exists");
+            return Result.Fail("User with given email already exists");
         }
-        //await _inviteService.EnsureInviteValidAsync(registerRequest);
 
         var user = _mapper.Map<User>(registerRequest);
         var result = await _userManager.CreateAsync(user, registerRequest.Password);
         if (!result.Succeeded)
         {
-            Result.Fail(result.ToString());
+            return Result.Fail(result.ToString());
         }
+        
+        await _rolesService.InitializeUserRoleAsync(user, registerRequest);
 
-        //await AddUserToRoleAsync(registerRequest, user);
-        //await HandleInviteAsync(registerRequest, user);
+        await _inviteService.AcceptInviteAsync(user, registerRequest);
 
         //await _emailService.SendEmailConfirmationMailAsync(user);
 

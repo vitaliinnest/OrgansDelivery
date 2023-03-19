@@ -12,11 +12,13 @@ public static class DependencyContainerExtensions
     {
         services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
         services.Configure<SmtpSettings>(configuration.GetSection("Smtp"));
+        services.AddAutoMapper(typeof(AuthMappingProfile));
         services.AddScoped<IClaimsCalculator, ClaimsCalculator>();
         services.AddScoped<ITokenBuilder, TokenBuilder>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IRolesService, RolesService>();
         services.AddScoped<IEmailService, EmailService>();
-        services.AddAutoMapper(typeof(AuthMappingProfile));
+        services.AddScoped<ITenantService, TenantService>();
+        services.AddScoped<IInviteService, InviteService>();
     }
 }

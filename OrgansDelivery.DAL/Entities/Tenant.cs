@@ -1,6 +1,8 @@
-﻿namespace OrgansDelivery.DAL.Entities;
+﻿using OrgansDelivery.DAL.Interfaces;
 
-public class Tenant
+namespace OrgansDelivery.DAL.Entities;
+
+public class Tenant : IEntity
 {
     public Guid Id { get; set; }
     public string Url { get; set; }
