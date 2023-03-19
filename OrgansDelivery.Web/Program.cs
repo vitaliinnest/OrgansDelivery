@@ -24,8 +24,8 @@ app.UseRouting();
 app.UseCors();
 
 app.UseMiddleware<ErrorLoggingMiddleware>();
-
 app.UseMiddleware<TenantMiddleware>();
+app.UseMiddleware<UserMiddleware>();
 
 app.UseAuthentication();
 

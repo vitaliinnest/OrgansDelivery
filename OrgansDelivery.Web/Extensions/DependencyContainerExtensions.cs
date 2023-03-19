@@ -8,6 +8,7 @@ using OrgansDelivery.BL.Models.Options;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
+using OrgansDelivery.Web.Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -82,6 +83,9 @@ public static class DependencyContainerExtensions
             });
         
         services.AddScoped<IEnvironmentProvider, EnvironmentProvider>();
+        services.AddTransient<ITenantRequestResolver, TenantRequestResolver>();
+        services.AddTransient<IUserRequestResolver, UserRequestResolver>();
+
         services.AddHttpContextAccessor();
         services.AddRouting(options => options.LowercaseUrls = true);
     }

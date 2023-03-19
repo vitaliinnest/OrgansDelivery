@@ -1,4 +1,5 @@
-﻿using OrgansDelivery.DAL.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using OrgansDelivery.DAL.Entities;
 using System.Net.Mail;
 
 namespace OrgansDelivery.BL.Services;
@@ -11,6 +12,13 @@ public interface IEmailMessageBuilder
 
 public class EmailMessageBuilder : IEmailMessageBuilder
 {
+    private readonly UserManager<User> _userManager;
+
+    public EmailMessageBuilder(UserManager<User> userManager)
+    {
+        _userManager = userManager;
+    }
+
     public Task<MailMessage> BuildEmailConfirmationMessageAsync(User user)
     {
         throw new NotImplementedException();

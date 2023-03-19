@@ -22,7 +22,7 @@ public class TenantMiddleware
         var tenant = _tenantResolver.ResolveTenant(context.Request, context.User);
         if (tenant != null)
         {
-            EnvironmentContext.Set(tenant, provider);
+            EnvironmentSetter.SetTenant(tenant, provider);
         }
 
         await _next(context);
