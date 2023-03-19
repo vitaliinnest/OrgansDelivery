@@ -20,7 +20,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         _tenantId = environmentProvider.Tenant.Id;
     }
 
-    public List<Tenant> Tenants { get; set; }
+    public DbSet<Tenant> Tenants { get; set; }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {

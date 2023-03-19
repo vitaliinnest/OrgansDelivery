@@ -10,5 +10,4 @@ public class User : IdentityUser<Guid>, IMustHaveTenant
     public string Name { get; set; }
     public string Surname { get; set; }
     public Language Language { get; set; }
-    public string PhotoUrl { get; set; }
 }

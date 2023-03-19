@@ -1,6 +1,7 @@
 using OrgansDelivery.DAL.Extensions;
 using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.Web.Extensions;
+using OrgansDelivery.BL.Models.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ app.Run();
 
 static void ConfigureServices(WebApplicationBuilder builder)
 {
+    builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
