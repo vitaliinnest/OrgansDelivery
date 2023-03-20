@@ -1,12 +1,13 @@
-﻿using OrgansDelivery.DAL.Services;
-using OrgansDelivery.Web.Services;
+﻿using Microsoft.AspNetCore.Http;
+using OrgansDelivery.DAL.Services;
+using OrgansDelivery.Web.Common.Services;
 
-namespace OrgansDelivery.Web.Middlewares;
+namespace OrgansDelivery.Web.Common.Middlewares;
 
 public class TenantMiddleware
 {
     private readonly RequestDelegate _next;
-    
+
     public TenantMiddleware(RequestDelegate next)
     {
         _next = next;

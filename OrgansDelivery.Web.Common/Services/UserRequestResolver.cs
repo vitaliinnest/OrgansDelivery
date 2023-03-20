@@ -2,7 +2,7 @@
 using OrgansDelivery.DAL.Entities;
 using System.Security.Claims;
 
-namespace OrgansDelivery.Web.Services;
+namespace OrgansDelivery.Web.Common.Services;
 
 public interface IUserRequestResolver
 {

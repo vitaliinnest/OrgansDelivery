@@ -1,7 +1,7 @@
 using OrgansDelivery.DAL.Extensions;
 using OrgansDelivery.BL.Extensions;
-using OrgansDelivery.Web.Extensions;
-using OrgansDelivery.Web.Middlewares;
+using OrgansDelivery.Web.Common.Extensions;
+using OrgansDelivery.Web.Common.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

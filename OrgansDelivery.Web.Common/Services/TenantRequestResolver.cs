@@ -1,10 +1,11 @@
-﻿using OrgansDelivery.DAL.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
+using OrgansDelivery.Web.Common.Extensions;
 using OrgansDelivery.Web.Consts;
-using OrgansDelivery.Web.Extensions;
 using System.Security.Claims;
 
-namespace OrgansDelivery.Web.Services;
+namespace OrgansDelivery.Web.Common.Services;
 
 public interface ITenantRequestResolver
 {

@@ -20,10 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OrgansDelivery.BL\OrgansDelivery.BL.csproj" />
     <ProjectReference Include="..\OrgansDelivery.DAL\OrgansDelivery.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\OrgansDelivery.Web.Common\OrgansDelivery.Web.Common.csproj" />
   </ItemGroup>
 
 </Project>

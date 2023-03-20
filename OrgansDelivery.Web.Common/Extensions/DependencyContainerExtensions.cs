@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
@@ -8,11 +10,11 @@ using OrgansDelivery.BL.Models.Options;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
-using OrgansDelivery.Web.Services;
+using OrgansDelivery.Web.Common.Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace OrgansDelivery.Web.Extensions;
+namespace OrgansDelivery.Web.Common.Extensions;
 
 public static class DependencyContainerExtensions
 {
@@ -29,7 +31,7 @@ public static class DependencyContainerExtensions
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             });
-        
+
         services.AddSwaggerGenNewtonsoftSupport();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
@@ -45,7 +47,7 @@ public static class DependencyContainerExtensions
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("Default")));
-        
+
         services.AddIdentityCore<User>(options =>
         {
             options.User.RequireUniqueEmail = true;
@@ -82,7 +84,7 @@ public static class DependencyContainerExtensions
                         Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Secret").Value)),
                 };
             });
-        
+
         services.AddScoped<IEnvironmentProvider, EnvironmentProvider>();
         services.AddScoped<ITenantRequestResolver, TenantRequestResolver>();
         services.AddScoped<IUserRequestResolver, UserRequestResolver>();

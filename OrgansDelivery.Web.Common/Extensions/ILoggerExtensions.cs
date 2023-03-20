@@ -1,4 +1,6 @@
-﻿namespace OrgansDelivery.Web.Extensions;
+﻿using Microsoft.Extensions.Logging;
+
+namespace OrgansDelivery.Web.Common.Extensions;
 
 public static class ILoggerExtensions
 {

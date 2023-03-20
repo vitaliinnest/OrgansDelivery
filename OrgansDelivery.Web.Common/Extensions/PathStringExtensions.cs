@@ -1,6 +1,7 @@
-﻿using OrgansDelivery.Web.Consts;
+﻿using Microsoft.AspNetCore.Http;
+using OrgansDelivery.Web.Consts;
 
-namespace OrgansDelivery.Web.Extensions;
+namespace OrgansDelivery.Web.Common.Extensions;
 
 public static class PathStringExtensions
 {
