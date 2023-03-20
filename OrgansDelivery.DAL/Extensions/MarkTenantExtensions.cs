@@ -3,7 +3,7 @@ using OrgansDelivery.DAL.Interfaces;
 
 namespace OrgansDelivery.DAL.Extensions;
 
-public static class MarkDataKeyExtension
+public static class MarkTenantExtensions
 {
     public static void SetTenantIdIfNeeded(this DbContext context, Guid tenantId)
     {
