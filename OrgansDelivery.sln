@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.DAL", "Organ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.BL", "OrgansDelivery.BL\OrgansDelivery.BL.csproj", "{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.Admin.Web", "OrgansDelivery.Admin.Web\OrgansDelivery.Admin.Web.csproj", "{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.Web.Admin", "OrgansDelivery.Admin.Web\OrgansDelivery.Web.Admin.csproj", "{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
