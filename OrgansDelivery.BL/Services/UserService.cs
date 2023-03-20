@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
@@ -44,6 +45,6 @@ public class UserService : IUserService
             return Result.Fail("Tenant with given id does not exist");
         }
 
-        return _appDbContext.Users.Where(u => u.TenantId == tenantId).ToList();
+        return _appDbContext.Users.IgnoreQueryFilters().Where(u => u.TenantId == tenantId).ToList();
     }
 }
