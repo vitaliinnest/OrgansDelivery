@@ -1,6 +1,7 @@
 using OrgansDelivery.DAL.Extensions;
 using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.Web.Common.Extensions;
+using OrgansDelivery.Web.Common.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,7 @@ app.UseRouting();
 
 app.UseCors();
 
-//app.UseMiddleware<ErrorLoggingMiddleware>();
+app.UseMiddleware<ErrorLoggingMiddleware>();
 //app.UseMiddleware<TenantMiddleware>();
 //app.UseMiddleware<UserMiddleware>();
 
