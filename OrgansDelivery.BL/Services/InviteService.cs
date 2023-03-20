@@ -12,9 +12,8 @@ namespace OrgansDelivery.BL.Services;
 public interface IInviteService
 {
     Task<Result<Invite>> InviteUserAsync(InviteUserModel model);
-    Invite GetRegisterInvite(RegisterRequest registerRequest);
     Task<Result> AcceptInviteAsync(User user, RegisterRequest registerRequest);
-    void DeleteInvite(Invite invite);
+    Result DeleteInvite(Guid inviteId);
 }
 
 public class InviteService : IInviteService
@@ -38,13 +37,6 @@ public class InviteService : IInviteService
         _mapper = mapper;
         _roleManager = roleManager;
         _emailService = emailService;
-    }
-
-    public Invite GetRegisterInvite(RegisterRequest registerRequest)
-    {
-        return _appDbContext.Invites.IgnoreQueryFilters()
-            .FirstOrDefault(i => i.Email == registerRequest.Email
-                && i.InviteCode == registerRequest.InviteCode);
     }
 
     public async Task<Result<Invite>> InviteUserAsync(InviteUserModel model)
@@ -83,9 +75,35 @@ public class InviteService : IInviteService
         return Result.Ok();
     }
 
-    public void DeleteInvite(Invite invite)
+    public Result DeleteInvite(Guid inviteId)
     {
+        var invite = _appDbContext.Invites.FirstOrDefault(i => i.Id == inviteId);
+        if (invite == null)
+        {
+            return Result.Fail("Invite not found");
+
+        }
+        return DeleteInvite(invite);
+    }
+
+    private Result DeleteInvite(Invite invite)
+    {
+        var exists = _appDbContext.Invites.Any(i => i.Id == invite.Id);
+        if (!exists)
+        {
+            return Result.Fail("Invite not found");
+        }
+
         _appDbContext.Remove(invite);
         _appDbContext.SaveChanges();
+        
+        return Result.Ok();
+    }
+
+    private Invite GetRegisterInvite(RegisterRequest registerRequest)
+    {
+        return _appDbContext.Invites.IgnoreQueryFilters()
+            .FirstOrDefault(i => i.Email == registerRequest.Email
+                && i.InviteCode == registerRequest.InviteCode);
     }
 }

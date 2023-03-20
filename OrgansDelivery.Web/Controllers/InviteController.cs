@@ -32,15 +32,24 @@ public class InviteController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Invite>> Invite(InviteUserModel model)
+    public async Task<ActionResult<Invite>> InviteUser(InviteUserModel model)
     {
         var result = await _inviteService.InviteUserAsync(model);
         if (result.IsFailed)
         {
             return BadRequest(result);
         }
-        return Ok(result);
+        return Ok(result.Value);
     }
 
-
+    [HttpDelete("{inviteId}")]
+    public ActionResult DeleteInvite(Guid inviteId)
+    {
+        var result = _inviteService.DeleteInvite(inviteId);
+        if (result.IsFailed)
+        {
+            return BadRequest(result);
+        }
+        return Ok();
+    }
 }
