@@ -3,17 +3,17 @@ using OrgansDelivery.DAL.Entities;
 
 namespace OrgansDelivery.DAL.Services;
 
-public interface ITenantProvider
+public interface ITenantRepository
 {
     Tenant GetTenantById(Guid tenantId);
     Tenant GetTenantByUrl(string tenantUrl);
 }
 
-public class TenantProvider : ITenantProvider
+public class TenantRepository : ITenantRepository
 {
     private readonly AppDbContext _appDbContext;
 
-    public TenantProvider(
+    public TenantRepository(
         AppDbContext appDbContext
         )
     {

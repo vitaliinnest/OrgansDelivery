@@ -13,10 +13,10 @@ public interface ITenantRequestResolver
 
 public class TenantRequestResolver : ITenantRequestResolver
 {
-    private readonly ITenantProvider _tenantProvider;
+    private readonly ITenantRepository _tenantProvider;
 
     public TenantRequestResolver(
-        ITenantProvider tenantProvider
+        ITenantRepository tenantProvider
         )
     {
         _tenantProvider = tenantProvider;

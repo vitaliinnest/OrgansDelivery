@@ -13,6 +13,6 @@ public static class DependencyContainerExtensions
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("Default")));
         services.AddScoped<IEnvironmentProvider, EnvironmentProvider>();
-        services.AddScoped<ITenantProvider, TenantProvider>();
+        services.AddScoped<ITenantRepository, TenantRepository>();
     }
 }
