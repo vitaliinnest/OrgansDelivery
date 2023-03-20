@@ -16,7 +16,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<User>> GetCurrentUser()
+    public ActionResult<User> GetCurrentUser()
     {
         return Ok(_userService.CurrentUser);
     }
