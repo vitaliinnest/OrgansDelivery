@@ -5,22 +5,21 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IUserService
 {
-    User CurrentUser { get; }
-    Task<User> UpdateUserAsync(User user);
+    Task<User> UpdateCurrentUserAsync(User user);
 }
 
 public class UserService : IUserService
 {
+    private readonly IEnvironmentProvider _environmentProvider;
+
     public UserService(
         IEnvironmentProvider environmentProvider
         )
     {
-        CurrentUser = environmentProvider.User;
+        _environmentProvider = environmentProvider;
     }
 
-    public User CurrentUser { get; }
-
-    public Task<User> UpdateUserAsync(User user)
+    public Task<User> UpdateCurrentUserAsync(User user)
     {
         throw new NotImplementedException();
     }

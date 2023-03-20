@@ -1,0 +1,38 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OrgansDelivery.BL.Services;
+using OrgansDelivery.DAL.Data;
+using OrgansDelivery.DAL.Entities;
+
+namespace OrgansDelivery.Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize]
+public class InviteController : ControllerBase
+{
+    private readonly AppDbContext _appDbContext;
+    private readonly IInviteService _inviteService;
+
+    public InviteController(
+        AppDbContext appDbContext,
+        IInviteService inviteService
+        )
+    {
+        _appDbContext = appDbContext;
+        _inviteService = inviteService;
+    }
+
+    [HttpGet("all")]
+    public ActionResult<List<Invite>> GetInvites()
+    {
+        var invites = _appDbContext.Invites.ToList();
+        return Ok(invites);
+    }
+
+    [HttpPost()]
+    public async Task<ActionResult<Invite>> Invite()
+    {
+        var t = _inviteService.In
+    }
+}

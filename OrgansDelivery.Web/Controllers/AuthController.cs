@@ -23,11 +23,11 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<RegisterResponse>> Login([FromBody] LoginRequest loginRequest)
     {
         var response = await _authService.LoginAsync(loginRequest);
-        if (response == null)
+        if (response.IsFailed)
         {
-            return BadRequest();
+            return BadRequest(response);
         }
-        return Ok(response);
+        return Ok(response.Value);
     }
 
     [AllowAnonymous]
@@ -35,6 +35,10 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<LoginResponse>> Register([FromBody] RegisterRequest registerRequest)
     {
         var response = await _authService.RegisterAsync(registerRequest);
-        return Ok(response);
+        if (response.IsFailed)
+        {
+            return BadRequest(response);
+        }
+        return Ok(response.Value);
     }
 }

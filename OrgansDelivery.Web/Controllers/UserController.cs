@@ -1,30 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Services;
 using OrgansDelivery.DAL.Entities;
+using OrgansDelivery.DAL.Services;
 
 namespace OrgansDelivery.Web.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IEnvironmentProvider _environmentProvider;
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, IEnvironmentProvider environmentProvider)
     {
         _userService = userService;
+        _environmentProvider = environmentProvider;
     }
 
     [HttpGet]
-    public ActionResult<User> GetCurrentUser()
+    public ActionResult<User> GetUser()
     {
-        return Ok(_userService.CurrentUser);
+        return Ok(_environmentProvider.User);
     }
 
     [HttpPut]
-    public async Task<ActionResult<User>> UpdateUser(User user)
+    public async Task<ActionResult<User>> UpdateUser(User update)
     {
-        var updatedUser = await _userService.UpdateUserAsync(user);
-        return Ok(updatedUser);
+        var user = await _userService.UpdateCurrentUserAsync(update);
+        return Ok(user);
     }
 }
