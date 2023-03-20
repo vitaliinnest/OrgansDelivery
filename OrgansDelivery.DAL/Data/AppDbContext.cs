@@ -50,5 +50,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         {
             entityType.AddTenantQueryFilter(_tenantId);
         }
+
+        AppDbContextSeed.SeedData(builder);
     }
 }
