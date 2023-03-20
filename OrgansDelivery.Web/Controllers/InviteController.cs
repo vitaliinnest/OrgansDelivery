@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrgansDelivery.BL.Models;
 using OrgansDelivery.BL.Services;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
@@ -30,9 +31,16 @@ public class InviteController : ControllerBase
         return Ok(invites);
     }
 
-    [HttpPost()]
-    public async Task<ActionResult<Invite>> Invite()
+    [HttpPost]
+    public async Task<ActionResult<Invite>> Invite(InviteUserModel model)
     {
-        var t = _inviteService.In
+        var result = await _inviteService.InviteUserAsync(model);
+        if (result.IsFailed)
+        {
+            return BadRequest(result);
+        }
+        return Ok(result);
     }
+
+
 }

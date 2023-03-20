@@ -11,7 +11,7 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IInviteService
 {
-    Task<Invite> InviteUserAsync(InviteUserModel model);
+    Task<Result<Invite>> InviteUserAsync(InviteUserModel model);
     Invite GetRegisterInvite(RegisterRequest registerRequest);
     Task<Result> AcceptInviteAsync(User user, RegisterRequest registerRequest);
     void DeleteInvite(Invite invite);
@@ -47,8 +47,9 @@ public class InviteService : IInviteService
                 && i.InviteCode == registerRequest.InviteCode);
     }
 
-    public async Task<Invite> InviteUserAsync(InviteUserModel model)
+    public async Task<Result<Invite>> InviteUserAsync(InviteUserModel model)
     {
+        // todo: validation
         var invite = _mapper.Map<Invite>(model);
         var role = await _roleManager.FindByNameAsync(model.Role);
         invite.Role = role;
