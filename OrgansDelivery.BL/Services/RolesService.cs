@@ -24,6 +24,7 @@ public class RolesService : IRolesService
 
     public async Task InitializeUserRoleAsync(User user, RegisterRequest registerRequest)
     {
+        // todo: invite has role now
         var role = !registerRequest.InviteCode.HasValue
             ? UserRoles.MANAGER
             : UserRoles.EMPLOYEE;

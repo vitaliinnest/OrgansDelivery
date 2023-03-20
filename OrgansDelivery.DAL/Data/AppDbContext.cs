@@ -5,8 +5,6 @@ using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
 using OrgansDelivery.DAL.Interfaces;
 using OrgansDelivery.DAL.Extensions;
-using System.Reflection.Emit;
-using System.Linq;
 
 namespace OrgansDelivery.DAL.Data;
 

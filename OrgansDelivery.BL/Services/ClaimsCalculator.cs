@@ -1,4 +1,6 @@
-﻿using OrgansDelivery.DAL.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using OrgansDelivery.DAL.Data;
+using OrgansDelivery.DAL.Entities;
 using System.Security.Claims;
 
 namespace OrgansDelivery.BL.Services;
@@ -11,21 +13,25 @@ public interface IClaimsCalculator
 public class ClaimsCalculator : IClaimsCalculator
 {
     private readonly AppDbContext _appDbContext;
+    private readonly UserManager<User> _userManager;
 
     public ClaimsCalculator(
-        AppDbContext appDbContext
+        AppDbContext appDbContext,
+        UserManager<User> userManager
         )
     {
         _appDbContext = appDbContext;
+        _userManager = userManager;
     }
 
-    public Task<List<Claim>> GetClaimsForAuthUserAsync(Guid userId)
+    public async Task<List<Claim>> GetClaimsForAuthUserAsync(Guid userId)
     {
-        //var role = (await _userManager.GetRolesAsync(user)).Single();
-        return Task.FromResult(new List<Claim>()
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        var role = (await _userManager.GetRolesAsync(user)).Single();
+        return new()
         {
             new(ClaimTypes.NameIdentifier, userId.ToString()),
-            //new(ClaimTypes.Role, role)
-        });
+            new(ClaimTypes.Role, role)
+        };
     }
 }
