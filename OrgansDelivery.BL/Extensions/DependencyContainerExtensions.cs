@@ -21,5 +21,6 @@ public static class DependencyContainerExtensions
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<IInviteService, InviteService>();
         services.AddScoped<IEmailMessageBuilder, EmailMessageBuilder>();
+        services.AddScoped<IUserService, UserService>();
     }
 }

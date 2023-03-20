@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.BL.Services;
-using System.Threading;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -11,18 +9,12 @@ namespace OrgansDelivery.Web.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
     private readonly IAuthService _authService;
 
     public AuthController(
-        UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager,
         IAuthService authService
         )
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
         _authService = authService;
     }
 
