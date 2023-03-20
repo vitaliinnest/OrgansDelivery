@@ -7,7 +7,7 @@ namespace OrgansDelivery.DAL.Extensions;
 
 public static class TenantQueryExtension
 {
-    public static void AddSingleTenantReadWriteQueryFilter(this IMutableEntityType entityData, Guid tenantId)
+    public static void AddTenantQueryFilter(this IMutableEntityType entityData, Guid tenantId)
     {
         var methodToCall = typeof(TenantQueryExtension)
             .GetMethod(nameof(SetupSingleTenantQueryFilter),

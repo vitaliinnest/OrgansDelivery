@@ -42,7 +42,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         {
             if (typeof(IMustHaveTenant).IsAssignableFrom(entityType.ClrType))
             {
-                entityType.AddSingleTenantReadWriteQueryFilter(_tenantId);
+                entityType.AddTenantQueryFilter(_tenantId);
             }
             else
             {
