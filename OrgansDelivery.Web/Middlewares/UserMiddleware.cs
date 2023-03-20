@@ -6,17 +6,15 @@ namespace OrgansDelivery.Web.Middlewares;
 public class UserMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IUserRequestResolver _userRequestResolver;
-
-    public UserMiddleware(RequestDelegate next, IUserRequestResolver userRequestResolver)
+    
+    public UserMiddleware(RequestDelegate next)
     {
         _next = next;
-        _userRequestResolver = userRequestResolver;
     }
 
-    public async Task Invoke(HttpContext context, IServiceProvider provider)
+    public async Task Invoke(HttpContext context, IUserRequestResolver userRequestResolver, IServiceProvider provider)
     {
-        var user = await _userRequestResolver.ResolveUserAsync(context.User);
+        var user = await userRequestResolver.ResolveUserAsync(context.User);
         if (user == null)
         {
             await _next(context);

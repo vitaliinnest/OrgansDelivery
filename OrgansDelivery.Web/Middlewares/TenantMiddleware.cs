@@ -6,20 +6,15 @@ namespace OrgansDelivery.Web.Middlewares;
 public class TenantMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ITenantRequestResolver _tenantResolver;
-
-    public TenantMiddleware(
-        RequestDelegate next,
-        ITenantRequestResolver tenantResolver
-        )
+    
+    public TenantMiddleware(RequestDelegate next)
     {
         _next = next;
-        _tenantResolver = tenantResolver;
     }
 
-    public async Task Invoke(HttpContext context, IServiceProvider provider)
+    public async Task Invoke(HttpContext context, ITenantRequestResolver tenantRequestResolver, IServiceProvider provider)
     {
-        var tenant = _tenantResolver.ResolveTenant(context.Request, context.User);
+        var tenant = tenantRequestResolver.ResolveTenant(context.Request, context.User);
         if (tenant != null)
         {
             EnvironmentSetter.SetTenant(tenant, provider);

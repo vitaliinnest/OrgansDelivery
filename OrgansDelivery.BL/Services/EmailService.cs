@@ -16,11 +16,11 @@ public interface IEmailService
 public class EmailService : IEmailService
 {
     private readonly SmtpClient _emailClient;
-    private readonly EmailMessageBuilder _emailMessageBuilder;
+    private readonly IEmailMessageBuilder _emailMessageBuilder;
 
     public EmailService(
         IOptions<SmtpSettings> smtpSettingOpts,
-        EmailMessageBuilder emailMessageBuilder
+        IEmailMessageBuilder emailMessageBuilder
         )
     {
         var smtpSetting = smtpSettingOpts.Value;

@@ -9,7 +9,9 @@ public static class MarkTenantExtensions
     {
         foreach (var entityEntry in context.ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
         {
-            if (entityEntry.Entity is IMustHaveTenant mustHaveTenant && mustHaveTenant.TenantId == Guid.Empty)
+            if (entityEntry.Entity is IMustHaveTenant mustHaveTenant
+                && mustHaveTenant.TenantId == Guid.Empty
+                && tenantId != Guid.Empty)
             {
                 mustHaveTenant.TenantId = tenantId;
             }

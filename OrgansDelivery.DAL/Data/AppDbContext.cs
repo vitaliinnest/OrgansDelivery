@@ -5,6 +5,8 @@ using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
 using OrgansDelivery.DAL.Interfaces;
 using OrgansDelivery.DAL.Extensions;
+using System.Reflection.Emit;
+using System.Linq;
 
 namespace OrgansDelivery.DAL.Data;
 
@@ -17,7 +19,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         IEnvironmentProvider environmentProvider
         ) : base(options)
     {
-        _tenantId = environmentProvider.Tenant.Id;
+        _tenantId = environmentProvider.Tenant?.Id ?? Guid.Empty;
     }
 
     public DbSet<Tenant> Tenants { get; set; }
@@ -38,17 +40,15 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        foreach (var entityType in builder.Model.GetEntityTypes())
+        base.OnModelCreating(builder);
+
+        var mustHaveTenantTypes = builder.Model.GetEntityTypes()
+            .Where(entityType => typeof(IMustHaveTenant)
+            .IsAssignableFrom(entityType.ClrType));
+
+        foreach (var entityType in mustHaveTenantTypes)
         {
-            if (typeof(IMustHaveTenant).IsAssignableFrom(entityType.ClrType))
-            {
-                entityType.AddTenantQueryFilter(_tenantId);
-            }
-            else
-            {
-                throw new ArgumentException(
-                    $"You haven't added the {nameof(IMustHaveTenant)} to the entity {entityType.ClrType.Name}");
-            }
+            entityType.AddTenantQueryFilter(_tenantId);
         }
     }
 }

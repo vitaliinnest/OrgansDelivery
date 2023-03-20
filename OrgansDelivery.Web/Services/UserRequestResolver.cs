@@ -21,6 +21,10 @@ public class UserRequestResolver : IUserRequestResolver
     public async Task<User> ResolveUserAsync(ClaimsPrincipal user)
     {
         var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userId == null)
+        {
+            return null;
+        }
         return await _userManager.FindByIdAsync(userId);
     }
 }

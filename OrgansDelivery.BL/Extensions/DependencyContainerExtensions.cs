@@ -17,10 +17,10 @@ public static class DependencyContainerExtensions
         services.AddScoped<ITokenBuilder, TokenBuilder>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IRolesService, RolesService>();
-        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IUserService, UserService>();
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<IInviteService, InviteService>();
+        services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IEmailMessageBuilder, EmailMessageBuilder>();
-        services.AddScoped<IUserService, UserService>();
     }
 }

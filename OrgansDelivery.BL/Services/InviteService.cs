@@ -42,6 +42,7 @@ public class InviteService : IInviteService
     public async Task<Result<Invite>> InviteUserAsync(InviteUserModel model)
     {
         // todo: validation
+
         var invite = _mapper.Map<Invite>(model);
         var role = await _roleManager.FindByNameAsync(model.Role);
         invite.Role = role;

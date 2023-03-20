@@ -63,7 +63,8 @@ public static class DependencyContainerExtensions
         .AddRoles<IdentityRole<Guid>>()
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders()
-        .AddUserManager<UserManager<User>>();
+        .AddUserManager<UserManager<User>>()
+        .AddSignInManager<SignInManager<User>>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -83,8 +84,8 @@ public static class DependencyContainerExtensions
             });
         
         services.AddScoped<IEnvironmentProvider, EnvironmentProvider>();
-        services.AddTransient<ITenantRequestResolver, TenantRequestResolver>();
-        services.AddTransient<IUserRequestResolver, UserRequestResolver>();
+        services.AddScoped<ITenantRequestResolver, TenantRequestResolver>();
+        services.AddScoped<IUserRequestResolver, UserRequestResolver>();
 
         services.AddHttpContextAccessor();
         services.AddRouting(options => options.LowercaseUrls = true);
