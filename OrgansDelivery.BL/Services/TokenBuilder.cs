@@ -14,15 +14,15 @@ public interface ITokenBuilder
 public class TokenBuilder : ITokenBuilder
 {
     private readonly JwtSettings _jwtSettings;
-    private readonly IClaimsCalculator _claimsCalculator;
+    private readonly IClaimsService _claimsService;
 
     public TokenBuilder(
         IOptions<JwtSettings> jwtSettings,
-        IClaimsCalculator claimsCalculator
+        IClaimsService claimsCalculator
         )
     {
         _jwtSettings = jwtSettings.Value;
-        _claimsCalculator = claimsCalculator;
+        _claimsService = claimsCalculator;
     }
 
     public async Task<string> GenerateJwtTokenAsync(Guid userId)
@@ -31,7 +31,7 @@ public class TokenBuilder : ITokenBuilder
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
             SecurityAlgorithms.HmacSha256);
 
-        var claims = await _claimsCalculator.GetClaimsForAuthUserAsync(userId);
+        var claims = await _claimsService.GetClaimsForAuthUserAsync(userId);
         var token = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,
             audience: _jwtSettings.Audience,

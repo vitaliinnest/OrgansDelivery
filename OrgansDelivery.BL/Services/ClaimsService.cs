@@ -5,33 +5,35 @@ using System.Security.Claims;
 
 namespace OrgansDelivery.BL.Services;
 
-public interface IClaimsCalculator
+public interface IClaimsService
 {
     Task<List<Claim>> GetClaimsForAuthUserAsync(Guid userId);
 }
 
-public class ClaimsCalculator : IClaimsCalculator
+public class ClaimsService : IClaimsService
 {
     private readonly AppDbContext _appDbContext;
     private readonly UserManager<User> _userManager;
+    private readonly IRoleService _roleService;
 
-    public ClaimsCalculator(
+    public ClaimsService(
         AppDbContext appDbContext,
-        UserManager<User> userManager
+        UserManager<User> userManager,
+        IRoleService roleService
         )
     {
         _appDbContext = appDbContext;
         _userManager = userManager;
+        _roleService = roleService;
     }
 
     public async Task<List<Claim>> GetClaimsForAuthUserAsync(Guid userId)
     {
-        var user = await _userManager.FindByIdAsync(userId.ToString());
-        var role = (await _userManager.GetRolesAsync(user)).Single();
+        var role = await _roleService.GetUserRoleAsync(userId);
         return new()
         {
             new(ClaimTypes.NameIdentifier, userId.ToString()),
-            new(ClaimTypes.Role, role)
+            new(ClaimTypes.Role, role?.Name ?? string.Empty),
         };
     }
 }

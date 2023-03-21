@@ -16,10 +16,10 @@ public static class DependencyContainerExtensions
         services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
         services.Configure<SmtpSettings>(configuration.GetSection("Smtp"));
         services.AddAutoMapper(typeof(AuthMappingProfile));
-        services.AddScoped<IClaimsCalculator, ClaimsCalculator>();
+        services.AddScoped<IClaimsService, ClaimsService>();
         services.AddScoped<ITokenBuilder, TokenBuilder>();
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IRoleService, RolesService>();
+        services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<IInviteService, InviteService>();

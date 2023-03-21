@@ -9,7 +9,7 @@ public class LoginResponse
     public string Surname { get; set; }
     public string Email { get; set; }
     public Language Language { get; set; }
-    public Guid RoleId { get; set; }
+    public Guid? RoleId { get; set; }
     public string RoleName { get; set; }
     public string Token { get; set; }
 }

@@ -6,17 +6,18 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IRoleService
 {
+    Task<IdentityRole<Guid>> GetUserRoleAsync(Guid userId);
     Task<IdentityRole<Guid>> GetUserRoleAsync(User user);
-    Task InitializeUserRoleAsync(User user, RegisterRequest registerRequest);
+    Task InitializeUserRoleIfInvitedAsync(User user, RegisterRequest registerRequest);
 }
 
-public class RolesService : IRoleService
+public class RoleService : IRoleService
 {
     private readonly UserManager<User> _userManager;
     private readonly IInviteService _inviteService;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-    public RolesService(
+    public RoleService(
         UserManager<User> userManager,
         IInviteService inviteService,
         RoleManager<IdentityRole<Guid>> roleManager)
@@ -26,7 +27,7 @@ public class RolesService : IRoleService
         _roleManager = roleManager;
     }
 
-    public async Task InitializeUserRoleAsync(User user, RegisterRequest registerRequest)
+    public async Task InitializeUserRoleIfInvitedAsync(User user, RegisterRequest registerRequest)
     {
         // todo: add roles endpoint
         var invite = _inviteService.GetRegisterInvite(registerRequest);
@@ -40,6 +41,16 @@ public class RolesService : IRoleService
             return;
         }
         await _userManager.AddToRoleAsync(user, role.Name);
+    }
+
+    public async Task<IdentityRole<Guid>> GetUserRoleAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return null;
+        }
+        return await GetUserRoleAsync(user);
     }
 
     public async Task<IdentityRole<Guid>> GetUserRoleAsync(User user)

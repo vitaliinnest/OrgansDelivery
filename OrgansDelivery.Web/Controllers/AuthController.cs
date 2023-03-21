@@ -8,6 +8,7 @@ namespace OrgansDelivery.Web.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
@@ -43,6 +44,7 @@ public class AuthController : ControllerBase
         return Ok(response.Value);
     }
 
+    [AllowAnonymous]
     [HttpGet("confirmEmail")]
     public async Task<IActionResult> ConfirmEmail(Guid userId, string encodedToken)
     {

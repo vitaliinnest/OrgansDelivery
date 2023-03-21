@@ -56,21 +56,24 @@ public class AuthService : IAuthService
             return Result.Fail(validationResult.ToString());
         }
 
-        var result = await _signInManager.PasswordSignInAsync(loginRequest.Email, loginRequest.Password, false, false);
-        if (!result.Succeeded)
+        var user = await _userManager.FindByEmailAsync(loginRequest.Email);
+        if (user == null)
         {
-            return Result.Fail("Username or password is incorrect");
+            return Result.Fail("Email not found");
         }
 
-        var user = await _userManager.FindByEmailAsync(loginRequest.Email);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, lockoutOnFailure: false);
+        if (!result.Succeeded)
+        {
+            return Result.Fail("Incorrect password");
+        }
+
         if (!await _userManager.IsEmailConfirmedAsync(user))
         {
             return Result.Fail("Email is not confirmed");
         }
 
-        var loginResponse = await MapUserToLoginResponseAsync(user);
-
-        return loginResponse;
+        return await MapUserToLoginResponseAsync(user);
     }
 
     public async Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest registerRequest)
@@ -94,7 +97,7 @@ public class AuthService : IAuthService
             return Result.Fail(result.ErrorsToString());
         }
         
-        await _rolesService.InitializeUserRoleAsync(user, registerRequest);
+        await _rolesService.InitializeUserRoleIfInvitedAsync(user, registerRequest);
 
         await _inviteService.AcceptInviteAsync(user, registerRequest);
 
@@ -129,8 +132,8 @@ public class AuthService : IAuthService
 
         var role = await _rolesService.GetUserRoleAsync(user);
         loginResponse.Token = await _tokenBuilder.GenerateJwtTokenAsync(user.Id);
-        loginResponse.RoleId = role.Id;
-        loginResponse.RoleName = role.Name;
+        loginResponse.RoleId = role?.Id;
+        loginResponse.RoleName = role?.Name;
 
         return loginResponse;
     }
