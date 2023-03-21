@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper.Configuration.Annotations;
+using Microsoft.AspNetCore.Identity;
 using OrgansDelivery.DAL.Entities;
 using System.Security.Claims;
 
@@ -20,7 +21,11 @@ public class UserRequestResolver : IUserRequestResolver
 
     public async Task<User> ResolveUserAsync(ClaimsPrincipal user)
     {
-        var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var identity = user.Identity as ClaimsIdentity;
+        var userClaims = identity.Claims;
+        var id = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
         {
             return null;

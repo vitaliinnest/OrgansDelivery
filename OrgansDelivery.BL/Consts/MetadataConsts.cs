@@ -20,7 +20,6 @@ public static class ValidatorConsts
     {
         public const int MIN_LENGTH = 3;
         public const int MAX_LENGTH = 300;
-        public static readonly Regex STR_INT_REGEX = new(@"^[A-Za-z0-9-]*$");
-        public static readonly Regex STR_INT_SPACE_REGEX = new(@"^[A-Za-z0-9-]*$");
+        public static readonly Regex STR_INT_DASH_REGEX = new(@"^[A-Za-z0-9-]*$");
     }
 }
