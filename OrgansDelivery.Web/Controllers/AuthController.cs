@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.BL.Services;
+using OrgansDelivery.BL.Extensions;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -25,7 +26,7 @@ public class AuthController : ControllerBase
         var response = await _authService.LoginAsync(loginRequest);
         if (response.IsFailed)
         {
-            return BadRequest(response);
+            return BadRequest(response.ErrorMessagesToString());
         }
         return Ok(response.Value);
     }
@@ -37,7 +38,7 @@ public class AuthController : ControllerBase
         var response = await _authService.RegisterAsync(registerRequest);
         if (response.IsFailed)
         {
-            return BadRequest(response);
+            return BadRequest(response.ErrorMessagesToString());
         }
         return Ok(response.Value);
     }

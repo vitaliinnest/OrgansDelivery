@@ -10,6 +10,9 @@ public class AuthMappingProfile : Profile
     public AuthMappingProfile()
     {
         // Auth
+        CreateMap<RegisterRequest, User>()
+            .ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.Email));
+
         CreateMap<User, LoginResponse>();
         CreateMap<User, RegisterResponse>();
         CreateMap<UpdateUserModel, User>();

@@ -82,7 +82,7 @@ public class AuthService : IAuthService
         var result = await _userManager.CreateAsync(user, registerRequest.Password);
         if (!result.Succeeded)
         {
-            return Result.Fail(result.ToString());
+            return Result.Fail(result.ErrorsToString());
         }
         
         await _rolesService.InitializeUserRoleAsync(user, registerRequest);
