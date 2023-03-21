@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentResults;
+using Mallytics.BL.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OrgansDelivery.BL.Models;
@@ -24,13 +25,15 @@ public class InviteService : IInviteService
     private readonly IMapper _mapper;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly IEmailService _emailService;
+    private readonly IGenericValidator _genericValidator;
 
     public InviteService(
         AppDbContext appDbContext,
         ITenantService tenantService,
         IMapper mapper,
         RoleManager<IdentityRole<Guid>> roleManager,
-        IEmailService emailService
+        IEmailService emailService,
+        IGenericValidator genericValidator
         )
     {
         _appDbContext = appDbContext;
@@ -38,11 +41,16 @@ public class InviteService : IInviteService
         _mapper = mapper;
         _roleManager = roleManager;
         _emailService = emailService;
+        _genericValidator = genericValidator;
     }
 
     public async Task<Result<Invite>> InviteUserAsync(InviteUserModel model)
     {
-        // todo: validation
+        var validationResult = await _genericValidator.ValidateAsync(model);
+        if (!validationResult.IsValid)
+        {
+            return Result.Fail(validationResult.ToString());
+        }
 
         var invite = _mapper.Map<Invite>(model);
         var role = await _roleManager.FindByIdAsync(model.RoleId.ToString());
