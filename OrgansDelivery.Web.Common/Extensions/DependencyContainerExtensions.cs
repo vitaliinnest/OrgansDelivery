@@ -81,7 +81,7 @@ public static class DependencyContainerExtensions
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Secret").Value)),
+                        Encoding.UTF8.GetBytes(configuration["Jwt:Secret"])),
                 };
             });
 

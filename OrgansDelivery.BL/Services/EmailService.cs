@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using OrgansDelivery.BL.Models.Options;
 using OrgansDelivery.DAL.Entities;
 using System.Net;
@@ -9,7 +8,7 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IEmailService
 {
-    Task SendEmailConfirmationMailAsync(User user);
+    Task SendEmailConfirmationMailAsync(User user, string emailConfirmationToken);
     Task SendInviteMailMessageAsync(Invite invite);
 }
 
@@ -31,15 +30,16 @@ public class EmailService : IEmailService
         _emailMessageBuilder = emailMessageBuilder;
     }
 
-    public async Task SendEmailConfirmationMailAsync(User user)
+    public async Task SendEmailConfirmationMailAsync(User user, string emailConfirmationToken)
     {
-        var message = await _emailMessageBuilder.BuildEmailConfirmationMessageAsync(user);
-        await _emailClient.SendMailAsync(message);
+        var emailConfirmationMessage = _emailMessageBuilder
+            .BuildEmailConfirmationMessage(user, emailConfirmationToken);
+        await _emailClient.SendMailAsync(emailConfirmationMessage);
     }
 
     public async Task SendInviteMailMessageAsync(Invite invite)
     {
-        var message = await _emailMessageBuilder.BuildInviteMessageAsync(invite);
-        await _emailClient.SendMailAsync(message);
+        var inviteMessage = _emailMessageBuilder.BuildInviteMessage(invite);
+        await _emailClient.SendMailAsync(inviteMessage);
     }
 }

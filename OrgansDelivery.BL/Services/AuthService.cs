@@ -89,7 +89,8 @@ public class AuthService : IAuthService
 
         await _inviteService.AcceptInviteAsync(user, registerRequest);
 
-        await _emailService.SendEmailConfirmationMailAsync(user);
+        var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        await _emailService.SendEmailConfirmationMailAsync(user, emailConfirmationToken);
 
         return _mapper.Map<RegisterResponse>(user);
     }
