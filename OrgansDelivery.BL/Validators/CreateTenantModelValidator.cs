@@ -18,14 +18,14 @@ public class CreateTenantModelValidator : AbstractValidator<CreateTenantModel>
         RuleFor(t => t.Name)
             .NotNull()
             .NotEmpty()
-            .Matches(GeneralConsts.STR_INT_REGEX)
+            .Matches(GeneralConsts.STR_INT_SPACE_REGEX)
             .Length(GeneralConsts.MIN_LENGTH,
                     GeneralConsts.MAX_LENGTH);
 
         RuleFor(t => t.Description)
             .NotNull()
             .NotEmpty()
-            .Matches(GeneralConsts.STR_INT_REGEX)
+            .Matches(GeneralConsts.STR_INT_SPACE_REGEX)
             .Length(GeneralConsts.MIN_LENGTH,
                     GeneralConsts.MAX_LENGTH);
     }
