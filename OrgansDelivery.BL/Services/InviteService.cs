@@ -14,6 +14,7 @@ public interface IInviteService
     Task<Result<Invite>> InviteUserAsync(InviteUserModel model);
     Task<Result> AcceptInviteAsync(User user, RegisterRequest registerRequest);
     Result DeleteInvite(Guid inviteId);
+    Invite GetRegisterInvite(RegisterRequest registerRequest);
 }
 
 public class InviteService : IInviteService
@@ -87,6 +88,13 @@ public class InviteService : IInviteService
         return DeleteInvite(invite);
     }
 
+    public Invite GetRegisterInvite(RegisterRequest registerRequest)
+    {
+        return _appDbContext.Invites.IgnoreQueryFilters()
+            .FirstOrDefault(i => i.Email == registerRequest.Email
+                && i.InviteCode == registerRequest.InviteCode);
+    }
+
     private Result DeleteInvite(Invite invite)
     {
         var exists = _appDbContext.Invites.Any(i => i.Id == invite.Id);
@@ -99,12 +107,5 @@ public class InviteService : IInviteService
         _appDbContext.SaveChanges();
         
         return Result.Ok();
-    }
-
-    private Invite GetRegisterInvite(RegisterRequest registerRequest)
-    {
-        return _appDbContext.Invites.IgnoreQueryFilters()
-            .FirstOrDefault(i => i.Email == registerRequest.Email
-                && i.InviteCode == registerRequest.InviteCode);
     }
 }

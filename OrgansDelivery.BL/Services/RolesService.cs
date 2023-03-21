@@ -1,6 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.BL.Consts;
+﻿using Microsoft.AspNetCore.Identity;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Entities;
 
@@ -14,21 +12,32 @@ public interface IRolesService
 public class RolesService : IRolesService
 {
     private readonly UserManager<User> _userManager;
+    private readonly IInviteService _inviteService;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
     public RolesService(
-        UserManager<User> userManager
-        )
+        UserManager<User> userManager,
+        IInviteService inviteService,
+        RoleManager<IdentityRole<Guid>> roleManager)
     {
         _userManager = userManager;
+        _inviteService = inviteService;
+        _roleManager = roleManager;
     }
 
     public async Task InitializeUserRoleAsync(User user, RegisterRequest registerRequest)
     {
-        // todo: invite has role now
-        var role = !registerRequest.InviteCode.HasValue
-            ? UserRoles.MANAGER
-            : UserRoles.EMPLOYEE;
-
-        await _userManager.AddToRoleAsync(user, role);
+        // todo: add roles endpoint
+        var invite = _inviteService.GetRegisterInvite(registerRequest);
+        if (invite == null)
+        {
+            return;
+        }
+        var role = await _roleManager.FindByIdAsync(invite.RoleId.ToString());
+        if (role == null)
+        {
+            return;
+        }
+        await _userManager.AddToRoleAsync(user, role.Name);
     }
 }

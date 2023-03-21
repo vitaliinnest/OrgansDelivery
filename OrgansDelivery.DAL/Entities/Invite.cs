@@ -10,5 +10,4 @@ public class Invite : IEntity, IMustHaveTenant
     public string Email { get; set; }
     public Guid InviteCode { get; set; } = Guid.NewGuid();
     public Guid RoleId { get; set; }
-    public IdentityRole<Guid> Role { get; set; }
 }
