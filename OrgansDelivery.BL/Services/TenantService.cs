@@ -62,6 +62,8 @@ public class TenantService : ITenantService
         return tenant;
     }
     
+    // todo: update tenant details
+
     public async Task AddUserToTenantAsync(User user, Tenant tenant)
     {
         user.TenantId = tenant.Id;
