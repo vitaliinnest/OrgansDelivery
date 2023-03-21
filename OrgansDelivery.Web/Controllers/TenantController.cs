@@ -34,7 +34,6 @@ public class TenantController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Tenant>> CreateTenant(CreateTenantModel model)
     {
-        var t = HttpContext;
         var result = await _tenantService.CreateTenantAsync(model);
         if (result.IsFailed)
         {
