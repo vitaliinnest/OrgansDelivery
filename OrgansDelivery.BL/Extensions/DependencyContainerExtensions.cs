@@ -21,6 +21,7 @@ public static class DependencyContainerExtensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IEmployeeService, EmployeeService>();
         services.AddScoped<ITenantService, TenantService>();
         services.AddScoped<IInviteService, InviteService>();
         services.AddScoped<IEmailService, EmailService>();

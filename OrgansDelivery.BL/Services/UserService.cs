@@ -9,7 +9,6 @@ namespace OrgansDelivery.BL.Services;
 public interface IUserService
 {
     Task<User> UpdateCurrentUserAsync(User user);
-    List<User> GetTenantUsers();
     Result<List<User>> GetUsersByTenantId(Guid tenantId);
 }
 
@@ -32,11 +31,7 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    public List<User> GetTenantUsers()
-    {
-        return _appDbContext.Users.ToList();
-    }
-
+    // todo: move to EmployeeController
     public Result<List<User>> GetUsersByTenantId(Guid tenantId)
     {
         var exists = _appDbContext.Tenants.Any(t => t.Id == tenantId);

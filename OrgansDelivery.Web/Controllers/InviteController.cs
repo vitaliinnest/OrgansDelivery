@@ -5,6 +5,7 @@ using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.BL.Services;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
+using OrgansDelivery.BL.Consts;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -33,6 +34,7 @@ public class InviteController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<ActionResult<Invite>> InviteUser(InviteUserModel model)
     {
         var result = await _inviteService.InviteUserAsync(model);
@@ -44,6 +46,7 @@ public class InviteController : ControllerBase
     }
 
     [HttpDelete("{inviteId}")]
+    [Authorize(Roles = UserRoles.MANAGER)]
     public ActionResult DeleteInvite(Guid inviteId)
     {
         var result = _inviteService.DeleteInvite(inviteId);

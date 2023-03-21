@@ -57,7 +57,7 @@ public static class AppDbContextSeed
             },
             new()
             {
-                Id = UserConsts.MEDTRONIC_EMPLOYEE_USER_ID,
+                Id = UserConsts.MEDTRONIC_WORKER_USER_ID,
                 TenantId = TenantConsts.MEDTRONIC_TENANT_ID,
                 Name = "Regan",
                 Surname = "Lewis",
@@ -100,9 +100,9 @@ public static class AppDbContextSeed
             },
             new()
             {
-                Id = RoleConsts.EMPLOYEE_ID,
-                Name = UserRoles.EMPLOYEE,
-                NormalizedName = UserRoles.EMPLOYEE.ToUpper(),
+                Id = RoleConsts.WORKER_ID,
+                Name = UserRoles.WORKER,
+                NormalizedName = UserRoles.WORKER.ToUpper(),
             },
             new()
             {
@@ -123,8 +123,8 @@ public static class AppDbContextSeed
             },
             new()
             {
-                UserId = UserConsts.MEDTRONIC_EMPLOYEE_USER_ID,
-                RoleId = RoleConsts.EMPLOYEE_ID,
+                UserId = UserConsts.MEDTRONIC_WORKER_USER_ID,
+                RoleId = RoleConsts.WORKER_ID,
             },
             new()
             {
@@ -148,14 +148,14 @@ public static class AppDbContextSeed
     private static class RoleConsts
     {
         public static readonly Guid MANAGER_ID = new("afab5690-50ea-4043-bf7b-0f825f068b94");
-        public static readonly Guid EMPLOYEE_ID = new("afd73abe-c965-44b6-a5ac-42a728507f68");
+        public static readonly Guid WORKER_ID = new("afd73abe-c965-44b6-a5ac-42a728507f68");
         public static readonly Guid ADMIN_ID = new("ca8531d7-5592-4678-80d2-aecdcb462208");
     }
 
     private static class UserConsts
     {
         public static readonly Guid MEDTRONIC_MANAGER_USER_ID = new("da5bec95-daf8-41d6-b980-69091c89532a");
-        public static readonly Guid MEDTRONIC_EMPLOYEE_USER_ID = new("f8243ba0-d6b5-46f5-9eaf-ff8da1f7e320");
+        public static readonly Guid MEDTRONIC_WORKER_USER_ID = new("f8243ba0-d6b5-46f5-9eaf-ff8da1f7e320");
         public static readonly Guid BOSTON_MANAGER_ID = new("f7355727-a103-41fe-a1a8-a543b9682605");
         public static readonly Guid ADMIN_USER_ID = new("9b1b1aa5-f517-401f-adf4-2d37c9f35f9a");
     }
