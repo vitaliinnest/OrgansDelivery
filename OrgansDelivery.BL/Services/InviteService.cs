@@ -45,8 +45,8 @@ public class InviteService : IInviteService
         // todo: validation
 
         var invite = _mapper.Map<Invite>(model);
-        var role = await _roleManager.FindByNameAsync(model.Role);
-        invite.Role = role;
+        var role = await _roleManager.FindByIdAsync(model.RoleId.ToString());
+        invite.RoleId = role.Id;
         _appDbContext.Add(invite);
         _appDbContext.SaveChanges();
         
