@@ -122,7 +122,7 @@ public class AuthService : IAuthService
 
         var token = HttpUtility.UrlDecode(encodedToken).ToBase64Decoded();
 
-        var user = await _userManager.FindByIdAsync(userId.ToString());
+        var user = _userManager.FindByIdIgnoreQueryFilters(userId);
         var result = await _userManager.ConfirmEmailAsync(user, token);
         if (!result.Succeeded)
         {
