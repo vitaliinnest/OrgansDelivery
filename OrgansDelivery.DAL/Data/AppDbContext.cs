@@ -5,18 +5,19 @@ using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
 using OrgansDelivery.DAL.Interfaces;
 using OrgansDelivery.DAL.Extensions;
+
 namespace OrgansDelivery.DAL.Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
-    private readonly Guid _tenantId;
-
+    private readonly IEnvironmentProvider _environmentProvider;
+    
     public AppDbContext(
         DbContextOptions options,
         IEnvironmentProvider environmentProvider
         ) : base(options)
     {
-        _tenantId = environmentProvider.Tenant?.Id ?? Guid.Empty;
+        _environmentProvider = environmentProvider;
     }
 
     public DbSet<Tenant> Tenants { get; set; }
@@ -24,14 +25,16 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
-        this.SetTenantIdIfNeeded(_tenantId);
+        var tenantId = GetTenantIdOrDefaultValue();
+        this.SetTenantIdIfNeeded(tenantId);
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
     public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
         CancellationToken cancellationToken = default)
     {
-        this.SetTenantIdIfNeeded(_tenantId);
+        var tenantId = GetTenantIdOrDefaultValue();
+        this.SetTenantIdIfNeeded(tenantId);
         return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
@@ -71,9 +74,16 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .Where(entityType => typeof(IMustHaveTenant)
             .IsAssignableFrom(entityType.ClrType));
 
+        var tenantId = GetTenantIdOrDefaultValue();
+
         foreach (var entityType in mustHaveTenantTypes)
         {
-            entityType.AddTenantQueryFilter(_tenantId);
+            entityType.AddTenantQueryFilter(tenantId);
         }
+    }
+
+    private Guid GetTenantIdOrDefaultValue()
+    {
+        return _environmentProvider.Tenant?.Id ?? Guid.Empty;
     }
 }

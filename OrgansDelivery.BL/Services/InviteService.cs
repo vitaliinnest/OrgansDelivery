@@ -3,6 +3,7 @@ using FluentResults;
 using Mallytics.BL.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.BL.Models;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Data;
@@ -23,25 +24,24 @@ public class InviteService : IInviteService
     private readonly AppDbContext _appDbContext;
     private readonly ITenantService _tenantService;
     private readonly IMapper _mapper;
-    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly IEmailService _emailService;
     private readonly IGenericValidator _genericValidator;
+    private readonly UserManager<User> _userManager;
 
     public InviteService(
         AppDbContext appDbContext,
         ITenantService tenantService,
         IMapper mapper,
-        RoleManager<IdentityRole<Guid>> roleManager,
         IEmailService emailService,
-        IGenericValidator genericValidator
-        )
+        IGenericValidator genericValidator,
+        UserManager<User> userManager)
     {
         _appDbContext = appDbContext;
         _tenantService = tenantService;
         _mapper = mapper;
-        _roleManager = roleManager;
         _emailService = emailService;
         _genericValidator = genericValidator;
+        _userManager = userManager;
     }
 
     public async Task<Result<Invite>> InviteUserAsync(InviteUserModel model)
@@ -52,12 +52,16 @@ public class InviteService : IInviteService
             return Result.Fail(validationResult.ToString());
         }
 
+        var foundUser = _userManager.FindByEmailIgnoreQueryFilters(model.Email);
+        if (foundUser != null)
+        {
+            return Result.Fail("User with given email already exists");
+        }
+
         var invite = _mapper.Map<Invite>(model);
-        var role = await _roleManager.FindByIdAsync(model.RoleId.ToString());
-        invite.RoleId = role.Id;
         _appDbContext.Add(invite);
         _appDbContext.SaveChanges();
-        
+
         await _emailService.SendInviteMailMessageAsync(invite);
 
         return invite;

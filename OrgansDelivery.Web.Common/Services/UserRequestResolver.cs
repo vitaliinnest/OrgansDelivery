@@ -1,13 +1,13 @@
-﻿using AutoMapper.Configuration.Annotations;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using OrgansDelivery.DAL.Entities;
 using System.Security.Claims;
+using OrgansDelivery.BL.Extensions;
 
 namespace OrgansDelivery.Web.Common.Services;
 
 public interface IUserRequestResolver
 {
-    Task<User> ResolveUserAsync(ClaimsPrincipal user);
+    User ResolveUser(ClaimsPrincipal user);
 }
 
 public class UserRequestResolver : IUserRequestResolver
@@ -19,7 +19,7 @@ public class UserRequestResolver : IUserRequestResolver
         _userManager = userManager;
     }
 
-    public async Task<User> ResolveUserAsync(ClaimsPrincipal user)
+    public User ResolveUser(ClaimsPrincipal user)
     {
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
@@ -27,6 +27,6 @@ public class UserRequestResolver : IUserRequestResolver
             return null;
         }
         // "164f1a2d-3144-459b-dfa8-08db2a0e07b9"
-        return await _userManager.FindByIdAsync(userId);
+        return _userManager.FindByIdIgnoreQueryFilters(Guid.Parse(userId));
     }
 }

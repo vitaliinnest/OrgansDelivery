@@ -15,7 +15,7 @@ public class UserMiddleware
 
     public async Task Invoke(HttpContext context, IUserRequestResolver userRequestResolver, IServiceProvider provider)
     {
-        var user = await userRequestResolver.ResolveUserAsync(context.User);
+        var user = userRequestResolver.ResolveUser(context.User);
         if (user != null)
         {
             EnvironmentSetter.SetUser(user, provider);
