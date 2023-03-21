@@ -96,16 +96,19 @@ public static class AppDbContextSeed
             {
                 Id = RoleConsts.MANAGER_ID,
                 Name = UserRoles.MANAGER,
+                NormalizedName = UserRoles.MANAGER.ToUpper(),
             },
             new()
             {
                 Id = RoleConsts.EMPLOYEE_ID,
                 Name = UserRoles.EMPLOYEE,
+                NormalizedName = UserRoles.EMPLOYEE.ToUpper(),
             },
             new()
             {
                 Id = RoleConsts.ADMIN_ID,
                 Name = UserRoles.ADMIN,
+                NormalizedName = UserRoles.ADMIN.ToUpper(),
             }
         );
     }
