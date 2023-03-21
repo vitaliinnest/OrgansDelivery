@@ -2,7 +2,6 @@
 using FluentResults;
 using Mallytics.BL.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Entities;
