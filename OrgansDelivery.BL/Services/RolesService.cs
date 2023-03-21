@@ -4,12 +4,13 @@ using OrgansDelivery.DAL.Entities;
 
 namespace OrgansDelivery.BL.Services;
 
-public interface IRolesService
+public interface IRoleService
 {
+    Task<IdentityRole<Guid>> GetUserRoleAsync(User user);
     Task InitializeUserRoleAsync(User user, RegisterRequest registerRequest);
 }
 
-public class RolesService : IRolesService
+public class RolesService : IRoleService
 {
     private readonly UserManager<User> _userManager;
     private readonly IInviteService _inviteService;
@@ -39,5 +40,15 @@ public class RolesService : IRolesService
             return;
         }
         await _userManager.AddToRoleAsync(user, role.Name);
+    }
+
+    public async Task<IdentityRole<Guid>> GetUserRoleAsync(User user)
+    {
+        var roleName = (await _userManager.GetRolesAsync(user)).SingleOrDefault();
+        if (roleName == null)
+        {
+            return null;
+        }
+        return await _roleManager.FindByNameAsync(roleName);
     }
 }

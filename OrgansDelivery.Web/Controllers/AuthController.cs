@@ -21,7 +21,7 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<ActionResult<RegisterResponse>> Login([FromBody] LoginRequest loginRequest)
+    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
     {
         var response = await _authService.LoginAsync(loginRequest);
         if (response.IsFailed)
@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<ActionResult<LoginResponse>> Register([FromBody] RegisterRequest registerRequest)
+    public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest registerRequest)
     {
         var response = await _authService.RegisterAsync(registerRequest);
         if (response.IsFailed)
