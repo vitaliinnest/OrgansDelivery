@@ -8,6 +8,7 @@ using OrgansDelivery.BL.Models;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
+using OrgansDelivery.DAL.Services;
 
 namespace OrgansDelivery.BL.Services;
 
@@ -27,6 +28,7 @@ public class InviteService : IInviteService
     private readonly IEmailService _emailService;
     private readonly IGenericValidator _genericValidator;
     private readonly UserManager<User> _userManager;
+    private readonly ITenantRepository _tenantRepository;
 
     public InviteService(
         AppDbContext appDbContext,
@@ -34,7 +36,8 @@ public class InviteService : IInviteService
         IMapper mapper,
         IEmailService emailService,
         IGenericValidator genericValidator,
-        UserManager<User> userManager)
+        UserManager<User> userManager,
+        ITenantRepository tenantRepository)
     {
         _appDbContext = appDbContext;
         _tenantService = tenantService;
@@ -42,6 +45,7 @@ public class InviteService : IInviteService
         _emailService = emailService;
         _genericValidator = genericValidator;
         _userManager = userManager;
+        _tenantRepository = tenantRepository;
     }
 
     public async Task<Result<Invite>> InviteUserAsync(InviteUserModel model)
@@ -81,7 +85,7 @@ public class InviteService : IInviteService
             return Result.Fail("Invite not found");
         }
 
-        var tenant = _appDbContext.Tenants.FirstOrDefault(t => t.Id == invite.TenantId);
+        var tenant = _tenantRepository.GetTenantById(invite.TenantId);
         await _tenantService.AddUserToTenantAsync(user, tenant);
         
         DeleteInvite(invite);

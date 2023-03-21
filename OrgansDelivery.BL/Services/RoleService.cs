@@ -36,7 +36,6 @@ public class RoleService : IRoleService
 
     public async Task InitializeUserRoleIfInvitedAsync(User user, RegisterRequest registerRequest)
     {
-        // todo: add roles endpoint
         var invite = _inviteService.GetRegisterInvite(registerRequest);
         if (invite == null)
         {
