@@ -4,6 +4,7 @@ using OrgansDelivery.BL.Models;
 using OrgansDelivery.BL.Services;
 using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
+using OrgansDelivery.BL.Extensions;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -37,9 +38,8 @@ public class TenantController : ControllerBase
         var result = await _tenantService.CreateTenantAsync(model);
         if (result.IsFailed)
         {
-            // todo: return error text
-            return BadRequest(result.Errors);
+            return BadRequest(result.ErrorMessagesToString());
         }
-        return Ok(result);
+        return Ok(result.Value);
     }
 }

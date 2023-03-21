@@ -16,13 +16,11 @@ public class UserMiddleware
     public async Task Invoke(HttpContext context, IUserRequestResolver userRequestResolver, IServiceProvider provider)
     {
         var user = await userRequestResolver.ResolveUserAsync(context.User);
-        if (user == null)
+        if (user != null)
         {
-            await _next(context);
-            return;
+            EnvironmentSetter.SetUser(user, provider);
         }
 
-        EnvironmentSetter.SetUser(user, provider);
         await _next(context);
     }
 }

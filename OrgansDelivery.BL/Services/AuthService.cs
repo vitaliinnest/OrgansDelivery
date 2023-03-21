@@ -2,6 +2,7 @@
 using FluentResults;
 using Mallytics.BL.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Entities;
@@ -56,7 +57,7 @@ public class AuthService : IAuthService
             return Result.Fail(validationResult.ToString());
         }
 
-        var user = await _userManager.FindByEmailAsync(loginRequest.Email);
+        var user = _userManager.FindByEmailIgnoreQueryFilters(loginRequest.Email);
         if (user == null)
         {
             return Result.Fail("Email not found");
@@ -84,7 +85,7 @@ public class AuthService : IAuthService
             return Result.Fail(validationResult.ToString());
         }
 
-        var foundUser = await _userManager.FindByEmailAsync(registerRequest.Email);
+        var foundUser = _userManager.FindByEmailIgnoreQueryFilters(registerRequest.Email);
         if (foundUser != null)
         {
             return Result.Fail("User with given email already exists");

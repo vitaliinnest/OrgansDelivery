@@ -21,15 +21,12 @@ public class UserRequestResolver : IUserRequestResolver
 
     public async Task<User> ResolveUserAsync(ClaimsPrincipal user)
     {
-        var identity = user.Identity as ClaimsIdentity;
-        var userClaims = identity.Claims;
-        var id = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
         {
             return null;
         }
+        // "164f1a2d-3144-459b-dfa8-08db2a0e07b9"
         return await _userManager.FindByIdAsync(userId);
     }
 }

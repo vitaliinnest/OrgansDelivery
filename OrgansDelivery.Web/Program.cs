@@ -99,13 +99,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseRouting();
-
-app.UseCors();
-
 app.UseMiddleware<ErrorLoggingMiddleware>();
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserMiddleware>();

@@ -2,43 +2,43 @@
 using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
 using OrgansDelivery.Web.Common.Extensions;
-using OrgansDelivery.Web.Consts;
-using System.Security.Claims;
 
 namespace OrgansDelivery.Web.Common.Services;
 
 public interface ITenantRequestResolver
 {
-    Tenant ResolveTenant(HttpRequest request, ClaimsPrincipal user);
+    Tenant ResolveTenant(HttpRequest request);
 }
 
 public class TenantRequestResolver : ITenantRequestResolver
 {
     private readonly ITenantRepository _tenantProvider;
+    private readonly IEnvironmentProvider _environmentProvider;
 
     public TenantRequestResolver(
-        ITenantRepository tenantProvider
+        ITenantRepository tenantProvider,
+        IEnvironmentProvider environmentProvider
         )
     {
         _tenantProvider = tenantProvider;
+        _environmentProvider = environmentProvider;
     }
 
-    public Tenant ResolveTenant(HttpRequest request, ClaimsPrincipal user)
+    public Tenant ResolveTenant(HttpRequest request)
     {
         var tenantUrl = request.Path.ExtractTenantUrl();
-        var tenantIdStr = request.Headers[HttpHeaders.TenantId].FirstOrDefault();
 
         if (!string.IsNullOrEmpty(tenantUrl))
         {
             return _tenantProvider.GetTenantByUrl(tenantUrl);
         }
 
-        if (!string.IsNullOrEmpty(tenantIdStr) && Guid.TryParse(tenantIdStr, out var tenantId))
+        var user = _environmentProvider.User;
+        if (user == null)
         {
-            return _tenantProvider.GetTenantById(tenantId);
+            return null;
         }
 
-        // todo: may not work
-        return null;
+        return _tenantProvider.GetTenantById(user.TenantId);
     }
 }

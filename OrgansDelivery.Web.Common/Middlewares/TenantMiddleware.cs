@@ -15,7 +15,7 @@ public class TenantMiddleware
 
     public async Task Invoke(HttpContext context, ITenantRequestResolver tenantRequestResolver, IServiceProvider provider)
     {
-        var tenant = tenantRequestResolver.ResolveTenant(context.Request, context.User);
+        var tenant = tenantRequestResolver.ResolveTenant(context.Request);
         if (tenant != null)
         {
             EnvironmentSetter.SetTenant(tenant, provider);
