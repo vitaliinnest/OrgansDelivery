@@ -42,4 +42,15 @@ public class AuthController : ControllerBase
         }
         return Ok(response.Value);
     }
+
+    [HttpGet("confirmEmail")]
+    public async Task<IActionResult> ConfirmEmail(Guid userId, string encodedToken)
+    {
+        var response = await _authService.ConfirmEmailAsync(userId, encodedToken);
+        if (response.IsFailed)
+        {
+            return BadRequest(response.ErrorMessagesToString());
+        }
+        return Ok(response.Value);
+    }
 }

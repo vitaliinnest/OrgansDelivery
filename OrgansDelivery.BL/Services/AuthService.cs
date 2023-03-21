@@ -97,13 +97,18 @@ public class AuthService : IAuthService
 
     public async Task<Result<RegisterResponse>> ConfirmEmailAsync(Guid userId, string encodedToken)
     {
+        if (userId == Guid.Empty || encodedToken == null)
+        {
+            return Result.Fail("UserId or EncodedToken is invalid");
+        }
+
         var token = HttpUtility.UrlDecode(encodedToken).ToBase64Decoded();
 
         var user = await _userManager.FindByIdAsync(userId.ToString());
         var result = await _userManager.ConfirmEmailAsync(user, token);
         if (!result.Succeeded)
         {
-            Result.Fail(result.ToString());
+            return Result.Fail(result.ErrorsToString());
         }
 
         return _mapper.Map<RegisterResponse>(user);
