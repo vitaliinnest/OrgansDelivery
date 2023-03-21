@@ -71,6 +71,6 @@ public class EmailMessageBuilder : IEmailMessageBuilder
     private string BuildEmailConfirmationLink(User user, string emailConfirmationToken)
     {
         var encodedToken = HttpUtility.UrlEncode(emailConfirmationToken.ToBase64Encoded());
-        return $"{_configuration["EmailConfirmationBaseUrl"]}?userId={user.Id}&token={encodedToken}";
+        return $"{_configuration["EmailConfirmationUrl"]}?userId={user.Id}&token={encodedToken}";
     }
 }
