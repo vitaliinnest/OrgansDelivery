@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using OrgansDelivery.BL.Models;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Entities;
@@ -17,11 +18,14 @@ public class AuthMappingProfile : Profile
         CreateMap<User, RegisterResponse>();
         CreateMap<UpdateUserModel, User>();
 
-        // Tenant
+        // Tenants
         CreateMap<CreateTenantModel, Tenant>();
         CreateMap<UpdateTenantModel, Tenant>();
 
-        // Invite
+        // Invites
         CreateMap<InviteUserModel, Invite>();
+
+        // Roles
+        CreateMap<IdentityRole<Guid>, RoleDto>();
     }
 }

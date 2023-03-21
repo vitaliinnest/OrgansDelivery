@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using OrgansDelivery.BL.Models;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Entities;
 
@@ -6,6 +8,7 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IRoleService
 {
+    List<RoleDto> GetAllRoles();
     Task<IdentityRole<Guid>> GetUserRoleAsync(Guid userId);
     Task<IdentityRole<Guid>> GetUserRoleAsync(User user);
     Task InitializeUserRoleIfInvitedAsync(User user, RegisterRequest registerRequest);
@@ -16,15 +19,18 @@ public class RoleService : IRoleService
     private readonly UserManager<User> _userManager;
     private readonly IInviteService _inviteService;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+    private readonly IMapper _mapper;
 
     public RoleService(
         UserManager<User> userManager,
         IInviteService inviteService,
-        RoleManager<IdentityRole<Guid>> roleManager)
+        RoleManager<IdentityRole<Guid>> roleManager,
+        IMapper mapper)
     {
         _userManager = userManager;
         _inviteService = inviteService;
         _roleManager = roleManager;
+        _mapper = mapper;
     }
 
     public async Task InitializeUserRoleIfInvitedAsync(User user, RegisterRequest registerRequest)
@@ -61,5 +67,11 @@ public class RoleService : IRoleService
             return null;
         }
         return await _roleManager.FindByNameAsync(roleName);
+    }
+
+    public List<RoleDto> GetAllRoles()
+    {
+        var identityRoles = _roleManager.Roles.ToList();
+        return _mapper.Map<List<RoleDto>>(identityRoles);
     }
 }
