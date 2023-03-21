@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentResults;
+using Mallytics.BL.Services;
 using Microsoft.AspNetCore.Identity;
 using OrgansDelivery.BL.Models;
 using OrgansDelivery.DAL.Data;
@@ -21,13 +22,15 @@ public class TenantService : ITenantService
     private readonly IMapper _mapper;
     private readonly AppDbContext _appDbContext;
     private readonly IEnvironmentProvider _environmentProvider;
+    private readonly IGenericValidator _genericValidator;
 
     public TenantService(
         UserManager<User> userManager,
         IServiceProvider serviceProvider,
         IMapper mapper,
         AppDbContext appDbContext,
-        IEnvironmentProvider environmentProvider
+        IEnvironmentProvider environmentProvider,
+        IGenericValidator genericValidator
         )
     {
         _userManager = userManager;
@@ -35,12 +38,17 @@ public class TenantService : ITenantService
         _mapper = mapper;
         _appDbContext = appDbContext;
         _environmentProvider = environmentProvider;
+        _genericValidator = genericValidator;
     }
 
     public async Task<Result<Tenant>> CreateTenantAsync(CreateTenantModel model)
     {
-        // todo: validation
-        // todo: configure mapping profile
+        var validationResult = await _genericValidator.ValidateAsync(model);
+        if (!validationResult.IsValid)
+        {
+            return Result.Fail(validationResult.ToString());
+        }
+
         var tenant = _mapper.Map<Tenant>(model);
         
         // todo: check if tenant.Id is set
