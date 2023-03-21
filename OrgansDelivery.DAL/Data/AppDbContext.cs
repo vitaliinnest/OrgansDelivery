@@ -5,7 +5,6 @@ using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.DAL.Services;
 using OrgansDelivery.DAL.Interfaces;
 using OrgansDelivery.DAL.Extensions;
-
 namespace OrgansDelivery.DAL.Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
@@ -40,6 +39,34 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         base.OnModelCreating(builder);
 
+        AddTenantQueryFilter(builder);
+        
+        ConvertDateTimeUtcFormat(builder);
+
+        AppDbContextSeed.SeedData(builder);
+    }
+
+    private static void ConvertDateTimeUtcFormat(ModelBuilder builder)
+    {
+        var properties = builder.Model.GetEntityTypes()
+            .Where(e => !e.IsKeyless)
+            .SelectMany(entityType => entityType.GetProperties());
+
+        foreach (var property in properties)
+        {
+            if (property.ClrType == typeof(DateTime))
+            {
+                property.SetValueConverter(ValueConverterBuilder.BuildDateTimeConverter());
+            }
+            else if (property.ClrType == typeof(DateTime?))
+            {
+                property.SetValueConverter(ValueConverterBuilder.BuildNullableDateTimeConverter());
+            }
+        }
+    }
+
+    private void AddTenantQueryFilter(ModelBuilder builder)
+    {
         var mustHaveTenantTypes = builder.Model.GetEntityTypes()
             .Where(entityType => typeof(IMustHaveTenant)
             .IsAssignableFrom(entityType.ClrType));
@@ -48,7 +75,5 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         {
             entityType.AddTenantQueryFilter(_tenantId);
         }
-
-        AppDbContextSeed.SeedData(builder);
     }
 }
