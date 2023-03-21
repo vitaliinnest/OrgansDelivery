@@ -20,7 +20,7 @@ public class RoleController : ControllerBase
     [HttpGet("all")]
     public ActionResult<List<RoleDto>> GetAllRoles()
     {
-        var roles = _roleService.GetAllRoles();
+        var roles = _roleService.GetRoles();
         return Ok(roles);
     }
 }

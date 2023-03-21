@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using OrgansDelivery.BL.Services;
 using OrgansDelivery.DAL.Entities;
 using System.Text;
 
@@ -23,5 +24,11 @@ public static class IRuleBuilderExtensions
             }
             return errMessage.Length == 0;
         }).WithMessage(_ => errMessage.ToString());
+    }
+
+    public static IRuleBuilderOptions<T, Guid> RoleId<T>(
+       this IRuleBuilder<T, Guid> ruleBuilder, IRoleService roleService)
+    {
+        return ruleBuilder.Must(roleId => roleService.GetRoles().Any(r => r.Id == roleId));
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using OrgansDelivery.BL.Consts;
 using OrgansDelivery.BL.Models;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.DAL.Entities;
@@ -8,7 +9,7 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IRoleService
 {
-    List<RoleDto> GetAllRoles();
+    List<RoleDto> GetRoles();
     Task<IdentityRole<Guid>> GetUserRoleAsync(Guid userId);
     Task<IdentityRole<Guid>> GetUserRoleAsync(User user);
     Task InitializeUserRoleIfInvitedAsync(User user, RegisterRequest registerRequest);
@@ -69,9 +70,9 @@ public class RoleService : IRoleService
         return await _roleManager.FindByNameAsync(roleName);
     }
 
-    public List<RoleDto> GetAllRoles()
+    public List<RoleDto> GetRoles()
     {
-        var identityRoles = _roleManager.Roles.ToList();
+        var identityRoles = _roleManager.Roles.Where(r => r.Name != UserRoles.ADMIN).ToList();
         return _mapper.Map<List<RoleDto>>(identityRoles);
     }
 }

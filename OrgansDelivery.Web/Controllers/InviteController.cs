@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Models;
+using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.BL.Services;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
@@ -37,7 +38,7 @@ public class InviteController : ControllerBase
         var result = await _inviteService.InviteUserAsync(model);
         if (result.IsFailed)
         {
-            return BadRequest(result);
+            return BadRequest(result.ErrorMessagesToString());
         }
         return Ok(result.Value);
     }
@@ -48,7 +49,7 @@ public class InviteController : ControllerBase
         var result = _inviteService.DeleteInvite(inviteId);
         if (result.IsFailed)
         {
-            return BadRequest(result);
+            return BadRequest(result.ErrorMessagesToString());
         }
         return Ok();
     }
