@@ -90,6 +90,11 @@ public class AuthService : IAuthService
             return Result.Fail("User with given email already exists");
         }
 
+        if (registerRequest.InviteCode.HasValue && _inviteService.GetRegisterInvite(registerRequest) == null)
+        {
+            return Result.Fail("Email or invite code is invalid");
+        }
+
         var user = _mapper.Map<User>(registerRequest);
         var result = await _userManager.CreateAsync(user, registerRequest.Password);
         if (!result.Succeeded)
