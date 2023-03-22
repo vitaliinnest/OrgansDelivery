@@ -1,19 +1,14 @@
 ﻿using FluentValidation;
-using OrgansDelivery.BL.Models;
+using OrgansDelivery.DAL.Entities;
 using static OrgansDelivery.BL.Consts.ValidatorConsts;
 
 namespace OrgansDelivery.BL.Validators;
 
-public class CreateTenantModelValidator : AbstractValidator<CreateTenantModel>
+public class CreateConditionsPresetModelValidator : AbstractValidator<CreateConditionsPresetModel>
 {
-    public CreateTenantModelValidator()
+    public CreateConditionsPresetModelValidator()
     {
-        RuleFor(t => t.Url)
-            .NotNull()
-            .NotEmpty()
-            .Matches(GeneralConsts.STR_INT_DASH_REGEX)
-            .Length(GeneralConsts.MIN_LENGTH,
-                    GeneralConsts.MAX_LENGTH);
+        Include(new ConditionsValidator());
 
         RuleFor(t => t.Name)
             .NotNull()

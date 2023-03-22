@@ -22,6 +22,8 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<Invite> Invites { get; set; }
+    public DbSet<ConditionPreset> ConditionPresets { get; set; }
+    public DbSet<Container> Containers { get; set; }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {

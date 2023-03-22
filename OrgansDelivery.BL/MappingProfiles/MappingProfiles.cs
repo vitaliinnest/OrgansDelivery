@@ -16,16 +16,24 @@ public class AuthMappingProfile : Profile
 
         CreateMap<User, LoginResponse>();
         CreateMap<User, RegisterResponse>();
-        CreateMap<UpdateUserModel, User>();
+        // todo: CreateMap<UpdateUserModel, User>();
 
         // Tenants
         CreateMap<CreateTenantModel, Tenant>();
-        CreateMap<UpdateTenantModel, Tenant>();
+        // todo: CreateMap<UpdateTenantModel, Tenant>();
 
         // Invites
         CreateMap<InviteUserModel, Invite>();
 
         // Roles
         CreateMap<IdentityRole<Guid>, RoleDto>();
+
+        // ConditionPresets
+        CreateMap<CreateConditionsPresetModel, ConditionPreset>();
+        // todo: CreateMap<UpdateConditionPresetModel, ConditionPreset>();
+
+        // Containers
+        CreateMap<CreateContainerModel, Container>();
+        // todo: CreateMap<UpdateContainerModel, Container>();
     }
 }
