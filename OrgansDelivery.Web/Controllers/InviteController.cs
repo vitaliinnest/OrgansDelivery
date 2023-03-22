@@ -35,7 +35,7 @@ public class InviteController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = UserRoles.MANAGER)]
-    public async Task<ActionResult<Invite>> InviteUser(InviteUserModel model)
+    public async Task<ActionResult<Invite>> InviteUser([FromBody] InviteUserModel model)
     {
         var result = await _inviteService.InviteUserAsync(model);
         if (result.IsFailed)

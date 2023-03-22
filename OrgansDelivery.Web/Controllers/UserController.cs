@@ -26,8 +26,9 @@ public class UserController : ControllerBase
         return Ok(_environmentProvider.User);
     }
 
+    // todo: change body model
     [HttpPut]
-    public async Task<ActionResult<User>> UpdateUser(User update)
+    public async Task<ActionResult<User>> UpdateUser([FromBody] User update)
     {
         var user = await _userService.UpdateCurrentUserAsync(update);
         return Ok(user);

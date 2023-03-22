@@ -31,7 +31,7 @@ public class ContainerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Container>> CreateContainer(CreateContainerModel model)
+    public async Task<ActionResult<Container>> CreateContainer([FromBody] CreateContainerModel model)
     {
         var result = await _containerService.CreateContainerAsync(model);
         if (result.IsFailed)

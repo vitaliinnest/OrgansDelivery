@@ -30,7 +30,7 @@ public class ConditionPresetController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ConditionPreset>> CreateConditionPreset(CreateConditionsPresetModel model)
+    public async Task<ActionResult<ConditionPreset>> CreateConditionPreset([FromBody] CreateConditionsPresetModel model)
     {
         var result = await _conditionPresetService.CreateConditionPresetAsync(model);
         if (result.IsFailed)

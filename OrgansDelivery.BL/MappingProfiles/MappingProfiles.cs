@@ -35,5 +35,8 @@ public class AuthMappingProfile : Profile
         // Containers
         CreateMap<CreateContainerModel, Container>();
         // todo: CreateMap<UpdateContainerModel, Container>();
+
+        // Organs
+        CreateMap<CreateOrganModel, Organ>();
     }
 }
