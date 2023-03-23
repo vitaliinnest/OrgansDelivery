@@ -20,15 +20,15 @@ public class CreateConditionsPresetModelValidator
             .MaximumLength(GeneralConsts.MAX_LENGTH);
 
         RuleFor(p => p.Temperature)
-            .Temperature();
+            .TemperatureCondition();
 
         RuleFor(p => p.Humidity)
-            .Humidity();
+            .HumidityCondition();
 
         RuleFor(p => p.Light)
-            .Light();
+            .LightCondition();
 
-        RuleFor(p => p.OrientationLimits)
-            .SetValidator(new OrientationLimitsValidator());
+        RuleFor(p => p.Orientation)
+            .OrientationAxisCondition();
     }
 }

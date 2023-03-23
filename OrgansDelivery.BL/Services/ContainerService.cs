@@ -3,6 +3,7 @@ using FluentResults;
 using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Interfaces;
 
 namespace OrganStorage.BL.Services;
 
@@ -39,14 +40,14 @@ public class ContainerService : IContainerService
             return Result.Fail(validationResult.ToString());
         }
 
-        var conditionResult = GetContainerCondition(model);
-        if (conditionResult.IsFailed)
+        var conditionsResult = BuildContainerConditions(model);
+        if (conditionsResult.IsFailed)
         {
-            return Result.Fail(conditionResult.ErrorMessagesToString());
+            return Result.Fail(conditionsResult.ErrorMessagesToString());
         }
 
         var container = _mapper.Map<Container>(model);
-        container.Conditions = conditionResult.Value;
+        container.Conditions = conditionsResult.Value;
         _context.Add(container);
         _context.SaveChanges();
 
@@ -111,7 +112,7 @@ public class ContainerService : IContainerService
         return container;
     }
 
-    private Result<Conditions> GetContainerCondition(CreateContainerModel model)
+    private Result<ExpectedConditions> BuildContainerConditions(CreateContainerModel model)
     {
         if (model.ConditionPresetId.HasValue)
         {

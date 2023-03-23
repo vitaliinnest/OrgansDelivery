@@ -10,7 +10,7 @@ public class CreateContainerModelValidator : AbstractValidator<CreateContainerMo
     public CreateContainerModelValidator(UserManager<User> userManager)
     {
         RuleFor(c => c.Conditions)
-            .SetValidator(new ConditionsValidator())
+            .SetValidator(new ExpectedConditionsValidator())
             .When(c => c.Conditions != null);
 
         RuleFor(c => c.Password)

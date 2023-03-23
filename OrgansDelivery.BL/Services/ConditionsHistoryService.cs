@@ -7,7 +7,11 @@ namespace OrganStorage.BL.Services;
 
 public interface IConditionsHistoryService
 {
-    Task<Result<ContainerConditionsRecord>> AddConditionsRecordAsync(Guid containerId, CreateConditionsRecordModel model);
+    Task<Result<ContainerConditionsRecord>> AddConditionsRecordAsync(
+        Guid containerId, CreateConditionsRecordModel model);
+    Task<Result<List<ContainerConditionsRecord>>> GetConditionsHistoryAsync(
+        Guid containerId, GetConditionsHistoryModel model);
+    List<ConditionsViolation> GetConditionValilations();
 }
 
 public class ConditionsHistoryService : IConditionsHistoryService
@@ -49,4 +53,48 @@ public class ConditionsHistoryService : IConditionsHistoryService
 
         return record;
     }
+
+    public async Task<Result<List<ContainerConditionsRecord>>> GetConditionsHistoryAsync(
+        Guid containerId, GetConditionsHistoryModel model)
+    {
+        var validationResult = await _genericValidator.ValidateAsync(model);
+        if (!validationResult.IsValid)
+        {
+            return Result.Fail(validationResult.ToString());
+        }
+
+        var containerExists = _context.Containers.Any(c => c.Id == containerId);
+        if (containerExists)
+        {
+            return Result.Fail("Container not found");
+        }
+
+        var history = _context.ConditionsHistory
+            .Where(c => c.Id == containerId && model.Start <= c.DateTime && c.DateTime <= model.End)
+            .ToList();
+
+        return history;
+    }
+
+    public List<ConditionsViolation> GetConditionValilations()
+    {
+        var containerByIdMap = _context.Containers.ToDictionary(c => c.Id);
+        var history = _context.ConditionsHistory.ToList();
+        
+        var violations = new List<ConditionsViolation>();
+
+        foreach (var record in history)
+        {
+            var container = containerByIdMap[record.ContainerId];
+
+            //if (record.Temperature )
+        }
+
+        return violations;
+    }
+}
+
+public interface IViolationValidator
+{
+
 }
