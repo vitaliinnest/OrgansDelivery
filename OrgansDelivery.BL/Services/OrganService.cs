@@ -9,6 +9,7 @@ namespace OrgansDelivery.BL.Services;
 public interface IOrganService
 {
     Task<Result<Organ>> CreateOrganAsync(CreateOrganModel model);
+    Result DeleteOrgan(Guid organId);
 }
 
 public class OrganService : IOrganService
@@ -46,5 +47,24 @@ public class OrganService : IOrganService
         _context.SaveChanges();
 
         return organ;
+    }
+
+    public Result DeleteOrgan(Guid organId)
+    {
+        var organ = _context.Organs.FirstOrDefault(i => i.Id == organId);
+        if (organ == null)
+        {
+            return Result.Fail("Organ not found");
+        }
+
+        if (organ.ContainerId.HasValue)
+        {
+            return Result.Fail("Organ is in container. Get it out of the container first");
+        }
+
+        _context.Remove(organ);
+        _context.SaveChanges();
+
+        return Result.Ok();
     }
 }

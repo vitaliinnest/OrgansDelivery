@@ -10,6 +10,8 @@ public class Container : IEntity, IMustHaveTenant
     // todo: hash password
     public string Password { get; set; }
     public bool IsLocked { get; set; }
+    // todo: configure one to one relation
+    public Guid? OrganId { get; set; }
 }
 
 public class CreateContainerModel

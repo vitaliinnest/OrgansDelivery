@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.DAL.Enums;
+﻿using OrgansDelivery.DAL.Enums;
 using OrgansDelivery.DAL.Interfaces;
 
 namespace OrgansDelivery.DAL.Entities;

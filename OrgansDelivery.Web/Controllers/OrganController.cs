@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Services;
-using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
+using OrgansDelivery.BL.Consts;
+using OrgansDelivery.Web.Common.Extensions;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -29,13 +30,18 @@ public class OrganController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<ActionResult<Organ>> CreateOrgan([FromBody] CreateOrganModel model)
     {
         var result = await _organService.CreateOrganAsync(model);
-        if (result.IsFailed)
-        {
-            return BadRequest(result.ErrorMessagesToString());
-        }
-        return Ok(result.Value);
+        return this.ToActionResult(result);
+    }
+
+    [HttpDelete("{organId}")]
+    [Authorize(Roles = UserRoles.MANAGER)]
+    public ActionResult DeleteOrgan(Guid organId)
+    {
+        var result = _organService.DeleteOrgan(organId);
+        return this.ToActionResult(result);
     }
 }

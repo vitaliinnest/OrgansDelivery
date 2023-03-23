@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Models;
-using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.BL.Services;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
 using OrgansDelivery.BL.Consts;
+using OrgansDelivery.Web.Common.Extensions;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -38,11 +38,7 @@ public class InviteController : ControllerBase
     public async Task<ActionResult<Invite>> InviteUser([FromBody] InviteUserModel model)
     {
         var result = await _inviteService.InviteUserAsync(model);
-        if (result.IsFailed)
-        {
-            return BadRequest(result.ErrorMessagesToString());
-        }
-        return Ok(result.Value);
+        return this.ToActionResult(result);
     }
 
     [HttpDelete("{inviteId}")]
@@ -50,10 +46,6 @@ public class InviteController : ControllerBase
     public ActionResult DeleteInvite(Guid inviteId)
     {
         var result = _inviteService.DeleteInvite(inviteId);
-        if (result.IsFailed)
-        {
-            return BadRequest(result.ErrorMessagesToString());
-        }
-        return Ok();
+        return this.ToActionResult(result);
     }
 }

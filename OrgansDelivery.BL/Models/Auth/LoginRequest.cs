@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace OrgansDelivery.BL.Models.Auth;
+﻿namespace OrgansDelivery.BL.Models.Auth;
 
 public class LoginRequest
 {

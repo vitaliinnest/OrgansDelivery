@@ -9,8 +9,9 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IContainerService
 {
+    Task<Result<Container>> AddOrganToContainerAsync(Guid containerId, Guid organId);
     Task<Result<Container>> CreateContainerAsync(CreateContainerModel model);
-    Task<Result> DeleteContainerAsync(Guid containerId);
+    Result DeleteContainer(Guid containerId);
 }
 
 public class ContainerService : IContainerService
@@ -52,9 +53,23 @@ public class ContainerService : IContainerService
         return container;
     }
 
-    public Task<Result> DeleteContainerAsync(Guid containerId)
+    public Result DeleteContainer(Guid containerId)
     {
-        throw new NotImplementedException();
+        var container = _context.Containers.FirstOrDefault(i => i.Id == containerId);
+        if (container == null)
+        {
+            return Result.Fail("Organ not found");
+        }
+
+        if (container.OrganId.HasValue)
+        {
+            return Result.Fail("Organ is in container. Get it out of the container first");
+        }
+
+        _context.Remove(container);
+        _context.SaveChanges();
+
+        return Result.Ok();
     }
 
     private Result<Conditions> GetContainerCondition(CreateContainerModel model)

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Services;
-using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
+using OrgansDelivery.BL.Consts;
+using OrgansDelivery.Web.Common.Extensions;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -31,24 +32,25 @@ public class ContainerController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<ActionResult<Container>> CreateContainer([FromBody] CreateContainerModel model)
     {
         var result = await _containerService.CreateContainerAsync(model);
-        if (result.IsFailed)
-        {
-            return BadRequest(result.ErrorMessagesToString());
-        }
-        return Ok(result.Value);
+        return this.ToActionResult(result);
     }
 
     [HttpDelete("{containerId}")]
-    public async Task<ActionResult> DeleteContainer(Guid containerId)
+    [Authorize(Roles = UserRoles.MANAGER)]
+    public ActionResult DeleteContainer(Guid containerId)
     {
-        var result = await _containerService.DeleteContainerAsync(containerId);
-        if (result.IsFailed)
-        {
-            return BadRequest(result.ErrorMessagesToString());
-        }
-        return Ok();
+        var result = _containerService.DeleteContainer(containerId);
+        return this.ToActionResult(result);
+    }
+
+    [HttpPost("{containerId}/addorgan/{organId}")]
+    public async Task<ActionResult<Container>> AddOrganToContainer(Guid containerId, Guid organId)
+    {
+        var result = await _containerService.AddOrganToContainerAsync(containerId, organId);
+        return this.ToActionResult(result);
     }
 }

@@ -99,7 +99,6 @@ public class InviteService : IInviteService
         if (invite == null)
         {
             return Result.Fail("Invite not found");
-
         }
         return DeleteInvite(invite);
     }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Services;
-using OrgansDelivery.BL.Extensions;
 using OrgansDelivery.DAL.Data;
 using OrgansDelivery.DAL.Entities;
+using OrgansDelivery.Web.Common.Extensions;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -33,21 +33,13 @@ public class ConditionPresetController : ControllerBase
     public async Task<ActionResult<ConditionPreset>> CreateConditionPreset([FromBody] CreateConditionsPresetModel model)
     {
         var result = await _conditionPresetService.CreateConditionPresetAsync(model);
-        if (result.IsFailed)
-        {
-            return BadRequest(result.ErrorMessagesToString());
-        }
-        return Ok(result.Value);
+        return this.ToActionResult(result);
     }
 
     [HttpDelete("{conditionPresetId}")]
     public ActionResult DeleteConditionPreset(Guid conditionPresetId)
     {
         var result = _conditionPresetService.DeleteConditionPreset(conditionPresetId);
-        if (result.IsFailed)
-        {
-            return BadRequest(result.ErrorMessagesToString());
-        }
-        return Ok();
+        return this.ToActionResult(result);
     }
 }

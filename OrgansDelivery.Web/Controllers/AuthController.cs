@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrgansDelivery.BL.Models.Auth;
 using OrgansDelivery.BL.Services;
-using OrgansDelivery.BL.Extensions;
+using OrgansDelivery.Web.Common.Extensions;
 
 namespace OrgansDelivery.Web.Controllers;
 
@@ -25,11 +25,7 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
     {
         var response = await _authService.LoginAsync(loginRequest);
-        if (response.IsFailed)
-        {
-            return BadRequest(response.ErrorMessagesToString());
-        }
-        return Ok(response.Value);
+        return this.ToActionResult(response);
     }
 
     [AllowAnonymous]
@@ -37,22 +33,14 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest registerRequest)
     {
         var response = await _authService.RegisterAsync(registerRequest);
-        if (response.IsFailed)
-        {
-            return BadRequest(response.ErrorMessagesToString());
-        }
-        return Ok(response.Value);
+        return this.ToActionResult(response);
     }
 
     [AllowAnonymous]
     [HttpGet("confirmEmail")]
-    public async Task<IActionResult> ConfirmEmail(Guid userId, string encodedToken)
+    public async Task<ActionResult<RegisterResponse>> ConfirmEmail(Guid userId, string encodedToken)
     {
         var response = await _authService.ConfirmEmailAsync(userId, encodedToken);
-        if (response.IsFailed)
-        {
-            return BadRequest(response.ErrorMessagesToString());
-        }
-        return Ok(response.Value);
+        return this.ToActionResult(response);
     }
 }
