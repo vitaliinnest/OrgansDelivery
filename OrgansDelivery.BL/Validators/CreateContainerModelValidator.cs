@@ -13,9 +13,6 @@ public class CreateContainerModelValidator : AbstractValidator<CreateContainerMo
             .SetValidator(new ExpectedConditionsValidator())
             .When(c => c.Conditions != null);
 
-        RuleFor(c => c.Password)
-            .NotNull()
-            .NotEmpty()
-            .PasswordAsync(userManager);
+        // todo: other fields
     }
 }
