@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrganStorage.BL.MappingProfiles;
@@ -31,5 +32,6 @@ public static class DependencyContainerExtensions
         services.AddScoped<IConditionPresetService, ConditionPresetService>();
         services.AddScoped<IOrganService, OrganService>();
         services.AddScoped<IConditionsHistoryService, ConditionsHistoryService>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
     }
 }
