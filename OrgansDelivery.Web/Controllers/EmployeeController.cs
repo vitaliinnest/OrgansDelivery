@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OrgansDelivery.BL.Consts;
-using OrgansDelivery.BL.Services;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.Web.Common.Extensions;
+using OrganStorage.BL.Services;
+using OrganStorage.DAL.Consts;
+using OrganStorage.DAL.Entities;
+using OrganStorage.Web.Common.Extensions;
 
-namespace OrgansDelivery.Web.Controllers;
+namespace OrganStorage.Web.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrgansDelivery.DAL.Interfaces;
+using OrganStorage.DAL.Interfaces;
 
-namespace OrgansDelivery.DAL.Extensions;
+namespace OrganStorage.DAL.Extensions;
 
 public static class MarkTenantExtensions
 {

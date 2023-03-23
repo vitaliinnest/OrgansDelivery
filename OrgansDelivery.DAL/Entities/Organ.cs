@@ -1,6 +1,6 @@
-﻿using OrgansDelivery.DAL.Interfaces;
+﻿using OrganStorage.DAL.Interfaces;
 
-namespace OrgansDelivery.DAL.Entities;
+namespace OrganStorage.DAL.Entities;
 
 public class Organ : IEntity, IMustHaveTenant, IWithName, IWithDescription
 {
@@ -11,6 +11,7 @@ public class Organ : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public DateTime OrganCreationDate { get; set; }
     // todo: configure relation
     public Guid? ContainerId { get; set; }
+    public Container Container { get; set; }
 }
 
 public class CreateOrganModel

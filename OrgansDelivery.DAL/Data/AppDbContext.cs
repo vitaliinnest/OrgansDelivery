@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Services;
-using OrgansDelivery.DAL.Interfaces;
-using OrgansDelivery.DAL.Extensions;
+using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Extensions;
+using OrganStorage.DAL.Services;
+using OrganStorage.DAL.Interfaces;
 
-namespace OrgansDelivery.DAL.Data;
+namespace OrganStorage.DAL.Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
     private readonly IEnvironmentProvider _environmentProvider;
-    
+
     public AppDbContext(
         DbContextOptions options,
         IEnvironmentProvider environmentProvider
@@ -25,6 +25,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public DbSet<ConditionPreset> ConditionPresets { get; set; }
     public DbSet<Container> Containers { get; set; }
     public DbSet<Organ> Organs { get; set; }
+    public DbSet<ContainerConditionsRecord> ContainerConditionsHistory { get; set; }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
@@ -45,8 +46,13 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         base.OnModelCreating(builder);
 
+        builder.Entity<Container>()
+            .HasOne(c => c.Organ)
+            .WithOne(o => o.Container)
+            .HasForeignKey<Organ>(o => o.ContainerId);
+
         AddTenantQueryFilter(builder);
-        
+
         ConvertDateTimeUtcFormat(builder);
 
         AppDbContextSeed.SeedData(builder);

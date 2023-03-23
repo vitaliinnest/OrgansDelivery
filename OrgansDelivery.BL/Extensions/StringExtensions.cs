@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace OrgansDelivery.BL.Extensions;
+namespace OrganStorage.BL.Extensions;
 
 public static class StringExtensions
 {

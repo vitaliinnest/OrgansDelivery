@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using OrgansDelivery.Web.Common.Extensions;
+using OrganStorage.Web.Common.Extensions;
 
-namespace OrgansDelivery.Web.Common.Middlewares;
+namespace OrganStorage.Web.Common.Middlewares;
 
 public class ErrorLoggingMiddleware
 {

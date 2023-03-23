@@ -1,4 +1,4 @@
-﻿namespace OrgansDelivery.BL.Models;
+﻿namespace OrganStorage.BL.Models;
 
 public class CreateTenantModel
 {

@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using FluentResults;
-using Mallytics.BL.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OrgansDelivery.BL.Extensions;
-using OrgansDelivery.BL.Models;
-using OrgansDelivery.BL.Models.Auth;
-using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Services;
+using OrganStorage.BL.Extensions;
+using OrganStorage.BL.Models;
+using OrganStorage.BL.Models.Auth;
+using OrganStorage.DAL.Data;
+using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Services;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IInviteService
 {
@@ -87,7 +86,7 @@ public class InviteService : IInviteService
 
         var tenant = _tenantRepository.GetTenantById(invite.TenantId);
         await _tenantService.AddUserToTenantAsync(user, tenant);
-        
+
         DeleteInvite(invite);
 
         return Result.Ok();
@@ -120,7 +119,7 @@ public class InviteService : IInviteService
 
         _appDbContext.Remove(invite);
         _appDbContext.SaveChanges();
-        
+
         return Result.Ok();
     }
 }

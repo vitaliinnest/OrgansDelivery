@@ -1,6 +1,6 @@
-﻿using OrgansDelivery.DAL.Enums;
+﻿using OrganStorage.DAL.Enums;
 
-namespace OrgansDelivery.BL.Models;
+namespace OrganStorage.BL.Models;
 
 public class InviteUserModel
 {

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.BL.Models;
-using OrgansDelivery.BL.Models.Auth;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.BL.Models;
+using OrganStorage.BL.Models.Auth;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.BL.MappingProfiles;
+namespace OrganStorage.BL.MappingProfiles;
 
 public class AuthMappingProfile : Profile
 {
@@ -38,5 +38,8 @@ public class AuthMappingProfile : Profile
 
         // Organs
         CreateMap<CreateOrganModel, Organ>();
+
+        // ContainerConditionsHistory
+        CreateMap<CreateConditionsRecordModel, ContainerConditionsRecord>();
     }
 }

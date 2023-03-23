@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
-using OrgansDelivery.DAL.Interfaces;
+using OrganStorage.DAL.Interfaces;
 
-namespace OrgansDelivery.DAL.Extensions;
+namespace OrganStorage.DAL.Extensions;
 
 public static class TenantQueryExtension
 {

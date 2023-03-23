@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OrgansDelivery.BL.Models;
-using OrgansDelivery.BL.Services;
+using OrganStorage.BL.Models;
+using OrganStorage.BL.Services;
 
-namespace OrgansDelivery.Web.Controllers;
+namespace OrganStorage.Web.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

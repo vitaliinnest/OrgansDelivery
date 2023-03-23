@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace OrgansDelivery.BL.Consts;
+namespace OrganStorage.BL.Consts;
 
 public static class MetadataConsts
 {
-    public const string COMPANY_NAME = "OrgansDelivery";
+    public const string COMPANY_NAME = "OrganStorage";
 }
 
 public static class ValidatorConsts

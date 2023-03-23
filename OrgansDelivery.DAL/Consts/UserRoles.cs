@@ -1,4 +1,4 @@
-﻿namespace OrgansDelivery.BL.Consts;
+﻿namespace OrganStorage.DAL.Consts;
 
 public static class UserRoles
 {

@@ -1,9 +1,9 @@
 ﻿using FluentResults;
 using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.DAL.Data;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IEmployeeService
 {

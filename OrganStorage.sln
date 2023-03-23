@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.Web", "OrgansDelivery.Web\OrgansDelivery.Web.csproj", "{270CC872-5836-4477-8FC9-7C147FBD1B1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrganStorage.Web", "OrgansDelivery.Web\OrganStorage.Web.csproj", "{270CC872-5836-4477-8FC9-7C147FBD1B1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.DAL", "OrgansDelivery.DAL\OrgansDelivery.DAL.csproj", "{2AE28A4F-2D4A-4DDD-A64B-F25882AC41A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrganStorage.DAL", "OrgansDelivery.DAL\OrganStorage.DAL.csproj", "{2AE28A4F-2D4A-4DDD-A64B-F25882AC41A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.BL", "OrgansDelivery.BL\OrgansDelivery.BL.csproj", "{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrganStorage.BL", "OrgansDelivery.BL\OrganStorage.BL.csproj", "{5CB16DA6-21DE-4D2E-B45B-405ED3BDBB82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansDelivery.Web.Admin", "OrgansDelivery.Admin.Web\OrgansDelivery.Web.Admin.csproj", "{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrganStorage.Web.Admin", "OrgansDelivery.Admin.Web\OrganStorage.Web.Admin.csproj", "{FA6B7D3B-FC07-48E7-BC5B-633F1C5BF442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.Web.Common", "OrgansDelivery.Web.Common\OrgansDelivery.Web.Common.csproj", "{8711999E-EE4D-4C1E-9302-92F0C08BE458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrganStorage.Web.Common", "OrgansDelivery.Web.Common\OrganStorage.Web.Common.csproj", "{8711999E-EE4D-4C1E-9302-92F0C08BE458}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

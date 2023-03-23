@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.BL.Consts;
-using OrgansDelivery.BL.Models;
-using OrgansDelivery.BL.Models.Auth;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.BL.Models;
+using OrganStorage.BL.Models.Auth;
+using OrganStorage.DAL.Consts;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IRoleService
 {

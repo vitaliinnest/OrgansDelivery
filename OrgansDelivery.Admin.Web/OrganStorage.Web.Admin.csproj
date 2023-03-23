@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OrgansDelivery.BL\OrgansDelivery.BL.csproj" />
-    <ProjectReference Include="..\OrgansDelivery.DAL\OrgansDelivery.DAL.csproj" />
-    <ProjectReference Include="..\OrgansDelivery.Web.Common\OrgansDelivery.Web.Common.csproj" />
+    <ProjectReference Include="..\OrgansDelivery.BL\OrganStorage.BL.csproj" />
+    <ProjectReference Include="..\OrgansDelivery.DAL\OrganStorage.DAL.csproj" />
+    <ProjectReference Include="..\OrgansDelivery.Web.Common\OrganStorage.Web.Common.csproj" />
   </ItemGroup>
 
 </Project>

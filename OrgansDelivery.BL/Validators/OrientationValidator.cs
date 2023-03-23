@@ -4,14 +4,14 @@ using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.BL.Validators;
 
-public class OrientationLimitsValidator : AbstractValidator<OrientationLimits>
+public class OrientationValidator : AbstractValidator<Orientation>
 {
-    public OrientationLimitsValidator()
+    public OrientationValidator()
     {
-        RuleFor(l => l.XLimit)
+        RuleFor(o => o.X)
             .OrientationAxis();
 
-        RuleFor(l => l.YLimit)
+        RuleFor(o => o.Y)
             .OrientationAxis();
     }
 }

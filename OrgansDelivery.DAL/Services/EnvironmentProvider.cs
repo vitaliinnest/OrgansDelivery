@@ -1,6 +1,6 @@
-﻿using OrgansDelivery.DAL.Entities;
+﻿using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.DAL.Services;
+namespace OrganStorage.DAL.Services;
 
 public interface IEnvironmentProvider
 {

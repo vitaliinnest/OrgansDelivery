@@ -1,10 +1,10 @@
 ﻿using FluentResults;
 using Microsoft.EntityFrameworkCore;
-using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Services;
+using OrganStorage.DAL.Data;
+using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Services;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IUserService
 {

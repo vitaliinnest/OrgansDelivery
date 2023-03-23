@@ -1,4 +1,4 @@
-﻿namespace OrgansDelivery.BL.Models.Auth;
+﻿namespace OrganStorage.BL.Models.Auth;
 
 public class LoginRequest
 {

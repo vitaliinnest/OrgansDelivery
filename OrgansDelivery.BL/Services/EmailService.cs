@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
-using OrgansDelivery.BL.Models.Options;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.BL.Models.Options;
+using OrganStorage.DAL.Entities;
 using System.Net;
 using System.Net.Mail;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IEmailService
 {

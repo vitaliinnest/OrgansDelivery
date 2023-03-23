@@ -1,15 +1,15 @@
 ﻿using FluentValidation;
-using OrgansDelivery.DAL.Entities;
-using static OrgansDelivery.BL.Consts.ValidatorConsts;
+using OrganStorage.BL.Extensions;
+using OrganStorage.DAL.Entities;
+using static OrganStorage.BL.Consts.ValidatorConsts;
 
-namespace OrgansDelivery.BL.Validators;
+namespace OrganStorage.BL.Validators;
 
-public class CreateConditionsPresetModelValidator : AbstractValidator<CreateConditionsPresetModel>
+public class CreateConditionsPresetModelValidator
+    : AbstractValidator<CreateConditionsPresetModel>
 {
     public CreateConditionsPresetModelValidator()
     {
-        Include(new ConditionsValidator());
-
         RuleFor(t => t.Name)
             .NotNull()
             .NotEmpty()
@@ -18,5 +18,17 @@ public class CreateConditionsPresetModelValidator : AbstractValidator<CreateCond
 
         RuleFor(t => t.Description)
             .MaximumLength(GeneralConsts.MAX_LENGTH);
+
+        RuleFor(p => p.Temperature)
+            .Temperature();
+
+        RuleFor(p => p.Humidity)
+            .Humidity();
+
+        RuleFor(p => p.Light)
+            .Light();
+
+        RuleFor(p => p.OrientationLimits)
+            .SetValidator(new OrientationLimitsValidator());
     }
 }

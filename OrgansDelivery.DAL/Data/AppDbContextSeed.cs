@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OrgansDelivery.BL.Consts;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Enums;
+using OrganStorage.DAL.Consts;
+using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Enums;
 
-namespace OrgansDelivery.DAL.Data;
+namespace OrganStorage.DAL.Data;
 
 public static class AppDbContextSeed
 {

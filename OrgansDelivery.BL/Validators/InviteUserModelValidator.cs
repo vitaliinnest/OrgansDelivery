@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using OrgansDelivery.BL.Models;
-using OrgansDelivery.BL.Services;
-using OrgansDelivery.BL.Extensions;
+using OrganStorage.BL.Services;
+using OrganStorage.BL.Extensions;
+using OrganStorage.BL.Models;
 
-namespace OrgansDelivery.BL.Validators;
+namespace OrganStorage.BL.Validators;
 
 public class InviteUserModelValidator : AbstractValidator<InviteUserModel>
 {

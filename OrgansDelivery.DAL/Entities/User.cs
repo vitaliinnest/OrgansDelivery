@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.DAL.Enums;
-using OrgansDelivery.DAL.Interfaces;
+using OrganStorage.DAL.Enums;
+using OrganStorage.DAL.Interfaces;
 
-namespace OrgansDelivery.DAL.Entities;
+namespace OrganStorage.DAL.Entities;
 
 public class User : IdentityUser<Guid>, IMustHaveTenant
 {
@@ -10,4 +10,10 @@ public class User : IdentityUser<Guid>, IMustHaveTenant
     public string Name { get; set; }
     public string Surname { get; set; }
     public Language Language { get; set; }
+}
+
+// todo
+public class UserDto
+{
+
 }

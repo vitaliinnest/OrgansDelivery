@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using FluentResults;
-using Mallytics.BL.Services;
 using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.BL.Models;
-using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Services;
+using OrganStorage.BL.Models;
+using OrganStorage.DAL.Data;
+using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Services;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface ITenantService
 {
@@ -50,7 +49,7 @@ public class TenantService : ITenantService
         }
 
         var tenant = _mapper.Map<Tenant>(model);
-        
+
         // todo: check if tenant.Id is set
         _appDbContext.Tenants.Add(tenant);
         _appDbContext.SaveChanges();
@@ -61,7 +60,7 @@ public class TenantService : ITenantService
 
         return tenant;
     }
-    
+
     // todo: update tenant details
 
     public async Task AddUserToTenantAsync(User user, Tenant tenant)

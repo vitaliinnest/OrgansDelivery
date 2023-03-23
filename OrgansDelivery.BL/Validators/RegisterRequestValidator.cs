@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.BL.Extensions;
-using OrgansDelivery.BL.Models.Auth;
-using OrgansDelivery.DAL.Entities;
-using static OrgansDelivery.BL.Consts.ValidatorConsts;
+using OrganStorage.BL.Extensions;
+using OrganStorage.BL.Models.Auth;
+using OrganStorage.DAL.Entities;
+using static OrganStorage.BL.Consts.ValidatorConsts;
 
-namespace OrgansDelivery.BL.Validators;
+namespace OrganStorage.BL.Validators;
 
 public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
 {

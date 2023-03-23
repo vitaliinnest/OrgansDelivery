@@ -1,17 +1,25 @@
-﻿using OrgansDelivery.DAL.Interfaces;
+﻿using OrganStorage.DAL.Interfaces;
 
-namespace OrgansDelivery.DAL.Entities;
+namespace OrganStorage.DAL.Entities;
 
-// used for storing container history, so actual container conditions
-// recorded every 5 minutes (or so)
-// todo: allow to configure records interval
 public class ContainerConditionsRecord : IEntity, IMustHaveTenant, IWithConditions, IWithOrientation
 {
     public Guid Id { get; set; }
     public Guid TenantId { get; set; }
     public DateTime DateTime { get; set; }
+    // todo: configure relation
+    public Guid ContainerId { get; set; }
+    public decimal Temperature { get; set; }
     public decimal Humidity { get; set; }
     public decimal Light { get; set; }
+    public Orientation Orientation { get; set; }
+}
+
+public class CreateConditionsRecordModel
+{
+    public DateTime DateTime { get; set; }
     public decimal Temperature { get; set; }
-    public OrientationLimits OrientationLimits { get; set; }
+    public decimal Humidity { get; set; }
+    public decimal Light { get; set; }
+    public Orientation Orientation { get; set; }
 }

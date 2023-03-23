@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace OrgansDelivery.BL.Extensions;
+namespace OrganStorage.BL.Extensions;
 
 public static class IdentityResultExtensions
 {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using OrgansDelivery.DAL.Services;
-using OrgansDelivery.Web.Common.Services;
+using OrganStorage.DAL.Services;
+using OrganStorage.Web.Common.Services;
 
-namespace OrgansDelivery.Web.Common.Middlewares;
+namespace OrganStorage.Web.Common.Middlewares;
 
 public class TenantMiddleware
 {

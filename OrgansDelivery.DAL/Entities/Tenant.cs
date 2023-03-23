@@ -1,6 +1,6 @@
-﻿using OrgansDelivery.DAL.Interfaces;
+﻿using OrganStorage.DAL.Interfaces;
 
-namespace OrgansDelivery.DAL.Entities;
+namespace OrganStorage.DAL.Entities;
 
 public class Tenant : IEntity
 {

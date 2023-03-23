@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using OrgansDelivery.BL.Extensions;
-using OrgansDelivery.BL.Models.Options;
-using OrgansDelivery.BL.Consts;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Enums;
 using System.Net.Mail;
 using System.Web;
+using OrganStorage.BL.Extensions;
+using OrganStorage.BL.Consts;
+using OrganStorage.DAL.Enums;
+using OrganStorage.DAL.Entities;
+using OrganStorage.BL.Models.Options;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IEmailMessageBuilder
 {
@@ -33,7 +33,7 @@ public class EmailMessageBuilder : IEmailMessageBuilder
     public MailMessage BuildEmailConfirmationMessage(User user, string emailConfirmationToken)
     {
         var confirmationLink = BuildEmailConfirmationLink(user, emailConfirmationToken);
-        
+
         return user.Language switch
         {
             Language.Ukrainian => new MailMessage(

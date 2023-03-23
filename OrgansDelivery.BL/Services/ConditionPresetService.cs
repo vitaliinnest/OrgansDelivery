@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using FluentResults;
-using Mallytics.BL.Services;
-using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.DAL.Data;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IConditionPresetService
 {
@@ -35,16 +34,16 @@ public class ConditionPresetService : IConditionPresetService
         {
             return Result.Fail(validationResult.ToString());
         }
-        
+
         var preset = _mapper.Map<ConditionPreset>(model);
         if (_context.ConditionPresets.Any(p => p.Name.ToLower() == preset.Name.ToLower()))
         {
             return Result.Fail("Condition preset with given name already exists");
         }
-        
+
         _context.Add(preset);
         _context.SaveChanges();
-        
+
         return preset;
     }
 

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Services;
+using OrganStorage.DAL.Data;
+using OrganStorage.DAL.Services;
 
-namespace OrgansDelivery.DAL.Extensions;
+namespace OrganStorage.DAL.Extensions;
 
 public static class DependencyContainerExtensions
 {

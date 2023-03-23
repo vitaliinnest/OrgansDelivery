@@ -1,7 +1,7 @@
-﻿using OrgansDelivery.DAL.Enums;
-using OrgansDelivery.DAL.Interfaces;
+﻿using OrganStorage.DAL.Enums;
+using OrganStorage.DAL.Interfaces;
 
-namespace OrgansDelivery.DAL.Entities;
+namespace OrganStorage.DAL.Entities;
 
 public class Invite : IEntity, IMustHaveTenant
 {

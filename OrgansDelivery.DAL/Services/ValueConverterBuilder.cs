@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace OrgansDelivery.DAL.Services;
+namespace OrganStorage.DAL.Services;
 
 public static class ValueConverterBuilder
 {

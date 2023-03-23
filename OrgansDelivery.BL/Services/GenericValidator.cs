@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mallytics.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IGenericValidator
 {

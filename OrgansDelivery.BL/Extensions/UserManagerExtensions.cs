@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.BL.Extensions;
+namespace OrganStorage.BL.Extensions;
 
 public static class UserManagerExtensions
 {

@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.BL.Services;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.BL.Services;
+using OrganStorage.DAL.Entities;
 using System.Text;
 
-namespace OrgansDelivery.BL.Extensions;
+namespace OrganStorage.BL.Extensions;
 
 public static class IRuleBuilderExtensions
 {
@@ -30,5 +30,25 @@ public static class IRuleBuilderExtensions
        this IRuleBuilder<T, Guid> ruleBuilder, IRoleService roleService)
     {
         return ruleBuilder.Must(roleId => roleService.GetRoles().Any(r => r.Id == roleId));
+    }
+
+    public static IRuleBuilderOptions<T, decimal> Temperature<T>(this IRuleBuilder<T, decimal> ruleBuilder)
+    {
+        return ruleBuilder.InclusiveBetween(-100m, 100m);
+    }
+
+    public static IRuleBuilderOptions<T, decimal> Humidity<T>(this IRuleBuilder<T, decimal> ruleBuilder)
+    {
+        return ruleBuilder.InclusiveBetween(0m, 100m);
+    }
+
+    public static IRuleBuilderOptions<T, decimal> Light<T>(this IRuleBuilder<T, decimal> ruleBuilder)
+    {
+        return ruleBuilder.InclusiveBetween(0m, 20000m);
+    }
+
+    public static IRuleBuilderOptions<T, decimal> OrientationAxis<T>(this IRuleBuilder<T, decimal> ruleBuilder)
+    {
+        return ruleBuilder.InclusiveBetween(-90m, 90m);
     }
 }

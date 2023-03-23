@@ -1,7 +1,7 @@
-﻿using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Entities;
+﻿using OrganStorage.DAL.Data;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.DAL.Services;
+namespace OrganStorage.DAL.Services;
 
 public interface ITenantRepository
 {

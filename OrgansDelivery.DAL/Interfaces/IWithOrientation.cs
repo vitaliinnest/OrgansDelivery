@@ -1,8 +1,8 @@
-﻿using OrgansDelivery.DAL.Entities;
+﻿using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.DAL.Interfaces;
+namespace OrganStorage.DAL.Interfaces;
 
 public interface IWithOrientation
 {
-    OrientationLimits OrientationLimits { get; set; }
+    Orientation Orientation { get; set; }
 }

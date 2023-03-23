@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace OrgansDelivery.Web.Common.Extensions;
+namespace OrganStorage.Web.Common.Extensions;
 
 public static class ILoggerExtensions
 {

@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
-using Mallytics.BL.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OrgansDelivery.BL.MappingProfiles;
-using OrgansDelivery.BL.Models.Options;
-using OrgansDelivery.BL.Services;
-using OrgansDelivery.BL.Validators;
+using OrganStorage.BL.MappingProfiles;
+using OrganStorage.BL.Models.Options;
+using OrganStorage.BL.Services;
+using OrganStorage.BL.Validators;
 
-namespace OrgansDelivery.BL.Extensions;
+namespace OrganStorage.BL.Extensions;
 
 public static class DependencyContainerExtensions
 {
@@ -31,5 +30,6 @@ public static class DependencyContainerExtensions
         services.AddScoped<IContainerService, ContainerService>();
         services.AddScoped<IConditionPresetService, ConditionPresetService>();
         services.AddScoped<IOrganService, OrganService>();
+        services.AddScoped<IConditionsHistoryService, ConditionsHistoryService>();
     }
 }

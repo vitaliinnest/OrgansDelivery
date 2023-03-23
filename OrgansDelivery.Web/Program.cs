@@ -1,19 +1,19 @@
-using OrgansDelivery.DAL.Extensions;
-using OrgansDelivery.BL.Extensions;
-using OrgansDelivery.Web.Common.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using OrgansDelivery.BL.Models.Options;
-using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Services;
-using OrgansDelivery.Web.Common.Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
+using OrganStorage.DAL.Extensions;
+using OrganStorage.BL.Extensions;
+using OrganStorage.BL.Models.Options;
+using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Services;
+using OrganStorage.DAL.Data;
+using OrganStorage.Web.Common.Middlewares;
+using OrganStorage.Web.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿namespace OrgansDelivery.DAL.Interfaces;
+﻿namespace OrganStorage.DAL.Interfaces;
 
 public interface IEntity
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.DAL.Services;
+namespace OrganStorage.DAL.Services;
 
 public static class EnvironmentSetter
 {

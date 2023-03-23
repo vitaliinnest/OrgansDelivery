@@ -6,15 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
-using OrgansDelivery.BL.Models.Options;
-using OrgansDelivery.DAL.Data;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Services;
-using OrgansDelivery.Web.Common.Services;
+using OrganStorage.BL.Models.Options;
+using OrganStorage.DAL.Data;
+using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Services;
+using OrganStorage.Web.Common.Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace OrgansDelivery.Web.Common.Extensions;
+namespace OrganStorage.Web.Common.Extensions;
 
 public static class DependencyContainerExtensions
 {

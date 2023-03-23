@@ -1,8 +1,8 @@
 ﻿using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using OrgansDelivery.BL.Extensions;
+using OrganStorage.BL.Extensions;
 
-namespace OrgansDelivery.Web.Common.Extensions;
+namespace OrganStorage.Web.Common.Extensions;
 
 public static class ControllerBaseExtensions
 {

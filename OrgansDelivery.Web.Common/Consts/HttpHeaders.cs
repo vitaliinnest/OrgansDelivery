@@ -1,4 +1,4 @@
-﻿namespace OrgansDelivery.Web.Consts;
+﻿namespace OrganStorage.Web.Common.Consts;
 
 public static class HttpHeaders
 {

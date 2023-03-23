@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
-using OrgansDelivery.DAL.Entities;
-using OrgansDelivery.DAL.Services;
-using OrgansDelivery.Web.Common.Extensions;
+using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Services;
+using OrganStorage.Web.Common.Extensions;
 
-namespace OrgansDelivery.Web.Common.Services;
+namespace OrganStorage.Web.Common.Services;
 
 public interface ITenantRequestResolver
 {

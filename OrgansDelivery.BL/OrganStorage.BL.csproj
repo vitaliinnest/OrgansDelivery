@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OrgansDelivery.DAL\OrgansDelivery.DAL.csproj" />
+    <ProjectReference Include="..\OrgansDelivery.DAL\OrganStorage.DAL.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using OrganStorage.BL.Extensions;
-using OrganStorage.DAL.Interfaces;
+using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.BL.Validators;
 
-public class ConditionsValidator : AbstractValidator<IWithConditions>
+public class CreateConditionsRecordValidator : AbstractValidator<CreateConditionsRecordModel>
 {
-    public ConditionsValidator()
+    public CreateConditionsRecordValidator()
     {
         RuleFor(p => p.Temperature)
             .Temperature();
@@ -16,5 +16,8 @@ public class ConditionsValidator : AbstractValidator<IWithConditions>
 
         RuleFor(p => p.Light)
             .Light();
+
+        RuleFor(p => p.Orientation)
+            .SetValidator(new OrientationValidator());
     }
 }

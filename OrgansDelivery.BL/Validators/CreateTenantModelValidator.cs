@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using OrgansDelivery.BL.Models;
-using static OrgansDelivery.BL.Consts.ValidatorConsts;
+using OrganStorage.BL.Models;
+using static OrganStorage.BL.Consts.ValidatorConsts;
 
-namespace OrgansDelivery.BL.Validators;
+namespace OrganStorage.BL.Validators;
 
 public class CreateTenantModelValidator : AbstractValidator<CreateTenantModel>
 {

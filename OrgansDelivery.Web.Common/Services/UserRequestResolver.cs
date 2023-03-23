@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.DAL.Entities;
 using System.Security.Claims;
-using OrgansDelivery.BL.Extensions;
+using OrganStorage.BL.Extensions;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.Web.Common.Services;
+namespace OrganStorage.Web.Common.Services;
 
 public interface IUserRequestResolver
 {

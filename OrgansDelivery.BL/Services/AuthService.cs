@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using FluentResults;
-using Mallytics.BL.Services;
 using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.BL.Extensions;
-using OrgansDelivery.BL.Models.Auth;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.BL.Extensions;
+using OrganStorage.BL.Models.Auth;
+using OrganStorage.DAL.Entities;
 using System.Web;
 
-namespace OrgansDelivery.BL.Services;
+namespace OrganStorage.BL.Services;
 
 public interface IAuthService
 {
@@ -102,7 +101,7 @@ public class AuthService : IAuthService
         {
             return Result.Fail(result.ErrorsToString());
         }
-        
+
         await _rolesService.InitializeUserRoleIfInvitedAsync(user, registerRequest);
 
         await _inviteService.AcceptInviteAsync(user, registerRequest);

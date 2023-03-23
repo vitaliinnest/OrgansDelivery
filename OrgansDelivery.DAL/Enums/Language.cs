@@ -1,4 +1,4 @@
-﻿namespace OrgansDelivery.DAL.Enums;
+﻿namespace OrganStorage.DAL.Enums;
 
 public enum Language
 {

@@ -1,6 +1,6 @@
-﻿using OrgansDelivery.DAL.Enums;
+﻿using OrganStorage.DAL.Enums;
 
-namespace OrgansDelivery.BL.Models.Auth;
+namespace OrganStorage.BL.Models.Auth;
 
 public class RegisterResponse
 {

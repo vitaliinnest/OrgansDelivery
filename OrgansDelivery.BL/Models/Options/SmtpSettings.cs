@@ -1,4 +1,4 @@
-﻿namespace OrgansDelivery.BL.Models.Options;
+﻿namespace OrganStorage.BL.Models.Options;
 
 public class SmtpSettings
 {

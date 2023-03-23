@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using OrgansDelivery.BL.Extensions;
-using OrgansDelivery.DAL.Entities;
+using OrganStorage.BL.Extensions;
+using OrganStorage.DAL.Entities;
 
-namespace OrgansDelivery.BL.Validators;
+namespace OrganStorage.BL.Validators;
 
 public class CreateContainerModelValidator : AbstractValidator<CreateContainerModel>
 {
