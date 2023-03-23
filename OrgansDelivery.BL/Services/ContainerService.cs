@@ -12,6 +12,7 @@ public interface IContainerService
     Task<Result<Container>> CreateContainerAsync(CreateContainerModel model);
     Result DeleteContainer(Guid containerId);
     Result<Container> AddOrganToContainerAsync(Guid containerId, Guid organId);
+    Result<Container> RemoveOrganFromContainer(Guid containerId);
 }
 
 public class ContainerService : IContainerService
@@ -87,6 +88,25 @@ public class ContainerService : IContainerService
         }
 
         container.OrganId = organId;
+        _context.SaveChanges();
+
+        return container;
+    }
+
+    public Result<Container> RemoveOrganFromContainer(Guid containerId)
+    {
+        var container = _context.Containers.FirstOrDefault(c => c.Id == containerId);
+        if (container == null)
+        {
+            return Result.Fail("Container not found");
+        }
+
+        if (!container.OrganId.HasValue)
+        {
+            return Result.Fail("Container contains no organ");
+        }
+
+        container.OrganId = null;
         _context.SaveChanges();
 
         return container;

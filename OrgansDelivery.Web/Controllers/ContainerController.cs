@@ -53,4 +53,13 @@ public class ContainerController : ControllerBase
         var result = _containerService.AddOrganToContainerAsync(containerId, organId);
         return this.ToActionResult(result);
     }
+
+    // todo: replace organ
+
+    [HttpPost("{containerId}/removeorgan")]
+    public ActionResult<Container> RemoveOrganFromContainer(Guid containerId)
+    {
+        var result = _containerService.RemoveOrganFromContainer(containerId);
+        return this.ToActionResult(result);
+    }
 }
