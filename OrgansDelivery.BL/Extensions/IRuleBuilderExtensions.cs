@@ -86,7 +86,7 @@ public static class IRuleBuilderExtensions
                 });
 
             condition
-                .RuleFor(c => c.AllowedDiviation)
+                .RuleFor(c => c.AllowedDeviation)
                 .ChildRules(v =>
                 {
                     v.RuleFor(t => t.X)
@@ -115,7 +115,7 @@ public static class IRuleBuilderExtensions
                 .InclusiveBetween(min, max);
 
             condition
-                .RuleFor(c => c.AllowedDiviation)
+                .RuleFor(c => c.AllowedDeviation)
                 .InclusiveBetween(min, max);
         });
     }

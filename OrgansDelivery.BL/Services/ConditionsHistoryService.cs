@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
 
@@ -11,7 +12,7 @@ public interface IConditionsHistoryService
         Guid containerId, CreateConditionsRecordModel model);
     Task<Result<List<ContainerConditionsRecord>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model);
-    List<ConditionsViolation> GetConditionValilations();
+    List<ConditionsViolation> GetConditionViolations();
 }
 
 public class ConditionsHistoryService : IConditionsHistoryService
@@ -76,21 +77,78 @@ public class ConditionsHistoryService : IConditionsHistoryService
         return history;
     }
 
-    public List<ConditionsViolation> GetConditionValilations()
+    public List<ConditionsViolation> GetConditionViolations()
     {
-        var containerByIdMap = _context.Containers.ToDictionary(c => c.Id);
-        var history = _context.ConditionsHistory.ToList();
-        
-        var violations = new List<ConditionsViolation>();
+        var containerByIdMap = _context.Containers.AsNoTracking().ToDictionary(c => c.Id);
+        var history = _context.ConditionsHistory.AsNoTracking().ToList();
 
-        foreach (var record in history)
-        {
-            var container = containerByIdMap[record.ContainerId];
+        var violations = history
+            .Select(record =>
+            {
+                var conditions = containerByIdMap[record.ContainerId]?.Conditions
+                    ?? throw new ArgumentException("Container not found");
 
-            //if (record.Temperature )
-        }
+                return new ConditionsViolation()
+                {
+                    ContainerId = record.ContainerId,
+                    ConditionRecordId = record.Id,
+                    Temperature = new()
+                    {
+                        ExpectedValue = conditions.Temperature.ExpectedValue,
+                        AllowedDeviation = conditions.Temperature.AllowedDeviation,
+                        Actual = record.Temperature,
+                        IsViolated = IsViolatedDecimalCondition(record, conditions.Temperature)
+                    },
+                    Humidity = new()
+                    {
+                        ExpectedValue = conditions.Humidity.ExpectedValue,
+                        AllowedDeviation = conditions.Humidity.AllowedDeviation,
+                        Actual = record.Humidity,
+                        IsViolated = IsViolatedDecimalCondition(record, conditions.Humidity)
+                    },
+                    Light = new()
+                    {
+                        ExpectedValue = conditions.Light.ExpectedValue,
+                        AllowedDeviation = conditions.Light.AllowedDeviation,
+                        Actual = record.Light,
+                        IsViolated = IsViolatedDecimalCondition(record, conditions.Light)
+                    },
+                    Orientation = new()
+                    {
+                        ExpectedValue = conditions.Orientation.ExpectedValue,
+                        AllowedDeviation = conditions.Orientation.AllowedDeviation,
+                        Actual = record.Orientation,
+                        IsViolated = IsViolatedOrientationCondition(record, conditions.Orientation)
+                    }
+                };
+            })
+            .Where(r => r.IsViolated())
+            .ToList();
 
         return violations;
+    }
+
+    private static bool IsViolatedDecimalCondition(ContainerConditionsRecord record, Condition<decimal> condition)
+    {
+        return condition.ExpectedValue - condition.AllowedDeviation > record.Temperature
+            || record.Temperature > condition.ExpectedValue + condition.AllowedDeviation;
+    }
+
+    private static bool IsViolatedOrientationCondition(ContainerConditionsRecord record, Condition<Orientation> condition)
+    {
+        var isViolatedX = IsViolatedDecimalCondition(record, new()
+        {
+            ExpectedValue = condition.ExpectedValue.X,
+            AllowedDeviation = condition.AllowedDeviation.X
+        });
+
+        var isViolatedY = IsViolatedDecimalCondition(record, new()
+        {
+            ExpectedValue = condition.ExpectedValue.Y,
+            AllowedDeviation = condition.AllowedDeviation.Y
+        });
+
+        return isViolatedX || isViolatedY;
     }
 }
 

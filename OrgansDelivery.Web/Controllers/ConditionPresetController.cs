@@ -7,7 +7,6 @@ using OrganStorage.Web.Common.Extensions;
 
 namespace OrganStorage.Web.Controllers;
 
-
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]

@@ -19,7 +19,7 @@ public class ConditionsPreset : IEntity, IMustHaveTenant,
 public class Condition<T>
 {
     public T ExpectedValue { get; set; }
-    public T AllowedDiviation { get; set; }
+    public T AllowedDeviation { get; set; }
 }
 
 public class CreateConditionsPresetModel

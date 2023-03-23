@@ -30,7 +30,7 @@ public class ConditionsHistoryController : ControllerBase
     [HttpGet("violations")]
     public ActionResult<List<ConditionsViolation>> GetContainerConditionViolations()
     {
-        var violations = _conditionsHistoryService.GetConditionValilations();
+        var violations = _conditionsHistoryService.GetConditionViolations();
         return Ok(violations);
     }
 

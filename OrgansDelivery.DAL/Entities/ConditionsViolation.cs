@@ -9,11 +9,16 @@ public class ConditionsViolation
     public ComparedResult<decimal> Humidity { get; set; }
     public ComparedResult<decimal> Light { get; set; }
     public ComparedResult<Orientation> Orientation { get; set; }
+
+    public bool IsViolated() =>
+           Temperature.IsViolated
+        || Humidity.IsViolated
+        || Light.IsViolated
+        || Orientation.IsViolated;
 }
 
-public class ComparedResult<T>
+public class ComparedResult<T> : Condition<T>
 {
-    public T Expected { get; set; }
     public T Actual { get; set; }
     public bool IsViolated { get; set; }
 }
