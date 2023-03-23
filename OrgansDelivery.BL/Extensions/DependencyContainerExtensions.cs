@@ -32,6 +32,5 @@ public static class DependencyContainerExtensions
         services.AddScoped<IConditionPresetService, ConditionPresetService>();
         services.AddScoped<IOrganService, OrganService>();
         services.AddScoped<IConditionsHistoryService, ConditionsHistoryService>();
-        services.AddScoped<IPasswordHasher, PasswordHasher>();
     }
 }
