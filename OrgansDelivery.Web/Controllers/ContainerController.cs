@@ -48,9 +48,9 @@ public class ContainerController : ControllerBase
     }
 
     [HttpPost("{containerId}/addorgan/{organId}")]
-    public async Task<ActionResult<Container>> AddOrganToContainer(Guid containerId, Guid organId)
+    public ActionResult<Container> AddOrganToContainer(Guid containerId, Guid organId)
     {
-        var result = await _containerService.AddOrganToContainerAsync(containerId, organId);
+        var result = _containerService.AddOrganToContainerAsync(containerId, organId);
         return this.ToActionResult(result);
     }
 }

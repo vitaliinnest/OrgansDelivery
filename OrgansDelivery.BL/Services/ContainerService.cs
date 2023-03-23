@@ -9,9 +9,9 @@ namespace OrgansDelivery.BL.Services;
 
 public interface IContainerService
 {
-    Task<Result<Container>> AddOrganToContainerAsync(Guid containerId, Guid organId);
     Task<Result<Container>> CreateContainerAsync(CreateContainerModel model);
     Result DeleteContainer(Guid containerId);
+    Result<Container> AddOrganToContainerAsync(Guid containerId, Guid organId);
 }
 
 public class ContainerService : IContainerService
@@ -72,6 +72,26 @@ public class ContainerService : IContainerService
         return Result.Ok();
     }
 
+    public Result<Container> AddOrganToContainerAsync(Guid containerId, Guid organId)
+    {
+        var container = _context.Containers.FirstOrDefault(c => c.Id == containerId);
+        if (container == null)
+        {
+            return Result.Fail("Container not found");
+        }
+
+        var organExists = _context.Organs.Any(o => o.Id == organId);
+        if (!organExists)
+        {
+            return Result.Fail("Organ not found");
+        }
+
+        container.OrganId = organId;
+        _context.SaveChanges();
+
+        return container;
+    }
+
     private Result<Conditions> GetContainerCondition(CreateContainerModel model)
     {
         if (model.ConditionPresetId.HasValue)
@@ -79,7 +99,7 @@ public class ContainerService : IContainerService
             var condition = _context.ConditionPresets
                 .FirstOrDefault(p => p.Id == model.ConditionPresetId.Value);
 
-            return Result.OkIf(condition != null, "ConditionPreset not found");
+            return Result.OkIf(condition != null, "Condition Preset not found");
         }
 
         return Result.OkIf(model.Conditions != null, "Condition is not set");
