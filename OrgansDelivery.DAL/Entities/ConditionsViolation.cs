@@ -3,7 +3,6 @@
 public class ConditionsViolation
 {
     public Guid ContainerId { get; set; }
-    // todo: add endpoint to get record by id
     public Guid ConditionRecordId { get; set; }
     public ComparedResult<decimal> Temperature { get; set; }
     public ComparedResult<decimal> Humidity { get; set; }

@@ -10,6 +10,7 @@ public interface IConditionsHistoryService
 {
     Task<Result<ContainerConditionsRecord>> AddConditionsRecordAsync(
         Guid containerId, CreateConditionsRecordModel model);
+    Result<ContainerConditionsRecord> GetConditionsRecord(Guid recordId);
     Task<Result<List<ContainerConditionsRecord>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model);
     List<ConditionsViolation> GetConditionViolations();
@@ -53,6 +54,12 @@ public class ConditionsHistoryService : IConditionsHistoryService
         _context.SaveChanges();
 
         return record;
+    }
+
+    public Result<ContainerConditionsRecord> GetConditionsRecord(Guid recordId)
+    {
+        var record = _context.ConditionsHistory.FirstOrDefault(r => r.Id == recordId);
+        return Result.OkIf(record != null, "Record not found");
     }
 
     public async Task<Result<List<ContainerConditionsRecord>>> GetConditionsHistoryAsync(

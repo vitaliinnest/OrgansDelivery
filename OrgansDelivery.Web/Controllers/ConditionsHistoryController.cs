@@ -19,6 +19,13 @@ public class ConditionsHistoryController : ControllerBase
         _conditionsHistoryService = containerConditionsHistoryService;
     }
 
+    [HttpGet("{recordId}")]
+    public ActionResult<ContainerConditionsRecord> GetConditionsRecord(Guid recordId)
+    {
+        var result = _conditionsHistoryService.GetConditionsRecord(recordId);
+        return this.ToActionResult(result);
+    }
+
     [HttpGet("{containerId}")]
     public async Task<ActionResult<List<ContainerConditionsRecord>>> GetConditionsHistory(
         Guid containerId, [FromBody] GetConditionsHistoryModel model)
