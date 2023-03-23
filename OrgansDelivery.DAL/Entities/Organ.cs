@@ -9,7 +9,6 @@ public class Organ : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime OrganCreationDate { get; set; }
-    // todo: configure relation
     public Guid? ContainerId { get; set; }
     public Container Container { get; set; }
 }

@@ -7,12 +7,12 @@ public class ContainerConditionsRecord : IEntity, IMustHaveTenant, IWithOrientat
     public Guid Id { get; set; }
     public Guid TenantId { get; set; }
     public DateTime DateTime { get; set; }
-    // todo: configure relation
-    public Guid ContainerId { get; set; }
     public decimal Temperature { get; set; }
     public decimal Humidity { get; set; }
     public decimal Light { get; set; }
     public Orientation Orientation { get; set; }
+    public Guid ContainerId { get; set; }
+    public Container Container { get; set; }
 }
 
 public class CreateConditionsRecordModel

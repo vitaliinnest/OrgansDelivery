@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.BL.Validators;

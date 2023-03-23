@@ -11,12 +11,10 @@ namespace OrganStorage.Web.Controllers;
 [Authorize]
 public class UserController : ControllerBase
 {
-    private readonly IUserService _userService;
     private readonly IEnvironmentProvider _environmentProvider;
 
-    public UserController(IUserService userService, IEnvironmentProvider environmentProvider)
+    public UserController(IEnvironmentProvider environmentProvider)
     {
-        _userService = userService;
         _environmentProvider = environmentProvider;
     }
 
@@ -24,13 +22,5 @@ public class UserController : ControllerBase
     public ActionResult<User> GetUser()
     {
         return Ok(_environmentProvider.User);
-    }
-
-    // todo: change body model
-    [HttpPut]
-    public async Task<ActionResult<User>> UpdateUser([FromBody] User update)
-    {
-        var user = await _userService.UpdateCurrentUserAsync(update);
-        return Ok(user);
     }
 }

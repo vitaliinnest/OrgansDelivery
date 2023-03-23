@@ -31,7 +31,6 @@ public class UserService : IUserService
         throw new NotImplementedException();
     }
 
-    // todo: move to EmployeeController
     public Result<List<User>> GetUsersByTenantId(Guid tenantId)
     {
         var exists = _appDbContext.Tenants.Any(t => t.Id == tenantId);

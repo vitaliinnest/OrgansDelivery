@@ -8,9 +8,9 @@ public class Container : IEntity, IMustHaveTenant
     public Guid TenantId { get; set; }
     public ExpectedConditions Conditions { get; set; }
     public int ConditionsIntervalCheckInSecs { get; set; }
-    // todo: configure one to one relation
     public Guid? OrganId { get; set; }
     public Organ Organ { get; set; }
+    public ICollection<ContainerConditionsRecord> ConditionsHistory { get; set; }
 }
 
 public class CreateContainerModel

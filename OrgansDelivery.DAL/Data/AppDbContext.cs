@@ -51,6 +51,10 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .WithOne(o => o.Container)
             .HasForeignKey<Organ>(o => o.ContainerId);
 
+        builder.Entity<Container>()
+            .HasMany(c => c.ConditionsHistory)
+            .WithOne(r => r.Container);
+
         AddTenantQueryFilter(builder);
 
         ConvertDateTimeUtcFormat(builder);
