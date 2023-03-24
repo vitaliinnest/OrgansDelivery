@@ -20,7 +20,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet("all")]
-    public ActionResult<List<User>> GetAllEmployees()
+    public ActionResult<List<UserDto>> GetAllEmployees()
     {
         var employees = _employeeService.GetEmployees();
         return Ok(employees);
