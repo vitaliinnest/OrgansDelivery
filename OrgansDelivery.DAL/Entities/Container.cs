@@ -6,17 +6,17 @@ public class Container : IEntity, IMustHaveTenant
 {
     public Guid Id { get; set; }
     public Guid TenantId { get; set; }
-    // todo: get rid of conditions and use ConditionsPreset (one preset to many containers)
-    public ExpectedConditions Conditions { get; set; }
+    // todo: get rid of conditions and use Conditions (one preset to many containers)
     public int ConditionsIntervalCheckInSecs { get; set; }
     public Guid? OrganId { get; set; }
     public Organ Organ { get; set; }
-    public ICollection<ContainerConditionsRecord> ConditionsHistory { get; set; }
+    public ICollection<ConditionsRecord> ConditionsHistory { get; set; }
+    public Guid ConditionsId { get; set; }
+    public Conditions Conditions { get; set; }
 }
 
 public class CreateContainerModel
 {
-    public Guid? ConditionPresetId { get; set; }
-    public ExpectedConditions Conditions { get; set; }
+    public Guid ConditionsId { get; set; }
     public int ConditionsIntervalCheckInSecs { get; set; }
 }

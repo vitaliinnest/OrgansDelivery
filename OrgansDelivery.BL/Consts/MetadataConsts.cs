@@ -49,4 +49,10 @@ public static class ConditionConsts
         public const decimal MIN = -90m;
         public const decimal MAX = 90m;
     }
+
+    public static class ConditionsIntervalCheckInSecs
+    {
+        public const int MIN = 30;
+        public const int MAX = 3600; // 60 min
+    }
 }

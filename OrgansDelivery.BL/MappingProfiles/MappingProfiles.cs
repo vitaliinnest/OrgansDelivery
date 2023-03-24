@@ -29,7 +29,7 @@ public class AuthMappingProfile : Profile
         CreateMap<IdentityRole<Guid>, RoleDto>();
 
         // ConditionPresets
-        CreateMap<CreateConditionsPresetModel, ConditionsPreset>();
+        CreateMap<CreateConditionsPresetModel, Conditions>();
         // todo: CreateMap<UpdateConditionPresetModel, ConditionPreset>();
 
         // Containers
@@ -40,6 +40,6 @@ public class AuthMappingProfile : Profile
         CreateMap<CreateOrganModel, Organ>();
 
         // ContainerConditionsHistory
-        CreateMap<CreateConditionsRecordModel, ContainerConditionsRecord>();
+        CreateMap<CreateConditionsRecordModel, ConditionsRecord>();
     }
 }

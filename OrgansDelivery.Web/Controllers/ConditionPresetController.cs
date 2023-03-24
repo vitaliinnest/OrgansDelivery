@@ -22,14 +22,14 @@ public class ConditionPresetController : ControllerBase
     }
 
     [HttpGet("all")]
-    public ActionResult<List<ConditionsPreset>> GetAllConditionPresets()
+    public ActionResult<List<Conditions>> GetAllConditionPresets()
     {
-        var presets = _context.ConditionPresets.ToList();
+        var presets = _context.Conditions.ToList();
         return Ok(presets);
     }
 
     [HttpPost]
-    public async Task<ActionResult<ConditionsPreset>> CreateConditionPreset([FromBody] CreateConditionsPresetModel model)
+    public async Task<ActionResult<Conditions>> CreateConditionPreset([FromBody] CreateConditionsPresetModel model)
     {
         var result = await _conditionPresetService.CreateConditionPresetAsync(model);
         return this.ToActionResult(result);

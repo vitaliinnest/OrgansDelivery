@@ -8,10 +8,10 @@ namespace OrganStorage.BL.Services;
 
 public interface IConditionsHistoryService
 {
-    Task<Result<ContainerConditionsRecord>> AddConditionsRecordAsync(
+    Task<Result<ConditionsRecord>> AddConditionsRecordAsync(
         Guid containerId, CreateConditionsRecordModel model);
-    Result<ContainerConditionsRecord> GetConditionsRecord(Guid recordId);
-    Task<Result<List<ContainerConditionsRecord>>> GetConditionsHistoryAsync(
+    Result<ConditionsRecord> GetConditionsRecord(Guid recordId);
+    Task<Result<List<ConditionsRecord>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model);
     List<ConditionsViolation> GetConditionViolations();
 }
@@ -32,7 +32,7 @@ public class ConditionsHistoryService : IConditionsHistoryService
         _context = context;
     }
 
-    public async Task<Result<ContainerConditionsRecord>> AddConditionsRecordAsync(
+    public async Task<Result<ConditionsRecord>> AddConditionsRecordAsync(
         Guid containerId, CreateConditionsRecordModel model)
     {
         var containerExists = _context.Containers.Any(c => c.Id == containerId);
@@ -47,7 +47,7 @@ public class ConditionsHistoryService : IConditionsHistoryService
             return Result.Fail(validationResult.ToString());
         }
 
-        var record = _mapper.Map<ContainerConditionsRecord>(model);
+        var record = _mapper.Map<ConditionsRecord>(model);
         record.ContainerId = containerId;
 
         _context.Add(record);
@@ -56,13 +56,13 @@ public class ConditionsHistoryService : IConditionsHistoryService
         return record;
     }
 
-    public Result<ContainerConditionsRecord> GetConditionsRecord(Guid recordId)
+    public Result<ConditionsRecord> GetConditionsRecord(Guid recordId)
     {
         var record = _context.ConditionsHistory.FirstOrDefault(r => r.Id == recordId);
         return Result.OkIf(record != null, "Record not found");
     }
 
-    public async Task<Result<List<ContainerConditionsRecord>>> GetConditionsHistoryAsync(
+    public async Task<Result<List<ConditionsRecord>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
@@ -135,13 +135,13 @@ public class ConditionsHistoryService : IConditionsHistoryService
         return violations;
     }
 
-    private static bool IsViolatedDecimalCondition(ContainerConditionsRecord record, Condition<decimal> condition)
+    private static bool IsViolatedDecimalCondition(ConditionsRecord record, Condition<decimal> condition)
     {
         return condition.ExpectedValue - condition.AllowedDeviation > record.Temperature
             || record.Temperature > condition.ExpectedValue + condition.AllowedDeviation;
     }
 
-    private static bool IsViolatedOrientationCondition(ContainerConditionsRecord record, Condition<Orientation> condition)
+    private static bool IsViolatedOrientationCondition(ConditionsRecord record, Condition<Orientation> condition)
     {
         var isViolatedX = IsViolatedDecimalCondition(record, new()
         {

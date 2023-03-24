@@ -2,7 +2,7 @@
 
 namespace OrganStorage.DAL.Entities;
 
-public class ContainerConditionsRecord : IEntity, IMustHaveTenant, IWithOrientation
+public class ConditionsRecord : IEntity, IMustHaveTenant, IWithOrientation
 {
     public Guid Id { get; set; }
     public Guid TenantId { get; set; }

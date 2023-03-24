@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using OrganStorage.BL.Consts;
 using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.BL.Validators;
@@ -8,10 +9,9 @@ public class CreateContainerModelValidator : AbstractValidator<CreateContainerMo
 {
     public CreateContainerModelValidator(UserManager<User> userManager)
     {
-        RuleFor(c => c.Conditions)
-            .SetValidator(new ExpectedConditionsValidator())
-            .When(c => c.Conditions != null);
-
-        // todo: other fields
+        RuleFor(c => c.ConditionsIntervalCheckInSecs)
+            .InclusiveBetween(
+                ConditionConsts.ConditionsIntervalCheckInSecs.MIN,
+                ConditionConsts.ConditionsIntervalCheckInSecs.MAX);
     }
 }

@@ -22,10 +22,10 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<Invite> Invites { get; set; }
-    public DbSet<ConditionsPreset> ConditionPresets { get; set; }
+    public DbSet<Conditions> Conditions { get; set; }
     public DbSet<Container> Containers { get; set; }
     public DbSet<Organ> Organs { get; set; }
-    public DbSet<ContainerConditionsRecord> ConditionsHistory { get; set; }
+    public DbSet<ConditionsRecord> ConditionsHistory { get; set; }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
@@ -57,34 +57,35 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .HasMany(c => c.ConditionsHistory)
             .WithOne(r => r.Container);
 
-        builder.Entity<Container>()
-            .OwnsOne(c => c.Conditions);
+        builder.Entity<Conditions>()
+            .HasMany(p => p.Containers)
+            .WithOne(c => c.Conditions);
 
-        builder.Entity<ConditionsPreset>()
+        builder.Entity<Conditions>()
             .OwnsOne(p => p.Humidity);
 
-        //builder.Entity<ConditionsPreset>()
+        //builder.Entity<Conditions>()
         //    .Property(p => p.Humidity)
         //    .IsRequired();
 
-        builder.Entity<ConditionsPreset>()
+        builder.Entity<Conditions>()
             .OwnsOne(p => p.Light);
 
-        //builder.Entity<ConditionsPreset>()
+        //builder.Entity<Conditions>()
         //    .Property(p => p.Light)
         //    .IsRequired();
 
-        builder.Entity<ConditionsPreset>()
+        builder.Entity<Conditions>()
             .OwnsOne(p => p.Temperature);
 
-        //builder.Entity<ConditionsPreset>()
+        //builder.Entity<Conditions>()
         //    .Property(p => p.Temperature)
         //    .IsRequired();
 
-        builder.Entity<ConditionsPreset>()
+        builder.Entity<Conditions>()
             .OwnsOne(p => p.Orientation);
 
-        //builder.Entity<ConditionsPreset>()
+        //builder.Entity<Conditions>()
         //    .Property(p => p.Orientation)
         //    .IsRequired();
 

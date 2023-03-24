@@ -40,14 +40,15 @@ public class ContainerService : IContainerService
             return Result.Fail(validationResult.ToString());
         }
 
-        var conditionsResult = BuildContainerConditions(model);
-        if (conditionsResult.IsFailed)
+        var conditionsExist = _context.Conditions
+            .Any(p => p.Id == model.ConditionsId);
+
+        if (!conditionsExist)
         {
-            return Result.Fail(conditionsResult.ErrorMessagesToString());
+            return Result.Fail("Condition not found");
         }
 
         var container = _mapper.Map<Container>(model);
-        container.Conditions = conditionsResult.Value;
         _context.Add(container);
         _context.SaveChanges();
 
@@ -112,16 +113,16 @@ public class ContainerService : IContainerService
         return container;
     }
 
-    private Result<ExpectedConditions> BuildContainerConditions(CreateContainerModel model)
-    {
-        if (model.ConditionPresetId.HasValue)
-        {
-            var condition = _context.ConditionPresets
-                .FirstOrDefault(p => p.Id == model.ConditionPresetId.Value);
+    //private Result<ExpectedConditions> BuildContainerConditions(CreateContainerModel model)
+    //{
+    //    if (model.ConditionPresetId.HasValue)
+    //    {
+    //        var condition = _context.Conditions
+    //            .FirstOrDefault(p => p.Id == model.ConditionPresetId.Value);
 
-            return Result.OkIf(condition != null, "Condition Preset not found");
-        }
+    //        return Result.OkIf(condition != null, "Condition Preset not found");
+    //    }
 
-        return Result.OkIf(model.Conditions != null, "Condition is not set");
-    }
+    //    return Result.OkIf(model.Conditions != null, "Condition is not set");
+    //}
 }

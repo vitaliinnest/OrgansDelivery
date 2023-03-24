@@ -7,7 +7,7 @@ namespace OrganStorage.BL.Services;
 
 public interface IConditionPresetService
 {
-    Task<Result<ConditionsPreset>> CreateConditionPresetAsync(CreateConditionsPresetModel model);
+    Task<Result<Conditions>> CreateConditionPresetAsync(CreateConditionsPresetModel model);
     Result DeleteConditionPreset(Guid conditionPresetId);
 }
 
@@ -27,7 +27,7 @@ public class ConditionPresetService : IConditionPresetService
         _context = context;
     }
 
-    public async Task<Result<ConditionsPreset>> CreateConditionPresetAsync(CreateConditionsPresetModel model)
+    public async Task<Result<Conditions>> CreateConditionPresetAsync(CreateConditionsPresetModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -35,8 +35,8 @@ public class ConditionPresetService : IConditionPresetService
             return Result.Fail(validationResult.ToString());
         }
 
-        var preset = _mapper.Map<ConditionsPreset>(model);
-        if (_context.ConditionPresets.Any(p => p.Name.ToLower() == preset.Name.ToLower()))
+        var preset = _mapper.Map<Conditions>(model);
+        if (_context.Conditions.Any(p => p.Name.ToLower() == preset.Name.ToLower()))
         {
             return Result.Fail("Condition preset with given name already exists");
         }
@@ -51,7 +51,7 @@ public class ConditionPresetService : IConditionPresetService
 
     public Result DeleteConditionPreset(Guid conditionPresetId)
     {
-        var conditionPreset = _context.ConditionPresets.FirstOrDefault(c => c.Id == conditionPresetId);
+        var conditionPreset = _context.Conditions.FirstOrDefault(c => c.Id == conditionPresetId);
         if (conditionPreset == null)
         {
             return Result.Fail("Condition preset not found");
