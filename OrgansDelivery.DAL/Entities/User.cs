@@ -11,3 +11,13 @@ public class User : IdentityUser<Guid>, IMustHaveTenant
     public string Surname { get; set; }
     public Language Language { get; set; }
 }
+
+public class UserDto
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public Language Language { get; set; }
+    public Tenant Tenant { get; set; }
+    public RoleDto Role { get; set; }
+}

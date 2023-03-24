@@ -1,4 +1,4 @@
-﻿namespace OrganStorage.BL.Models;
+﻿namespace OrganStorage.DAL.Entities;
 
 public class RoleDto
 {

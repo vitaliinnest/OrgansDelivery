@@ -1,4 +1,5 @@
-﻿using OrganStorage.DAL.Enums;
+﻿using Microsoft.AspNetCore.Identity;
+using OrganStorage.DAL.Enums;
 using OrganStorage.DAL.Interfaces;
 
 namespace OrganStorage.DAL.Entities;

@@ -14,29 +14,30 @@ public class AuthMappingProfile : Profile
         CreateMap<RegisterRequest, User>()
             .ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.Email));
 
+        // User
         CreateMap<User, LoginResponse>();
         CreateMap<User, RegisterResponse>();
-        // todo: CreateMap<UpdateUserModel, User>();
+        CreateMap<User, UserDto>();
 
-        // Tenants
+        // Tenant
         CreateMap<CreateTenantModel, Tenant>();
         // todo: CreateMap<UpdateTenantModel, Tenant>();
 
-        // Invites
+        // Invite
         CreateMap<InviteUserModel, Invite>();
 
-        // Roles
+        // Role
         CreateMap<IdentityRole<Guid>, RoleDto>();
 
-        // ConditionPresets
+        // ConditionPreset
         CreateMap<CreateConditionsPresetModel, Conditions>();
         // todo: CreateMap<UpdateConditionPresetModel, ConditionPreset>();
 
-        // Containers
+        // Container
         CreateMap<CreateContainerModel, Container>();
         // todo: CreateMap<UpdateContainerModel, Container>();
 
-        // Organs
+        // Organ
         CreateMap<CreateOrganModel, Organ>();
 
         // ContainerConditionsHistory

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrganStorage.BL.Services;
 using OrganStorage.DAL.Entities;
 using OrganStorage.DAL.Services;
+using OrganStorage.Web.Common.Extensions;
 
 namespace OrganStorage.Web.Controllers;
 
@@ -10,16 +12,17 @@ namespace OrganStorage.Web.Controllers;
 [Authorize]
 public class UserController : ControllerBase
 {
-    private readonly IEnvironmentProvider _environmentProvider;
+    private readonly IUserService _userService;
 
-    public UserController(IEnvironmentProvider environmentProvider)
+    public UserController(IUserService userService)
     {
-        _environmentProvider = environmentProvider;
+        _userService = userService;
     }
 
     [HttpGet]
-    public ActionResult<User> GetUser()
+    public async Task<ActionResult<UserDto>> GetUser()
     {
-        return Ok(_environmentProvider.User);
+        var result = await _userService.GetCurrentUserAsync();
+        return this.ToActionResult(result);
     }
 }
