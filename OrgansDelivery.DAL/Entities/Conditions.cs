@@ -18,6 +18,7 @@ public class Conditions : IEntity, IMustHaveTenant,
     public ICollection<Container> Containers { get; set; }
 }
 
+[Owned]
 public class Condition<T>
 {
     public T ExpectedValue { get; set; }

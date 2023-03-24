@@ -2,6 +2,7 @@
 
 namespace OrganStorage.DAL.Entities;
 
+[Owned]
 public class Orientation
 {
     // x & y rotation limits in degrees

@@ -61,33 +61,26 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .HasMany(p => p.Containers)
             .WithOne(c => c.Conditions);
 
-        builder.Entity<Conditions>()
-            .OwnsOne(p => p.Humidity);
+        builder.Entity<Conditions>(conds =>
+        {
+            conds.OwnsOne(p => p.Humidity);
+            conds.Navigation(c => c.Humidity).IsRequired();
 
-        //builder.Entity<Conditions>()
-        //    .Property(p => p.Humidity)
-        //    .IsRequired();
+            conds.OwnsOne(p => p.Light);
+            conds.Navigation(c => c.Light).IsRequired();
 
-        builder.Entity<Conditions>()
-            .OwnsOne(p => p.Light);
+            conds.OwnsOne(p => p.Temperature);
+            conds.Navigation(c => c.Temperature).IsRequired();
 
-        //builder.Entity<Conditions>()
-        //    .Property(p => p.Light)
-        //    .IsRequired();
+            conds.OwnsOne(p => p.Orientation);
+            conds.Navigation(c => c.Orientation).IsRequired();
+        });
 
-        builder.Entity<Conditions>()
-            .OwnsOne(p => p.Temperature);
-
-        //builder.Entity<Conditions>()
-        //    .Property(p => p.Temperature)
-        //    .IsRequired();
-
-        builder.Entity<Conditions>()
-            .OwnsOne(p => p.Orientation);
-
-        //builder.Entity<Conditions>()
-        //    .Property(p => p.Orientation)
-        //    .IsRequired();
+        builder.Entity<ConditionsRecord>(record =>
+        {
+            record.OwnsOne(r => r.Orientation);
+            record.Navigation(e => e.Orientation).IsRequired();
+        });
 
         AddTenantQueryFilter(builder);
 
