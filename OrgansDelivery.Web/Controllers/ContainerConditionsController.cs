@@ -45,10 +45,18 @@ public class ContainerConditionsController : ControllerBase
         return this.ToActionResult(result);
     }
 
-    [HttpDelete("{conditionId}")]
-    public ActionResult DeleteContainerConditions(Guid conditionId)
+    [HttpPut("{conditionsId}")]
+    public async Task<ActionResult<Conditions>> UpdateContainerConditions(
+        Guid conditionsId, [FromBody] UpdateConditionsModel model)
     {
-        var result = _conditionsService.DeleteContainerConditions(conditionId);
+        var result = await _conditionsService.UpdateContainerConditionsAsync(conditionsId, model);
+        return this.ToActionResult(result);
+    }
+
+    [HttpDelete("{conditionsId}")]
+    public ActionResult DeleteContainerConditions(Guid conditionsId)
+    {
+        var result = _conditionsService.DeleteContainerConditions(conditionsId);
         return this.ToActionResult(result);
     }
 }

@@ -30,7 +30,6 @@ public class OrganController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<ActionResult<Organ>> CreateOrgan([FromBody] CreateOrganModel model)
     {
         var result = await _organService.CreateOrganAsync(model);
@@ -38,7 +37,6 @@ public class OrganController : ControllerBase
     }
 
     [HttpPut("{organId}")]
-    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<ActionResult<Organ>> UpdateOrgan(
         Guid organId, [FromBody] UpdateOrganModel model)
     {
@@ -47,7 +45,6 @@ public class OrganController : ControllerBase
     }
 
     [HttpDelete("{organId}")]
-    [Authorize(Roles = UserRoles.MANAGER)]
     public ActionResult DeleteOrgan(Guid organId)
     {
         var result = _organService.DeleteOrgan(organId);

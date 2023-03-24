@@ -9,6 +9,8 @@ public interface IConditionsService
 {
     Task<Result<Conditions>> CreateContainerConditionsAsync(
         CreateContainerConditionsModel model);
+    Task<Result<Conditions>> UpdateContainerConditionsAsync(
+        Guid conditionsId, UpdateConditionsModel model);
     Result<Conditions> GetConditions(Guid conditionsId);
     Result DeleteContainerConditions(Guid conditionId);
 }
@@ -48,6 +50,29 @@ public class ConditionsService : IConditionsService
         _context.SaveChanges();
 
         return conditions;
+    }
+
+    public async Task<Result<Conditions>> UpdateContainerConditionsAsync(
+        Guid conditionsId, UpdateConditionsModel model)
+    {
+        var validationResult = await _genericValidator.ValidateAsync(model);
+        if (!validationResult.IsValid)
+        {
+            return Result.Fail(validationResult.ToString());
+        }
+
+        var conditions = _context.Conditions.FirstOrDefault(c => c.Id == conditionsId);
+        if (conditions == null)
+        {
+            return Result.Fail("Conditions not found");
+        }
+
+        var updated = _mapper.Map(model, conditions);
+
+        _context.Update(updated);
+        _context.SaveChanges();
+
+        return updated;
     }
 
     public Result<Conditions> GetConditions(Guid conditionsId)

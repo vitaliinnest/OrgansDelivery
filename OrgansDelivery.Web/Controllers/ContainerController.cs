@@ -32,7 +32,6 @@ public class ContainerController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<ActionResult<Container>> CreateContainer([FromBody] CreateContainerModel model)
     {
         var result = await _containerService.CreateContainerAsync(model);
@@ -40,7 +39,6 @@ public class ContainerController : ControllerBase
     }
 
     [HttpDelete("{containerId}")]
-    [Authorize(Roles = UserRoles.MANAGER)]
     public ActionResult DeleteContainer(Guid containerId)
     {
         var result = _containerService.DeleteContainer(containerId);

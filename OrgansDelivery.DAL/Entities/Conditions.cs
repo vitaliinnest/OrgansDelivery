@@ -33,3 +33,13 @@ public class CreateContainerConditionsModel
     public Condition<decimal> Temperature { get; set; }
     public Condition<Orientation> Orientation { get; set; }
 }
+
+public class UpdateConditionsModel
+{
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public Condition<decimal> Humidity { get; set; }
+    public Condition<decimal> Light { get; set; }
+    public Condition<decimal> Temperature { get; set; }
+    public Condition<Orientation> Orientation { get; set; }
+}

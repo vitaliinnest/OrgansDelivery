@@ -30,7 +30,9 @@ public class AuthMappingProfile : Profile
 
         // ConditionPreset
         CreateMap<CreateContainerConditionsModel, Conditions>();
-        
+        CreateMap<UpdateConditionsModel, Conditions>()
+            .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
+
         // Container
         CreateMap<CreateContainerModel, Container>();
         
