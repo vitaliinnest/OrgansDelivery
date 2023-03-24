@@ -6,7 +6,6 @@ public class Container : IEntity, IMustHaveTenant
 {
     public Guid Id { get; set; }
     public Guid TenantId { get; set; }
-    // todo: get rid of conditions and use Conditions (one preset to many containers)
     public int ConditionsIntervalCheckInSecs { get; set; }
     public Guid? OrganId { get; set; }
     public Organ Organ { get; set; }

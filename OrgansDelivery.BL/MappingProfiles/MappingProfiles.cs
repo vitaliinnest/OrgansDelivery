@@ -21,8 +21,7 @@ public class AuthMappingProfile : Profile
 
         // Tenant
         CreateMap<CreateTenantModel, Tenant>();
-        // todo: CreateMap<UpdateTenantModel, Tenant>();
-
+        
         // Invite
         CreateMap<InviteUserModel, Invite>();
 
@@ -31,12 +30,10 @@ public class AuthMappingProfile : Profile
 
         // ConditionPreset
         CreateMap<CreateConditionsPresetModel, Conditions>();
-        // todo: CreateMap<UpdateConditionPresetModel, ConditionPreset>();
-
+        
         // Container
         CreateMap<CreateContainerModel, Container>();
-        // todo: CreateMap<UpdateContainerModel, Container>();
-
+        
         // Organ
         CreateMap<CreateOrganModel, Organ>();
 

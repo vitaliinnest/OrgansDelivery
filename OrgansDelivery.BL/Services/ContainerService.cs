@@ -33,7 +33,6 @@ public class ContainerService : IContainerService
 
     public async Task<Result<Container>> CreateContainerAsync(CreateContainerModel model)
     {
-        // todo: add validator
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
         {
