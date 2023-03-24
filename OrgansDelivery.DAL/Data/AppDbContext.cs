@@ -126,16 +126,19 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         var mustHaveTenantTypes = builder.Model.GetEntityTypes()
             .Where(entityType => typeof(IMustHaveTenant)
             .IsAssignableFrom(entityType.ClrType));
-
-        Console.WriteLine(new string('-', 10));
-        Console.WriteLine($"TenantId: {TenantId}");
+        
+        PrintTenantId();
 
         foreach (var entityType in mustHaveTenantTypes)
         {
-            Console.WriteLine($"EntityType: {entityType.Name}");
             entityType.AddTenantQueryFilter(TenantId);
         }
+    }
 
-        Console.WriteLine(new string('-', 10));
+    private void PrintTenantId()
+    {
+        Console.WriteLine(new string('-', 50));
+        Console.WriteLine($"TenantId: {TenantId}");
+        Console.WriteLine(new string('-', 50));
     }
 }
