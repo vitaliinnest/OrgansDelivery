@@ -5,20 +5,21 @@ using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.BL.Services;
 
-public interface IConditionPresetService
+public interface IConditionsService
 {
     Task<Result<Conditions>> CreateContainerConditionsAsync(
         CreateContainerConditionsModel model);
+    Result<Conditions> GetConditions(Guid conditionsId);
     Result DeleteContainerConditions(Guid conditionId);
 }
 
-public class ConditionPresetService : IConditionPresetService
+public class ConditionsService : IConditionsService
 {
     private readonly IMapper _mapper;
     private readonly IGenericValidator _genericValidator;
     private readonly AppDbContext _context;
 
-    public ConditionPresetService(
+    public ConditionsService(
         IMapper mapper,
         IGenericValidator genericValidator,
         AppDbContext context)
@@ -28,7 +29,8 @@ public class ConditionPresetService : IConditionPresetService
         _context = context;
     }
 
-    public async Task<Result<Conditions>> CreateContainerConditionsAsync(CreateContainerConditionsModel model)
+    public async Task<Result<Conditions>> CreateContainerConditionsAsync(
+        CreateContainerConditionsModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -44,6 +46,17 @@ public class ConditionPresetService : IConditionPresetService
 
         _context.Add(conditions);
         _context.SaveChanges();
+
+        return conditions;
+    }
+
+    public Result<Conditions> GetConditions(Guid conditionsId)
+    {
+        var conditions = _context.Conditions.FirstOrDefault(c => c.Id == conditionsId);
+        if (conditions == null)
+        {
+            return Result.Fail("Condition not found");
+        }
 
         return conditions;
     }

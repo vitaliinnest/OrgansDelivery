@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using OrganStorage.BL.Services;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
-using OrganStorage.DAL.Services;
 using OrganStorage.Web.Common.Extensions;
 
 namespace OrganStorage.Web.Controllers;
@@ -14,39 +13,42 @@ namespace OrganStorage.Web.Controllers;
 public class ContainerConditionsController : ControllerBase
 {
     private readonly AppDbContext _context;
-    private readonly IConditionPresetService _conditionPresetService;
-    private readonly IEnvironmentProvider _environmentProvider;
+    private readonly IConditionsService _conditionsService;
 
     public ContainerConditionsController(
         AppDbContext context,
-        IConditionPresetService conditionPresetService,
-        IEnvironmentProvider environmentProvider)
+        IConditionsService conditionPresetService)
     {
         _context = context;
-        _conditionPresetService = conditionPresetService;
-        _environmentProvider = environmentProvider;
+        _conditionsService = conditionPresetService;
     }
 
     [HttpGet("all")]
     public ActionResult<List<Conditions>> GetAllConditions()
     {
-        var t = _environmentProvider.Tenant;
         var conditionsList = _context.Conditions.ToList();
         return Ok(conditionsList);
+    }
+
+    [HttpGet("{conditionId}")]
+    public ActionResult<Conditions> GetCondition(Guid conditionId)
+    {
+        var result = _conditionsService.GetConditions(conditionId);
+        return this.ToActionResult(result);
     }
 
     [HttpPost]
     public async Task<ActionResult<Conditions>> CreateContainerConditions(
         [FromBody] CreateContainerConditionsModel model)
     {
-        var result = await _conditionPresetService.CreateContainerConditionsAsync(model);
+        var result = await _conditionsService.CreateContainerConditionsAsync(model);
         return this.ToActionResult(result);
     }
 
     [HttpDelete("{conditionId}")]
     public ActionResult DeleteContainerConditions(Guid conditionId)
     {
-        var result = _conditionPresetService.DeleteContainerConditions(conditionId);
+        var result = _conditionsService.DeleteContainerConditions(conditionId);
         return this.ToActionResult(result);
     }
 }

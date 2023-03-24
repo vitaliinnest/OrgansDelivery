@@ -28,7 +28,7 @@ public static class DependencyContainerExtensions
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IEmailMessageBuilder, EmailMessageBuilder>();
         services.AddScoped<IContainerService, ContainerService>();
-        services.AddScoped<IConditionPresetService, ConditionPresetService>();
+        services.AddScoped<IConditionsService, ConditionsService>();
         services.AddScoped<IOrganService, OrganService>();
         services.AddScoped<IConditionsHistoryService, ConditionsHistoryService>();
     }
