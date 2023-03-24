@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Entities;
 
@@ -7,7 +6,7 @@ namespace OrganStorage.Web.Common.Services;
 
 public interface IUserRequestResolver
 {
-    User ResolveUser(ClaimsPrincipal user);
+    User ResolveUser(Guid userId);
 }
 
 public class UserRequestResolver : IUserRequestResolver
@@ -19,14 +18,8 @@ public class UserRequestResolver : IUserRequestResolver
         _userManager = userManager;
     }
 
-    public User ResolveUser(ClaimsPrincipal user)
+    public User ResolveUser(Guid userId)
     {
-        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null)
-        {
-            return null;
-        }
-        // "164f1a2d-3144-459b-dfa8-08db2a0e07b9"
-        return _userManager.FindByIdIgnoreQueryFilters(Guid.Parse(userId));
+        return _userManager.FindByIdIgnoreQueryFilters(userId);
     }
 }

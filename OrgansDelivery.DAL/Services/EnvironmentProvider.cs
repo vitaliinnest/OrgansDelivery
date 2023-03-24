@@ -16,12 +16,12 @@ public class EnvironmentProvider : IEnvironmentProvider
 
 public interface IDbContextTenantEnvironmentProvider
 {
-    Guid TenantId { get; set; }
     Guid UserId { get; set; }
+    Guid TenantId { get; set; }
 }
 
 public class DbContextTenantEnvironmentProvider : IDbContextTenantEnvironmentProvider
 {
-    public Guid TenantId { get; set; }
     public Guid UserId { get; set; }
+    public Guid TenantId { get; set; }
 }

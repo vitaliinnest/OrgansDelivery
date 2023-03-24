@@ -16,6 +16,7 @@ using OrganStorage.Web.Common.Middlewares;
 using OrganStorage.Web.Common.Services;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Primitives;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,12 +96,19 @@ builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IDbContextTenantEnvironmentProvider>(sp =>
 {
-    // sp.GetRequiredService<IHttpContextAccessor>().HttpContext.Request.Query["TenantId"];
-    var tenantIdString = "B26AC633-C44E-40E7-D498-08DB2A423044";
+    var httpContext = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
+    
+    var userIdString = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var tenantIdString = httpContext.User.FindFirstValue("tenantId");
 
     return new DbContextTenantEnvironmentProvider()
     {
-        TenantId = Guid.Parse(tenantIdString)
+        UserId = Guid.TryParse(userIdString, out var userId)
+            ? userId
+            : Guid.Empty,
+        TenantId = Guid.TryParse(tenantIdString, out var tenantId)
+            ? tenantId
+            : Guid.Empty,
     };
 });
 
@@ -120,8 +128,8 @@ app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<TenantMiddleware>();
 app.UseMiddleware<UserMiddleware>();
+app.UseMiddleware<TenantMiddleware>();
 app.MapControllers();
 
 app.Run();
