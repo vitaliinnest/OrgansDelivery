@@ -107,7 +107,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<UserMiddleware>();
 app.UseMiddleware<TenantMiddleware>();
-
 app.MapControllers();
 
 app.Run();

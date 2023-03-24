@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrganStorage.BL.Services;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Services;
 using OrganStorage.Web.Common.Extensions;
 
 namespace OrganStorage.Web.Controllers;
@@ -14,20 +15,24 @@ public class ContainerConditionsController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly IConditionPresetService _conditionPresetService;
+    private readonly IEnvironmentProvider _environmentProvider;
 
     public ContainerConditionsController(
         AppDbContext context,
-        IConditionPresetService conditionPresetService)
+        IConditionPresetService conditionPresetService,
+        IEnvironmentProvider environmentProvider)
     {
         _context = context;
         _conditionPresetService = conditionPresetService;
+        _environmentProvider = environmentProvider;
     }
 
     [HttpGet("all")]
-    public ActionResult<List<Conditions>> GetAllConditionPresets()
+    public ActionResult<List<Conditions>> GetAllConditions()
     {
-        var presets = _context.Conditions.ToList();
-        return Ok(presets);
+        var t = _environmentProvider.Tenant;
+        var conditionsList = _context.Conditions.ToList();
+        return Ok(conditionsList);
     }
 
     [HttpPost]

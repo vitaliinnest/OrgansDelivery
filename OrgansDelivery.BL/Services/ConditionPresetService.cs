@@ -7,8 +7,9 @@ namespace OrganStorage.BL.Services;
 
 public interface IConditionPresetService
 {
-    Task<Result<Conditions>> CreateContainerConditionsAsync(CreateContainerConditionsModel model);
-    Result DeleteContainerConditions(Guid conditionPresetId);
+    Task<Result<Conditions>> CreateContainerConditionsAsync(
+        CreateContainerConditionsModel model);
+    Result DeleteContainerConditions(Guid conditionId);
 }
 
 public class ConditionPresetService : IConditionPresetService
@@ -35,24 +36,24 @@ public class ConditionPresetService : IConditionPresetService
             return Result.Fail(validationResult.ToString());
         }
 
-        var preset = _mapper.Map<Conditions>(model);
-        if (_context.Conditions.Any(p => p.Name.ToLower() == preset.Name.ToLower()))
+        var conditions = _mapper.Map<Conditions>(model);
+        if (_context.Conditions.Any(p => p.Name.ToLower() == conditions.Name.ToLower()))
         {
-            return Result.Fail("Condition preset with given name already exists");
+            return Result.Fail("Conditions with given name already exist");
         }
 
-        _context.Add(preset);
+        _context.Add(conditions);
         _context.SaveChanges();
 
-        return preset;
+        return conditions;
     }
 
     // todo: update condition preset
 
-    public Result DeleteContainerConditions(Guid conditionPresetId)
+    public Result DeleteContainerConditions(Guid conditionId)
     {
         var conditionPreset = _context.Conditions
-            .FirstOrDefault(c => c.Id == conditionPresetId);
+            .FirstOrDefault(c => c.Id == conditionId);
         if (conditionPreset == null)
         {
             return Result.Fail("Condition preset not found");

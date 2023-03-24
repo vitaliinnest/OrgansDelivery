@@ -3,7 +3,6 @@ using OrganStorage.DAL.Interfaces;
 
 namespace OrganStorage.DAL.Entities;
 
-// apply conditions to a container (basically - copy them to Conditions property)
 public class Conditions : IEntity, IMustHaveTenant,
     IWithName, IWithDescription, IWithExpectedConditions
 {
