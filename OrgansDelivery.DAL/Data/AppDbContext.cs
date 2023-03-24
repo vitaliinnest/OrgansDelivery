@@ -43,8 +43,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         base.OnModelCreating(builder);
 
         // todo: configure on delete actions
-        // todo: fix warnings
-
+        
         builder.Entity<Container>()
             .HasOne(c => c.Organ)
             .WithOne(o => o.Container)
