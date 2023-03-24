@@ -29,7 +29,6 @@ public class OrganService : IOrganService
 
     public async Task<Result<Organ>> CreateOrganAsync(CreateOrganModel model)
     {
-        // todo: add validation
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
         {
