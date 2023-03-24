@@ -46,6 +46,8 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         base.OnModelCreating(builder);
 
+        // todo: configure on delete actions
+
         builder.Entity<Container>()
             .HasOne(c => c.Organ)
             .WithOne(o => o.Container)
@@ -54,6 +56,37 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         builder.Entity<Container>()
             .HasMany(c => c.ConditionsHistory)
             .WithOne(r => r.Container);
+
+        builder.Entity<Container>()
+            .OwnsOne(c => c.Conditions);
+
+        builder.Entity<ConditionsPreset>()
+            .OwnsOne(p => p.Humidity);
+
+        //builder.Entity<ConditionsPreset>()
+        //    .Property(p => p.Humidity)
+        //    .IsRequired();
+
+        builder.Entity<ConditionsPreset>()
+            .OwnsOne(p => p.Light);
+
+        //builder.Entity<ConditionsPreset>()
+        //    .Property(p => p.Light)
+        //    .IsRequired();
+
+        builder.Entity<ConditionsPreset>()
+            .OwnsOne(p => p.Temperature);
+
+        //builder.Entity<ConditionsPreset>()
+        //    .Property(p => p.Temperature)
+        //    .IsRequired();
+
+        builder.Entity<ConditionsPreset>()
+            .OwnsOne(p => p.Orientation);
+
+        //builder.Entity<ConditionsPreset>()
+        //    .Property(p => p.Orientation)
+        //    .IsRequired();
 
         AddTenantQueryFilter(builder);
 

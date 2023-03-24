@@ -1,4 +1,6 @@
-﻿namespace OrganStorage.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace OrganStorage.DAL.Entities;
 
 public class Orientation
 {
