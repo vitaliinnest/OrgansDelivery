@@ -51,13 +51,16 @@ public class ConditionPresetService : IConditionPresetService
 
     public Result DeleteContainerConditions(Guid conditionPresetId)
     {
-        var conditionPreset = _context.Conditions.FirstOrDefault(c => c.Id == conditionPresetId);
+        var conditionPreset = _context.Conditions
+            .FirstOrDefault(c => c.Id == conditionPresetId);
         if (conditionPreset == null)
         {
             return Result.Fail("Condition preset not found");
         }
+        
         _context.Remove(conditionPreset);
         _context.SaveChanges();
+
         return Result.Ok();
     }
 }
