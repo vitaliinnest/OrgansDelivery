@@ -76,6 +76,7 @@ public static class IRuleBuilderExtensions
         {
             condition
                 .RuleFor(c => c.ExpectedValue)
+                .NotNull()
                 .ChildRules(v =>
                 {
                     v.RuleFor(t => t.X)
@@ -87,6 +88,7 @@ public static class IRuleBuilderExtensions
 
             condition
                 .RuleFor(c => c.AllowedDeviation)
+                .NotNull()
                 .ChildRules(v =>
                 {
                     v.RuleFor(t => t.X)
