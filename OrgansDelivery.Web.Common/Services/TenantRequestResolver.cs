@@ -1,44 +1,37 @@
-﻿using Microsoft.AspNetCore.Http;
-using OrganStorage.DAL.Entities;
+﻿using OrganStorage.DAL.Entities;
 using OrganStorage.DAL.Services;
-using OrganStorage.Web.Common.Extensions;
+using System.Security.Claims;
 
 namespace OrganStorage.Web.Common.Services;
 
 public interface ITenantRequestResolver
 {
-    Tenant ResolveTenant(HttpRequest request);
+    Guid? ResolveTenantId(ClaimsPrincipal user);
+    Tenant ResolveTenant(Guid tenantId);
 }
 
 public class TenantRequestResolver : ITenantRequestResolver
 {
     private readonly ITenantRepository _tenantProvider;
-    private readonly IEnvironmentProvider _environmentProvider;
 
     public TenantRequestResolver(
-        ITenantRepository tenantProvider,
-        IEnvironmentProvider environmentProvider
-        )
+        ITenantRepository tenantProvider)
     {
         _tenantProvider = tenantProvider;
-        _environmentProvider = environmentProvider;
     }
 
-    public Tenant ResolveTenant(HttpRequest request)
+    public Guid? ResolveTenantId(ClaimsPrincipal user)
     {
-        var tenantUrl = request.Path.ExtractTenantUrl();
-
-        if (!string.IsNullOrEmpty(tenantUrl))
-        {
-            return _tenantProvider.GetTenantByUrl(tenantUrl);
-        }
-
-        var user = _environmentProvider.User;
-        if (user == null)
+        var tenantIdStr = user.FindFirstValue("tenantId");
+        if (tenantIdStr == null)
         {
             return null;
         }
+        return Guid.Parse(tenantIdStr);
+    }
 
-        return _tenantProvider.GetTenantById(user.TenantId);
+    public Tenant ResolveTenant(Guid tenantId)
+    {
+        return _tenantProvider.GetTenantById(tenantId);
     }
 }

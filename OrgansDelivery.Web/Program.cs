@@ -14,6 +14,8 @@ using OrganStorage.DAL.Services;
 using OrganStorage.DAL.Data;
 using OrganStorage.Web.Common.Middlewares;
 using OrganStorage.Web.Common.Services;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Primitives;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,8 +47,10 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddPooledDbContextFactory<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddScoped<AppDbContextFactory>();
+builder.Services.AddScoped(sp => sp.GetRequiredService<AppDbContextFactory>().CreateDbContext());
 
 builder.Services.AddIdentityCore<User>(options =>
 {
@@ -89,6 +93,17 @@ builder.Services.AddScoped<IUserRequestResolver, UserRequestResolver>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IDbContextTenantEnvironmentProvider>(sp =>
+{
+    // sp.GetRequiredService<IHttpContextAccessor>().HttpContext.Request.Query["TenantId"];
+    var tenantIdString = "B26AC633-C44E-40E7-D498-08DB2A423044";
+
+    return new DbContextTenantEnvironmentProvider()
+    {
+        TenantId = Guid.Parse(tenantIdString)
+    };
+});
+
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
@@ -105,8 +120,8 @@ app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<UserMiddleware>();
 app.UseMiddleware<TenantMiddleware>();
+app.UseMiddleware<UserMiddleware>();
 app.MapControllers();
 
 app.Run();

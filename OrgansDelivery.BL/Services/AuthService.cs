@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using OrganStorage.BL.Extensions;
 using OrganStorage.BL.Models.Auth;
 using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Services;
 using System.Web;
 
 namespace OrganStorage.BL.Services;
@@ -25,6 +26,7 @@ public class AuthService : IAuthService
     private readonly IEmailService _emailService;
     private readonly IInviteService _inviteService;
     private readonly IGenericValidator _genericValidator;
+    private readonly ITenantRepository _tenantRepository;
 
     public AuthService(
         UserManager<User> userManager,
@@ -34,8 +36,8 @@ public class AuthService : IAuthService
         IRoleService rolesService,
         IEmailService emailService,
         IInviteService inviteService,
-        IGenericValidator genericValidator
-        )
+        IGenericValidator genericValidator,
+        ITenantRepository tenantRepository)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -45,6 +47,7 @@ public class AuthService : IAuthService
         _emailService = emailService;
         _inviteService = inviteService;
         _genericValidator = genericValidator;
+        _tenantRepository = tenantRepository;
     }
 
     public async Task<Result<LoginResponse>> LoginAsync(LoginRequest loginRequest)
@@ -72,7 +75,9 @@ public class AuthService : IAuthService
             return Result.Fail("Email is not confirmed");
         }
 
-        return await MapUserToLoginResponseAsync(user);
+        var tenant = _tenantRepository.GetTenantById(user.TenantId);
+
+        return await MapUserToLoginResponseAsync(user, tenant);
     }
 
     public async Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest registerRequest)
@@ -131,12 +136,12 @@ public class AuthService : IAuthService
         return _mapper.Map<RegisterResponse>(user);
     }
 
-    private async Task<LoginResponse> MapUserToLoginResponseAsync(User user)
+    private async Task<LoginResponse> MapUserToLoginResponseAsync(User user, Tenant tenant)
     {
         var loginResponse = _mapper.Map<LoginResponse>(user);
 
         var role = await _rolesService.GetUserRoleAsync(user);
-        loginResponse.Token = await _tokenBuilder.GenerateJwtTokenAsync(user.Id);
+        loginResponse.Token = await _tokenBuilder.GenerateJwtTokenAsync(user, tenant);
         loginResponse.RoleId = role?.Id;
         loginResponse.RoleName = role?.Name;
 

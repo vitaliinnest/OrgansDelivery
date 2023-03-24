@@ -10,15 +10,12 @@ namespace OrganStorage.DAL.Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
-    private readonly IEnvironmentProvider _environmentProvider;
-
-    public AppDbContext(
-        DbContextOptions options,
-        IEnvironmentProvider environmentProvider
-        ) : base(options)
+    public AppDbContext(DbContextOptions options) : base(options)
     {
-        _environmentProvider = environmentProvider;
     }
+
+    // todo: replace with set only
+    public Guid TenantId { get; set; }
 
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<Invite> Invites { get; set; }
@@ -29,16 +26,14 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
-        var tenantId = GetTenantIdOrDefaultValue();
-        this.SetTenantIdIfNeeded(tenantId);
+        this.SetTenantIdIfNeeded(TenantId);
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
     public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
         CancellationToken cancellationToken = default)
     {
-        var tenantId = GetTenantIdOrDefaultValue();
-        this.SetTenantIdIfNeeded(tenantId);
+        this.SetTenantIdIfNeeded(TenantId);
         return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
@@ -114,16 +109,15 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .Where(entityType => typeof(IMustHaveTenant)
             .IsAssignableFrom(entityType.ClrType));
 
-        var tenantId = GetTenantIdOrDefaultValue();
+        Console.WriteLine(new string('-', 10));
+        Console.WriteLine($"TenantId: {TenantId}");
 
         foreach (var entityType in mustHaveTenantTypes)
         {
-            entityType.AddTenantQueryFilter(tenantId);
+            Console.WriteLine($"EntityType: {entityType.Name}");
+            entityType.AddTenantQueryFilter(TenantId);
         }
-    }
 
-    private Guid GetTenantIdOrDefaultValue()
-    {
-        return _environmentProvider.Tenant?.Id ?? Guid.Empty;
+        Console.WriteLine(new string('-', 10));
     }
 }

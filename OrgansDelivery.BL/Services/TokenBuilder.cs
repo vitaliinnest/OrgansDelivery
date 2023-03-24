@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OrganStorage.BL.Models.Options;
+using OrganStorage.DAL.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace OrganStorage.BL.Services;
 
 public interface ITokenBuilder
 {
-    Task<string> GenerateJwtTokenAsync(Guid userId);
+    Task<string> GenerateJwtTokenAsync(User user, Tenant tenant);
 }
 
 public class TokenBuilder : ITokenBuilder
@@ -25,13 +26,13 @@ public class TokenBuilder : ITokenBuilder
         _claimsService = claimsCalculator;
     }
 
-    public async Task<string> GenerateJwtTokenAsync(Guid userId)
+    public async Task<string> GenerateJwtTokenAsync(User user, Tenant tenant)
     {
         var credentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
             SecurityAlgorithms.HmacSha256);
 
-        var claims = await _claimsService.GetClaimsForAuthUserAsync(userId);
+        var claims = await _claimsService.GetClaimsForAuthUserAsync(user, tenant);
         var token = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,
             audience: _jwtSettings.Audience,

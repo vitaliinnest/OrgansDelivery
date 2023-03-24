@@ -13,9 +13,13 @@ public class TenantMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context, ITenantRequestResolver tenantRequestResolver, IServiceProvider provider)
+    public async Task Invoke(
+        HttpContext context,
+        IDbContextTenantEnvironmentProvider environmentProvider,
+        ITenantRequestResolver tenantRequestResolver,
+        IServiceProvider provider)
     {
-        var tenant = tenantRequestResolver.ResolveTenant(context.Request);
+        var tenant = tenantRequestResolver.ResolveTenant(environmentProvider.TenantId);
         if (tenant != null)
         {
             EnvironmentSetter.SetTenant(tenant, provider);
