@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentResults;
-using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
 
@@ -13,7 +12,7 @@ public interface IConditionsHistoryService
     Result<ConditionsRecordDto> GetConditionsRecord(Guid recordId);
     Task<Result<List<ConditionsRecordDto>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model);
-    List<ConditionsViolation> GetConditionViolations();
+    List<ConditionsViolation> GetConditionViolations(GetConditionsHistoryModel model);
 }
 
 public class ConditionsHistoryService : IConditionsHistoryService
@@ -95,10 +94,13 @@ public class ConditionsHistoryService : IConditionsHistoryService
         return dtos;
     }
 
-    public List<ConditionsViolation> GetConditionViolations()
+    public List<ConditionsViolation> GetConditionViolations(GetConditionsHistoryModel model)
     {
-        var containerByIdMap = _context.Containers.AsNoTracking().ToDictionary(c => c.Id);
-        var history = _context.ConditionsHistory.AsNoTracking().ToList();
+        var containerByIdMap = _context.Containers.ToDictionary(c => c.Id);
+
+        var history = _context.ConditionsHistory
+            .Where(c => model.Start <= c.DateTime && c.DateTime <= model.End)
+            .ToList();
 
         var violations = history
             .Select(record =>

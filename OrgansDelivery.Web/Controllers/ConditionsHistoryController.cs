@@ -35,9 +35,10 @@ public class ConditionsHistoryController : ControllerBase
     }
 
     [HttpGet("violations")]
-    public ActionResult<List<ConditionsViolation>> GetContainerConditionViolations()
+    public ActionResult<List<ConditionsViolation>> GetContainerConditionViolations(
+        [FromBody] GetConditionsHistoryModel model)
     {
-        var violations = _conditionsHistoryService.GetConditionViolations();
+        var violations = _conditionsHistoryService.GetConditionViolations(model);
         return Ok(violations);
     }
 
