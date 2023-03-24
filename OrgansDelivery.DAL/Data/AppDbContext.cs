@@ -137,8 +137,10 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     private void PrintTenantId()
     {
+        Console.WriteLine();
         Console.WriteLine(new string('-', 50));
         Console.WriteLine($"TenantId: {TenantId}");
         Console.WriteLine(new string('-', 50));
+        Console.WriteLine();
     }
 }
