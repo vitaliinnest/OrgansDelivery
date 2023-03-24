@@ -20,14 +20,14 @@ public class ConditionsHistoryController : ControllerBase
     }
 
     [HttpGet("{recordId}")]
-    public ActionResult<ConditionsRecord> GetConditionsRecord(Guid recordId)
+    public ActionResult<ConditionsRecordDto> GetConditionsRecord(Guid recordId)
     {
         var result = _conditionsHistoryService.GetConditionsRecord(recordId);
         return this.ToActionResult(result);
     }
 
     [HttpGet("{containerId}")]
-    public async Task<ActionResult<List<ConditionsRecord>>> GetConditionsHistory(
+    public async Task<ActionResult<List<ConditionsRecordDto>>> GetConditionsHistory(
         Guid containerId, [FromBody] GetConditionsHistoryModel model)
     {
         var result = await _conditionsHistoryService.GetConditionsHistoryAsync(containerId, model);
@@ -43,7 +43,7 @@ public class ConditionsHistoryController : ControllerBase
 
     [HttpPost("{containerId}")]
     [AllowAnonymous]
-    public async Task<ActionResult<ConditionsRecord>> CreateContainerConditionRecord(
+    public async Task<ActionResult<ConditionsRecordDto>> CreateContainerConditionRecord(
         Guid containerId, [FromBody] CreateConditionsRecordModel model)
     {
         var result = await _conditionsHistoryService.AddConditionsRecordAsync(containerId, model);

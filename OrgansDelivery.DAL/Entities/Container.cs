@@ -24,3 +24,11 @@ public class CreateContainerModel
     public int ConditionsIntervalCheckInSecs { get; set; }
     public Guid? OrganId { get; set; }
 }
+
+public class UpdateContainerModel
+{
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public Guid? ConditionsId { get; set; }
+    public int ConditionsIntervalCheckInSecs { get; set; }
+}

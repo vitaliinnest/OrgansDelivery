@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OrganStorage.DAL.Entities;
 using OrganStorage.BL.Services;
-using OrganStorage.DAL.Consts;
 using OrganStorage.DAL.Data;
 using OrganStorage.Web.Common.Extensions;
 
@@ -32,9 +31,18 @@ public class ContainerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Container>> CreateContainer([FromBody] CreateContainerModel model)
+    public async Task<ActionResult<Container>> CreateContainer(
+        [FromBody] CreateContainerModel model)
     {
         var result = await _containerService.CreateContainerAsync(model);
+        return this.ToActionResult(result);
+    }
+
+    [HttpPut("{containerId}")]
+    public ActionResult<Container> UpdateContainer(
+        Guid containerId, [FromBody] UpdateContainerModel model)
+    {
+        var result = _containerService.UpdateContainer(containerId, model);
         return this.ToActionResult(result);
     }
 

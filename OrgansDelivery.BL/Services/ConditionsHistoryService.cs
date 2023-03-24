@@ -8,10 +8,10 @@ namespace OrganStorage.BL.Services;
 
 public interface IConditionsHistoryService
 {
-    Task<Result<ConditionsRecord>> AddConditionsRecordAsync(
+    Task<Result<ConditionsRecordDto>> AddConditionsRecordAsync(
         Guid containerId, CreateConditionsRecordModel model);
-    Result<ConditionsRecord> GetConditionsRecord(Guid recordId);
-    Task<Result<List<ConditionsRecord>>> GetConditionsHistoryAsync(
+    Result<ConditionsRecordDto> GetConditionsRecord(Guid recordId);
+    Task<Result<List<ConditionsRecordDto>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model);
     List<ConditionsViolation> GetConditionViolations();
 }
@@ -32,7 +32,7 @@ public class ConditionsHistoryService : IConditionsHistoryService
         _context = context;
     }
 
-    public async Task<Result<ConditionsRecord>> AddConditionsRecordAsync(
+    public async Task<Result<ConditionsRecordDto>> AddConditionsRecordAsync(
         Guid containerId, CreateConditionsRecordModel model)
     {
         var containerExists = _context.Containers.Any(c => c.Id == containerId);
@@ -53,16 +53,25 @@ public class ConditionsHistoryService : IConditionsHistoryService
         _context.Add(record);
         _context.SaveChanges();
 
-        return record;
+        var dto = _mapper.Map<ConditionsRecordDto>(record);
+
+        return dto;
     }
 
-    public Result<ConditionsRecord> GetConditionsRecord(Guid recordId)
+    public Result<ConditionsRecordDto> GetConditionsRecord(Guid recordId)
     {
         var record = _context.ConditionsHistory.FirstOrDefault(r => r.Id == recordId);
-        return Result.OkIf(record != null, "Record not found");
+        if (record == null)
+        {
+            return Result.Fail("Record not found");
+        }
+
+        var dto = _mapper.Map<ConditionsRecordDto>(record);
+
+        return dto;
     }
 
-    public async Task<Result<List<ConditionsRecord>>> GetConditionsHistoryAsync(
+    public async Task<Result<List<ConditionsRecordDto>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
@@ -81,7 +90,9 @@ public class ConditionsHistoryService : IConditionsHistoryService
             .Where(c => c.Id == containerId && model.Start <= c.DateTime && c.DateTime <= model.End)
             .ToList();
 
-        return history;
+        var dtos = _mapper.Map<List<ConditionsRecordDto>>(history);
+
+        return dtos;
     }
 
     public List<ConditionsViolation> GetConditionViolations()

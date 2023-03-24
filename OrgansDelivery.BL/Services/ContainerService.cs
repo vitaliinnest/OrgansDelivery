@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using FluentResults;
-using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
-using OrganStorage.DAL.Interfaces;
 
 namespace OrganStorage.BL.Services;
 
 public interface IContainerService
 {
     Task<Result<Container>> CreateContainerAsync(CreateContainerModel model);
+    Result<Container> UpdateContainer(Guid containerId, UpdateContainerModel model);
     Result DeleteContainer(Guid containerId);
     Result<Container> AddOrganToContainerAsync(Guid containerId, Guid organId);
     Result<Container> RemoveOrganFromContainer(Guid containerId);
@@ -52,6 +51,32 @@ public class ContainerService : IContainerService
         _context.SaveChanges();
 
         return container;
+    }
+
+    public Result<Container> UpdateContainer(Guid containerId, UpdateContainerModel model)
+    {
+        // imagine validation is here
+        
+        var conditionsExist = _context.Conditions
+            .Any(p => p.Id == model.ConditionsId);
+
+        if (!conditionsExist)
+        {
+            return Result.Fail("Condition not found");
+        }
+
+        var container = _context.Containers.FirstOrDefault(o => o.Id == containerId);
+        if (container == null)
+        {
+            return Result.Fail("Container not found");
+        }
+
+        var updated = _mapper.Map(model, container);
+
+        _context.Update(updated);
+        _context.SaveChanges();
+
+        return updated;
     }
 
     public Result DeleteContainer(Guid containerId)
