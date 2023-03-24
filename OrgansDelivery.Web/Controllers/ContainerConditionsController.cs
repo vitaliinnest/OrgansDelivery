@@ -38,10 +38,10 @@ public class ContainerConditionsController : ControllerBase
         return this.ToActionResult(result);
     }
 
-    [HttpDelete("{conditionPresetId}")]
-    public ActionResult DeleteContainerConditions(Guid conditionPresetId)
+    [HttpDelete("{conditionId}")]
+    public ActionResult DeleteContainerConditions(Guid conditionId)
     {
-        var result = _conditionPresetService.DeleteContainerConditions(conditionPresetId);
+        var result = _conditionPresetService.DeleteContainerConditions(conditionId);
         return this.ToActionResult(result);
     }
 }
