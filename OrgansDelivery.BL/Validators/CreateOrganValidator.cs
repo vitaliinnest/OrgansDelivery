@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Entities;
 using static OrganStorage.BL.Consts.ValidatorConsts;
 
@@ -19,8 +20,7 @@ public class CreateOrganValidator
             .MaximumLength(GeneralConsts.MAX_LENGTH);
 
         RuleFor(t => t.OrganCreationDate)
-            .InclusiveBetween(
-                DateTime.Now - TimeSpan.FromDays(365 * 2),
-                DateTime.Now);
+            .NotNull()
+            .OrganCreationDate();
     }
 }

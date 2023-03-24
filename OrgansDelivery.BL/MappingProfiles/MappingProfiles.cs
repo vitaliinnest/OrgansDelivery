@@ -36,6 +36,11 @@ public class AuthMappingProfile : Profile
         
         // Organ
         CreateMap<CreateOrganModel, Organ>();
+        CreateMap<UpdateOrganModel, Organ>()
+            .ForMember(
+                dest => dest.OrganCreationDate,
+                opt => opt.MapFrom((src, dest) => src.OrganCreationDate ?? dest.OrganCreationDate))
+            .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
 
         // ContainerConditionsHistory
         CreateMap<CreateConditionsRecordModel, ConditionsRecord>();

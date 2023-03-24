@@ -8,6 +8,7 @@ namespace OrganStorage.BL.Services;
 public interface IOrganService
 {
     Task<Result<Organ>> CreateOrganAsync(CreateOrganModel model);
+    Task<Result<Organ>> UpdateOrganAsync(Guid organId, UpdateOrganModel model);
     Result DeleteOrgan(Guid organId);
 }
 
@@ -45,6 +46,28 @@ public class OrganService : IOrganService
         _context.SaveChanges();
 
         return organ;
+    }
+    
+    public async Task<Result<Organ>> UpdateOrganAsync(Guid organId, UpdateOrganModel model)
+    {
+        var validationResult = await _genericValidator.ValidateAsync(model);
+        if (!validationResult.IsValid)
+        {
+            return Result.Fail(validationResult.ToString());
+        }
+
+        var organ = _context.Organs.FirstOrDefault(o => o.Id == organId);
+        if (organ == null)
+        {
+            return Result.Fail("Organ not found");
+        }
+
+        var updated = _mapper.Map(model, organ);
+
+        _context.Update(updated);
+        _context.SaveChanges();
+        
+        return updated;
     }
 
     public Result DeleteOrgan(Guid organId)

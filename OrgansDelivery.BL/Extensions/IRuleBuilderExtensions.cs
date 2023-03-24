@@ -105,6 +105,15 @@ public static class IRuleBuilderExtensions
             .InclusiveBetween(ConditionConsts.OrientationAxis.MIN, ConditionConsts.OrientationAxis.MAX);
     }
 
+    public static IRuleBuilder<T, DateTime> OrganCreationDate<T>(
+        this IRuleBuilder<T, DateTime> ruleBuilder)
+    {
+        return ruleBuilder
+            .InclusiveBetween(
+                DateTime.Now - TimeSpan.FromDays(365 * 2),
+                DateTime.Now);
+    }
+
     private static IRuleBuilderOptions<T, Condition<decimal>> ApplyConditionRules<T>(
         this IRuleBuilder<T, Condition<decimal>> ruleBuilder, decimal min, decimal max)
     {

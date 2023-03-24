@@ -37,6 +37,15 @@ public class OrganController : ControllerBase
         return this.ToActionResult(result);
     }
 
+    [HttpPut("{organId}")]
+    [Authorize(Roles = UserRoles.MANAGER)]
+    public async Task<ActionResult<Organ>> UpdateOrgan(
+        Guid organId, [FromBody] UpdateOrganModel model)
+    {
+        var result = await _organService.UpdateOrganAsync(organId, model);
+        return this.ToActionResult(result);
+    }
+
     [HttpDelete("{organId}")]
     [Authorize(Roles = UserRoles.MANAGER)]
     public ActionResult DeleteOrgan(Guid organId)
