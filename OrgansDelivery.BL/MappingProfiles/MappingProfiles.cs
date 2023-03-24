@@ -29,7 +29,7 @@ public class AuthMappingProfile : Profile
         CreateMap<IdentityRole<Guid>, RoleDto>();
 
         // ConditionPreset
-        CreateMap<CreateConditionsPresetModel, Conditions>();
+        CreateMap<CreateContainerConditionsModel, Conditions>();
         
         // Container
         CreateMap<CreateContainerModel, Container>();

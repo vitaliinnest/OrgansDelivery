@@ -6,7 +6,7 @@ using static OrganStorage.BL.Consts.ValidatorConsts;
 namespace OrganStorage.BL.Validators;
 
 public class CreateConditionsPresetModelValidator
-    : AbstractValidator<CreateConditionsPresetModel>
+    : AbstractValidator<CreateContainerConditionsModel>
 {
     public CreateConditionsPresetModelValidator()
     {

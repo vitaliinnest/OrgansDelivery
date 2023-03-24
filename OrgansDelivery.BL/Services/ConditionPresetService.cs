@@ -7,8 +7,8 @@ namespace OrganStorage.BL.Services;
 
 public interface IConditionPresetService
 {
-    Task<Result<Conditions>> CreateConditionPresetAsync(CreateConditionsPresetModel model);
-    Result DeleteConditionPreset(Guid conditionPresetId);
+    Task<Result<Conditions>> CreateContainerConditionsAsync(CreateContainerConditionsModel model);
+    Result DeleteContainerConditions(Guid conditionPresetId);
 }
 
 public class ConditionPresetService : IConditionPresetService
@@ -27,7 +27,7 @@ public class ConditionPresetService : IConditionPresetService
         _context = context;
     }
 
-    public async Task<Result<Conditions>> CreateConditionPresetAsync(CreateConditionsPresetModel model)
+    public async Task<Result<Conditions>> CreateContainerConditionsAsync(CreateContainerConditionsModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -49,7 +49,7 @@ public class ConditionPresetService : IConditionPresetService
 
     // todo: update condition preset
 
-    public Result DeleteConditionPreset(Guid conditionPresetId)
+    public Result DeleteContainerConditions(Guid conditionPresetId)
     {
         var conditionPreset = _context.Conditions.FirstOrDefault(c => c.Id == conditionPresetId);
         if (conditionPreset == null)

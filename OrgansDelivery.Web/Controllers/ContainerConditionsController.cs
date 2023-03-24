@@ -31,16 +31,17 @@ public class ContainerConditionsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Conditions>> CreateConditionPreset([FromBody] CreateConditionsPresetModel model)
+    public async Task<ActionResult<Conditions>> CreateContainerConditions(
+        [FromBody] CreateContainerConditionsModel model)
     {
-        var result = await _conditionPresetService.CreateConditionPresetAsync(model);
+        var result = await _conditionPresetService.CreateContainerConditionsAsync(model);
         return this.ToActionResult(result);
     }
 
     [HttpDelete("{conditionPresetId}")]
-    public ActionResult DeleteConditionPreset(Guid conditionPresetId)
+    public ActionResult DeleteContainerConditions(Guid conditionPresetId)
     {
-        var result = _conditionPresetService.DeleteConditionPreset(conditionPresetId);
+        var result = _conditionPresetService.DeleteContainerConditions(conditionPresetId);
         return this.ToActionResult(result);
     }
 }
