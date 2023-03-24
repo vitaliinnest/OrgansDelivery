@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OrganStorage.BL.Models;
 using OrganStorage.BL.Services;
 using OrganStorage.DAL.Entities;
 using OrganStorage.DAL.Services;
@@ -23,6 +24,13 @@ public class UserController : ControllerBase
     public async Task<ActionResult<UserDto>> GetUser()
     {
         var result = await _userService.GetCurrentUserAsync();
+        return this.ToActionResult(result);
+    }
+
+    [HttpPut]
+    public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UpdateUserModel model)
+    {
+        var result = await _userService.UpdateUser(model);
         return this.ToActionResult(result);
     }
 }

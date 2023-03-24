@@ -18,6 +18,8 @@ public class AuthMappingProfile : Profile
         CreateMap<User, LoginResponse>();
         CreateMap<User, RegisterResponse>();
         CreateMap<User, UserDto>();
+        CreateMap<UpdateUserModel, User>()
+            .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
 
         // Tenant
         CreateMap<CreateTenantModel, Tenant>();

@@ -12,6 +12,13 @@ public class User : IdentityUser<Guid>, IMustHaveTenant
     public Language Language { get; set; }
 }
 
+public class UpdateUserModel
+{
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public Language Language { get; set; }
+}
+
 public class UserDto
 {
     public Guid Id { get; set; }
