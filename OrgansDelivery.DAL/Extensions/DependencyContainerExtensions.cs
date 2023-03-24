@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Services;
 
 namespace OrganStorage.DAL.Extensions;

@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OrganStorage.BL.Models;
 using OrganStorage.BL.Services;
 using OrganStorage.DAL.Entities;
-using OrganStorage.DAL.Services;
 using OrganStorage.Web.Common.Extensions;
 
 namespace OrganStorage.Web.Controllers;

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OrganStorage.DAL.Entities;
 using OrganStorage.BL.Services;
-using OrganStorage.DAL.Consts;
 using OrganStorage.DAL.Data;
 using OrganStorage.Web.Common.Extensions;
 

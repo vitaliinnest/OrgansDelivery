@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OrganStorage.DAL.Entities;
+﻿using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.DAL.Interfaces;
 
