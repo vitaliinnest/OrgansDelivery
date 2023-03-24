@@ -21,7 +21,9 @@ public class AuthMappingProfile : Profile
 
         // Tenant
         CreateMap<CreateTenantModel, Tenant>();
-        
+        CreateMap<UpdateTenantModel, Tenant>()
+            .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
+
         // Invite
         CreateMap<InviteUserModel, Invite>();
 

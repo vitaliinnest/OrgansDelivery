@@ -38,4 +38,11 @@ public class TenantController : ControllerBase
         var result = await _tenantService.CreateTenantAsync(model);
         return this.ToActionResult(result);
     }
+
+    [HttpPut]
+    public ActionResult<Tenant> UpdateTenant([FromBody] UpdateTenantModel model)
+    {
+        var result = _tenantService.UpdateTenant(model);
+        return this.ToActionResult(result);
+    }
 }
