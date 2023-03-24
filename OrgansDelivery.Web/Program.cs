@@ -14,8 +14,6 @@ using OrganStorage.DAL.Services;
 using OrganStorage.DAL.Data;
 using OrganStorage.Web.Common.Middlewares;
 using OrganStorage.Web.Common.Services;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.Primitives;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
