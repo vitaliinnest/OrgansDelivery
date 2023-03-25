@@ -87,7 +87,8 @@ public class ConditionsHistoryService : IConditionsHistoryService
         }
 
         var history = _context.ConditionsHistory
-            .Where(c => c.ContainerId == containerId && model.Start <= c.DateTime && c.DateTime <= model.End)
+            .Where(c => c.ContainerId == containerId &&
+                model.Start <= c.DateTime && c.DateTime <= model.End)
             .ToList();
 
         var dtos = _mapper.Map<List<ConditionsRecordDto>>(history);
