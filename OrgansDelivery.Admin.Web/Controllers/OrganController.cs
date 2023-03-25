@@ -29,4 +29,22 @@ public class OrganController : ControllerBase
 
         return Ok(organs);
     }
+
+    [HttpDelete("{organId}")]
+    public ActionResult DeleteOrgan(Guid organId)
+    {
+        var organ = _appDbContext.Containers
+            .IgnoreQueryFilters()
+            .FirstOrDefault(c => c.Id == organId);
+
+        if (organ == null)
+        {
+            return BadRequest("Organ not found");
+        }
+
+        _appDbContext.Remove(organ);
+        _appDbContext.SaveChanges();
+
+        return Ok();
+    }
 }

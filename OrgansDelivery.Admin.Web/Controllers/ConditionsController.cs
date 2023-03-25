@@ -29,4 +29,22 @@ public class ConditionsController : ControllerBase
 
         return Ok(conditions);
     }
+
+    [HttpDelete("{conditionsId}")]
+    public ActionResult DeleteConditions(Guid conditionsId)
+    {
+        var conditions = _appDbContext.Conditions
+            .IgnoreQueryFilters()
+            .FirstOrDefault(c => c.Id == conditionsId);
+        
+        if (conditions == null)
+        {
+            return BadRequest("Conditions not found");
+        }
+        
+        _appDbContext.Remove(conditions);
+        _appDbContext.SaveChanges();
+
+        return Ok();
+    }
 }

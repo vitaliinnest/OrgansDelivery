@@ -30,4 +30,22 @@ public class ContainerController : ControllerBase
 
         return Ok(organs);
     }
+
+    [HttpDelete("{containerId}")]
+    public ActionResult DeleteContainer(Guid containerId)
+    {
+        var container = _appDbContext.Containers
+            .IgnoreQueryFilters()
+            .FirstOrDefault(c => c.Id == containerId);
+
+        if (container == null)
+        {
+            return BadRequest("Container not found");
+        }
+
+        _appDbContext.Remove(container);
+        _appDbContext.SaveChanges();
+
+        return Ok();
+    }
 }

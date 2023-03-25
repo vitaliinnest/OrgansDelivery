@@ -25,4 +25,32 @@ public class TenantController : ControllerBase
         var tenants = _appDbContext.Tenants.IgnoreQueryFilters().ToList();
         return Ok(tenants);
     }
+
+    [HttpGet("{tenantId}")]
+    public ActionResult<Tenant> GetOrgans(Guid tenantId)
+    {
+        var tenant = _appDbContext.Tenants
+            .IgnoreQueryFilters()
+            .FirstOrDefault(o => o.Id == tenantId);
+
+        return Ok(tenant);
+    }
+
+    [HttpDelete("{tenantId}")]
+    public ActionResult DeleteTenant(Guid tenantId)
+    {
+        var tenant = _appDbContext.Tenants
+            .IgnoreQueryFilters()
+            .FirstOrDefault(c => c.Id == tenantId);
+
+        if (tenant == null)
+        {
+            return BadRequest("Tenant not found");
+        }
+
+        _appDbContext.Remove(tenant);
+        _appDbContext.SaveChanges();
+
+        return Ok();
+    }
 }
