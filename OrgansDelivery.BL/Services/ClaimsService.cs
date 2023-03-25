@@ -25,7 +25,7 @@ public class ClaimsService : IClaimsService
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Role, role?.Name ?? string.Empty),
-            new("tenantId", tenant?.Id.ToString()),
+            new("tenantId", tenant?.Id.ToString() ?? string.Empty),
         };
     }
 }

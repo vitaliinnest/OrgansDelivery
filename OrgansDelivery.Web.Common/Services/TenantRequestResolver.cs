@@ -20,6 +20,10 @@ public class TenantRequestResolver : ITenantRequestResolver
 
     public Tenant ResolveTenant(Guid tenantId)
     {
+        if (tenantId == Guid.Empty)
+        {
+            return null;
+        }
         return _tenantRepository.GetTenantById(tenantId);
     }
 }

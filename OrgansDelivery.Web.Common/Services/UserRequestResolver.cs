@@ -20,6 +20,10 @@ public class UserRequestResolver : IUserRequestResolver
 
     public User ResolveUser(Guid userId)
     {
+        if (userId == Guid.Empty)
+        {
+            return null;
+        }
         return _userManager.FindByIdIgnoreQueryFilters(userId);
     }
 }
