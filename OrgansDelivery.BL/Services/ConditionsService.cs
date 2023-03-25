@@ -96,7 +96,13 @@ public class ConditionsService : IConditionsService
         {
             return Result.Fail("Condition preset not found");
         }
-        
+
+        var conditionUsed = _context.Containers.Any(c => c.ConditionsId == conditionId);
+        if (conditionUsed)
+        {
+            return Result.Fail("Condition is used in some containers. First remove it from them");
+        }
+
         _context.Remove(conditionPreset);
         _context.SaveChanges();
 

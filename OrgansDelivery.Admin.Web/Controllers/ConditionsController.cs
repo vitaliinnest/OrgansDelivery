@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Consts;
@@ -41,7 +42,13 @@ public class ConditionsController : ControllerBase
         {
             return BadRequest("Conditions not found");
         }
-        
+
+        var conditionUsed = _appDbContext.Containers.Any(c => c.ConditionsId == conditionsId);
+        if (conditionUsed)
+        {
+            return BadRequest("Condition is used in some containers");
+        }
+
         _appDbContext.Remove(conditions);
         _appDbContext.SaveChanges();
 
