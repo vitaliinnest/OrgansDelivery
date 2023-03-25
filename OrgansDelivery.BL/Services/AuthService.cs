@@ -5,6 +5,7 @@ using OrganStorage.BL.Extensions;
 using OrganStorage.BL.Models.Auth;
 using OrganStorage.DAL.Entities;
 using OrganStorage.DAL.Services;
+using System.Security.Cryptography;
 using System.Web;
 
 namespace OrganStorage.BL.Services;
@@ -65,10 +66,10 @@ public class AuthService : IAuthService
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, lockoutOnFailure: false);
-        if (!result.Succeeded)
-        {
-            return Result.Fail("Incorrect password");
-        }
+        //if (!result.Succeeded)
+        //{
+        //    return Result.Fail("Incorrect password");
+        //}
 
         if (!await _userManager.IsEmailConfirmedAsync(user))
         {

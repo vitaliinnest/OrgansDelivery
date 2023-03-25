@@ -48,6 +48,11 @@ public class TenantService : ITenantService
             return Result.Fail(validationResult.ToString());
         }
 
+        if (_environmentProvider.Tenant != null)
+        {
+            return Result.Fail("Tenant already exists");
+        }
+
         var tenant = _mapper.Map<Tenant>(model);
 
         // todo: check if tenant.Id is set
