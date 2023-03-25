@@ -35,7 +35,7 @@ public class ConditionsHistoryService : IConditionsHistoryService
         Guid containerId, CreateConditionsRecordModel model)
     {
         var containerExists = _context.Containers.Any(c => c.Id == containerId);
-        if (containerExists)
+        if (!containerExists)
         {
             return Result.Fail("Container not found");
         }
