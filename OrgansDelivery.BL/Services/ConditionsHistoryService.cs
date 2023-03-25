@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
 
@@ -73,20 +74,20 @@ public class ConditionsHistoryService : IConditionsHistoryService
     public async Task<Result<List<ConditionsRecordDto>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model)
     {
-        var validationResult = await _genericValidator.ValidateAsync(model);
-        if (!validationResult.IsValid)
-        {
-            return Result.Fail(validationResult.ToString());
-        }
+        //var validationResult = await _genericValidator.ValidateAsync(model);
+        //if (!validationResult.IsValid)
+        //{
+        //    return Result.Fail(validationResult.ToString());
+        //}
 
         var containerExists = _context.Containers.Any(c => c.Id == containerId);
-        if (containerExists)
+        if (!containerExists)
         {
             return Result.Fail("Container not found");
         }
 
         var history = _context.ConditionsHistory
-            .Where(c => c.Id == containerId && model.Start <= c.DateTime && c.DateTime <= model.End)
+            .Where(c => c.ContainerId == containerId && model.Start <= c.DateTime && c.DateTime <= model.End)
             .ToList();
 
         var dtos = _mapper.Map<List<ConditionsRecordDto>>(history);
@@ -96,7 +97,9 @@ public class ConditionsHistoryService : IConditionsHistoryService
 
     public List<ConditionsViolation> GetConditionViolations(GetConditionsHistoryModel model)
     {
-        var containerByIdMap = _context.Containers.ToDictionary(c => c.Id);
+        var containerByIdMap = _context.Containers
+            .Include(c => c.Conditions)
+            .ToDictionary(c => c.Id);
 
         var history = _context.ConditionsHistory
             .Where(c => model.Start <= c.DateTime && c.DateTime <= model.End)

@@ -26,7 +26,7 @@ public class ConditionsHistoryController : ControllerBase
         return this.ToActionResult(result);
     }
 
-    [HttpGet("{containerId}")]
+    [HttpGet("range/{containerId}")]
     public async Task<ActionResult<List<ConditionsRecordDto>>> GetConditionsHistory(
         Guid containerId, [FromBody] GetConditionsHistoryModel model)
     {
