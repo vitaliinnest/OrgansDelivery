@@ -120,21 +120,21 @@ public class ConditionsHistoryService : IConditionsHistoryService
                         ExpectedValue = conditions.Temperature.ExpectedValue,
                         AllowedDeviation = conditions.Temperature.AllowedDeviation,
                         Actual = record.Temperature,
-                        IsViolated = IsViolatedDecimalCondition(record, conditions.Temperature)
+                        IsViolated = IsViolatedDecimalCondition(record.Temperature, conditions.Temperature)
                     },
                     Humidity = new()
                     {
                         ExpectedValue = conditions.Humidity.ExpectedValue,
                         AllowedDeviation = conditions.Humidity.AllowedDeviation,
                         Actual = record.Humidity,
-                        IsViolated = IsViolatedDecimalCondition(record, conditions.Humidity)
+                        IsViolated = IsViolatedDecimalCondition(record.Humidity, conditions.Humidity)
                     },
                     Light = new()
                     {
                         ExpectedValue = conditions.Light.ExpectedValue,
                         AllowedDeviation = conditions.Light.AllowedDeviation,
                         Actual = record.Light,
-                        IsViolated = IsViolatedDecimalCondition(record, conditions.Light)
+                        IsViolated = IsViolatedDecimalCondition(record.Light, conditions.Light)
                     },
                     Orientation = new()
                     {
@@ -151,21 +151,21 @@ public class ConditionsHistoryService : IConditionsHistoryService
         return violations;
     }
 
-    private static bool IsViolatedDecimalCondition(ConditionsRecord record, Condition<decimal> condition)
+    private static bool IsViolatedDecimalCondition(decimal actualVal, Condition<decimal> condition)
     {
-        return condition.ExpectedValue - condition.AllowedDeviation > record.Temperature
-            || record.Temperature > condition.ExpectedValue + condition.AllowedDeviation;
+        return condition.ExpectedValue - condition.AllowedDeviation > actualVal
+            || actualVal > condition.ExpectedValue + condition.AllowedDeviation;
     }
 
     private static bool IsViolatedOrientationCondition(ConditionsRecord record, Condition<Orientation> condition)
     {
-        var isViolatedX = IsViolatedDecimalCondition(record, new()
+        var isViolatedX = IsViolatedDecimalCondition(record.Orientation.X, new()
         {
             ExpectedValue = condition.ExpectedValue.X,
             AllowedDeviation = condition.AllowedDeviation.X
         });
 
-        var isViolatedY = IsViolatedDecimalCondition(record, new()
+        var isViolatedY = IsViolatedDecimalCondition(record.Orientation.Y, new()
         {
             ExpectedValue = condition.ExpectedValue.Y,
             AllowedDeviation = condition.AllowedDeviation.Y
