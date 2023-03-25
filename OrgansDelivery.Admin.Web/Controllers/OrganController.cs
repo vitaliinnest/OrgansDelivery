@@ -10,19 +10,23 @@ namespace OrganStorage.Web.Admin.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(Roles = UserRoles.ADMIN)]
-public class TenantController : ControllerBase
+public class OrganController : ControllerBase
 {
     private readonly AppDbContext _appDbContext;
 
-    public TenantController(AppDbContext appDbContext)
+    public OrganController(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
     }
 
-    [HttpGet("all")]
-    public ActionResult<List<Tenant>> GetAllTenants()
+    [HttpGet("{tenantId}")]
+    public ActionResult<List<Tenant>> GetOrgans(Guid tenantId)
     {
-        var tenants = _appDbContext.Tenants.IgnoreQueryFilters().ToList();
-        return Ok(tenants);
+        var organs = _appDbContext.Organs
+            .IgnoreQueryFilters()
+            .Where(o => o.TenantId == tenantId)
+            .ToList();
+
+        return Ok(organs);
     }
 }

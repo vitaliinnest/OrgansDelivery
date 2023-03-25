@@ -10,19 +10,23 @@ namespace OrganStorage.Web.Admin.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(Roles = UserRoles.ADMIN)]
-public class TenantController : ControllerBase
+public class ConditionsController : ControllerBase
 {
     private readonly AppDbContext _appDbContext;
 
-    public TenantController(AppDbContext appDbContext)
+    public ConditionsController(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
     }
 
-    [HttpGet("all")]
-    public ActionResult<List<Tenant>> GetAllTenants()
+    [HttpGet("{tenantId}")]
+    public ActionResult<List<Tenant>> GetConditions(Guid tenantId)
     {
-        var tenants = _appDbContext.Tenants.IgnoreQueryFilters().ToList();
-        return Ok(tenants);
+        var conditions = _appDbContext.Conditions
+            .IgnoreQueryFilters()
+            .Where(o => o.TenantId == tenantId)
+            .ToList();
+
+        return Ok(conditions);
     }
 }

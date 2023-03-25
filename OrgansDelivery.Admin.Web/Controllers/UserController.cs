@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrganStorage.BL.Services;
+using OrganStorage.DAL.Consts;
 using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.Web.Admin.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+[Authorize(Roles = UserRoles.ADMIN)]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -18,8 +19,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{tenantId}")]
-    [AllowAnonymous]
-    public ActionResult<List<User>> GetUsersByTenantId(Guid tenantId)
+    public ActionResult<List<User>> GetUsers(Guid tenantId)
     {
         var result = _userService.GetUsersByTenantId(tenantId);
         if (result.IsFailed)
