@@ -80,7 +80,6 @@ public class MqttClientService : IHostedService
 	{
 		var mqttClient = new MqttFactory().CreateMqttClient();
 		mqttClient.ConnectedAsync += HandleConnectedAsync;
-		mqttClient.DisconnectedAsync += HandleDisconnectedAsync;
 		mqttClient.ApplicationMessageReceivedAsync += HandleApplicationMessageReceivedAsync;
 		return mqttClient;
 	}
@@ -107,24 +106,5 @@ public class MqttClientService : IHostedService
 		await _mqttClient.SubscribeAsync(mqttSubscribeOptions);
 
 		Console.WriteLine("MQTT client subscribed to topic.");
-	}
-
-	private async Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
-	{
-		_logger.LogInformation("DISCONNECTED");
-		#region Reconnect_Using_Event :https://github.com/dotnet/MQTTnet/blob/master/Samples/Client/Client_Connection_Samples.cs
-		/*
-		* This sample shows how to reconnect when the connection was dropped.
-		* This approach uses one of the events from the client.
-		* This approach has a risk of dead locks! Consider using the timer approach (see sample).
-		* The following reconnection code "Reconnect_Using_Timer" is recommended
-	   */
-		//if (eventArgs.ClientWasConnected)
-		//{
-		//    // Use the current options as the new options.
-		//    await _mqttClient.ConnectAsync(_mqttClient.Options);
-		//}
-		#endregion
-		await Task.CompletedTask;
 	}
 }
