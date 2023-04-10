@@ -4,8 +4,12 @@ namespace OrganStorage.BL.Extensions;
 
 public static class ObjectExtensions
 {
-	public static TObject DumpToConsole<TObject>(this TObject @object)
+	public static TObject DumpToConsole<TObject>(this TObject @object, string msg = null)
 	{
+		if (msg != null)
+		{
+			Console.WriteLine(msg);
+		}
 		var output = "NULL";
 		if (@object != null)
 		{

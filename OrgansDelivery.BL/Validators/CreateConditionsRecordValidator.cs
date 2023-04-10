@@ -17,7 +17,10 @@ public class CreateConditionsRecordValidator : AbstractValidator<CreateCondition
         RuleFor(p => p.Light)
             .Light();
 
-        RuleFor(p => p.Orientation)
-            .SetValidator(new OrientationValidator());
+		RuleFor(o => o.Ort_x)
+			.OrientationAxis();
+
+		RuleFor(o => o.Ort_y)
+			.OrientationAxis();
     }
 }

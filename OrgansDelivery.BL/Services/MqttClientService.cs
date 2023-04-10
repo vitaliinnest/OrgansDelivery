@@ -2,23 +2,31 @@
 using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Client;
+using Newtonsoft.Json;
 using OrganStorage.BL.Extensions;
+using OrganStorage.DAL.Entities;
+using System.Text;
 
 namespace OrganStorage.BL.Services;
 
 public class MqttClientService : IHostedService
 {
+	private const string CONDITIONS_RECORD_TOPIC = "conditions_record";
+
 	private readonly IMqttClient _mqttClient;
 	private readonly MqttClientOptions _options;
 	private readonly ILogger<MqttClientService> _logger;
+	private readonly IServiceProvider _serviceProvider;
 
 	public MqttClientService(
 		MqttClientOptions options,
-		ILogger<MqttClientService> logger)
+		ILogger<MqttClientService> logger,
+		IServiceProvider serviceProvider)
 	{
 		_options = options;
 		_logger = logger;
 		_mqttClient = CreateMqttClient();
+		_serviceProvider = serviceProvider;
 	}
 
 	public async Task StartAsync(CancellationToken cancellationToken)
@@ -76,6 +84,18 @@ public class MqttClientService : IHostedService
 		await _mqttClient.DisconnectAsync();
 	}
 
+	// todo: use it from an endpoint
+	private async Task PublishMessageAsync(Guid deviceId, string payload)
+	{
+		var msg = new MqttApplicationMessageBuilder()
+			.WithTopic(CONDITIONS_RECORD_TOPIC)
+			.WithPayload("19.5") // todo: send json?
+			.Build();
+
+		await _mqttClient.PublishAsync(msg);
+		msg.DumpToConsole("MESSAGE PUBLISHED");
+	}
+
 	private IMqttClient CreateMqttClient()
 	{
 		var mqttClient = new MqttFactory().CreateMqttClient();
@@ -84,10 +104,22 @@ public class MqttClientService : IHostedService
 		return mqttClient;
 	}
 	
+	// todo: save the record to database
 	private Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
 	{
-		Console.WriteLine("MESSAGE RECEIVED:");
 		eventArgs.DumpToConsole();
+		Console.WriteLine("MESSAGE RECEIVED:");
+		var payloadString = Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
+		var conditionRecord = JsonConvert.DeserializeObject<CreateConditionsRecordModel>(payloadString);
+		if (conditionRecord != null)
+		{
+			conditionRecord.DumpToConsole();
+		}
+		else
+		{
+			Console.WriteLine("Unable to map");
+		}
+
 		return Task.CompletedTask;
 	}
 
@@ -99,7 +131,7 @@ public class MqttClientService : IHostedService
 				.WithTopicFilter(
 					f =>
 					{
-						f.WithTopic("hello");
+						f.WithTopic(CONDITIONS_RECORD_TOPIC);
 					})
 				.Build();
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using OrganStorage.BL.Models;
 using OrganStorage.BL.Models.Auth;
 using OrganStorage.DAL.Entities;
+using System.Globalization;
 
 namespace OrganStorage.BL.MappingProfiles;
 
@@ -54,7 +55,11 @@ public class AuthMappingProfile : Profile
             .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
 
         // ContainerConditionsHistory
-        CreateMap<CreateConditionsRecordModel, ConditionsRecord>();
+        CreateMap<CreateConditionsRecordModel, ConditionsRecord>()
+            .ForMember(
+                dest => dest.Orientation,
+                opt => opt.MapFrom(src => new Orientation() { X = src.Ort_x, Y = src.Ort_y }))
+            .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.Sent_at_utc));
         CreateMap<ConditionsRecord, ConditionsRecordDto>();
     }
 }

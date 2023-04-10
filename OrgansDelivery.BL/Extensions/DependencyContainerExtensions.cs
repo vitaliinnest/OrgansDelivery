@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MQTTnet.Client;
 using OrganStorage.BL.MappingProfiles;
 using OrganStorage.BL.Models.Options;
@@ -62,7 +61,8 @@ public static class DependencyContainerExtensions
 			configure(optionBuilder);
 			return optionBuilder.Build();
 		});
-		services.AddSingleton<IHostedService, MqttClientService>();
+		services.AddSingleton<MqttClientService>();
+		services.AddHostedService<BackgroundServiceStarter<MqttClientService>>();
 		return services;
 	}
 }
