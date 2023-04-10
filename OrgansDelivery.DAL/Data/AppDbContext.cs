@@ -14,9 +14,9 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
     }
 
-    // todo: replace with set only
     public Guid TenantId { get; set; }
 
+    // todo: add devices
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<Invite> Invites { get; set; }
     public DbSet<Conditions> Conditions { get; set; }
