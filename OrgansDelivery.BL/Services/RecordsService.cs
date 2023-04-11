@@ -10,8 +10,8 @@ public interface IRecordsService
 {
     Task<Result<ConditionsRecordDto>> AddConditionsRecordAsync(CreateConditionsRecordModel model);
     Result<ConditionsRecordDto> GetConditionsRecord(Guid recordId);
-    Task<Result<List<ConditionsRecordDto>>> GetConditionsHistoryAsync(
-        Guid containerId, GetConditionsHistoryModel model);
+    Task<Result<List<ConditionsRecordDto>>> GetConditionsInRange(
+        Guid deviceId, GetConditionsHistoryModel model);
     List<ConditionsViolation> GetConditionViolations(GetConditionsHistoryModel model);
 }
 
@@ -33,7 +33,7 @@ public class RecordsService : IRecordsService
 
     public async Task<Result<ConditionsRecordDto>> AddConditionsRecordAsync(CreateConditionsRecordModel model)
     {
-        var device = _context.Devices.FirstOrDefault(d => d.Id == model.Device_id);
+        var device = _context.Devices.IgnoreQueryFilters().FirstOrDefault(d => d.Id == model.Device_id);
         if (device == null)
         {
             return Result.Fail("Device not found");
@@ -46,9 +46,11 @@ public class RecordsService : IRecordsService
         }
 
         var record = _mapper.Map<ConditionsRecord>(model);
+        record.TenantId = device.TenantId;
+        record.DeviceId = device.Id;
         record.ContainerId = device.ContainerId;
 
-        _context.Add(record);
+		_context.Add(record);
         _context.SaveChanges();
 
         var dto = _mapper.Map<ConditionsRecordDto>(record);
@@ -58,7 +60,7 @@ public class RecordsService : IRecordsService
 
     public Result<ConditionsRecordDto> GetConditionsRecord(Guid recordId)
     {
-        var record = _context.ConditionsHistory.FirstOrDefault(r => r.Id == recordId);
+        var record = _context.Records.FirstOrDefault(r => r.Id == recordId);
         if (record == null)
         {
             return Result.Fail("Record not found");
@@ -69,24 +71,25 @@ public class RecordsService : IRecordsService
         return dto;
     }
 
-    public async Task<Result<List<ConditionsRecordDto>>> GetConditionsHistoryAsync(
-        Guid containerId, GetConditionsHistoryModel model)
+    public async Task<Result<List<ConditionsRecordDto>>> GetConditionsInRange(
+        Guid deviceId, GetConditionsHistoryModel model)
     {
+        // todo: add validation
         //var validationResult = await _genericValidator.ValidateAsync(model);
         //if (!validationResult.IsValid)
         //{
         //    return Result.Fail(validationResult.ToString());
         //}
 
-        var containerExists = _context.Containers.Any(c => c.Id == containerId);
-        if (!containerExists)
+        var deviceExists = _context.Devices.Any(c => c.Id == deviceId);
+        if (!deviceExists)
         {
-            return Result.Fail("Container not found");
+            return Result.Fail("Device not found");
         }
 
-        var history = _context.ConditionsHistory
-            .Where(c => c.ContainerId == containerId &&
-                model.Start <= c.DateTime && c.DateTime <= model.End)
+        var history = _context.Records
+            .Where(c => c.DeviceId == deviceId &&
+                model.Start.ToUniversalTime() <= c.DateTime && c.DateTime <= model.End.ToUniversalTime())
             .ToList();
 
         var dtos = _mapper.Map<List<ConditionsRecordDto>>(history);
@@ -100,20 +103,22 @@ public class RecordsService : IRecordsService
             .Include(c => c.Conditions)
             .ToDictionary(c => c.Id);
 
-        var history = _context.ConditionsHistory
+        var history = _context.Records
             .Where(c => model.Start <= c.DateTime && c.DateTime <= model.End)
             .ToList();
 
         var violations = history
+            .Where(r => r.ContainerId.HasValue)
             .Select(record =>
             {
-                var conditions = containerByIdMap[record.ContainerId]?.Conditions
+                var conditions = containerByIdMap[record.ContainerId.Value]?.Conditions
                     ?? throw new ArgumentException("Container not found");
 
                 return new ConditionsViolation()
                 {
+                    RecordId = record.Id,
                     ContainerId = record.ContainerId,
-                    ConditionRecordId = record.Id,
+                    DeviceId = record.DeviceId,
                     Temperature = new()
                     {
                         ExpectedValue = conditions.Temperature.ExpectedValue,

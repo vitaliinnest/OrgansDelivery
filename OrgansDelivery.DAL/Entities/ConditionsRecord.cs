@@ -11,7 +11,11 @@ public class ConditionsRecord : IEntity, IMustHaveTenant, IWithOrientation
     public decimal Humidity { get; set; }
     public decimal Light { get; set; }
     public Orientation Orientation { get; set; }
-    public Guid ContainerId { get; set; }
+
+    public Guid? DeviceId {  get; set; }
+    public Device Device { get; set; }
+    
+    public Guid? ContainerId { get; set; }
     public Container Container { get; set; }
 }
 

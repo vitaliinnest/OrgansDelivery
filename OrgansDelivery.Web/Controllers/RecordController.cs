@@ -26,11 +26,11 @@ public class RecordController : ControllerBase
         return this.ToActionResult(result);
     }
 
-    [HttpGet("range/{containerId}")]
+    [HttpGet("range/{deviceId}")]
     public async Task<ActionResult<List<ConditionsRecordDto>>> GetConditionsHistory(
-        Guid containerId, [FromBody] GetConditionsHistoryModel model)
+        Guid deviceId, [FromBody] GetConditionsHistoryModel model)
     {
-        var result = await _conditionsHistoryService.GetConditionsHistoryAsync(containerId, model);
+        var result = await _conditionsHistoryService.GetConditionsInRange(deviceId, model);
         return this.ToActionResult(result);
     }
 
