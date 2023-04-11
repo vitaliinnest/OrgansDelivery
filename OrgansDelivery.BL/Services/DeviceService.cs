@@ -42,7 +42,7 @@ public class DeviceService : IDeviceService
 		var isContainerIdUsed = _context.Devices.Any(d => d.ContainerId == model.ContainerId);
 		if (isContainerIdUsed)
 		{
-			return Result.Fail("Given container already has a device");
+			return Result.Fail("Container with given containerId already has a device");
 		}
 
 		var device = _mapper.Map<Device>(model);
