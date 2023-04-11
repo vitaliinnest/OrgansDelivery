@@ -128,7 +128,7 @@ public:
         data.device_id = device_id_;
         data.temperature = random_float(-100, 100); // -100 / 100
         data.humidity = generate_humidity(); // 0 / 100
-        data.light = 10; // 0 / 20000
+        data.light = random_float(1000, 20000); // 0 / 20000
         data.ort_x = 0; // -90 / 90
         data.ort_y = 1; // -90 / 90
 
