@@ -23,10 +23,19 @@ public class AddDeviceModel
 	public int ConditionsIntervalCheckInMs { get; set; }
 }
 
-public class UpdateDeviceModel
+//public class UpdateDeviceModel
+//{
+//	public string Name { get; set; }
+//	public string Description { get; set; }
+//	public Guid ContainerId { get; set; }
+//}
+
+public class UpdateDeviceConfigurationModel
 {
-	public string Name { get; set; }
-	public string Description { get; set; }
-	public Guid ContainerId { get; set; }
 	public int ConditionsIntervalCheckInMs { get; set; }
+}
+
+public class DeviceConfigurationMessage
+{
+	public int Interval_ms { get; set; }
 }

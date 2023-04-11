@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Client;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Entities;
 using System.Text;
@@ -13,6 +14,7 @@ namespace OrganStorage.BL.Services;
 public class MqttClientService : IHostedService
 {
 	private const string CONDITIONS_RECORD_TOPIC = "conditions_record";
+	private const string CONFIGURE_DEVICE_TOPIC = "configure_device";
 
 	private readonly IMqttClient _mqttClient;
 	private readonly MqttClientOptions _options;
@@ -71,12 +73,23 @@ public class MqttClientService : IHostedService
 		await _mqttClient.DisconnectAsync();
 	}
 
-	// todo: use it from an endpoint
-	private async Task PublishMessageAsync(Guid deviceId, string payload)
+	public async Task PublishUpdateDeviceConfigurationMessageAsync(Guid deviceId, DeviceConfigurationMessage message)
 	{
+		var topic = $"{CONFIGURE_DEVICE_TOPIC}/{deviceId}";
+		
+		await PublishUpdateDeviceConfigurationMessageAsync(topic, message);
+	}
+
+	private async Task PublishUpdateDeviceConfigurationMessageAsync<T>(string topic, T payloadObject)
+	{
+		var payloadJson = JsonConvert.SerializeObject(payloadObject, new JsonSerializerSettings
+		{
+			ContractResolver = new CamelCasePropertyNamesContractResolver()
+		});
+
 		var msg = new MqttApplicationMessageBuilder()
-			.WithTopic($"{CONDITIONS_RECORD_TOPIC}/{deviceId}")
-			.WithPayload(payload) // todo: send json
+			.WithTopic(topic)
+			.WithPayload(payloadJson)
 			.Build();
 
 		await _mqttClient.PublishAsync(msg);

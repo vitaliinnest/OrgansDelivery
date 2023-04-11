@@ -14,29 +14,40 @@ const string SERVER_ADDRESS{ "tcp://localhost:1883" };
 const string DEVICE_ID{ "842a4da9-22a1-44ca-bb51-08dab797b52a" };
 
 const string CONDITIONS_RECORD_TOPIC{ "conditions_record" };
-//const string CONFIGURE_DEVICE_TOPIC{ "configure_device" };
+const string CONFIGURE_DEVICE_TOPIC{ "configure_device/" + DEVICE_ID };
 
 const int  QOS = 1;
 
-class callback : public virtual mqtt::callback
+void publish_conditions_record_message(mqtt::async_client_ptr pclient, device::ptr_t pdevice)
 {
-public:
-	void connection_lost(const string& cause) override
+	while (true)
 	{
-		cout << "\nConnection lost" << endl;
-		if (!cause.empty())
-			cout << "\tcause: " << cause << endl;
+		//conditions_record conditions = pdevice->get_conditions();
+		//cout << "Sending message to topic '" << CONDITIONS_RECORD_TOPIC << "': " << conditions.to_json_string() << endl;
+
+		//pclient->publish(CONDITIONS_RECORD_TOPIC, conditions.to_json_string())->wait();
+
+		//cout << "...OK" << endl << endl;
+
+		device_configuration configuration = pdevice->get_configuration();
+		cout << "Interval (ms):\t" << configuration.interval_ms << endl;
+		cout << "Interval (s):\t" << configuration.interval_ms / 1000 << endl;
+		cout << "UTC time now:\t" << utc_time_now_string() << endl << endl;
+		this_thread::sleep_for(chrono::milliseconds(configuration.interval_ms));
 	}
-};
+}
+
+void set_configuration_from_message(const device::ptr_t& pdevice, json message)
+{
+	device_configuration configuration;
+	configuration.from_json(message);
+	pdevice->set_configuration(configuration);
+}
 
 int main(int argc, char* argv[])
 {
-	device device(DEVICE_ID);
-
-	mqtt::async_client client(SERVER_ADDRESS, DEVICE_ID);
-
-	callback cb;
-	client.set_callback(cb);
+	auto pclient = make_shared<mqtt::async_client>(SERVER_ADDRESS, DEVICE_ID);
+	auto pdevice = make_shared<device>(DEVICE_ID);
 
 	auto connOpts = mqtt::connect_options_builder()
 		.clean_session()
@@ -45,27 +56,35 @@ int main(int argc, char* argv[])
 	try
 	{
 		// Start consumer before connecting to make sure no messages missed
-		client.start_consuming();
+		pclient->start_consuming();
 
 		cout << "Connecting..." << endl;
-		mqtt::token_ptr token = client.connect(connOpts);
+		mqtt::token_ptr connToken = pclient->connect(connOpts);
 		cout << "Waiting for the connection... ";
-		token->wait();
+		connToken->wait();
 		cout << "OK" << endl;
 
+		cout << "Subscribing to " << CONFIGURE_DEVICE_TOPIC << endl;
+		mqtt::token_ptr subToken = pclient->subscribe(CONFIGURE_DEVICE_TOPIC, QOS);
+		cout << "Waiting for the subscription... ";
+		subToken->wait();
+		cout << "OK" << endl << endl;
+
+		thread conditions_record_publisher(publish_conditions_record_message, pclient, pdevice);
+
+		// Consume messages in this thread
 		while (true)
 		{
-			conditions_record conditions = device.get_conditions();
-			cout << "Sending message to topic '" << CONDITIONS_RECORD_TOPIC << "': " << conditions.to_json_string() << endl;
-			
-			client.publish(CONDITIONS_RECORD_TOPIC, conditions.to_json_string())->wait();
-			
-			cout << "OK" << endl << endl;
-			this_thread::sleep_for(chrono::seconds(5));
+			mqtt::const_message_ptr message = pclient->consume_message();
+			cout << "Received message in topic'" << message->get_topic() << "': " << message->to_string() << endl;
+
+			json parsed_message = json::parse(message->to_string());
+
+			set_configuration_from_message(pdevice, parsed_message);
 		}
 
 		cout << "Disconnecting..." << endl;
-		client.disconnect()->wait();
+		pclient->disconnect()->wait();
 		cout << "...OK" << endl;
 	}
 	catch (const mqtt::exception& exc)

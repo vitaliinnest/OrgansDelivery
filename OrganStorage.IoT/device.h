@@ -11,13 +11,17 @@
 using namespace std;
 using namespace nlohmann;
 
+string utc_time_now_string()
+{
+    const auto now = chrono::system_clock::now();
+    return format("{:%Y-%m-%d %H:%M:%OSZ}", now);
+}
 
 float random_float(float min_val, float max_val) {
     srand(time(NULL)); // seed the random number generator with the current time
     float random_num = (float)rand() / RAND_MAX; // generate a random float between 0 and 1
     return min_val + random_num * (max_val - min_val); // scale the random number to the desired range
 }
-
 
 float generate_humidity() {
     const int rows = 100;
@@ -70,7 +74,7 @@ struct conditions_record
 
 struct device_configuration
 {
-    int interval_ms = 60000; // 1 minute
+    int interval_ms = 8000; // 8 sec
     
     json to_json()
     {
@@ -95,6 +99,8 @@ private:
     mutable condition_variable cond_;
     mutable mutex lock_;
 public:
+    using ptr_t = std::shared_ptr<device>;
+
     device(const string& device_id)
     {
         device_id_ = device_id;
@@ -105,6 +111,12 @@ public:
         guard g(lock_);
         configuration_ = configuration;
         cond_.notify_all();
+    }
+
+    device_configuration get_configuration()
+    {
+        guard g(lock_);
+        return configuration_;
     }
 
     conditions_record get_conditions() const
@@ -119,8 +131,8 @@ public:
         data.light = 10; // 0 / 20000
         data.ort_x = 0; // -90 / 90
         data.ort_y = 1; // -90 / 90
-        const auto now = chrono::system_clock::now();
-        data.sent_at_utc = format("{:%Y-%m-%d %H:%M:%OSZ}", now);
+
+        data.sent_at_utc = utc_time_now_string();
 
         return data;
     }

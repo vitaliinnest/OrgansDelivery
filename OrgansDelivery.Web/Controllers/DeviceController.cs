@@ -35,6 +35,14 @@ public class DeviceController : ControllerBase
 		return this.ToActionResult(result);
 	}
 
+	[HttpPut("configuration/{deviceId}")]
+	public async Task<ActionResult<Device>> UpdateDeviceConfiguration(
+		Guid deviceId, [FromBody] UpdateDeviceConfigurationModel model)
+	{
+		var result = await _deviceService.UpdateDeviceConfigurationAsync(deviceId, model);
+		return this.ToActionResult(result);
+	}
+
 	[HttpDelete("{deviceId}")]
 	public ActionResult RemoveDevice(Guid deviceId)
 	{
