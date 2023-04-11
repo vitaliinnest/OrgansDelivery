@@ -31,52 +31,31 @@ public class MqttClientService : IHostedService
 		_serviceProvider = serviceProvider;
 	}
 
-	public async Task StartAsync(CancellationToken cancellationToken)
+	public Task StartAsync(CancellationToken cancellationToken)
 	{
-		try
+		_ = Task.Run(async () =>
 		{
-			await _mqttClient.ConnectAsync(_options, cancellationToken);
-		}
-		catch (MqttCommunicationException)
-		{
-			_logger.LogWarning("MQTT server is not started");
-		}
-
-		#region Reconnect_Using_Timer:https://github.com/dotnet/MQTTnet/blob/master/Samples/Client/Client_Connection_Samples.cs
-		/* 
-		 * This sample shows how to reconnect when the connection was dropped.
-		 * This approach uses a custom Task/Thread which will monitor the connection status.
-		 * This is the recommended way but requires more custom code!
-	   */
-		//_ = Task.Run(async () =>
-		//{
-		//   // User proper cancellation and no while(true).
-		//	while (true)
-		//	{
-		//		try
-		//		{
-		//			// This code will also do the very first connect! So no call to _ConnectAsync_ is required in the first place.
-		//			if (!await _mqttClient.TryPingAsync())
-		//			{
-		//				await _mqttClient.ConnectAsync(_mqttClient.Options, CancellationToken.None);
-
-		//				// Subscribe to topics when session is clean etc.
-		//				_logger.LogInformation("The MQTT client is connected.");
-		//			}
-		//		}
-		//		catch (Exception ex)
-		//		{
-		//			// Handle the exception properly (logging etc.).
-		//			_logger.LogError(ex, "The MQTT client  connection failed");
-		//		}
-		//		finally
-		//		{
-		//			// Check the connection state every 5 seconds and perform a reconnect if required.
-		//			await Task.Delay(TimeSpan.FromSeconds(5));
-		//		}
-		//	}
-		//});
-		#endregion
+			while (!cancellationToken.IsCancellationRequested)
+			{
+				try
+				{
+					if (!await _mqttClient.TryPingAsync())
+					{
+						await _mqttClient.ConnectAsync(_mqttClient.Options, cancellationToken);
+						_logger.LogInformation("The MQTT client is connected.");
+					}
+				}
+				catch (Exception)
+				{
+					_logger.LogWarning("The MQTT client connection failed");
+				}
+				finally
+				{
+					await Task.Delay(TimeSpan.FromSeconds(5));
+				}
+			}
+		}, cancellationToken);
+		return Task.CompletedTask;
 	}
 
 	public async Task StopAsync(CancellationToken cancellationToken)
