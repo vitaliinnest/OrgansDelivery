@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 			client.publish(CONDITIONS_RECORD_TOPIC, conditions.to_json_string())->wait();
 			
 			cout << "OK" << endl << endl;
-			this_thread::sleep_for(chrono::seconds(3));
+			this_thread::sleep_for(chrono::seconds(5));
 		}
 
 		cout << "Disconnecting..." << endl;

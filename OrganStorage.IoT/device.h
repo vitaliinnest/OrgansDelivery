@@ -120,7 +120,7 @@ public:
         data.ort_x = 0; // -90 / 90
         data.ort_y = 1; // -90 / 90
         const auto now = chrono::system_clock::now();
-        data.sent_at_utc = format("{:%d-%m-%Y %H:%M:%OS}", now);
+        data.sent_at_utc = format("{:%Y-%m-%d %H:%M:%OSZ}", now);
 
         return data;
     }
