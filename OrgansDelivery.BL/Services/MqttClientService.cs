@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Exceptions;
 using Newtonsoft.Json;
 using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Entities;
@@ -18,17 +17,17 @@ public class MqttClientService : IHostedService
 	private readonly IMqttClient _mqttClient;
 	private readonly MqttClientOptions _options;
 	private readonly ILogger<MqttClientService> _logger;
-	private readonly IServiceProvider _serviceProvider;
+	private readonly IServiceScopeFactory _serviceScopeFactory;
 
 	public MqttClientService(
 		MqttClientOptions options,
 		ILogger<MqttClientService> logger,
-		IServiceProvider serviceProvider)
+		IServiceScopeFactory serviceScopeFactory)
 	{
 		_options = options;
 		_logger = logger;
 		_mqttClient = CreateMqttClient();
-		_serviceProvider = serviceProvider;
+		_serviceScopeFactory = serviceScopeFactory;
 	}
 
 	public Task StartAsync(CancellationToken cancellationToken)
@@ -102,7 +101,10 @@ public class MqttClientService : IHostedService
 		if (conditionRecord != null)
 		{
 			conditionRecord.DumpToConsole();
-			var recordsService = _serviceProvider.GetService<IRecordsService>();
+			
+			using var scope = _serviceScopeFactory.CreateScope();
+			var recordsService = scope.ServiceProvider.GetService<IRecordsService>();
+
 			recordsService.AddConditionsRecordAsync(conditionRecord);
 		}
 		else

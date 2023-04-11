@@ -94,10 +94,11 @@ builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IDbContextTenantEnvironmentProvider>(sp =>
 {
-    var httpContext = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
+    var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
+	var httpContext = httpContextAccessor.HttpContext;
     
-    var userIdString = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-    var tenantIdString = httpContext.User.FindFirstValue("tenantId");
+    var userIdString = httpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var tenantIdString = httpContext?.User.FindFirstValue("tenantId");
 
     return new DbContextTenantEnvironmentProvider()
     {
