@@ -9,6 +9,8 @@ using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.Web.Admin.Controllers;
 
+// todo: use nuget package
+
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(Roles = UserRoles.ADMIN)]
