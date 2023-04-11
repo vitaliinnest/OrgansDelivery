@@ -39,7 +39,7 @@ public class MqttClientService : IHostedService
 		}
 		catch (MqttCommunicationException)
 		{
-			_logger.LogWarning("Unable to connect to MQTT client");
+			_logger.LogWarning("MQTT server is not started");
 		}
 
 		#region Reconnect_Using_Timer:https://github.com/dotnet/MQTTnet/blob/master/Samples/Client/Client_Connection_Samples.cs
