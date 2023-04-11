@@ -10,12 +10,12 @@ namespace OrganStorage.Web.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class ContainerConditionsController : ControllerBase
+public class ConditionsController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly IConditionsService _conditionsService;
 
-    public ContainerConditionsController(
+    public ConditionsController(
         AppDbContext context,
         IConditionsService conditionPresetService)
     {

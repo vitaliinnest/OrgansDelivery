@@ -61,5 +61,10 @@ public class AuthMappingProfile : Profile
                 opt => opt.MapFrom(src => new Orientation() { X = src.Ort_x, Y = src.Ort_y }))
             .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.Sent_at_utc));
         CreateMap<ConditionsRecord, ConditionsRecordDto>();
-    }
+
+        // Device
+        CreateMap<AddDeviceModel, Device>().ReverseMap();
+        CreateMap<UpdateDeviceModel, Device>()
+			.ForAllMembers(o => o.Condition((src, dest, value) => value != null));
+	}
 }

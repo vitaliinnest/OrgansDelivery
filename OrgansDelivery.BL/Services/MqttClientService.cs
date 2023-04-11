@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Client;
+using MQTTnet.Exceptions;
 using Newtonsoft.Json;
 using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Entities;
@@ -31,7 +33,14 @@ public class MqttClientService : IHostedService
 
 	public async Task StartAsync(CancellationToken cancellationToken)
 	{
-		await _mqttClient.ConnectAsync(_options, cancellationToken);
+		try
+		{
+			await _mqttClient.ConnectAsync(_options, cancellationToken);
+		}
+		catch (MqttCommunicationException)
+		{
+			_logger.LogWarning("Unable to connect to MQTT client");
+		}
 
 		#region Reconnect_Using_Timer:https://github.com/dotnet/MQTTnet/blob/master/Samples/Client/Client_Connection_Samples.cs
 		/* 
@@ -39,34 +48,34 @@ public class MqttClientService : IHostedService
 		 * This approach uses a custom Task/Thread which will monitor the connection status.
 		 * This is the recommended way but requires more custom code!
 	   */
-		_ = Task.Run(async () =>
-		{
-		   // User proper cancellation and no while(true).
-			while (true)
-			{
-				try
-				{
-					// This code will also do the very first connect! So no call to _ConnectAsync_ is required in the first place.
-					if (!await _mqttClient.TryPingAsync())
-					{
-						await _mqttClient.ConnectAsync(_mqttClient.Options, CancellationToken.None);
+		//_ = Task.Run(async () =>
+		//{
+		//   // User proper cancellation and no while(true).
+		//	while (true)
+		//	{
+		//		try
+		//		{
+		//			// This code will also do the very first connect! So no call to _ConnectAsync_ is required in the first place.
+		//			if (!await _mqttClient.TryPingAsync())
+		//			{
+		//				await _mqttClient.ConnectAsync(_mqttClient.Options, CancellationToken.None);
 
-						// Subscribe to topics when session is clean etc.
-						_logger.LogInformation("The MQTT client is connected.");
-					}
-				}
-				catch (Exception ex)
-				{
-					// Handle the exception properly (logging etc.).
-					_logger.LogError(ex, "The MQTT client  connection failed");
-				}
-				finally
-				{
-					// Check the connection state every 5 seconds and perform a reconnect if required.
-					await Task.Delay(TimeSpan.FromSeconds(5));
-				}
-			}
-		});
+		//				// Subscribe to topics when session is clean etc.
+		//				_logger.LogInformation("The MQTT client is connected.");
+		//			}
+		//		}
+		//		catch (Exception ex)
+		//		{
+		//			// Handle the exception properly (logging etc.).
+		//			_logger.LogError(ex, "The MQTT client  connection failed");
+		//		}
+		//		finally
+		//		{
+		//			// Check the connection state every 5 seconds and perform a reconnect if required.
+		//			await Task.Delay(TimeSpan.FromSeconds(5));
+		//		}
+		//	}
+		//});
 		#endregion
 	}
 
@@ -88,8 +97,8 @@ public class MqttClientService : IHostedService
 	private async Task PublishMessageAsync(Guid deviceId, string payload)
 	{
 		var msg = new MqttApplicationMessageBuilder()
-			.WithTopic(CONDITIONS_RECORD_TOPIC)
-			.WithPayload("19.5") // todo: send json?
+			.WithTopic($"{CONDITIONS_RECORD_TOPIC}/{deviceId}")
+			.WithPayload(payload) // todo: send json
 			.Build();
 
 		await _mqttClient.PublishAsync(msg);
@@ -104,20 +113,22 @@ public class MqttClientService : IHostedService
 		return mqttClient;
 	}
 	
-	// todo: save the record to database
 	private Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
 	{
-		eventArgs.DumpToConsole();
-		Console.WriteLine("MESSAGE RECEIVED:");
+		Console.WriteLine("MESSAGE RECEIVED");
+		
 		var payloadString = Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
 		var conditionRecord = JsonConvert.DeserializeObject<CreateConditionsRecordModel>(payloadString);
+		
 		if (conditionRecord != null)
 		{
 			conditionRecord.DumpToConsole();
+			var recordsService = _serviceProvider.GetService<IRecordsService>();
+			recordsService.AddConditionsRecordAsync(conditionRecord);
 		}
 		else
 		{
-			Console.WriteLine("Unable to map");
+			_logger.LogWarning("Unable to map message");
 		}
 
 		return Task.CompletedTask;

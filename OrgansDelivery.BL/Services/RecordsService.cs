@@ -6,23 +6,22 @@ using OrganStorage.DAL.Entities;
 
 namespace OrganStorage.BL.Services;
 
-public interface IConditionsHistoryService
+public interface IRecordsService
 {
-    Task<Result<ConditionsRecordDto>> AddConditionsRecordAsync(
-        Guid containerId, CreateConditionsRecordModel model);
+    Task<Result<ConditionsRecordDto>> AddConditionsRecordAsync(CreateConditionsRecordModel model);
     Result<ConditionsRecordDto> GetConditionsRecord(Guid recordId);
     Task<Result<List<ConditionsRecordDto>>> GetConditionsHistoryAsync(
         Guid containerId, GetConditionsHistoryModel model);
     List<ConditionsViolation> GetConditionViolations(GetConditionsHistoryModel model);
 }
 
-public class ConditionsHistoryService : IConditionsHistoryService
+public class RecordsService : IRecordsService
 {
     private readonly IMapper _mapper;
     private readonly IGenericValidator _genericValidator;
     private readonly AppDbContext _context;
 
-    public ConditionsHistoryService(
+    public RecordsService(
         IMapper mapper,
         IGenericValidator genericValidator,
         AppDbContext context)
@@ -32,13 +31,12 @@ public class ConditionsHistoryService : IConditionsHistoryService
         _context = context;
     }
 
-    public async Task<Result<ConditionsRecordDto>> AddConditionsRecordAsync(
-        Guid containerId, CreateConditionsRecordModel model)
+    public async Task<Result<ConditionsRecordDto>> AddConditionsRecordAsync(CreateConditionsRecordModel model)
     {
-        var containerExists = _context.Containers.Any(c => c.Id == containerId);
-        if (!containerExists)
+        var device = _context.Devices.FirstOrDefault(d => d.Id == model.Device_id);
+        if (device == null)
         {
-            return Result.Fail("Container not found");
+            return Result.Fail("Device not found");
         }
 
         var validationResult = await _genericValidator.ValidateAsync(model);
@@ -48,7 +46,7 @@ public class ConditionsHistoryService : IConditionsHistoryService
         }
 
         var record = _mapper.Map<ConditionsRecord>(model);
-        record.ContainerId = containerId;
+        record.ContainerId = device.ContainerId;
 
         _context.Add(record);
         _context.SaveChanges();

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using OrganStorage.BL.Consts;
 using OrganStorage.DAL.Entities;
 using static OrganStorage.BL.Consts.ValidatorConsts;
 
@@ -17,10 +16,5 @@ public class CreateContainerValidator : AbstractValidator<CreateContainerModel>
 
         RuleFor(t => t.Description)
             .MaximumLength(GeneralConsts.MAX_LENGTH);
-
-        RuleFor(c => c.ConditionsIntervalCheckInSecs)
-            .InclusiveBetween(
-                ConditionConsts.ConditionsIntervalCheckInSecs.MIN,
-                ConditionConsts.ConditionsIntervalCheckInSecs.MAX);
     }
 }

@@ -6,6 +6,7 @@
 #include <string>
 #include <cstdlib>
 #include "nlohmann/json.hpp"
+#include <ctime>
 
 using namespace std;
 using namespace nlohmann;
@@ -82,14 +83,43 @@ public:
         conditions_record data;
 
         data.device_id = device_id_;
-        data.temperature = 20;
-        data.humidity = 0;
-        data.light = 10;
-        data.ort_x = 0;
-        data.ort_y = 1;
+        data.temperature = random_float(); // -100 - 100
+        data.humidity = generate_humidity(); // 0 - 100
+        data.light = 10; // 0 - 20000
+        data.ort_x = 0; // -90 - 90
+        data.ort_y = 1; // -90 - 90
         const auto now = chrono::system_clock::now();
         data.sent_at_utc = format("{:%d-%m-%Y %H:%M:%OS}", now);
 
         return data;
     }
 };
+
+float generate_humidity() {
+    const int rows = 100;
+    const int cols = 100;
+
+    int matrix[rows][cols];
+    int num_ones = 0;
+
+    srand(time(NULL)); // seed the random number generator with the current time
+
+    // Fill the matrix with random 0's and 1's
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = rand() % 2; // randomly generate 0 or 1
+            if (matrix[i][j] == 1) {
+                num_ones++;
+            }
+        }
+    }
+
+    double percentage_ones = (double)num_ones / (rows * cols) * 100.0;
+    return percentage_ones;
+}
+
+float random_float(float min_val, float max_val) {
+    srand(time(NULL)); // seed the random number generator with the current time
+    float random_num = (float)rand() / RAND_MAX; // generate a random float between 0 and 1
+    return min_val + random_num * (max_val - min_val); // scale the random number to the desired range
+}

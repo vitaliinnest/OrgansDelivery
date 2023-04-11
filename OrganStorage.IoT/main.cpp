@@ -127,7 +127,7 @@ const string SERVER_ADDRESS{ "tcp://localhost:1883" };
 const string DEVICE_ID{ "842a4da9-22a1-44ca-bb51-08dab797b52a" };
 
 const string CONDITIONS_RECORD_TOPIC{ "conditions_record" };
-const string CONFIGURE_DEVICE_TOPIC{ "configure_device" };
+//const string CONFIGURE_DEVICE_TOPIC{ "configure_device" };
 
 const int  QOS = 1;
 

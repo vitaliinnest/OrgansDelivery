@@ -84,7 +84,7 @@ public class ContainerService : IContainerService
         var container = _context.Containers.FirstOrDefault(i => i.Id == containerId);
         if (container == null)
         {
-            return Result.Fail("Organ not found");
+            return Result.Fail("Container not found");
         }
 
         if (container.OrganId.HasValue)

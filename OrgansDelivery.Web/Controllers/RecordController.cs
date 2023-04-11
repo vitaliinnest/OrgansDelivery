@@ -9,12 +9,12 @@ namespace OrganStorage.Web.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class ConditionsHistoryController : ControllerBase
+public class RecordController : ControllerBase
 {
-    private readonly IConditionsHistoryService _conditionsHistoryService;
+    private readonly IRecordsService _conditionsHistoryService;
 
-    public ConditionsHistoryController(
-        IConditionsHistoryService containerConditionsHistoryService)
+    public RecordController(
+        IRecordsService containerConditionsHistoryService)
     {
         _conditionsHistoryService = containerConditionsHistoryService;
     }
@@ -40,14 +40,5 @@ public class ConditionsHistoryController : ControllerBase
     {
         var violations = _conditionsHistoryService.GetConditionViolations(model);
         return Ok(violations);
-    }
-
-    [HttpPost("{containerId}")]
-    [AllowAnonymous]
-    public async Task<ActionResult<ConditionsRecordDto>> CreateContainerConditionRecord(
-        Guid containerId, [FromBody] CreateConditionsRecordModel model)
-    {
-        var result = await _conditionsHistoryService.AddConditionsRecordAsync(containerId, model);
-        return this.ToActionResult(result);
     }
 }

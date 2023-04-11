@@ -8,7 +8,6 @@ public class Container : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public Guid TenantId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public int ConditionsIntervalCheckInSecs { get; set; }
     public Guid? OrganId { get; set; }
     public Organ Organ { get; set; }
     public ICollection<ConditionsRecord> ConditionsHistory { get; set; }
@@ -21,7 +20,6 @@ public class CreateContainerModel
     public string Name { get; set; }
     public string Description { get; set; }
     public Guid ConditionsId { get; set; }
-    public int ConditionsIntervalCheckInSecs { get; set; }
     public Guid? OrganId { get; set; }
 }
 
@@ -30,5 +28,4 @@ public class UpdateContainerModel
     public string Name { get; set; }
     public string Description { get; set; }
     public Guid? ConditionsId { get; set; }
-    public int ConditionsIntervalCheckInSecs { get; set; }
 }

@@ -16,13 +16,13 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
     public Guid TenantId { get; set; }
 
-    // todo: add devices
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<Invite> Invites { get; set; }
     public DbSet<Conditions> Conditions { get; set; }
     public DbSet<Container> Containers { get; set; }
     public DbSet<Organ> Organs { get; set; }
     public DbSet<ConditionsRecord> ConditionsHistory { get; set; }
+    public DbSet<Device> Devices { get; set; }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {

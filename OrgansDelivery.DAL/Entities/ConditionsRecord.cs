@@ -29,7 +29,8 @@ public class ConditionsRecordDto
 
 public class CreateConditionsRecordModel
 {
-    public decimal Temperature { get; set; }
+    public Guid Device_id { get; set; }
+	public decimal Temperature { get; set; }
     public decimal Humidity { get; set; }
     public decimal Light { get; set; }
     public decimal Ort_x { get; set; }
