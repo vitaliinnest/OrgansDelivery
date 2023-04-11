@@ -41,7 +41,7 @@ public class MqttClientService : IHostedService
 				{
 					if (!await _mqttClient.TryPingAsync())
 					{
-						await _mqttClient.ConnectAsync(_mqttClient.Options, cancellationToken);
+						await _mqttClient.ConnectAsync(_options, cancellationToken);
 						_logger.LogInformation("The MQTT client is connected.");
 					}
 				}
