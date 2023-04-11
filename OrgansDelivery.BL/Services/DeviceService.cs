@@ -8,7 +8,7 @@ namespace OrganStorage.BL.Services;
 
 public interface IDeviceService
 {
-	Task<Result> AddDeviceAsync(AddDeviceModel model);
+	Task<Result<Device>> AddDeviceAsync(AddDeviceModel model);
 	Result RemoveDevice(Guid deviceId);
 }
 
@@ -25,7 +25,7 @@ public class DeviceService : IDeviceService
 		_context = context;
 	}
 
-	public async Task<Result> AddDeviceAsync(AddDeviceModel model)
+	public async Task<Result<Device>> AddDeviceAsync(AddDeviceModel model)
 	{
 		var validationResult = await _genericValidator.ValidateAsync(model);
 		if (!validationResult.IsValid)
@@ -39,12 +39,18 @@ public class DeviceService : IDeviceService
 			return Result.Fail("Device with given id is already used");
 		}
 
+		var isContainerIdUsed = _context.Devices.Any(d => d.ContainerId == model.ContainerId);
+		if (isContainerIdUsed)
+		{
+			return Result.Fail("Given container already has a device");
+		}
+
 		var device = _mapper.Map<Device>(model);
 
 		_context.Add(device);
 		_context.SaveChanges();
 
-		return Result.Ok();
+		return device;
 	}
 
 	public Result RemoveDevice(Guid deviceId)

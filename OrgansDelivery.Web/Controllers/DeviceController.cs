@@ -29,7 +29,7 @@ public class DeviceController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<Container>> AddDevice([FromBody] AddDeviceModel model)
+	public async Task<ActionResult<Device>> AddDevice([FromBody] AddDeviceModel model)
 	{
 		var result = await _deviceService.AddDeviceAsync(model);
 		return this.ToActionResult(result);
