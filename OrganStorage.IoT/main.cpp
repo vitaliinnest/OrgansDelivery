@@ -22,12 +22,12 @@ void publish_conditions_record_message(mqtt::async_client_ptr pclient, device::p
 {
 	while (true)
 	{
-		//conditions_record conditions = pdevice->get_conditions();
-		//cout << "Sending message to topic '" << CONDITIONS_RECORD_TOPIC << "': " << conditions.to_json_string() << endl;
+		conditions_record conditions = pdevice->get_conditions();
+		cout << "Sending message to topic '" << CONDITIONS_RECORD_TOPIC << "': " << conditions.to_json_string() << endl;
 
-		//pclient->publish(CONDITIONS_RECORD_TOPIC, conditions.to_json_string())->wait();
+		pclient->publish(CONDITIONS_RECORD_TOPIC, conditions.to_json_string())->wait();
 
-		//cout << "...OK" << endl << endl;
+		cout << "...OK" << endl << endl;
 
 		device_configuration configuration = pdevice->get_configuration();
 		cout << "Interval (ms):\t" << configuration.interval_ms << endl;
