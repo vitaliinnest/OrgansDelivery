@@ -69,7 +69,7 @@ public class DeviceService : IDeviceService
 		//	return Result.Fail(validationResult.ToString());
 		//}
 
-		var device = _context.Devices.FirstOrDefault(d => d.Id == deviceId);
+		var device = _context.Devices.IgnoreQueryFilters().FirstOrDefault(d => d.Id == deviceId);
 		if (device == null)
 		{
 			return Result.Fail("Device not found");
