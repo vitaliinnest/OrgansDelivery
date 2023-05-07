@@ -7,7 +7,7 @@ public class Device : IEntity, IMustHaveTenant, IWithName, IWithDescription
 	public Guid Id { get; set; }
 	public Guid TenantId { get; set; }
 	public string Name { get; set; }
-	public string Description { get; set; }
+	public string Description { get; set; } // todo: is description needed?
 	public int ConditionsIntervalCheckInMs { get; set; }
 	public Guid? ContainerId { get; set; }
 	public Container Container { get; set; }

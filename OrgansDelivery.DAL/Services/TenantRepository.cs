@@ -6,7 +6,6 @@ namespace OrganStorage.DAL.Services;
 public interface ITenantRepository
 {
     Tenant GetTenantById(Guid tenantId);
-    Tenant GetTenantByUrl(string tenantUrl);
 }
 
 public class TenantRepository : ITenantRepository
@@ -23,11 +22,6 @@ public class TenantRepository : ITenantRepository
     public Tenant GetTenantById(Guid tenantId)
     {
         return FindTenant(t => t.Id == tenantId);
-    }
-
-    public Tenant GetTenantByUrl(string tenantUrl)
-    {
-        return FindTenant(t => t.Url == tenantUrl);
     }
 
     private Tenant FindTenant(Func<Tenant, bool> predicate)
