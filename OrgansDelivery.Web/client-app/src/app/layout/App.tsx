@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import NavBar from "./NavBar";
 import { observer } from "mobx-react-lite";
-import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useStore } from "../stores/store";
 import LoadingBackdrop from "./LoadingBackdrop";
 
-export default observer(function App() {
-    const location = useLocation();
+const App = () => {
     const { commonStore, userStore } = useStore();
 
     useEffect(() => {
@@ -36,4 +35,6 @@ export default observer(function App() {
             </>
         </>
     );
-});
+}
+
+export default observer(App);
