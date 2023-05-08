@@ -41,9 +41,7 @@ public class UserService : IUserService
             return Result.Fail("User not set");
         }
 
-        var dto = await UserToDtoAsync(user);
-
-        return dto;
+        return await UserToDtoAsync(user);
     }
 
     public async Task<Result<UserDto>> UpdateUser(UpdateUserModel model)

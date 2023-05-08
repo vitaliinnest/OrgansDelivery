@@ -10,7 +10,7 @@ const sleep = (delay: number) => {
     });
 };
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = "https://localhost:4000/api";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -68,22 +68,21 @@ axios.interceptors.response.use(
 
 const requests = {
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    post: <T>(url: string, body: {}) =>
-        axios.post<T>(url, body).then(responseBody),
-    put: <T>(url: string, body: {}) =>
-        axios.put<T>(url, body).then(responseBody),
+    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
     del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
-const Account = {
-    current: () => requests.get<User>("account"),
-    login: (login: Login) => requests.post<User>("/account/login", login),
-    register: (register: Register) =>
-        requests.post<User>("/account/register", register),
+const UserActions = {
+    login: (login: Login) => requests.post<User>("/auth/login", login),
+    register: (register: Register) => requests.post<User>("/auth/register", register),
+    confirmEmail: (userId: string, token: string) => 
+        requests.post<void>(`/auth/confirmEmail?userId=${userId}&token=${token}`, {}),
+    current: () => requests.get<User>("/user"),
 };
 
 const agent = {
-    Account,
+    UserActions,
 };
 
 export default agent;

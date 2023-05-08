@@ -45,6 +45,7 @@ const mainOptions: NavigationMenuOption[] = [
 
 const NavBar = () => {
     const [accountMenuAnchorEl, setAccountMenuAnchorEl] = useState<null | HTMLElement>(null);
+    const { userStore } = useStore();
     
     const onAccountMenuClick = (event: React.MouseEvent<HTMLElement>) => {
         setAccountMenuAnchorEl(event.currentTarget);
@@ -55,7 +56,6 @@ const NavBar = () => {
     };
     
     const navigate = useNavigate();
-    const { userStore } = useStore();
 
     const profileOptions: ActionMenuOption[] = [
         {

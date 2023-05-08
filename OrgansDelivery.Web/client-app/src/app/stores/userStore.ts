@@ -17,7 +17,7 @@ export default class UserStore {
 
     login = async (creds: Login) => {
         try {
-            const user = await agent.Account.login(creds);
+            const user = await agent.UserActions.login(creds);
             store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
         } catch (error) {
@@ -27,7 +27,7 @@ export default class UserStore {
 
     register = async (creds: Register) => {
         try {
-            const user = await agent.Account.register(creds);
+            const user = await agent.UserActions.register(creds);
             store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
         } catch (error) {
@@ -43,7 +43,7 @@ export default class UserStore {
 
     getUser = async () => {
         try {
-            const user = await agent.Account.current();
+            const user = await agent.UserActions.current();
             runInAction(() => (this.user = user));
         } catch (error) {
             console.log(error);
