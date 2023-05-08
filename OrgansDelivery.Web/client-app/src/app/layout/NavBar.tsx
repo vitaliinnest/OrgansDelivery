@@ -14,13 +14,21 @@ import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { useStore } from "../stores/store";
 
-type NavigationOption = {
+type MenuOption = {
     title: string;
+};
+
+type NavigationMenuOption = MenuOption & {
     path: string;
 };
 
-const mainOptions: NavigationOption[] = [
+type ActionMenuOption = MenuOption & {
+    onClick: () => void;
+}
+
+const mainOptions: NavigationMenuOption[] = [
     {
         title: "Organs",
         path: "/organs",
@@ -35,27 +43,30 @@ const mainOptions: NavigationOption[] = [
     },
 ];
 
-const profileOptions: NavigationOption[] = [
-    {
-        title: "Profile",
-        path: "/profile",
-    },
-    {
-        title: "Logout",
-        path: "/logout"
-    },
-];
-
 const NavBar = () => {
-    const navigate = useNavigate();
     const [accountMenuAnchorEl, setAccountMenuAnchorEl] = useState<null | HTMLElement>(null);
     
     const onAccountMenuClick = (event: React.MouseEvent<HTMLElement>) => {
         setAccountMenuAnchorEl(event.currentTarget);
     };
+    
     const onAccountMenuClose = () => {
         setAccountMenuAnchorEl(null);
     };
+    
+    const navigate = useNavigate();
+    const { userStore } = useStore();
+
+    const profileOptions: ActionMenuOption[] = [
+        {
+            title: "Profile",
+            onClick: () => navigate("/profile"),
+        },
+        {
+            title: "Logout",
+            onClick: () => userStore.logout()
+        },
+    ];
 
     return (
         <AppBar position="static">
@@ -130,13 +141,13 @@ const NavBar = () => {
                             open={Boolean(accountMenuAnchorEl)}
                             onClose={onAccountMenuClose}
                         >
-                            {profileOptions.map((setting) => (
+                            {profileOptions.map((option) => (
                                 <MenuItem
-                                    key={setting.title}
-                                    onClick={() => undefined}
+                                    key={option.title}
+                                    onClick={option.onClick}
                                 >
                                     <Typography textAlign="center">
-                                        {setting.title}
+                                        {option.title}
                                     </Typography>
                                 </MenuItem>
                             ))}
@@ -151,7 +162,7 @@ const NavBar = () => {
 export default observer(NavBar);
 
 
-const threeDotsMenuOptions: NavigationOption[] = [
+const threeDotsMenuOptions: NavigationMenuOption[] = [
     {
         title: "Invites",
         path: "/invites"
