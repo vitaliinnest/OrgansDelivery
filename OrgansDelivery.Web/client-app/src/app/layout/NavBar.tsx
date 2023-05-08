@@ -173,8 +173,6 @@ const threeDotsMenuOptions: NavigationMenuOption[] = [
     },
 ];
 
-const ITEM_HEIGHT = 48;
-
 const ThreeDotsMenu = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -211,18 +209,9 @@ const ThreeDotsMenu = () => {
                 </IconButton>
             </Tooltip>
             <Menu
-                MenuListProps={{
-                    "aria-labelledby": "long-button",
-                }}
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
-                PaperProps={{
-                    style: {
-                        maxHeight: ITEM_HEIGHT * 4.5,
-                        width: "20ch",
-                    },
-                }}
             >
                 {threeDotsMenuOptions.map((option) => (
                     <MenuItem
