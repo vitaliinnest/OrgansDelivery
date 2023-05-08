@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import agent from '../../app/api/agent';
 import useQuery from '../../app/util/hooks';
+import LoadingBackdrop from '../../app/layout/LoadingBackdrop';
 
 const ConfirmEmail = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const ConfirmEmail = () => {
         });
     }, [navigate, token, userId]);
     
-    return <></>;
+    return <LoadingBackdrop />;
 }
 
 export default observer(ConfirmEmail);

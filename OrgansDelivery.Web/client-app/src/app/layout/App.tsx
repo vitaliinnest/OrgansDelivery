@@ -1,10 +1,11 @@
+import React, { useEffect } from "react";
 import NavBar from "./NavBar";
 import { observer } from "mobx-react-lite";
 import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import HomePage from "../../features/home/HomePage";
 import { ToastContainer } from "react-toastify";
 import { useStore } from "../stores/store";
-import { useEffect } from "react";
+import LoadingBackdrop from "./LoadingBackdrop";
 
 export default observer(function App() {
     const location = useLocation();
@@ -18,9 +19,9 @@ export default observer(function App() {
         }
     }, [commonStore, userStore]);
 
-    // if (!commonStore.appLoaded) {
-    //     return <LoadingComponent content="Loading app..." />;
-    // }
+    if (!commonStore.appLoaded) {
+        return <LoadingBackdrop />;
+    }
 
     return (
         <>
@@ -30,13 +31,10 @@ export default observer(function App() {
                 hideProgressBar
                 theme="colored"
             />
-            {location.pathname !== "/" ? <HomePage /> : (
+            {location.pathname === "/" ? <HomePage /> : (
                 <>
                     <NavBar />
                     <Outlet />
-                    {/* <Container style={{ marginTop: "7em" }}>
-                        <Outlet />
-                    </Container> */}
                 </>
             )}
         </>

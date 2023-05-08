@@ -13,6 +13,14 @@ export const routes: RouteObject[] = [
             {
                 element: <RequireAuth />,
                 children: [
+                    // { path: "organs", element: <OrgansList /> },
+                    // { path: "organs/:organId", element: <OrganDetails /> },
+                    // { path: "containers", element: <ContainersList /> },
+                    // { path: "containers/:containerId", element: <ContainerDetails /> },
+                    // { path: "conditions", element: <ConditionsList /> },
+                    // { path: "conditions/:conditionId", element: <ConditionsDetails /> },
+                    // { path: "invites", element: <InvitesList /> },
+                    // { path: "users", element: <UsersList /> },
                 ],
             },
             { path: "/confirmEmail", element: <ConfirmEmail /> },
