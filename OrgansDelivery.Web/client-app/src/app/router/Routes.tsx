@@ -4,6 +4,9 @@ import ServerError from "../../features/errors/ServerError";
 import App from "../layout/App";
 import RequireAuth from "./RequireAuth";
 import ConfirmEmail from "../../features/users/ConfirmEmail";
+import SignUpPage from "../../features/users/SignUpPage";
+import SignInPage from "../../features/users/SignInPage";
+import CreateTenantPage from "../../features/tenants/CreateTenantPage";
 
 export const routes: RouteObject[] = [
     {
@@ -13,6 +16,7 @@ export const routes: RouteObject[] = [
             {
                 element: <RequireAuth />,
                 children: [
+                    { path: "/create-tenant", element: <CreateTenantPage /> },
                     // { path: "organs", element: <OrgansList /> },
                     // { path: "organs/:organId", element: <OrganDetails /> },
                     // { path: "containers", element: <ContainersList /> },
@@ -26,8 +30,16 @@ export const routes: RouteObject[] = [
             { path: "/confirmEmail", element: <ConfirmEmail /> },
             { path: "not-found", element: <NotFound /> },
             { path: "server-error", element: <ServerError /> },
-            { path: "*", element: <Navigate replace to="/not-found" /> },
+            { path: "*", element: <Navigate replace to="/organs" /> },
         ],
+    },
+    {
+        path: "/sign-in",
+        element: <SignInPage />,
+    },
+    {
+        path: "/sign-up",
+        element: <SignUpPage />,
     },
 ];
 

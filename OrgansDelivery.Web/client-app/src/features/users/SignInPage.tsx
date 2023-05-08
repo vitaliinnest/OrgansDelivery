@@ -1,8 +1,19 @@
 import { ErrorMessage, Form, Formik } from "formik";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../app/stores/store";
+import * as yup from 'yup';
 
-export default observer(function LoginForm() {
+// const validationSchema = yup.object({
+//     email: yup
+//         .string().email().required(),
+//     password: yup
+//         .string("Enter your password")
+//         .min(8, "Password should be of minimum 8 characters length")
+//         .required("Password is required"),
+// });
+  
+
+const SignInPage = () => {
     const { userStore } = useStore();
     return (
         <Formik
@@ -55,4 +66,6 @@ export default observer(function LoginForm() {
             )}
         </Formik>
     );
-});
+}
+
+export default observer(SignInPage);
