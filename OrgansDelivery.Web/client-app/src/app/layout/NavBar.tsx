@@ -15,13 +15,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
-type NavBarPage = {
+type NavigationOption = {
     title: string;
-    path?: string;
-    onClick?: () => void;
+    path: string;
 };
 
-const pages: NavBarPage[] = [
+const mainOptions: NavigationOption[] = [
     {
         title: "Organs",
         path: "/organs",
@@ -36,21 +35,27 @@ const pages: NavBarPage[] = [
     },
 ];
 
-// todo: move to a separate menu "Invites", "Users"
-const settings: NavBarPage[] = [
+const profileOptions: NavigationOption[] = [
     {
         title: "Profile",
         path: "/profile",
     },
     {
         title: "Logout",
+        path: "/logout"
     },
 ];
 
 const NavBar = () => {
     const navigate = useNavigate();
-    const [openAccountMenu, setOpenAccountMenu] = useState(false);
-    const [openThreeDotsMenu, setOpenThreeDotsMenu] = useState(false);
+    const [accountMenuAnchorEl, setAccountMenuAnchorEl] = useState<null | HTMLElement>(null);
+    
+    const onAccountMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAccountMenuAnchorEl(event.currentTarget);
+    };
+    const onAccountMenuClose = () => {
+        setAccountMenuAnchorEl(null);
+    };
 
     return (
         <AppBar position="static">
@@ -84,11 +89,11 @@ const NavBar = () => {
                             display: "flex",
                         }}
                     >
-                        {pages.map((page) => (
+                        {mainOptions.map((page) => (
                             <Button
                                 key={page.title}
                                 sx={{ my: 2, mr: 2, color: "white", display: "block" }}
-                                onClick={() => page.path && navigate(page.path)}
+                                onClick={() => navigate(page.path)}
                             >
                                 <Typography
                                     variant="h6"
@@ -100,13 +105,17 @@ const NavBar = () => {
                             </Button>
                         ))}
                     </Box>
+                    <ThreeDotsMenu />
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={() => setOpenAccountMenu(true)} sx={{ p: 0 }}>
+                        <Tooltip title="Profile">
+                            <IconButton
+                                onClick={onAccountMenuClick}
+                            >
                                 <Avatar />
                             </IconButton>
                         </Tooltip>
                         <Menu
+                            anchorEl={accountMenuAnchorEl}
                             sx={{ mt: "45px" }}
                             id="menu-appbar"
                             anchorOrigin={{
@@ -118,10 +127,10 @@ const NavBar = () => {
                                 vertical: "top",
                                 horizontal: "right",
                             }}
-                            open={openAccountMenu}
-                            onClose={() => setOpenAccountMenu(false)}
+                            open={Boolean(accountMenuAnchorEl)}
+                            onClose={onAccountMenuClose}
                         >
-                            {settings.map((setting) => (
+                            {profileOptions.map((setting) => (
                                 <MenuItem
                                     key={setting.title}
                                     onClick={() => undefined}
@@ -140,3 +149,79 @@ const NavBar = () => {
 };
 
 export default observer(NavBar);
+
+
+const threeDotsMenuOptions: NavigationOption[] = [
+    {
+        title: "Invites",
+        path: "/invites"
+    },
+    {
+        title: "Users",
+        path: "/users",
+    },
+];
+
+const ITEM_HEIGHT = 48;
+
+const ThreeDotsMenu = () => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const navigate = useNavigate();
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    return (
+        <Box
+            sx={{
+                mr: 1
+            }}
+        >
+            <Tooltip
+                title="Tenant Settings"
+            >
+                <IconButton
+                    aria-label="more"
+                    id="long-button"
+                    aria-controls={open ? "long-menu" : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                    sx={{
+                        color: "inherit"
+                    }}
+                >
+                    <MoreVertIcon />
+                </IconButton>
+            </Tooltip>
+            <Menu
+                MenuListProps={{
+                    "aria-labelledby": "long-button",
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        maxHeight: ITEM_HEIGHT * 4.5,
+                        width: "20ch",
+                    },
+                }}
+            >
+                {threeDotsMenuOptions.map((option) => (
+                    <MenuItem
+                        key={option.title}
+                        onClick={() => navigate(option.path)}
+                    >
+                        {option.title}
+                    </MenuItem>
+                ))}
+            </Menu>
+        </Box>
+    );
+}
