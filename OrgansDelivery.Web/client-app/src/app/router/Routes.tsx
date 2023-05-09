@@ -34,7 +34,7 @@ export const routes: RouteObject[] = [
                     },
                 ],
             },
-            { path: "/confirmEmail", element: <ConfirmEmail /> },
+            { path: "/confirm-email", element: <ConfirmEmail /> },
             { path: "not-found", element: <NotFound /> },
             { path: "server-error", element: <ServerError /> },
             { path: "*", element: <Navigate replace to="/organs" /> },

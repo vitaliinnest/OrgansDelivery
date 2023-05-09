@@ -14,7 +14,7 @@ const ConfirmEmail = () => {
     
     useEffect(() => {
         agent.UserActions.confirmEmail(userId, token).then(() => {
-            navigate('/login');
+            navigate('/sign-in');
             toast.success('Email confirmed. You can login now');
         });
     }, [navigate, token, userId]);
