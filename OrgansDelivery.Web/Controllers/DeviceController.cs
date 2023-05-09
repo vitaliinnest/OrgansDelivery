@@ -21,6 +21,7 @@ public class DeviceController : ControllerBase
 		_deviceService = deviceService;
 	}
 
+	[HttpGet]
 	public ActionResult<List<Device>> GetDevices()
 	{
 		var devices = _context.Devices.ToList();

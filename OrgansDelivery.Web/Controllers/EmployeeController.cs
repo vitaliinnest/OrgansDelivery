@@ -19,7 +19,8 @@ public class EmployeeController : ControllerBase
         _employeeService = employeeService;
     }
 
-    public ActionResult<List<UserDto>> GetEmployees()
+	[HttpGet]
+	public ActionResult<List<UserDto>> GetEmployees()
     {
         var employees = _employeeService.GetEmployees();
         return Ok(employees);

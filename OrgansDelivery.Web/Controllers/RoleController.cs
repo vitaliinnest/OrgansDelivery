@@ -17,7 +17,8 @@ public class RoleController : ControllerBase
         _roleService = roleService;
     }
 
-    public ActionResult<List<RoleDto>> GetRoles()
+	[HttpGet]
+	public ActionResult<List<RoleDto>> GetRoles()
     {
         var roles = _roleService.GetRoles();
         return Ok(roles);

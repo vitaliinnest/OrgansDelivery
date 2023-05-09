@@ -21,7 +21,8 @@ public class OrganController : ControllerBase
         _context = context;
     }
 
-    public ActionResult<List<Organ>> GetOrgans()
+	[HttpGet]
+	public ActionResult<List<Organ>> GetOrgans()
     {
         var organs = _context.Organs.ToList();
         return Ok(organs);

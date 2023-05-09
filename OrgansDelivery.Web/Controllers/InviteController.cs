@@ -25,7 +25,8 @@ public class InviteController : ControllerBase
         _inviteService = inviteService;
     }
 
-    public ActionResult<List<Invite>> GetInvites()
+	[HttpGet]
+	public ActionResult<List<Invite>> GetInvites()
     {
         var invites = _appDbContext.Invites.ToList();
         return Ok(invites);

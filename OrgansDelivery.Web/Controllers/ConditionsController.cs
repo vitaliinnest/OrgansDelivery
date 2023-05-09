@@ -23,7 +23,8 @@ public class ConditionsController : ControllerBase
         _conditionsService = conditionPresetService;
     }
 
-    public ActionResult<List<Conditions>> GetConditions()
+	[HttpGet]
+	public ActionResult<List<Conditions>> GetConditions()
     {
         var conditionsList = _context.Conditions.ToList();
         return Ok(conditionsList);
