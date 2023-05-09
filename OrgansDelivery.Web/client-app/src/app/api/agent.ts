@@ -6,9 +6,13 @@ import { store } from "../stores/store";
 import { CreateTenant, Tenant } from "../models/tenant";
 import { CreateOrgan, Organ } from "../models/organ";
 import { Container, CreateContainer } from "../models/container";
-import { Conditions, CreateConditions } from "../models/condition";
+import { Conditions, CreateConditions } from "../models/conditions";
 import { CreateInvite, Invite } from "../models/invite";
 import { Employee } from "../models/employee";
+import {
+    ConditionsRecord,
+    ConditionsViolation,
+} from "../models/conditionsRecord";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -103,8 +107,7 @@ const InviteActions = {
     getInvites: () => requests.get<Invite[]>("/invite"),
     createInvite: (invite: CreateInvite) =>
         requests.post<Invite>("/invite", invite),
-    deleteInvite: (inviteId: string) =>
-        requests.del(`/invite/${inviteId}`),
+    deleteInvite: (inviteId: string) => requests.del(`/invite/${inviteId}`),
 };
 
 const EmployeeActions = {
@@ -114,26 +117,32 @@ const EmployeeActions = {
 };
 
 const OrganActions = {
-    loadOrgans: () => requests.get<Organ[]>("/organ"),
-    createOrgan: (organ: CreateOrgan) =>
-        requests.post<Organ>("/organ", organ),
+    getOrgans: () => requests.get<Organ[]>("/organ"),
+    createOrgan: (organ: CreateOrgan) => requests.post<Organ>("/organ", organ),
     deleteOrgan: (organId: string) => requests.del(`/organ/${organId}`),
 };
 
 const ContainerActions = {
-    loadContainers: () => requests.get<Container[]>("/container"),
-    createContainer: (container: CreateContainer[]) =>
-        requests.post("/container", container),
+    getContainers: () => requests.get<Container[]>("/container"),
+    createContainer: (container: CreateContainer) =>
+        requests.post<Container>("/container", container),
     deleteContainer: (containerId: string) =>
         requests.del(`/container/${containerId}`),
 };
 
 const ConditionsActions = {
-    loadConditions: () => requests.get<Conditions[]>("/conditions"),
+    getConditions: () => requests.get<Conditions[]>("/conditions"),
     createConditions: (conditions: CreateConditions) =>
         requests.post("/conditions", conditions),
     deleteConditions: (conditionsId: string) =>
         requests.del(`/conditions/${conditionsId}`),
+};
+
+const ConditionsRecordActions = {
+    getConditionsRecords: () =>
+        requests.get<Map<string, ConditionsRecord[]>>("/record"),
+    getViolations: () =>
+        requests.get<Map<string, ConditionsViolation[]>>(`/record/violations`),
 };
 
 const agent = {
@@ -144,6 +153,7 @@ const agent = {
     OrganActions,
     ContainerActions,
     ConditionsActions,
+    ConditionsRecordActions,
 };
 
 export default agent;

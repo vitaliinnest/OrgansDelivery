@@ -116,7 +116,7 @@ public class MqttClientService : IHostedService
 			conditionRecord.DumpToConsole();
 			
 			using var scope = _serviceScopeFactory.CreateScope();
-			var recordsService = scope.ServiceProvider.GetService<IRecordsService>();
+			var recordsService = scope.ServiceProvider.GetService<IConditionsRecordService>();
 
 			recordsService.AddConditionsRecordAsync(conditionRecord);
 		}

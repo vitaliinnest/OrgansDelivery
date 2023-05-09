@@ -11,34 +11,25 @@ namespace OrganStorage.Web.Controllers;
 [Authorize]
 public class RecordController : ControllerBase
 {
-    private readonly IRecordsService _conditionsHistoryService;
+	private readonly IConditionsRecordService _recordsService;
 
-    public RecordController(
-        IRecordsService containerConditionsHistoryService)
-    {
-        _conditionsHistoryService = containerConditionsHistoryService;
-    }
+	public RecordController(
+		IConditionsRecordService recordsService)
+	{
+		_recordsService = recordsService;
+	}
 
-    [HttpGet("{recordId}")]
-    public ActionResult<ConditionsRecordDto> GetConditionsRecord(Guid recordId)
-    {
-        var result = _conditionsHistoryService.GetConditionsRecord(recordId);
-        return this.ToActionResult(result);
-    }
+	[HttpGet("{organId}")]
+	public ActionResult<List<ConditionsRecordDto>> GetOrganRecords(Guid organId)
+	{
+		var result = _recordsService.GetOrganRecords(organId);
+		return this.ToActionResult(result);
+	}
 
-    [HttpGet("range/{deviceId}")]
-    public async Task<ActionResult<List<ConditionsRecordDto>>> GetConditionsHistory(
-        Guid deviceId, [FromBody] GetConditionsHistoryModel model)
-    {
-        var result = await _conditionsHistoryService.GetConditionsInRange(deviceId, model);
-        return this.ToActionResult(result);
-    }
-
-    [HttpGet("violations")]
-    public ActionResult<List<ConditionsViolation>> GetContainerConditionViolations(
-        [FromBody] GetConditionsHistoryModel model)
-    {
-        var violations = _conditionsHistoryService.GetConditionViolations(model);
-        return Ok(violations);
-    }
+	[HttpGet("{organId}/violations")]
+	public ActionResult<List<ConditionsViolation>> GetOrganViolations(Guid organId)
+	{
+		var violations = _recordsService.GetOrganViolations(organId);
+		return Ok(violations);
+	}
 }

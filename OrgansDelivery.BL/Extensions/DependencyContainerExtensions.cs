@@ -34,7 +34,7 @@ public static class DependencyContainerExtensions
         services.AddScoped<IConditionsService, ConditionsService>();
         services.AddScoped<IOrganService, OrganService>();
 		services.AddMqttClientHostedService(configuration);
-        services.AddScoped<IRecordsService, RecordsService>();
+        services.AddScoped<IConditionsRecordService, ConditionsRecordService>();
 		services.AddScoped<IDeviceService, DeviceService>();
 	}
 
