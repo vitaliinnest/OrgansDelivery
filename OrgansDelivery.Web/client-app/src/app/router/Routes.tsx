@@ -19,7 +19,7 @@ export const routes: RouteObject[] = [
                 children: [
                     { path: "create-tenant", element: <CreateTenantPage /> },
                     {
-                        path: "/",
+                        // todo: test
                         element: <RequireTenant />,
                         children: [
                             // { path: "organs", element: <OrgansList /> },
