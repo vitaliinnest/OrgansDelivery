@@ -8,7 +8,7 @@ namespace OrganStorage.BL.Services;
 public interface IConditionsService
 {
     Task<Result<Conditions>> CreateContainerConditionsAsync(
-        CreateContainerConditionsModel model);
+        CreateConditionsModel model);
     Task<Result<Conditions>> UpdateContainerConditionsAsync(
         Guid conditionsId, UpdateConditionsModel model);
     Result<Conditions> GetConditions(Guid conditionsId);
@@ -32,7 +32,7 @@ public class ConditionsService : IConditionsService
     }
 
     public async Task<Result<Conditions>> CreateContainerConditionsAsync(
-        CreateContainerConditionsModel model)
+        CreateConditionsModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)

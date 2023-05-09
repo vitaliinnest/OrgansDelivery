@@ -8,7 +8,7 @@ namespace OrganStorage.BL.Services;
 
 public interface IEmployeeService
 {
-    List<UserDto> GetEmployees();
+    List<EmployeeDto> GetEmployees();
     Task<Result> DeleteEmployeeAsync(Guid employeeId);
 }
 
@@ -28,10 +28,10 @@ public class EmployeeService : IEmployeeService
         _mapper = mapper;
     }
 
-    public List<UserDto> GetEmployees()
+    public List<EmployeeDto> GetEmployees()
     {
         var users = _appDbContext.Users.ToList();
-        return _mapper.Map<List<UserDto>>(users);
+        return _mapper.Map<List<EmployeeDto>>(users);
     }
 
     public async Task<Result> DeleteEmployeeAsync(Guid employeeId)

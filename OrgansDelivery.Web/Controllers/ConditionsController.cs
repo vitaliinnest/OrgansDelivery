@@ -39,7 +39,7 @@ public class ConditionsController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult<Conditions>> CreateContainerConditions(
-        [FromBody] CreateContainerConditionsModel model)
+        [FromBody] CreateConditionsModel model)
     {
         var result = await _conditionsService.CreateContainerConditionsAsync(model);
         return this.ToActionResult(result);

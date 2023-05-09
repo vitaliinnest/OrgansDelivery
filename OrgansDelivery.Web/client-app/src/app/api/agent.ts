@@ -3,6 +3,12 @@ import { toast } from "react-toastify";
 import { User, Login, Register } from "../models/user";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
+import { CreateTenant, Tenant } from "../models/tenant";
+import { CreateOrgan, Organ } from "../models/organ";
+import { Container, CreateContainer } from "../models/container";
+import { Conditions, CreateConditions } from "../models/condition";
+import { CreateInvite, Invite } from "../models/invite";
+import { Employee } from "../models/employee";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -68,21 +74,76 @@ axios.interceptors.response.use(
 
 const requests = {
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
-    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+    post: <T>(url: string, body: {}) =>
+        axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: {}) =>
+        axios.put<T>(url, body).then(responseBody),
     del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
 const UserActions = {
     login: (login: Login) => requests.post<User>("/auth/login", login),
-    register: (register: Register) => requests.post<User>("/auth/register", register),
-    confirmEmail: (userId: string, token: string) => 
-        requests.post<void>(`/auth/confirmEmail?userId=${userId}&token=${token}`, {}),
+    register: (register: Register) =>
+        requests.post<User>("/auth/register", register),
+    confirmEmail: (userId: string, token: string) =>
+        requests.post<void>(
+            `/auth/confirmEmail?userId=${userId}&token=${token}`,
+            {}
+        ),
     current: () => requests.get<User>("/user"),
+};
+
+const TenantActions = {
+    loadTenant: () => requests.get<Tenant>("/tenant"),
+    createTenant: (tenant: CreateTenant) =>
+        requests.post<Tenant>("/tenant", tenant),
+};
+
+const InviteActions = {
+    getInvites: () => requests.get<Invite[]>("/invite"),
+    createInvite: (invite: CreateInvite) =>
+        requests.post<Invite>("/invite", invite),
+    deleteInvite: (inviteId: string) =>
+        requests.del(`/invite/${inviteId}`),
+};
+
+const EmployeeActions = {
+    getEmployees: () => requests.get<Employee[]>("/employee"),
+    deleteEmployee: (employeeId: string) =>
+        requests.del(`/employee/${employeeId}`),
+};
+
+const OrganActions = {
+    loadOrgans: () => requests.get<Organ[]>("/organ"),
+    createOrgan: (organ: CreateOrgan) =>
+        requests.post<Organ>("/organ", organ),
+    deleteOrgan: (organId: string) => requests.del(`/organ/${organId}`),
+};
+
+const ContainerActions = {
+    loadContainers: () => requests.get<Container[]>("/container"),
+    createContainer: (container: CreateContainer[]) =>
+        requests.post("/container", container),
+    deleteContainer: (containerId: string) =>
+        requests.del(`/container/${containerId}`),
+};
+
+const ConditionsActions = {
+    loadConditions: () => requests.get<Conditions[]>("/conditions"),
+    createConditions: (conditions: CreateConditions) =>
+        requests.post("/conditions", conditions),
+    deleteConditions: (conditionsId: string) =>
+        requests.del(`/conditions/${conditionsId}`),
 };
 
 const agent = {
     UserActions,
+    TenantActions,
+    InviteActions,
+    EmployeeActions,
+    OrganActions,
+    ContainerActions,
+    ConditionsActions,
 };
 
 export default agent;

@@ -24,7 +24,7 @@ public class Condition<T>
     public T AllowedDeviation { get; set; }
 }
 
-public class CreateContainerConditionsModel
+public class CreateConditionsModel
 {
     public string Name { get; set; }
     public string Description { get; set; }

@@ -5,7 +5,6 @@ using OrganStorage.BL.Extensions;
 using OrganStorage.BL.Models.Auth;
 using OrganStorage.DAL.Entities;
 using OrganStorage.DAL.Services;
-using System.Security.Cryptography;
 using System.Web;
 
 namespace OrganStorage.BL.Services;
