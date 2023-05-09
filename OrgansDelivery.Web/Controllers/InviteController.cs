@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OrganStorage.BL.Services;
 using OrganStorage.DAL.Entities;
-using OrganStorage.DAL.Consts;
 using OrganStorage.DAL.Data;
 using OrganStorage.BL.Models;
 using OrganStorage.Web.Common.Extensions;
@@ -26,7 +25,6 @@ public class InviteController : ControllerBase
         _inviteService = inviteService;
     }
 
-    [HttpGet("all")]
     public ActionResult<List<Invite>> GetInvites()
     {
         var invites = _appDbContext.Invites.ToList();
@@ -34,7 +32,6 @@ public class InviteController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<ActionResult<Invite>> InviteUser([FromBody] InviteUserModel model)
     {
         var result = await _inviteService.InviteUserAsync(model);
@@ -42,7 +39,6 @@ public class InviteController : ControllerBase
     }
 
     [HttpDelete("{inviteId}")]
-    [Authorize(Roles = UserRoles.MANAGER)]
     public ActionResult DeleteInvite(Guid inviteId)
     {
         var result = _inviteService.DeleteInvite(inviteId);

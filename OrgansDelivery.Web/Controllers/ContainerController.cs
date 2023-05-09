@@ -23,8 +23,7 @@ public class ContainerController : ControllerBase
         _containerService = containerService;
     }
 
-    [HttpGet("all")]
-    public ActionResult<List<Container>> GetAllContainers()
+    public ActionResult<List<Container>> GetContainers()
     {
         var containers = _context.Containers.ToList();
         return Ok(containers);

@@ -19,15 +19,13 @@ public class EmployeeController : ControllerBase
         _employeeService = employeeService;
     }
 
-    [HttpGet("all")]
-    public ActionResult<List<UserDto>> GetAllEmployees()
+    public ActionResult<List<UserDto>> GetEmployees()
     {
         var employees = _employeeService.GetEmployees();
         return Ok(employees);
     }
 
     [HttpDelete("{employeeId}")]
-    [Authorize(Roles = UserRoles.MANAGER)]
     public async Task<ActionResult> DeleteEmployee(Guid employeeId)
     {
         var result = await _employeeService.DeleteEmployeeAsync(employeeId);
