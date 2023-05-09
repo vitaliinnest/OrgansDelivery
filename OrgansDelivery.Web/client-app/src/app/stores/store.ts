@@ -4,6 +4,8 @@ import UserStore from "./userStore";
 import TenantStore from "./tenantStore";
 import InviteStore from "./inviteStore";
 import EmployeeStore from "./employeeStore";
+import RecordStore from "./recordStore";
+import ConditionsStore from "./conditionsStore";
 
 interface Store {
     commonStore: CommonStore;
@@ -11,6 +13,8 @@ interface Store {
     tenantStore: TenantStore;
     employeeStore: EmployeeStore;
     inviteStore: InviteStore;
+    recordStore: RecordStore;
+    conditionsStore: ConditionsStore;
 }
 
 export const store: Store = {
@@ -19,6 +23,8 @@ export const store: Store = {
     tenantStore: new TenantStore(),
     employeeStore: new EmployeeStore(),
     inviteStore: new InviteStore(),
+    recordStore: new RecordStore(),
+    conditionsStore: new ConditionsStore(),
 };
 
 export const StoreContext = createContext(store);

@@ -133,7 +133,7 @@ const ContainerActions = {
 const ConditionsActions = {
     getConditions: () => requests.get<Conditions[]>("/conditions"),
     createConditions: (conditions: CreateConditions) =>
-        requests.post("/conditions", conditions),
+        requests.post<Conditions>("/conditions", conditions),
     deleteConditions: (conditionsId: string) =>
         requests.del(`/conditions/${conditionsId}`),
 };
