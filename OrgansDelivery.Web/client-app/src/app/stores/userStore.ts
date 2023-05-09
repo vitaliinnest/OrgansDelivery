@@ -31,7 +31,7 @@ export default class UserStore {
             const user = await agent.UserActions.register(creds);
             store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
-            router.navigate('/organs');
+            router.navigate('/create-tenant');
         } catch (error) {
             console.log(error);
         }

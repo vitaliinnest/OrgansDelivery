@@ -9,29 +9,89 @@ import {
     Button,
     Container,
     Grid,
-    Link,
     TextField,
     Typography,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { Link as RouterLink } from "react-router-dom";
 import { CreateTenant } from "../../app/models/tenant";
+import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 
 const validationSchema = Yup.object({
-    url: Yup.string().required(),
     name: Yup.string().required(),
-    description: Yup.string(),
 });
 
 const initialValues: CreateTenant = {
-    url: "",
     name: "",
-    description: "",
 };
 
 const CreateTenantPage = () => {
+    const { tenantStore } = useStore();
+
     return (
-        <>Create tenant page</>
+        <Container
+            sx={{
+                marginTop: 12,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}
+            maxWidth="sm"
+        >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <ApartmentOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+                CreateTenant
+            </Typography>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={(tenant) => tenantStore.createTenant(tenant)}
+                validationSchema={validationSchema}
+            >
+                {({
+                    values,
+                    isSubmitting,
+                    errors,
+                    touched,
+                    isValid,
+                    handleSubmit,
+                    handleChange,
+                }) => (
+                    <Box
+                        component="form"
+                        noValidate
+                        onSubmit={handleSubmit}
+                        sx={{ mt: 3 }}
+                    >
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="name"
+                                    label="Tenant Name"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    autoFocus
+                                    onChange={handleChange}
+                                    value={values.name}
+                                    error={
+                                        touched.name && Boolean(errors.name)
+                                    }
+                                    helperText={touched.name && errors.name}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Create
+                        </Button>
+                    </Box>
+                )}
+            </Formik>
+        </Container>
     );
 }
 

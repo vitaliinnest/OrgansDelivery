@@ -7,6 +7,7 @@ import ConfirmEmail from "../../features/users/ConfirmEmail";
 import SignUpPage from "../../features/users/SignUpPage";
 import SignInPage from "../../features/users/SignInPage";
 import CreateTenantPage from "../../features/tenants/CreateTenantPage";
+import RequireTenant from "./RequireTenant";
 
 export const routes: RouteObject[] = [
     {
@@ -17,14 +18,20 @@ export const routes: RouteObject[] = [
                 element: <RequireAuth />,
                 children: [
                     { path: "create-tenant", element: <CreateTenantPage /> },
-                    // { path: "organs", element: <OrgansList /> },
-                    // { path: "organs/:organId", element: <OrganDetails /> },
-                    // { path: "containers", element: <ContainersList /> },
-                    // { path: "containers/:containerId", element: <ContainerDetails /> },
-                    // { path: "conditions", element: <ConditionsList /> },
-                    // { path: "conditions/:conditionId", element: <ConditionsDetails /> },
-                    // { path: "invites", element: <InvitesList /> },
-                    // { path: "users", element: <UsersList /> },
+                    {
+                        path: "/",
+                        element: <RequireTenant />,
+                        children: [
+                            // { path: "organs", element: <OrgansList /> },
+                            // { path: "organs/:organId", element: <OrganDetails /> },
+                            // { path: "containers", element: <ContainersList /> },
+                            // { path: "containers/:containerId", element: <ContainerDetails /> },
+                            // { path: "conditions", element: <ConditionsList /> },
+                            // { path: "conditions/:conditionId", element: <ConditionsDetails /> },
+                            // { path: "invites", element: <InvitesList /> },
+                            // { path: "users", element: <UsersList /> },
+                        ],
+                    },
                 ],
             },
             { path: "/confirmEmail", element: <ConfirmEmail /> },

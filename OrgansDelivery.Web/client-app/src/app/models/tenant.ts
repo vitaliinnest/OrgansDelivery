@@ -7,7 +7,5 @@ export interface Tenant extends IEntity {
 }
 
 export interface CreateTenant {
-    url: string;
     name: string;
-    description: string;
 }
