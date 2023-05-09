@@ -90,7 +90,7 @@ const NavBar = () => {
                             textDecoration: "none",
                             cursor: "pointer"
                         }}
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate('/organs')}
                     >
                         Organs Delivery
                     </Typography>

@@ -20,6 +20,7 @@ export default class UserStore {
             const user = await agent.UserActions.login(creds);
             store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
+            router.navigate('/organs');
         } catch (error) {
             throw error;
         }
@@ -30,6 +31,7 @@ export default class UserStore {
             const user = await agent.UserActions.register(creds);
             store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
+            router.navigate('/organs');
         } catch (error) {
             throw error;
         }

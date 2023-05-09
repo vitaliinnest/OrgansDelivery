@@ -16,7 +16,7 @@ export const routes: RouteObject[] = [
             {
                 element: <RequireAuth />,
                 children: [
-                    { path: "/create-tenant", element: <CreateTenantPage /> },
+                    { path: "create-tenant", element: <CreateTenantPage /> },
                     // { path: "organs", element: <OrgansList /> },
                     // { path: "organs/:organId", element: <OrganDetails /> },
                     // { path: "containers", element: <ContainersList /> },

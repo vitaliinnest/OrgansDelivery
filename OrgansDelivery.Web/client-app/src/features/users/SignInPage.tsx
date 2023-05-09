@@ -16,6 +16,7 @@ import {
     Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Link as RouterLink } from "react-router-dom";
 YupPassword(Yup);
 
 const validationSchema = Yup.object({
@@ -75,6 +76,7 @@ const SignInPage = () => {
                                     margin="normal"
                                     required
                                     fullWidth
+                                    autoFocus
                                     onChange={handleChange}
                                     value={values.email}
                                     error={
@@ -111,14 +113,9 @@ const SignInPage = () => {
                         >
                             Sign Up
                         </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body1">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
+                        <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body1">
+                                <Link variant="body2" component={RouterLink} to="/sign-up">
                                     Don't have an account? Sign Up
                                 </Link>
                             </Grid>
