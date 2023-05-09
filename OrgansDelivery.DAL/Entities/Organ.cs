@@ -13,6 +13,16 @@ public class Organ : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public Container Container { get; set; }
 }
 
+public class OrganDto
+{
+	public Guid Id { get; set; }
+	public string Name { get; set; }
+	public string Description { get; set; }
+	public DateTime OrganCreationDate { get; set; }
+	public Guid ContainerId { get; set; }
+	public string ContainerName { get; set; }
+}
+
 public class CreateOrganModel
 {
     public string Name { get; set; }

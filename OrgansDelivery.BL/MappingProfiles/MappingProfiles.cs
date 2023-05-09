@@ -60,6 +60,11 @@ public class AuthMappingProfile : Profile
         // Organ
         CreateMap<CreateOrganModel, Organ>();
         
+        CreateMap<Organ, OrganDto>()
+            .ForMember(
+                dest => dest.ContainerName,
+                opt => opt.MapFrom(src => src.Container.Name));
+
         CreateMap<UpdateOrganModel, Organ>()
             .ForMember(
                 dest => dest.OrganCreationDate,

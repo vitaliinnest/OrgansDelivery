@@ -7,8 +7,9 @@ namespace OrganStorage.BL.Services;
 
 public interface IOrganService
 {
-    Task<Result<Organ>> CreateOrganAsync(CreateOrganModel model);
-    Task<Result<Organ>> UpdateOrganAsync(Guid organId, UpdateOrganModel model);
+	Result<List<OrganDto>> GetOrgans();
+	Task<Result<OrganDto>> CreateOrganAsync(CreateOrganModel model);
+    Task<Result<OrganDto>> UpdateOrganAsync(Guid organId, UpdateOrganModel model);
     Result DeleteOrgan(Guid organId);
 }
 
@@ -28,7 +29,13 @@ public class OrganService : IOrganService
         _context = context;
     }
 
-    public async Task<Result<Organ>> CreateOrganAsync(CreateOrganModel model)
+    public Result<List<OrganDto>> GetOrgans()
+    {
+		var organs = _context.Organs.ToList();
+        return _mapper.Map<List<OrganDto>>(organs);
+	}
+
+    public async Task<Result<OrganDto>> CreateOrganAsync(CreateOrganModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -45,10 +52,10 @@ public class OrganService : IOrganService
         _context.Add(organ);
         _context.SaveChanges();
 
-        return organ;
+        return _mapper.Map<OrganDto>(organ);
     }
     
-    public async Task<Result<Organ>> UpdateOrganAsync(Guid organId, UpdateOrganModel model)
+    public async Task<Result<OrganDto>> UpdateOrganAsync(Guid organId, UpdateOrganModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -67,7 +74,7 @@ public class OrganService : IOrganService
         _context.Update(updated);
         _context.SaveChanges();
         
-        return updated;
+        return _mapper.Map<OrganDto>(updated);
     }
 
     public Result DeleteOrgan(Guid organId)
