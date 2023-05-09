@@ -18,6 +18,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { validate } from "uuid";
 import { Link as RouterLink } from "react-router-dom";
+import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 YupPassword(Yup);
 
 const validationSchema = Yup.object({
@@ -44,6 +45,10 @@ const initialValues: Register = {
 
 const SignUpPage = () => {
     const { userStore } = useStore();
+    
+    if (userStore.isLoading) {
+        return <LoadingBackdrop />;
+    }
 
     return (
         <Container

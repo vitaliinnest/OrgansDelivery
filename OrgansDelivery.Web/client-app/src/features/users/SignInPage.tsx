@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link as RouterLink } from "react-router-dom";
+import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
+import { router } from "../../app/router/Routes";
 YupPassword(Yup);
 
 const validationSchema = Yup.object({
@@ -25,12 +27,16 @@ const validationSchema = Yup.object({
 });
 
 const initialValues: Login = {
-    email: "",
-    password: "",
+    email: "vitalii.nesterenko@nure.ua",
+    password: "asdfljksa234234",
 };
 
 const SignInPage = () => {
-    const { userStore } = useStore();
+    const { userStore, tenantStore } = useStore();
+
+    if (userStore.isLoading || tenantStore.isLoading) {
+        return <LoadingBackdrop />;
+    }
 
     return (
         <Container
@@ -50,7 +56,11 @@ const SignInPage = () => {
             </Typography>
             <Formik
                 initialValues={initialValues}
-                onSubmit={(creds) => userStore.login(creds)}
+                onSubmit={(creds) => {
+                    userStore.login(creds)
+                        .then(() => tenantStore.loadTenant())
+                        .then(() => router.navigate('/organs'));
+                }}
                 validationSchema={validationSchema}
             >
                 {({

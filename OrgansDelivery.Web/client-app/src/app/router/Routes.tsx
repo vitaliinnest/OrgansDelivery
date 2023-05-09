@@ -8,12 +8,21 @@ import SignUpPage from "../../features/users/SignUpPage";
 import SignInPage from "../../features/users/SignInPage";
 import CreateTenantPage from "../../features/tenants/CreateTenantPage";
 import RequireTenant from "./RequireTenant";
+import OrgansList from "../../features/organs/OrgansList";
 
 export const routes: RouteObject[] = [
     {
         path: "/",
         element: <App />,
         children: [
+            {
+                path: "/sign-in",
+                element: <SignInPage />,
+            },
+            {
+                path: "/sign-up",
+                element: <SignUpPage />,
+            },
             {
                 element: <RequireAuth />,
                 children: [
@@ -22,7 +31,7 @@ export const routes: RouteObject[] = [
                         // todo: test
                         element: <RequireTenant />,
                         children: [
-                            // { path: "organs", element: <OrgansList /> },
+                            { path: "organs", element: <OrgansList /> },
                             // { path: "organs/:organId", element: <OrganDetails /> },
                             // { path: "containers", element: <ContainersList /> },
                             // { path: "containers/:containerId", element: <ContainerDetails /> },
@@ -39,14 +48,6 @@ export const routes: RouteObject[] = [
             { path: "server-error", element: <ServerError /> },
             { path: "*", element: <Navigate replace to="/organs" /> },
         ],
-    },
-    {
-        path: "/sign-in",
-        element: <SignInPage />,
-    },
-    {
-        path: "/sign-up",
-        element: <SignUpPage />,
     },
 ];
 

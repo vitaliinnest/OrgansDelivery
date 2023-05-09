@@ -45,7 +45,7 @@ const mainOptions: NavigationMenuOption[] = [
 
 const NavBar = () => {
     const [accountMenuAnchorEl, setAccountMenuAnchorEl] = useState<null | HTMLElement>(null);
-    const { userStore } = useStore();
+    const { userStore, tenantStore } = useStore();
     
     const onAccountMenuClick = (event: React.MouseEvent<HTMLElement>) => {
         setAccountMenuAnchorEl(event.currentTarget);
@@ -100,7 +100,7 @@ const NavBar = () => {
                             display: "flex",
                         }}
                     >
-                        {mainOptions.map((page) => (
+                        {tenantStore.hasTenant && mainOptions.map((page) => (
                             <Button
                                 key={page.title}
                                 sx={{ my: 2, mr: 2, color: "white", display: "block" }}
@@ -116,8 +116,8 @@ const NavBar = () => {
                             </Button>
                         ))}
                     </Box>
-                    <ThreeDotsMenu />
-                    <Box sx={{ flexGrow: 0 }}>
+                    {userStore.isLoggedIn && tenantStore.hasTenant && <ThreeDotsMenu />}
+                    {userStore.isLoggedIn && <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Profile">
                             <IconButton
                                 onClick={onAccountMenuClick}
@@ -152,7 +152,7 @@ const NavBar = () => {
                                 </MenuItem>
                             ))}
                         </Menu>
-                    </Box>
+                    </Box>}
                 </Toolbar>
             </Container>
         </AppBar>

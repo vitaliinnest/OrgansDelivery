@@ -7,8 +7,10 @@ const RequireTenant = () => {
     const location = useLocation();
 
     if (!tenantStore.hasTenant) {
+        console.log("no tenant!");
         return <Navigate to="/create-tenant" state={{ from: location }} />;
     }
+    console.log("tenant exists");
 
     return <Outlet />;
 }

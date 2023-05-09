@@ -4,6 +4,7 @@ import agent from "../api/agent";
 
 export default class OrganStore {
     organs: Organ[] = [];
+    isLoading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -11,22 +12,29 @@ export default class OrganStore {
 
     loadOrgans = async () => {
         try {
+            this.isLoading = true;
             const organs = await agent.OrganActions.getOrgans();
-            runInAction(() => (this.organs = organs));
+            runInAction(() => {
+                this.organs = organs;
+            });
         } catch (error) {
             console.log(error);
+        } finally {
+            runInAction(() => {
+                this.isLoading = false;
+            });
         }
     };
 
     loadOrgan = async (organId: string): Promise<Organ> => {
-        const organ = this.organs.find(o => o.id === organId);
+        const organ = this.organs.find((o) => o.id === organId);
         if (organ) {
             return organ;
         }
 
         await this.loadOrgans();
         return await this.loadOrgan(organId);
-    }
+    };
 
     createOrgan = async (organ: CreateOrgan) => {
         try {

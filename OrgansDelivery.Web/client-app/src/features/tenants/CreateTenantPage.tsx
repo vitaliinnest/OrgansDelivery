@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { CreateTenant } from "../../app/models/tenant";
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
+import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 
 const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -26,6 +27,10 @@ const initialValues: CreateTenant = {
 const CreateTenantPage = () => {
     const { tenantStore } = useStore();
 
+    if (tenantStore.isLoading) {
+        return <LoadingBackdrop />;
+    }
+    
     return (
         <Container
             sx={{
@@ -40,7 +45,7 @@ const CreateTenantPage = () => {
                 <ApartmentOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                CreateTenant
+                Create Tenant
             </Typography>
             <Formik
                 initialValues={initialValues}

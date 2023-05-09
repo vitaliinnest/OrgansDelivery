@@ -7,15 +7,19 @@ import { useStore } from "../stores/store";
 import LoadingBackdrop from "./LoadingBackdrop";
 
 const App = () => {
-    const { commonStore, userStore } = useStore();
+    const { commonStore, userStore, tenantStore } = useStore();
 
     useEffect(() => {
         if (commonStore.token) {
-            userStore.getUser().finally(() => commonStore.setAppLoaded());
+            Promise.all([
+                userStore.getUser(),
+                tenantStore.loadTenant(),
+            ])
+            .finally(() => commonStore.setAppLoaded());
         } else {
             commonStore.setAppLoaded();
         }
-    }, [commonStore, userStore]);
+    }, [commonStore, tenantStore, userStore]);
 
     if (!commonStore.appLoaded) {
         return <LoadingBackdrop />;
