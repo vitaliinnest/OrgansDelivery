@@ -46,6 +46,18 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(policy =>
+	{
+		policy
+			.AllowAnyMethod()
+			.AllowAnyHeader()
+			.AllowCredentials()
+			.WithOrigins("http://localhost:3000", "https://localhost:3000");
+	});
+});
+
 builder.Services.AddPooledDbContextFactory<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddScoped<AppDbContextFactory>();
