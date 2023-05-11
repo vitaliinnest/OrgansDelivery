@@ -7,8 +7,10 @@ import EmployeeStore from "./employeeStore";
 import RecordStore from "./recordStore";
 import ConditionsStore from "./conditionsStore";
 import OrganStore from "./organStore";
+import ModalStore from "./modalStore";
 
 interface Store {
+    modalStore: ModalStore;
     commonStore: CommonStore;
     userStore: UserStore;
     tenantStore: TenantStore;
@@ -20,6 +22,7 @@ interface Store {
 }
 
 export const store: Store = {
+    modalStore: new ModalStore(),
     commonStore: new CommonStore(),
     userStore: new UserStore(),
     tenantStore: new TenantStore(),

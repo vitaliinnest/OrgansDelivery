@@ -9,6 +9,7 @@ import SignInPage from "../../features/users/SignInPage";
 import CreateTenantPage from "../../features/tenants/CreateTenantPage";
 import RequireTenant from "./RequireTenant";
 import OrgansList from "../../features/organs/OrgansList";
+import OrganDetails from "../../features/organs/OrganDetails";
 
 export const routes: RouteObject[] = [
     {
@@ -32,7 +33,7 @@ export const routes: RouteObject[] = [
                         element: <RequireTenant />,
                         children: [
                             { path: "organs", element: <OrgansList /> },
-                            // { path: "organs/:organId", element: <OrganDetails /> },
+                            { path: "organs/:organId", element: <OrganDetails /> },
                             // { path: "containers", element: <ContainersList /> },
                             // { path: "containers/:containerId", element: <ContainerDetails /> },
                             // { path: "conditions", element: <ConditionsList /> },

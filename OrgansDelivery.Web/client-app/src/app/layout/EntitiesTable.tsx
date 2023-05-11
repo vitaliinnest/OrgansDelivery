@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -17,21 +17,30 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import EditIcon from '@mui/icons-material/Edit';
+
+// 0 - id
+// 1 - name
+// ... - othen properties
+export type Row = [string, string, ...Array<(string | number)>];
 
 type Props = {
     tableTitle: string;
     headCells: HeadCell[];
     rows: Row[];
+    onClick?: (entityId: string) => void;
     onCreate?: () => void;
-    onDelete?: () => void;
+    onUpdate?: (entityId: string) => void;
+    onDelete?: (entityId: string) => void;
 };
 
 const EntitiesTable = (props: Props) => {
-    const { tableTitle, headCells, rows } = props;
+    const { tableTitle, headCells, rows, onClick, onCreate, onUpdate, onDelete } = props;
 
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState(1);
-    const [selected, setSelected] = React.useState<readonly string[]>([]);
+    const [selected, setSelected] = React.useState<string[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -57,7 +66,7 @@ const EntitiesTable = (props: Props) => {
 
     const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
         const selectedIndex = selected.indexOf(name);
-        let newSelected: readonly string[] = [];
+        let newSelected: string[] = [];
 
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, name);
@@ -101,12 +110,21 @@ const EntitiesTable = (props: Props) => {
         [order, orderBy, page, rows, rowsPerPage]
     );
 
+    const onRowClick = (e: React.MouseEvent<HTMLTableCellElement, MouseEvent>, entityId: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick?.(entityId);
+    };
+
     return (
         <Box sx={{ width: "100%" }}>
             <Paper sx={{ width: "100%", mb: 2 }}>
                 <EnhancedTableToolbar
                     tableTitle={tableTitle}
-                    numSelected={selected.length}
+                    selected={selected}
+                    onCreate={onCreate}
+                    onUpdate={onUpdate}
+                    onDelete={onDelete}
                 />
                 <TableContainer>
                     <Table
@@ -124,7 +142,6 @@ const EntitiesTable = (props: Props) => {
                             rowCount={rows.length}
                         />
                         <TableBody>
-                            {/* {visibleRows.map((row, index) => { */}
                             {visibleRows.map((row, index) => {
                                 const isItemSelected = isSelected(row[0]);
                                 const labelId = `enhanced-table-checkbox-${index}`;
@@ -138,7 +155,7 @@ const EntitiesTable = (props: Props) => {
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
-                                        key={row[0]}
+                                        key={row[1]}
                                         selected={isItemSelected}
                                         sx={{ cursor: "pointer" }}
                                     >
@@ -156,10 +173,11 @@ const EntitiesTable = (props: Props) => {
                                             id={labelId}
                                             scope="row"
                                             padding="none"
+                                            onClick={(e) => onRowClick(e, row[0])}
                                         >
-                                            {row[0]}
+                                            {row[1]}
                                         </TableCell>
-                                        {row.slice(1).map(cell => (
+                                        {row.slice(2).map(cell => (
                                             <TableCell key={cell} align="right">
                                                 {cell}
                                             </TableCell>
@@ -194,8 +212,6 @@ const EntitiesTable = (props: Props) => {
 };
 
 export default EntitiesTable;
-
-export type Row = [string, ...Array<(string | number)>];
 
 function descendingComparator(a: Row, b: Row, orderBy: number) {
     if (b[orderBy] < a[orderBy]) {
@@ -314,18 +330,29 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
     tableTitle: string;
-    numSelected: number;
+    selected: string[];
+    onCreate?: () => void;
+    onUpdate?: (entityId: string) => void;
+    onDelete?: (entityId: string) => void;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected, tableTitle } = props;
+    const { selected, tableTitle, onCreate, onUpdate, onDelete } = props;
+    
+    const onUpdateSelected = () => {
+        onUpdate?.(selected[0]);
+    }
+    
+    const onDeleteSelected = () => {
+        onDelete?.(selected[0]);
+    }
 
     return (
         <Toolbar
             sx={{
                 pl: { sm: 2 },
                 pr: { xs: 1, sm: 1 },
-                ...(numSelected > 0 && {
+                ...(selected.length > 0 && {
                     bgcolor: (theme) =>
                         alpha(
                             theme.palette.primary.main,
@@ -334,14 +361,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 }),
             }}
         >
-            {numSelected > 0 ? (
+            {selected.length > 0 ? (
                 <Typography
                     sx={{ flex: "1 1 100%" }}
                     color="inherit"
                     variant="subtitle1"
                     component="div"
                 >
-                    {numSelected} selected
+                    {selected.length} item(s) selected
                 </Typography>
             ) : (
                 <Typography
@@ -353,10 +380,30 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     {tableTitle}
                 </Typography>
             )}
-            {numSelected > 0 && (
-                <Tooltip title="Delete">
-                    <IconButton>
-                        <DeleteIcon />
+            {selected.length === 1 && (
+                <>
+                    <Tooltip title="Update">
+                        <IconButton
+                            onClick={onUpdateSelected}
+                        >
+                            <EditIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                        <IconButton
+                            onClick={onDeleteSelected}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                </>
+            )}
+            {selected.length === 0 && (
+                <Tooltip title="Add">
+                    <IconButton
+                        onClick={onCreate}
+                    >
+                        <AddCircleIcon color="inherit" />
                     </IconButton>
                 </Tooltip>
             )}

@@ -4,7 +4,7 @@ import { User, Login, Register } from "../models/user";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
 import { CreateTenant, Tenant } from "../models/tenant";
-import { CreateOrgan, Organ } from "../models/organ";
+import { OrganFormValues, Organ } from "../models/organ";
 import { Container, CreateContainer } from "../models/container";
 import { Conditions, CreateConditions } from "../models/conditions";
 import { CreateInvite, Invite } from "../models/invite";
@@ -118,7 +118,10 @@ const EmployeeActions = {
 
 const OrganActions = {
     getOrgans: () => requests.get<Organ[]>("/organ"),
-    createOrgan: (organ: CreateOrgan) => requests.post<Organ>("/organ", organ),
+    createOrgan: (organ: OrganFormValues) =>
+        requests.post<Organ>("/organ", organ),
+    updateOrgan: (organId: string, update: OrganFormValues) =>
+        requests.put<Organ>(`/organ/${organId}`, update),
     deleteOrgan: (organId: string) => requests.del(`/organ/${organId}`),
 };
 

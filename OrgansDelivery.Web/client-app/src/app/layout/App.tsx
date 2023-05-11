@@ -5,6 +5,7 @@ import { Outlet, ScrollRestoration } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useStore } from "../stores/store";
 import LoadingBackdrop from "./LoadingBackdrop";
+import ModalContainer from "../modals/ModalContainer";
 
 const App = () => {
     const { commonStore, userStore, tenantStore } = useStore();
@@ -28,6 +29,7 @@ const App = () => {
     return (
         <>
             <ScrollRestoration />
+            <ModalContainer />
             <ToastContainer
                 position="bottom-right"
                 hideProgressBar

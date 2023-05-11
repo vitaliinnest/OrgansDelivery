@@ -8,7 +8,7 @@ export interface Organ extends IEntity, IWithTenant {
     containerName: string;
 }
 
-export interface CreateOrgan {
+export interface OrganFormValues {
     name: string;
     description: string;
     organCreationDate: Date;
