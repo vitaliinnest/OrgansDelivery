@@ -20,38 +20,36 @@ public class ConditionsController : ControllerBase
         _appDbContext = appDbContext;
     }
 
-    [HttpGet("{tenantId}")]
-    public ActionResult<List<Tenant>> GetConditions(Guid tenantId)
-    {
-        var conditions = _appDbContext.Conditions
-            .IgnoreQueryFilters()
-            .Where(o => o.TenantId == tenantId)
-            .ToList();
+    //[HttpGet("{tenantId}")]
+    //public ActionResult<List<Tenant>> GetConditions()
+    //{
+    //    var conditions = _appDbContext.Conditions
+    //        .Where(c => !c.IsArchival)
+    //        .ToList();
 
-        return Ok(conditions);
-    }
+    //    return Ok(conditions);
+    //}
 
-    [HttpDelete("{conditionsId}")]
-    public ActionResult DeleteConditions(Guid conditionsId)
-    {
-        var conditions = _appDbContext.Conditions
-            .IgnoreQueryFilters()
-            .FirstOrDefault(c => c.Id == conditionsId);
+    //[HttpDelete("{conditionsId}")]
+    //public ActionResult DeleteConditions(Guid conditionsId)
+    //{
+    //    var conditions = _appDbContext.Conditions
+    //        .FirstOrDefault(c => c.Id == conditionsId);
         
-        if (conditions == null)
-        {
-            return BadRequest("Conditions not found");
-        }
+    //    if (conditions == null)
+    //    {
+    //        return BadRequest("Conditions not found");
+    //    }
 
-        var conditionUsed = _appDbContext.Containers.Any(c => c.ConditionsId == conditionsId);
-        if (conditionUsed)
-        {
-            return BadRequest("Condition is used in some containers");
-        }
+    //    var conditionUsed = _appDbContext.Containers.Any(c => c.ConditionsId == conditionsId);
+    //    if (conditionUsed)
+    //    {
+    //        return BadRequest("Condition is used in some containers");
+    //    }
 
-        _appDbContext.Remove(conditions);
-        _appDbContext.SaveChanges();
+    //    _appDbContext.Remove(conditions);
+    //    _appDbContext.SaveChanges();
 
-        return Ok();
-    }
+    //    return Ok();
+    //}
 }

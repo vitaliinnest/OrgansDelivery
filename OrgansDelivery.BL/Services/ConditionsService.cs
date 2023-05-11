@@ -1,18 +1,19 @@
 ﻿using AutoMapper;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Interfaces;
 
 namespace OrganStorage.BL.Services;
 
 public interface IConditionsService
 {
-    Task<Result<Conditions>> CreateContainerConditionsAsync(
+    Task<Result<Conditions>> CreateConditionsAsync(
         CreateConditionsModel model);
-    Task<Result<Conditions>> UpdateContainerConditionsAsync(
+    Task<Result<Conditions>> UpdateConditionsAsync(
         Guid conditionsId, UpdateConditionsModel model);
-    Result<Conditions> GetConditions(Guid conditionsId);
-    Result DeleteContainerConditions(Guid conditionId);
+    Result DeleteConditions(Guid conditionId);
 }
 
 public class ConditionsService : IConditionsService
@@ -31,7 +32,7 @@ public class ConditionsService : IConditionsService
         _context = context;
     }
 
-    public async Task<Result<Conditions>> CreateContainerConditionsAsync(
+    public async Task<Result<Conditions>> CreateConditionsAsync(
         CreateConditionsModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
@@ -52,7 +53,7 @@ public class ConditionsService : IConditionsService
         return conditions;
     }
 
-    public async Task<Result<Conditions>> UpdateContainerConditionsAsync(
+    public async Task<Result<Conditions>> UpdateConditionsAsync(
         Guid conditionsId, UpdateConditionsModel model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
@@ -61,46 +62,52 @@ public class ConditionsService : IConditionsService
             return Result.Fail(validationResult.ToString());
         }
 
-        var conditions = _context.Conditions.FirstOrDefault(c => c.Id == conditionsId);
-        if (conditions == null)
+		var conditions = _context.Conditions
+			.Include(c => c.Organs)
+			.FirstOrDefault(c => c.Id == conditionsId && !c.IsArchival);
+
+		if (conditions == null)
+		{
+			return Result.Fail("Conditions not found");
+		}
+
+		var updatedConditions = _mapper.Map(model, conditions);
+		
+        if (model.AreConditionsUpdated())
+		{
+            var newConditions = _context.DetachedClone(updatedConditions);
+            newConditions.Id = Guid.Empty;
+            _context.Add(newConditions);
+
+			updatedConditions.IsArchival = true;
+		}
+
+		_context.Update(updatedConditions);
+
+		foreach (var organ in conditions.Organs)
         {
-            return Result.Fail("Conditions not found");
+            organ.ConditionsId = conditionsId;
         }
 
-        var updated = _mapper.Map(model, conditions);
+		_context.SaveChanges();
 
-        _context.Update(updated);
-        _context.SaveChanges();
+		return updatedConditions;
+	}
 
-        return updated;
-    }
-
-    public Result<Conditions> GetConditions(Guid conditionsId)
-    {
-        var conditions = _context.Conditions.FirstOrDefault(c => c.Id == conditionsId);
-        if (conditions == null)
-        {
-            return Result.Fail("Condition not found");
-        }
-
-        return conditions;
-    }
-
-    // todo: update condition preset
-
-    public Result DeleteContainerConditions(Guid conditionId)
+    public Result DeleteConditions(Guid conditionId)
     {
         var conditionPreset = _context.Conditions
             .FirstOrDefault(c => c.Id == conditionId);
+
         if (conditionPreset == null)
         {
             return Result.Fail("Condition preset not found");
         }
 
-        var conditionUsed = _context.Containers.Any(c => c.ConditionsId == conditionId);
+        var conditionUsed = _context.Organs.Any(c => c.ConditionsId == conditionId);
         if (conditionUsed)
         {
-            return Result.Fail("Condition is used in some containers. First remove it from them");
+            return Result.Fail("Condition is used by a container(s). First remove it from it(them)");
         }
 
         _context.Remove(conditionPreset);

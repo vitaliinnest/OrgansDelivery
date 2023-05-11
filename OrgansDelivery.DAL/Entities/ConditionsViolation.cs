@@ -3,8 +3,7 @@
 public class ConditionsViolation
 {
 	public Guid RecordId { get; set; }
-	public Guid? ContainerId { get; set; }
-	public Guid? DeviceId { get; set; }
+	public Guid DeviceId { get; set; }
 	public ComparedResult<decimal> Temperature { get; set; }
 	public ComparedResult<decimal> Humidity { get; set; }
 	public ComparedResult<decimal> Light { get; set; }

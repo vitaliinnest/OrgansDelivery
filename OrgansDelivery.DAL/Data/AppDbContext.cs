@@ -37,65 +37,82 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+	public TEntity DetachedClone<TEntity>(TEntity entity) where TEntity : class
+		=> Entry(entity).CurrentValues.Clone().ToObject() as TEntity;
+
+	protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-        // todo: configure on delete actions
+        builder.Entity<Organ>(organ =>
+        {
+            organ
+                .HasOne(o => o.Conditions)
+                .WithMany(c => c.Organs)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
 
         builder.Entity<Container>(container =>
         {
             container
                 .HasOne(c => c.Organ)
                 .WithOne(o => o.Container)
-                .HasForeignKey<Organ>(o => o.ContainerId)
                 .OnDelete(DeleteBehavior.SetNull);
 
 			container
 				.HasOne(c => c.Device)
 				.WithOne(d => d.Container)
-				.HasForeignKey<Device>(c => c.ContainerId)
 				.OnDelete(DeleteBehavior.SetNull);
-
-			container
-                .HasMany(c => c.Records)
-                .WithOne(r => r.Container)
-                .HasForeignKey(r => r.ContainerId)
-                .OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<Conditions>(conditions =>
         {
 			conditions
-				.HasMany(p => p.Containers)
-				.WithOne(c => c.Conditions);
+                .OwnsOne(p => p.Humidity);
+            conditions
+                .Navigation(c => c.Humidity)
+                .IsRequired();
 
-			conditions.OwnsOne(p => p.Humidity);
-            conditions.Navigation(c => c.Humidity).IsRequired();
+            conditions
+                .OwnsOne(p => p.Light);
+            conditions
+                .Navigation(c => c.Light)
+                .IsRequired();
 
-            conditions.OwnsOne(p => p.Light);
-            conditions.Navigation(c => c.Light).IsRequired();
+            conditions
+                .OwnsOne(p => p.Temperature);
+            conditions
+                .Navigation(c => c.Temperature)
+                .IsRequired();
 
-            conditions.OwnsOne(p => p.Temperature);
-            conditions.Navigation(c => c.Temperature).IsRequired();
-
-            conditions.OwnsOne(p => p.Orientation);
-            conditions.Navigation(c => c.Orientation).IsRequired();
+            conditions
+                .OwnsOne(p => p.Orientation);
+            conditions
+                .Navigation(c => c.Orientation)
+                .IsRequired();
         });
 
         builder.Entity<Device>(device =>
         {
-            device
-                .HasMany(d => d.Records)
-                .WithOne(r => r.Device)
-				.HasForeignKey(r => r.DeviceId)
+			device
+                .HasOne(d => d.Container)
+                .WithOne(c => c.Device)
 				.OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<ConditionsRecord>(record =>
         {
-            record.OwnsOne(r => r.Orientation);
-            record.Navigation(e => e.Orientation).IsRequired();
+            record
+                .HasOne(r => r.Organ)
+                .WithMany(o => o.Records)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            record
+                .OwnsOne(r => r.Orientation);
+            
+            record
+                .Navigation(e => e.Orientation)
+                .IsRequired();
         });
 
         AddTenantQueryFilter(builder);

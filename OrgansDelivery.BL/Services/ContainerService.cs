@@ -38,13 +38,27 @@ public class ContainerService : IContainerService
             return Result.Fail(validationResult.ToString());
         }
 
-        var conditionsExist = _context.Conditions
-            .Any(p => p.Id == model.ConditionsId);
-
-        if (!conditionsExist)
+		if (model.OrganId != null)
         {
-            return Result.Fail("Condition not found");
+            var organExists = _context.Organs
+                .Any(p => p.Id == model.OrganId);
+
+            if (!organExists)
+            {
+                return Result.Fail("Condition not found");
+            }
         }
+
+        if (model.DeviceId != null)
+        {
+			var deviceExists = _context.Devices
+	            .Any(p => p.Id == model.DeviceId);
+
+			if (!deviceExists)
+			{
+				return Result.Fail("Device not found");
+			}
+		}
 
         var container = _mapper.Map<Container>(model);
         _context.Add(container);
@@ -55,17 +69,31 @@ public class ContainerService : IContainerService
 
     public Result<Container> UpdateContainer(Guid containerId, UpdateContainerModel model)
     {
-        // imagine validation is here
-        
-        var conditionsExist = _context.Conditions
-            .Any(p => p.Id == model.ConditionsId);
+        // todo: model validation
 
-        if (!conditionsExist)
-        {
-            return Result.Fail("Condition not found");
-        }
+		if (model.OrganId != null)
+		{
+			var organExists = _context.Organs
+				.Any(p => p.Id == model.OrganId);
 
-        var container = _context.Containers.FirstOrDefault(o => o.Id == containerId);
+			if (!organExists)
+			{
+				return Result.Fail("Condition not found");
+			}
+		}
+
+		if (model.DeviceId != null)
+		{
+			var deviceExists = _context.Devices
+				.Any(p => p.Id == model.DeviceId);
+
+			if (!deviceExists)
+			{
+				return Result.Fail("Device not found");
+			}
+		}
+
+		var container = _context.Containers.FirstOrDefault(o => o.Id == containerId);
         if (container == null)
         {
             return Result.Fail("Container not found");

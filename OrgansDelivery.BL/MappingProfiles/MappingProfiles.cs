@@ -51,9 +51,6 @@ public class AuthMappingProfile : Profile
         CreateMap<CreateContainerModel, Container>();
 
         CreateMap<UpdateContainerModel, Container>()
-            .ForMember(
-                dest => dest.ConditionsId,
-                opt => opt.MapFrom((src, dest) => src.ConditionsId ?? dest.ConditionsId))
             .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
 
 

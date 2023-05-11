@@ -26,37 +26,33 @@ public class ConditionsController : ControllerBase
 	[HttpGet]
 	public ActionResult<List<Conditions>> GetConditions()
     {
-        var conditionsList = _context.Conditions.ToList();
+        var conditionsList = _context.Conditions
+            .Where(c => !c.IsArchival)
+            .ToList();
+
         return Ok(conditionsList);
     }
 
-    [HttpGet("{conditionId}")]
-    public ActionResult<Conditions> GetCondition(Guid conditionId)
-    {
-        var result = _conditionsService.GetConditions(conditionId);
-        return this.ToActionResult(result);
-    }
-
     [HttpPost]
-    public async Task<ActionResult<Conditions>> CreateContainerConditions(
+    public async Task<ActionResult<Conditions>> CreateConditions(
         [FromBody] CreateConditionsModel model)
     {
-        var result = await _conditionsService.CreateContainerConditionsAsync(model);
+        var result = await _conditionsService.CreateConditionsAsync(model);
         return this.ToActionResult(result);
     }
 
     [HttpPut("{conditionsId}")]
-    public async Task<ActionResult<Conditions>> UpdateContainerConditions(
+    public async Task<ActionResult<Conditions>> UpdateConditions(
         Guid conditionsId, [FromBody] UpdateConditionsModel model)
     {
-        var result = await _conditionsService.UpdateContainerConditionsAsync(conditionsId, model);
+        var result = await _conditionsService.UpdateConditionsAsync(conditionsId, model);
         return this.ToActionResult(result);
     }
 
     [HttpDelete("{conditionsId}")]
-    public ActionResult DeleteContainerConditions(Guid conditionsId)
+    public ActionResult DeleteConditions(Guid conditionsId)
     {
-        var result = _conditionsService.DeleteContainerConditions(conditionsId);
+        var result = _conditionsService.DeleteConditions(conditionsId);
         return this.ToActionResult(result);
     }
 }

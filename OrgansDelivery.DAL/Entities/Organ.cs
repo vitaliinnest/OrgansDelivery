@@ -9,8 +9,14 @@ public class Organ : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime OrganCreationDate { get; set; }
+    
     public Guid? ContainerId { get; set; }
     public Container Container { get; set; }
+    
+    public Guid ConditionsId { get; set; }
+    public Conditions Conditions { get; set; }
+
+    public ICollection<ConditionsRecord> Records { get; set; }
 }
 
 public class OrganDto
@@ -28,6 +34,7 @@ public class CreateOrganModel
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime OrganCreationDate { get; set; }
+	public Guid ConditionsId { get; set; }
 }
 
 public class UpdateOrganModel
@@ -35,4 +42,5 @@ public class UpdateOrganModel
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime? OrganCreationDate { get; set; }
+	public Guid? ConditionsId { get; set; }
 }
