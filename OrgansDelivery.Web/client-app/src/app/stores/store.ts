@@ -8,17 +8,20 @@ import RecordStore from "./recordStore";
 import ConditionsStore from "./conditionsStore";
 import OrganStore from "./organStore";
 import ModalStore from "./modalStore";
+import ContainerStore from "./containerStore";
 
 interface Store {
     modalStore: ModalStore;
     commonStore: CommonStore;
     userStore: UserStore;
     tenantStore: TenantStore;
+    
     employeeStore: EmployeeStore;
     inviteStore: InviteStore;
-    recordStore: RecordStore;
-    conditionsStore: ConditionsStore;
     organStore: OrganStore;
+    containerStore: ContainerStore;
+    conditionsStore: ConditionsStore;
+    recordStore: RecordStore;
 }
 
 export const store: Store = {
@@ -26,11 +29,13 @@ export const store: Store = {
     commonStore: new CommonStore(),
     userStore: new UserStore(),
     tenantStore: new TenantStore(),
+    
     employeeStore: new EmployeeStore(),
     inviteStore: new InviteStore(),
-    recordStore: new RecordStore(),
-    conditionsStore: new ConditionsStore(),
     organStore: new OrganStore(),
+    containerStore: new ContainerStore(),
+    conditionsStore: new ConditionsStore(),
+    recordStore: new RecordStore(),
 };
 
 export const StoreContext = createContext(store);

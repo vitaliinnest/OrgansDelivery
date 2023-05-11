@@ -23,7 +23,6 @@ const OrgansList = () => {
     }
 
     const onOrganUpdate = (organId: string) => {
-        console.log('fire')
         const organ = organStore.organs.find(o => o.id === organId);
         if (!organ) {
             return;
@@ -50,19 +49,19 @@ const OrgansList = () => {
                     label: "Organ Name",
                 },
                 {
-                    id: "calories",
+                    id: "description",
                     numeric: true,
                     disablePadding: false,
                     label: "Description",
                 },
                 {
-                    id: "fat",
+                    id: "container-name",
                     numeric: true,
                     disablePadding: false,
                     label: "Container Name",
                 },
                 {
-                    id: "carbs",
+                    id: "creation-date",
                     numeric: true,
                     disablePadding: false,
                     label: "Creation Date",

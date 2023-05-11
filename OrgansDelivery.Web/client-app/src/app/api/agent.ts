@@ -5,7 +5,7 @@ import { router } from "../router/Routes";
 import { store } from "../stores/store";
 import { CreateTenant, Tenant } from "../models/tenant";
 import { OrganFormValues, Organ } from "../models/organ";
-import { Container, CreateContainer } from "../models/container";
+import { Container, ContainerFormValues } from "../models/container";
 import { Conditions, CreateConditions } from "../models/conditions";
 import { CreateInvite, Invite } from "../models/invite";
 import { Employee } from "../models/employee";
@@ -127,8 +127,10 @@ const OrganActions = {
 
 const ContainerActions = {
     getContainers: () => requests.get<Container[]>("/container"),
-    createContainer: (container: CreateContainer) =>
+    createContainer: (container: ContainerFormValues) =>
         requests.post<Container>("/container", container),
+    updateContainer: (containerId: string, container: ContainerFormValues) =>
+        requests.put<Container>(`/container/${containerId}`, container),
     deleteContainer: (containerId: string) =>
         requests.del(`/container/${containerId}`),
 };

@@ -5,14 +5,19 @@ using OrganStorage.DAL.Entities;
 using OrganStorage.DAL.Extensions;
 using OrganStorage.DAL.Services;
 using OrganStorage.DAL.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace OrganStorage.DAL.Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
-    public AppDbContext(DbContextOptions options) : base(options)
+	//private readonly ILogger<AppDbContext> _logger;
+
+	public AppDbContext(DbContextOptions options)
+        : base(options)
     {
-    }
+		//_logger = logger;
+	}
 
     public Guid TenantId { get; set; }
 
@@ -50,19 +55,21 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
                 .HasOne(o => o.Conditions)
                 .WithMany(c => c.Organs)
                 .OnDelete(DeleteBehavior.Restrict);
-        });
+
+			organ
+			    .HasOne(o => o.Container)
+		        .WithOne(c => c.Organ)
+		        .HasForeignKey<Organ>(o => o.ContainerId)
+				.OnDelete(DeleteBehavior.Restrict);
+		});
 
         builder.Entity<Container>(container =>
         {
             container
-                .HasOne(c => c.Organ)
-                .WithOne(o => o.Container)
-                .OnDelete(DeleteBehavior.SetNull);
-
-			container
-				.HasOne(c => c.Device)
-				.WithOne(d => d.Container)
-				.OnDelete(DeleteBehavior.SetNull);
+                .HasOne(c => c.Device)
+                .WithOne(d => d.Container)
+                .HasForeignKey<Container>(c => c.DeviceId)
+				.OnDelete(DeleteBehavior.Restrict);
         });
 
         builder.Entity<Conditions>(conditions =>
@@ -90,14 +97,6 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             conditions
                 .Navigation(c => c.Orientation)
                 .IsRequired();
-        });
-
-        builder.Entity<Device>(device =>
-        {
-			device
-                .HasOne(d => d.Container)
-                .WithOne(c => c.Device)
-				.OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<ConditionsRecord>(record =>
@@ -163,7 +162,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             .Where(entityType => typeof(IMustHaveTenant)
             .IsAssignableFrom(entityType.ClrType));
         
-        PrintTenantId();
+        LogTenantId();
 
         foreach (var entityType in mustHaveTenantTypes)
         {
@@ -171,12 +170,8 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         }
     }
 
-    private void PrintTenantId()
+    private void LogTenantId()
     {
-        Console.WriteLine();
-        Console.WriteLine(new string('-', 50));
-        Console.WriteLine($"TenantId: {TenantId}");
-        Console.WriteLine(new string('-', 50));
-        Console.WriteLine();
+        //_logger.LogInformation($"TenantId: {TenantId}");
     }
 }

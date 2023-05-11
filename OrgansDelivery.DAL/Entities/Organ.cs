@@ -10,7 +10,7 @@ public class Organ : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public string Description { get; set; }
     public DateTime OrganCreationDate { get; set; }
     
-    public Guid? ContainerId { get; set; }
+    public Guid ContainerId { get; set; }
     public Container Container { get; set; }
     
     public Guid ConditionsId { get; set; }

@@ -115,10 +115,10 @@ public class ContainerService : IContainerService
             return Result.Fail("Container not found");
         }
 
-        if (container.OrganId.HasValue)
-        {
-            return Result.Fail("Organ is in container. Get it out of the container first");
-        }
+        //if (container.OrganId.HasValue)
+        //{
+        //    return Result.Fail("Organ is in container. Get it out of the container first");
+        //}
 
         _context.Remove(container);
         _context.SaveChanges();
@@ -140,7 +140,7 @@ public class ContainerService : IContainerService
             return Result.Fail("Organ not found");
         }
 
-        container.OrganId = organId;
+        //container.OrganId = organId;
         _context.SaveChanges();
 
         return container;
@@ -154,12 +154,12 @@ public class ContainerService : IContainerService
             return Result.Fail("Container not found");
         }
 
-        if (!container.OrganId.HasValue)
-        {
-            return Result.Fail("Container contains no organ");
-        }
+        //if (!container.OrganId.HasValue)
+        //{
+        //    return Result.Fail("Container contains no organ");
+        //}
 
-        container.OrganId = null;
+        //container.OrganId = null;
         _context.SaveChanges();
 
         return container;

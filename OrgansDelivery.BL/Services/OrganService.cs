@@ -85,10 +85,10 @@ public class OrganService : IOrganService
             return Result.Fail("Organ not found");
         }
 
-        if (organ.ContainerId.HasValue)
-        {
-            return Result.Fail("Organ is in container. Get it out of the container first");
-        }
+        //if (organ.ContainerId.HasValue)
+        //{
+        //    return Result.Fail("Organ is in container. Get it out of the container first");
+        //}
 
         _context.Remove(organ);
         _context.SaveChanges();

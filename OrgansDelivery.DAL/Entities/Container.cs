@@ -9,10 +9,9 @@ public class Container : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public string Name { get; set; }
     public string Description { get; set; }
     
-    public Guid? OrganId { get; set; }
     public Organ Organ { get; set; }
     
-    public Guid? DeviceId { get; set; }
+    public Guid DeviceId { get; set; }
     public Device Device { get; set; }
 }
 

@@ -107,23 +107,23 @@ public class ConditionsRecordService : IConditionsRecordService
 			return Result.Fail("Device not found");
 		}
 
-        var organ = _context.Organs
-            .IgnoreQueryFilters()
-            .FirstOrDefault(o => o.Id == device.Container.OrganId);
+  //      var organ = _context.Organs
+  //          .IgnoreQueryFilters()
+  //          .FirstOrDefault(o => o.Id == device.Container.OrganId);
 
-		var validationResult = await _genericValidator.ValidateAsync(model);
-		if (!validationResult.IsValid)
-		{
-			return Result.Fail(validationResult.ToString());
-		}
+		//var validationResult = await _genericValidator.ValidateAsync(model);
+		//if (!validationResult.IsValid)
+		//{
+		//	return Result.Fail(validationResult.ToString());
+		//}
 
 		var record = _mapper.Map<ConditionsRecord>(model);
-		record.TenantId = device.TenantId;
-        record.OrganId = organ.Id;
-		record.ConditionsId = organ.ConditionsId;
+		//record.TenantId = device.TenantId;
+  //      record.OrganId = organ.Id;
+		//record.ConditionsId = organ.ConditionsId;
 
-		_context.Add(record);
-		_context.SaveChanges();
+		//_context.Add(record);
+		//_context.SaveChanges();
 
 		var dto = _mapper.Map<ConditionsRecordDto>(record);
 

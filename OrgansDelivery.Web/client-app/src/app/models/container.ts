@@ -5,7 +5,7 @@ export interface Container extends IEntity, IWithTenant {
     description: string;
 }
 
-export interface CreateContainer {
+export interface ContainerFormValues {
     name: string;
     description: string;
     conditionsId: string;

@@ -10,7 +10,6 @@ public class Device : IEntity, IMustHaveTenant, IWithName, IWithDescription
 	public string Description { get; set; }
 	public int ConditionsIntervalCheckInMs { get; set; }
 	
-	public Guid? ContainerId { get; set; }
 	public Container Container { get; set; }
 }
 
