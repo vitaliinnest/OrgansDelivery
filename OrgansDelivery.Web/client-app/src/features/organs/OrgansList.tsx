@@ -4,8 +4,7 @@ import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { observer } from "mobx-react-lite";
 import EntitiesTable from "../../app/layout/EntitiesTable";
 import { router } from "../../app/router/Routes";
-import { OrganFormValues  } from "../../app/models/organ";
-import CreateOrganModal from "./CreateOrganModal";
+import AddOrganModal from "./AddOrganModal";
 import UpdateOrganModal from "./UpdateOrganModal";
 
 const OrgansList = () => {
@@ -20,7 +19,7 @@ const OrgansList = () => {
     }
 
     const onOrganCreate = () => {
-        modalStore.openModal(<CreateOrganModal />);
+        modalStore.openModal(<AddOrganModal />);
     }
 
     const onOrganUpdate = (organId: string) => {

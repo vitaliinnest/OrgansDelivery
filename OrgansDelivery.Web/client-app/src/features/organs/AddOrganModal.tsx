@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import OrganModal from "./OrganModal";
 import { useStore } from "../../app/stores/store";
 
-const CreateOrganModal = () => {
+const AddOrganModal = () => {
     const { organStore } = useStore();
 
     return (
@@ -13,7 +13,7 @@ const CreateOrganModal = () => {
                 description: "",
                 organCreationDate: new Date(),
             }}
-            actionName="Create"
+            actionName="Add"
             onSubmit={(organ) => {
                 organStore.createOrgan(organ);
             }}            
@@ -21,4 +21,4 @@ const CreateOrganModal = () => {
     );
 };
 
-export default observer(CreateOrganModal);
+export default observer(AddOrganModal);
