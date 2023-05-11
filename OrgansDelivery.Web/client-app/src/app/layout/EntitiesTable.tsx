@@ -14,7 +14,7 @@ import EnhancedTableHead, { HeadCell } from "./EnhancedTableHead";
 // 0 - id
 // 1 - name
 // ... - othen properties
-export type Row = [string, string, ...Array<(string | number)>];
+export type Row = [string, string, ...Array<string | number>];
 
 type Props = {
     tableTitle: string;
@@ -27,7 +27,15 @@ type Props = {
 };
 
 const EntitiesTable = (props: Props) => {
-    const { tableTitle, headCells, rows, onClick, onCreate, onUpdate, onDelete } = props;
+    const {
+        tableTitle,
+        headCells,
+        rows,
+        onClick,
+        onCreate,
+        onUpdate,
+        onDelete,
+    } = props;
 
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState(1);
@@ -101,7 +109,10 @@ const EntitiesTable = (props: Props) => {
         [order, orderBy, page, rows, rowsPerPage]
     );
 
-    const onRowClick = (e: React.MouseEvent<HTMLTableCellElement, MouseEvent>, entityId: string) => {
+    const onRowClick = (
+        e: React.MouseEvent<HTMLTableCellElement, MouseEvent>,
+        entityId: string
+    ) => {
         e.preventDefault();
         e.stopPropagation();
         onClick?.(entityId);
@@ -164,11 +175,13 @@ const EntitiesTable = (props: Props) => {
                                             id={labelId}
                                             scope="row"
                                             padding="none"
-                                            onClick={(e) => onRowClick(e, row[0])}
+                                            onClick={(e) =>
+                                                onRowClick(e, row[0])
+                                            }
                                         >
                                             {row[1]}
                                         </TableCell>
-                                        {row.slice(2).map(cell => (
+                                        {row.slice(2).map((cell) => (
                                             <TableCell key={cell} align="right">
                                                 {cell}
                                             </TableCell>
@@ -216,7 +229,10 @@ function descendingComparator(a: Row, b: Row, orderBy: number) {
 
 export type Order = "asc" | "desc";
 
-function getComparator(order: Order, orderBy: number): (a: Row, b: Row) => number {
+function getComparator(
+    order: Order,
+    orderBy: number
+): (a: Row, b: Row) => number {
     return order === "desc"
         ? (a, b) => descendingComparator(a, b, orderBy)
         : (a, b) => -descendingComparator(a, b, orderBy);
