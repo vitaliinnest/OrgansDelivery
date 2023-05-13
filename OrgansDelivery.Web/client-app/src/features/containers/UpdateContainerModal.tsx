@@ -3,29 +3,31 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../../app/stores/store";
 import ContainerModal from "./ContainerModal";
 import { Device } from "../../app/models/device";
+import { Container } from "../../app/models/container";
 
 type Props = {
+    container: Container;
     devices: Device[];
 }
 
-const AddContainerModal = (props: Props) => {
-    const { devices } = props;
+const UpdateContainerModal = (props: Props) => {
+    const { container, devices } = props;
     const { containerStore } = useStore();
 
     return (
         <ContainerModal
             initialValues={{
-                name: "",
-                description: "",
-                deviceId: ""
+                name: container.name,
+                description: container.description,
+                deviceId: container.deviceId,
             }}
             actionName="Add"
             devices={devices}
-            onSubmit={(container) => {
-                containerStore.createContainer(container);
+            onSubmit={(values) => {
+                containerStore.updateContainer(container.id, values);
             }}            
         />
     );
 };
 
-export default observer(AddContainerModal);
+export default observer(UpdateContainerModal);

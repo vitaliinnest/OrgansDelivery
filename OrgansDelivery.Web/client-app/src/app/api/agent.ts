@@ -13,6 +13,7 @@ import {
     ConditionsRecord,
     ConditionsViolation,
 } from "../models/conditionsRecord";
+import { Device, DeviceFormValues } from "../models/device";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -150,6 +151,16 @@ const ConditionsRecordActions = {
         requests.get<Map<string, ConditionsViolation[]>>(`/record/violations`),
 };
 
+const DeviceActions = {
+    getDevices: () => requests.get<Device[]>("/device"),
+    addDevice: (device: DeviceFormValues) =>
+        requests.post<Device>("/device", device),
+    updateDevice: (deviceId: string, update: DeviceFormValues) =>
+        requests.put(`/device/${deviceId}`, update),
+    deleteDevice: (deviceId: string) =>
+        requests.del(`/device/${deviceId}`),
+};
+
 const agent = {
     UserActions,
     TenantActions,
@@ -159,6 +170,7 @@ const agent = {
     ContainerActions,
     ConditionsActions,
     ConditionsRecordActions,
+    DeviceActions,
 };
 
 export default agent;

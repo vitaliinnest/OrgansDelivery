@@ -18,9 +18,6 @@ public class DeviceFormValuesValidator : AbstractValidator<DeviceFormValues>
 			.Length(GeneralConsts.MIN_LENGTH,
 					GeneralConsts.MAX_LENGTH);
 
-		RuleFor(t => t.Description)
-			.MaximumLength(GeneralConsts.MAX_LENGTH);
-
 		RuleFor(c => c.ConditionsIntervalCheckInMs)
 			.InclusiveBetween(
 				ConditionConsts.ConditionsIntervalCheckInMs.MIN,

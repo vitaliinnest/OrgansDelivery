@@ -1,22 +1,47 @@
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../app/stores/store";
 import { useEffect } from "react";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import EntitiesTable from "../../app/layout/EntitiesTable";
 import AddContainerModal from "./AddContainerModal";
+import UpdateContainerModal from "./UpdateContainerModal";
 
 const ContainersList = () => {
-    const { containerStore, modalStore } = useStore();
+    const { modalStore, containerStore, deviceStore } = useStore();
 
     useEffect(() => {
         containerStore.loadContainers();
-    }, [containerStore]);
+        deviceStore.loadDevices();
+    }, [containerStore, deviceStore]);
 
     const onContainerCreate = () => {
-        modalStore.openModal(<AddContainerModal />);
+        modalStore.openModal(
+            <AddContainerModal devices={deviceStore.devices} />
+        );
+    };
+
+    const onContainerUpdate = (containerId: string) => {
+        const container = containerStore.containers.find(
+            (c) => c.id === containerId
+        );
+        if (!container) {
+            return;
+        }
+
+        modalStore.openModal(
+            <UpdateContainerModal
+                container={container}
+                devices={deviceStore.devices}
+            />
+        );
+    };
+
+    const onContainerDeleteConfirmation = (containerId: string) => {
+        containerStore.deleteContainer(containerId);
     }
 
-    if (containerStore.isLoading) {
+    if (containerStore.isLoading || containerStore.isLoading) {
         return <LoadingBackdrop />;
     }
 
@@ -37,17 +62,16 @@ const ContainersList = () => {
                     label: "Description",
                 },
             ]}
-            rows={containerStore.containers.map(c => [
+            rows={containerStore.containers.map((c) => [
                 c.id,
                 c.name,
                 c.description,
             ])}
-            // onClick={onContainerClick}
-            // onCreate={onContainerCreate}
-            // onUpdate={onContainerUpdate}
-            // onDelete={onContainerDelete}
+            onCreate={onContainerCreate}
+            onUpdate={onContainerUpdate}
+            onDeleteConfirmation={onContainerDeleteConfirmation}
         />
     );
-}
+};
 
 export default observer(ContainersList);

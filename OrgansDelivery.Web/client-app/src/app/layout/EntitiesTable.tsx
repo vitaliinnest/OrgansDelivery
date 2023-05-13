@@ -23,7 +23,7 @@ type Props = {
     onClick?: (entityId: string) => void;
     onCreate?: () => void;
     onUpdate?: (entityId: string) => void;
-    onDelete?: (entityId: string) => void;
+    onDeleteConfirmation?: (entityId: string) => void;
 };
 
 const EntitiesTable = (props: Props) => {
@@ -34,7 +34,7 @@ const EntitiesTable = (props: Props) => {
         onClick,
         onCreate,
         onUpdate,
-        onDelete,
+        onDeleteConfirmation,
     } = props;
 
     const [order, setOrder] = React.useState<Order>("asc");
@@ -126,7 +126,7 @@ const EntitiesTable = (props: Props) => {
                     selected={selected}
                     onCreate={onCreate}
                     onUpdate={onUpdate}
-                    onDelete={onDelete}
+                    onDelete={onDeleteConfirmation}
                 />
                 <TableContainer>
                     <Table

@@ -2,12 +2,11 @@
 
 namespace OrganStorage.DAL.Entities;
 
-public class Device : IEntity, IMustHaveTenant, IWithName, IWithDescription
+public class Device : IEntity, IMustHaveTenant, IWithName
 {
 	public Guid Id { get; set; }
 	public Guid TenantId { get; set; }
 	public string Name { get; set; }
-	public string Description { get; set; }
 	public int ConditionsIntervalCheckInMs { get; set; }
 	
 	public Container Container { get; set; }
@@ -17,7 +16,6 @@ public class DeviceFormValues
 {
 	public Guid Id { get; set; }
 	public string Name { get; set; }
-	public string Description { get; set; }
 	public int ConditionsIntervalCheckInMs { get; set; }
 }
 

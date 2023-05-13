@@ -9,6 +9,7 @@ import ConditionsStore from "./conditionsStore";
 import OrganStore from "./organStore";
 import ModalStore from "./modalStore";
 import ContainerStore from "./containerStore";
+import DeviceStore from "./deviceStore";
 
 interface Store {
     modalStore: ModalStore;
@@ -18,9 +19,11 @@ interface Store {
     
     employeeStore: EmployeeStore;
     inviteStore: InviteStore;
+
     organStore: OrganStore;
     containerStore: ContainerStore;
     conditionsStore: ConditionsStore;
+    deviceStore: DeviceStore;
     recordStore: RecordStore;
 }
 
@@ -32,9 +35,11 @@ export const store: Store = {
     
     employeeStore: new EmployeeStore(),
     inviteStore: new InviteStore(),
+    
     organStore: new OrganStore(),
     containerStore: new ContainerStore(),
     conditionsStore: new ConditionsStore(),
+    deviceStore: new DeviceStore(),
     recordStore: new RecordStore(),
 };
 

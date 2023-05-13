@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import { Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { ContainerFormValues } from "../../app/models/container";
+import { Device } from "../../app/models/device";
 
 const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -14,11 +15,12 @@ const validationSchema = Yup.object({
 type Props = {
     initialValues: ContainerFormValues;
     actionName: string;
+    devices: Device[];
     onSubmit: (organ: ContainerFormValues) => void;
 };
 
 const ContainerModal = (props: Props) => {
-    const { initialValues, actionName, onSubmit } = props;
+    const { initialValues, actionName, devices, onSubmit } = props;
 
     const formik = useFormik<ContainerFormValues>({
         initialValues,

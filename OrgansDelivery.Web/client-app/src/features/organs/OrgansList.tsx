@@ -44,7 +44,7 @@ const OrgansList = () => {
         );
     };
 
-    const onOrganDelete = (organId: string) => {
+    const onOrganDeleteConfirmation = (organId: string) => {
         organStore.deleteOrgan(organId);
     }
 
@@ -102,7 +102,7 @@ const OrgansList = () => {
             onClick={onOrganClick}
             onCreate={onOrganCreate}
             onUpdate={onOrganUpdate}
-            onDelete={onOrganDelete}
+            onDeleteConfirmation={onOrganDeleteConfirmation}
         />
     );
 };
