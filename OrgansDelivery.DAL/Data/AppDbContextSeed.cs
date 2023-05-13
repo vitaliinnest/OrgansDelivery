@@ -22,19 +22,12 @@ public static class AppDbContextSeed
             new()
             {
                 Id = TenantConsts.MEDTRONIC_TENANT_ID,
-                Url = "medtronic",
                 Name = "Medtronic",
-                Description = "Better health access for our world by combining the power" +
-                              "of healthcare technology with strong partnerships," +
-                              "we are helping put equity within reach",
             },
             new()
             {
                 Id = TenantConsts.BOSTON_TENANT_ID,
-                Url = "bostoncorp",
                 Name = "Boston Scientific Corporation",
-                Description = "A Boston Scientific device brought Caroline relief " +
-                              "– and the inspiration to pursue medicine",
             }
         );
     }

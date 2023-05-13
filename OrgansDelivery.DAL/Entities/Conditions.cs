@@ -31,25 +31,6 @@ public class ConditionsDto
 	public Condition<Orientation> Orientation { get; set; }
 }
 
-[Owned]
-public class Condition<T> : IEquatable<Condition<T>>
-    where T : IEquatable<T>
-{
-	public T ExpectedValue { get; set; }
-    public T AllowedDeviation { get; set; }
-
-    public bool Equals(Condition<T> condition)
-	{
-        return ExpectedValue.Equals(condition.ExpectedValue)
-            && AllowedDeviation.Equals(condition.AllowedDeviation);
-	}
-
-	public override int GetHashCode()
-	{
-		return base.GetHashCode();
-	}
-}
-
 public class ConditionsFormValues
 {
     public string Name { get; set; }
@@ -63,4 +44,18 @@ public class ConditionsFormValues
            !Humidity.Equals(conditions.Humidity)
         || !Light.Equals(conditions.Light)
         || !Orientation.Equals(conditions.Orientation);
+}
+
+[Owned]
+public class Condition<T> : IEquatable<Condition<T>>
+	where T : IEquatable<T>
+{
+	public T ExpectedValue { get; set; }
+	public T AllowedDeviation { get; set; }
+
+	public bool Equals(Condition<T> condition)
+	{
+		return ExpectedValue.Equals(condition.ExpectedValue)
+			&& AllowedDeviation.Equals(condition.AllowedDeviation);
+	}
 }

@@ -33,14 +33,14 @@ public class TenantController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Tenant>> CreateTenant([FromBody] CreateTenantModel model)
+    public async Task<ActionResult<Tenant>> CreateTenant([FromBody] TenantFormValues model)
     {
         var result = await _tenantService.CreateTenantAsync(model);
         return this.ToActionResult(result);
     }
 
     [HttpPut]
-    public ActionResult<Tenant> UpdateTenant([FromBody] UpdateTenantModel model)
+    public ActionResult<Tenant> UpdateTenant([FromBody] TenantFormValues model)
     {
         var result = _tenantService.UpdateTenant(model);
         return this.ToActionResult(result);

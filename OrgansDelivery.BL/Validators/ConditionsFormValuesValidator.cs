@@ -5,10 +5,9 @@ using static OrganStorage.BL.Consts.ValidatorConsts;
 
 namespace OrganStorage.BL.Validators;
 
-public class CreateConditionsValidator
-    : AbstractValidator<ConditionsFormValues>
+public class ConditionsFormValuesValidator : AbstractValidator<ConditionsFormValues>
 {
-    public CreateConditionsValidator()
+    public ConditionsFormValuesValidator()
     {
         RuleFor(t => t.Name)
             .NotNull()

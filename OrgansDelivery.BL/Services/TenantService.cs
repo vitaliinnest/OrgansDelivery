@@ -10,8 +10,8 @@ namespace OrganStorage.BL.Services;
 
 public interface ITenantService
 {
-    Task<Result<Tenant>> CreateTenantAsync(CreateTenantModel model);
-    Result<Tenant> UpdateTenant(UpdateTenantModel model);
+    Task<Result<Tenant>> CreateTenantAsync(TenantFormValues model);
+    Result<Tenant> UpdateTenant(TenantFormValues model);
     Task AddUserToTenantAsync(User user, Tenant tenant);
 }
 
@@ -40,7 +40,7 @@ public class TenantService : ITenantService
         _genericValidator = genericValidator;
     }
 
-    public async Task<Result<Tenant>> CreateTenantAsync(CreateTenantModel model)
+    public async Task<Result<Tenant>> CreateTenantAsync(TenantFormValues model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -66,7 +66,7 @@ public class TenantService : ITenantService
         return tenant;
     }
 
-    public Result<Tenant> UpdateTenant(UpdateTenantModel model)
+    public Result<Tenant> UpdateTenant(TenantFormValues model)
     {
         // imagine validation here
 
