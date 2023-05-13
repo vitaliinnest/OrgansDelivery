@@ -8,33 +8,51 @@ import AddOrganModal from "./AddOrganModal";
 import UpdateOrganModal from "./UpdateOrganModal";
 
 const OrgansList = () => {
-    const { organStore, modalStore } = useStore();
+    const { organStore, containerStore, conditionsStore, modalStore } = useStore();
 
     useEffect(() => {
         organStore.loadOrgans();
-    }, [organStore]);
+        containerStore.loadContainers();
+        conditionsStore.loadConditions();
+    }, [organStore, containerStore, conditionsStore]);
     
     const onOrganClick = (organId: string) => {
         router.navigate(`/organs/${organId}`);
     }
 
     const onOrganCreate = () => {
-        modalStore.openModal(<AddOrganModal />);
-    }
+        modalStore.openModal(
+            <AddOrganModal
+                conditions={conditionsStore.conditions}
+                containers={containerStore.containers}
+            />
+        );
+    };
 
     const onOrganUpdate = (organId: string) => {
-        const organ = organStore.organs.find(o => o.id === organId);
+        const organ = organStore.organs.find((o) => o.id === organId);
         if (!organ) {
             return;
         }
-        modalStore.openModal(<UpdateOrganModal organ={organ} />);
-    }
+
+        modalStore.openModal(
+            <UpdateOrganModal
+                conditions={conditionsStore.conditions}
+                containers={containerStore.containers}
+                organ={organ}
+            />
+        );
+    };
 
     const onOrganDelete = (organId: string) => {
         organStore.deleteOrgan(organId);
     }
 
-    if (organStore.isLoading) {
+    if (
+        organStore.isLoading ||
+        containerStore.isLoading ||
+        conditionsStore.isLoading
+    ) {
         return <LoadingBackdrop />;
     }
 
@@ -50,29 +68,36 @@ const OrgansList = () => {
                 },
                 {
                     id: "description",
-                    numeric: true,
+                    numeric: false,
                     disablePadding: false,
                     label: "Description",
+                },
+                {
+                    id: "creation-date",
+                    numeric: false,
+                    disablePadding: false,
+                    label: "Creation Date",
+                },
+                {
+                    id: "container-name",
+                    numeric: false,
+                    disablePadding: false,
+                    label: "Container Name",
                 },
                 {
                     id: "container-name",
                     numeric: true,
                     disablePadding: false,
-                    label: "Container Name",
-                },
-                {
-                    id: "creation-date",
-                    numeric: true,
-                    disablePadding: false,
-                    label: "Creation Date",
-                },
+                    label: "Conditions Name",
+                }
             ]}
             rows={organStore.organs.map(o => [
                 o.id,
                 o.name,
                 o.description,
-                o.containerName ?? "-",
                 o.organCreationDate.toString(),
+                containerStore.containers.find(c => c.id === o.containerId)?.name ?? "Not found",
+                conditionsStore.conditions.find(c => c.id === o.conditionsId)?.name ?? "Not found",
             ])}
             onClick={onOrganClick}
             onCreate={onOrganCreate}

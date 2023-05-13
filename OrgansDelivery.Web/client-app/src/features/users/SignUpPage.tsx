@@ -19,6 +19,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { validate } from "uuid";
 import { Link as RouterLink } from "react-router-dom";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
+import { guid } from "../../app/util/validation";
 YupPassword(Yup);
 
 const validationSchema = Yup.object({
@@ -30,9 +31,7 @@ const validationSchema = Yup.object({
         [Yup.ref("password"), undefined],
         "Passwords must match"
     ),
-    inviteCode: Yup.string().test("is-uuid", "Invalid invide code", (value) => {
-        return value === undefined || validate(value);
-    }),
+    inviteCode: guid(),
 });
 
 const initialValues: Register = {

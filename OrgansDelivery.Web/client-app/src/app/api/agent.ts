@@ -3,10 +3,10 @@ import { toast } from "react-toastify";
 import { User, Login, Register } from "../models/user";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
-import { CreateTenant, Tenant } from "../models/tenant";
+import { TenantFormValues, Tenant } from "../models/tenant";
 import { OrganFormValues, Organ } from "../models/organ";
 import { Container, ContainerFormValues } from "../models/container";
-import { Conditions, CreateConditions } from "../models/conditions";
+import { Conditions, ConditionsFormValues } from "../models/conditions";
 import { CreateInvite, Invite } from "../models/invite";
 import { Employee } from "../models/employee";
 import {
@@ -98,8 +98,8 @@ const UserActions = {
 };
 
 const TenantActions = {
-    loadTenant: () => requests.get<Tenant>("/tenant"),
-    createTenant: (tenant: CreateTenant) =>
+    getTenant: () => requests.get<Tenant>("/tenant"),
+    createTenant: (tenant: TenantFormValues) =>
         requests.post<Tenant>("/tenant", tenant),
 };
 
@@ -137,7 +137,7 @@ const ContainerActions = {
 
 const ConditionsActions = {
     getConditions: () => requests.get<Conditions[]>("/conditions"),
-    createConditions: (conditions: CreateConditions) =>
+    createConditions: (conditions: ConditionsFormValues) =>
         requests.post<Conditions>("/conditions", conditions),
     deleteConditions: (conditionsId: string) =>
         requests.del(`/conditions/${conditionsId}`),

@@ -12,7 +12,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { CreateTenant } from "../../app/models/tenant";
+import { TenantFormValues } from "../../app/models/tenant";
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 
@@ -20,7 +20,7 @@ const validationSchema = Yup.object({
     name: Yup.string().required(),
 });
 
-const initialValues: CreateTenant = {
+const initialValues: TenantFormValues = {
     name: "",
 };
 

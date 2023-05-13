@@ -12,7 +12,6 @@ export interface Orientation {
 
 export interface Conditions extends IEntity, IWithTenant {
     id: string;
-    tenantId: string;
     name: string;
     description: string;
     humidity: Condition<number>;
@@ -21,7 +20,7 @@ export interface Conditions extends IEntity, IWithTenant {
     orientation: Condition<Orientation>;
 }
 
-export interface CreateConditions {
+export interface ConditionsFormValues {
     name: string;
     description: string;
     humidity: Condition<number>;

@@ -1,9 +1,10 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Conditions, CreateConditions } from "../models/conditions";
+import { Conditions, ConditionsFormValues } from "../models/conditions";
 import agent from "../api/agent";
 
 export default class ConditionsStore {
     conditions: Conditions[] = [];
+    isLoading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -18,7 +19,7 @@ export default class ConditionsStore {
         }
     };
 
-    createCondition = async (conditions: CreateConditions) => {
+    createCondition = async (conditions: ConditionsFormValues) => {
         try {
             const created = await agent.ConditionsActions.createConditions(
                 conditions

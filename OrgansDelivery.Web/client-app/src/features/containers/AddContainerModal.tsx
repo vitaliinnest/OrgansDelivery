@@ -11,7 +11,7 @@ const AddOrganModal = () => {
             initialValues={{
                 name: "",
                 description: "",
-                conditionsId: ""
+                deviceId: ""
             }}
             actionName="Add"
             onSubmit={(container) => {
