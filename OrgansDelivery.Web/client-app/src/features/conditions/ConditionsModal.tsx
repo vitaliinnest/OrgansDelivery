@@ -3,7 +3,7 @@ import EntityFormModal from "../../app/modals/EntityFormModal";
 import { useFormik } from "formik";
 import { Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
-import { Conditions, ConditionsFormValues } from "../../app/models/conditions";
+import { ConditionsFormValues } from "../../app/models/conditions";
 import DecimalConditionField from "../../app/layout/DecimalConditionField";
 
 const conditionValidationSchema = Yup.object({

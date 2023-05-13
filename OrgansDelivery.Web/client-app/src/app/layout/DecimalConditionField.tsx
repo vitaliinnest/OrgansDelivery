@@ -1,7 +1,6 @@
 import React from "react";
 import { Grid, TextField } from "@mui/material";
 import { Condition } from "../models/conditions";
-import { FormikErrors, FormikTouched } from "formik";
 
 type Props = {
     conditionName: string;
