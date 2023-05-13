@@ -3,16 +3,16 @@ using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
-using OrganStorage.DAL.Interfaces;
 
 namespace OrganStorage.BL.Services;
 
 public interface IConditionsService
 {
-    Task<Result<Conditions>> CreateConditionsAsync(
-        CreateConditionsModel model);
-    Task<Result<Conditions>> UpdateConditionsAsync(
-        Guid conditionsId, UpdateConditionsModel model);
+    List<ConditionsDto> GetConditions();
+    Task<Result<ConditionsDto>> CreateConditionsAsync(
+        ConditionsFormValues model);
+    Task<Result<ConditionsDto>> UpdateConditionsAsync(
+        Guid conditionsId, ConditionsFormValues model);
     Result DeleteConditions(Guid conditionId);
 }
 
@@ -32,69 +32,84 @@ public class ConditionsService : IConditionsService
         _context = context;
     }
 
-    public async Task<Result<Conditions>> CreateConditionsAsync(
-        CreateConditionsModel model)
+    public List<ConditionsDto> GetConditions()
     {
-        var validationResult = await _genericValidator.ValidateAsync(model);
-        if (!validationResult.IsValid)
-        {
-            return Result.Fail(validationResult.ToString());
-        }
-
-        var conditions = _mapper.Map<Conditions>(model);
-        if (_context.Conditions.Any(p => p.Name.ToLower() == conditions.Name.ToLower()))
-        {
-            return Result.Fail("Conditions with given name already exist");
-        }
-
-        _context.Add(conditions);
-        _context.SaveChanges();
-
-        return conditions;
-    }
-
-    public async Task<Result<Conditions>> UpdateConditionsAsync(
-        Guid conditionsId, UpdateConditionsModel model)
-    {
-        var validationResult = await _genericValidator.ValidateAsync(model);
-        if (!validationResult.IsValid)
-        {
-            return Result.Fail(validationResult.ToString());
-        }
-
 		var conditions = _context.Conditions
-			.Include(c => c.Organs)
-			.FirstOrDefault(c => c.Id == conditionsId && !c.IsArchival);
+			.Where(c => !c.IsArchival)
+			.ToList();
 
-		if (conditions == null)
-		{
-			return Result.Fail("Conditions not found");
-		}
-
-		var updatedConditions = _mapper.Map(model, conditions);
-		
-        if (model.AreConditionsUpdated())
-		{
-            var newConditions = _context.DetachedClone(updatedConditions);
-            newConditions.Id = Guid.Empty;
-            _context.Add(newConditions);
-
-			updatedConditions.IsArchival = true;
-		}
-
-		_context.Update(updatedConditions);
-
-		foreach (var organ in conditions.Organs)
-        {
-            organ.ConditionsId = conditionsId;
-        }
-
-		_context.SaveChanges();
-
-		return updatedConditions;
+        return _mapper.Map<List<ConditionsDto>>(conditions);
 	}
 
-    public Result DeleteConditions(Guid conditionId)
+	public async Task<Result<ConditionsDto>> CreateConditionsAsync(
+        ConditionsFormValues model)
+    {
+        var validationResult = await ValidateConditionsFormValuesAsync(model);
+        if (validationResult.IsFailed)
+        {
+            return validationResult;
+        }
+
+		if (_context.Conditions.Any(p => p.Name.ToLower() == model.Name.ToLower()))
+		{
+			return Result.Fail("Conditions with given name already exist");
+		}
+
+		var conditions = _mapper.Map<Conditions>(model);
+
+		_context.Add(conditions);
+        _context.SaveChanges();
+
+        return _mapper.Map<ConditionsDto>(conditions);
+    }
+
+    public async Task<Result<ConditionsDto>> UpdateConditionsAsync(
+        Guid conditionsId, ConditionsFormValues model)
+    {
+		var validationResult = await ValidateConditionsFormValuesAsync(model);
+		if (validationResult.IsFailed)
+		{
+			return validationResult;
+		}
+
+		if (_context.Conditions.Any(c => c.Id != conditionsId && !c.IsArchival && c.Name.ToLower() == model.Name.ToLower()))
+		{
+			return Result.Fail("Conditions with given name already exist");
+		}
+
+		var findResult = FindConditions(conditionsId);
+		if (findResult.IsFailed)
+        {
+            return findResult.ToResult();
+        }
+
+		var conditions = findResult.Value;
+		var conditionsChanged = model.ConditionsChanged(conditions);
+		var archivalConditions = _mapper.Map(model, conditions);
+		
+		if (conditionsChanged)
+		{
+			archivalConditions.IsArchival = true;
+
+			var newConditions = CreateConditionsCopy(archivalConditions);
+			_context.Add(newConditions);
+
+			var organIds = archivalConditions.Organs.Select(o => o.Id).ToList();
+			var organs = _context.Organs.Where(o => organIds.Contains(o.Id)).ToList();
+			foreach (var organ in organs)
+			{
+				organ.ConditionsId = newConditions.Id;
+			}
+
+			_context.SaveChanges();
+			return _mapper.Map<ConditionsDto>(newConditions);
+		}
+
+		_context.SaveChanges();
+		return _mapper.Map<ConditionsDto>(archivalConditions);
+	}
+
+	public Result DeleteConditions(Guid conditionId)
     {
         var conditionPreset = _context.Conditions
             .FirstOrDefault(c => c.Id == conditionId);
@@ -115,4 +130,67 @@ public class ConditionsService : IConditionsService
 
         return Result.Ok();
     }
+
+    private async Task<Result> ValidateConditionsFormValuesAsync(ConditionsFormValues model)
+    {
+		var validationResult = await _genericValidator.ValidateAsync(model);
+		if (!validationResult.IsValid)
+		{
+			return Result.Fail(validationResult.ToString());
+		}
+
+        return Result.Ok();
+	}
+
+    private Result<Conditions> FindConditions(Guid conditionsId)
+    {
+		var conditions = _context.Conditions
+			.Include(c => c.Organs)
+			.FirstOrDefault(c => c.Id == conditionsId && !c.IsArchival);
+
+		if (conditions == null)
+		{
+			return Result.Fail("Conditions not found");
+		}
+
+        return conditions;
+	}
+
+	private static Conditions CreateConditionsCopy(Conditions conditions)
+	{
+		return new Conditions()
+		{
+			Name = conditions.Name,
+			Description = conditions.Description,
+			IsArchival = false,
+			Humidity = new()
+			{
+				AllowedDeviation = conditions.Humidity.AllowedDeviation,
+				ExpectedValue = conditions.Humidity.ExpectedValue,
+			},
+			Temperature = new()
+			{
+				AllowedDeviation = conditions.Temperature.AllowedDeviation,
+				ExpectedValue = conditions.Temperature.ExpectedValue,
+			},
+			Light = new()
+			{
+				AllowedDeviation = conditions.Light.AllowedDeviation,
+				ExpectedValue = conditions.Light.ExpectedValue,
+			},
+			Orientation = new()
+			{
+				AllowedDeviation = new()
+				{
+					X = conditions.Orientation.AllowedDeviation.X,
+					Y = conditions.Orientation.AllowedDeviation.Y,
+				},
+				ExpectedValue = new()
+				{
+					X = conditions.Orientation.ExpectedValue.X,
+					Y = conditions.Orientation.ExpectedValue.Y,
+				}
+			}
+		};
+	}
 }

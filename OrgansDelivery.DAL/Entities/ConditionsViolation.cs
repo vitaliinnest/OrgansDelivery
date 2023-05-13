@@ -17,7 +17,9 @@ public class ConditionsViolation
 }
 
 public class ComparedResult<T> : Condition<T>
+	where T : IEquatable<T>
 {
+
 	public T Actual { get; set; }
 	public bool IsViolated { get; set; }
 }

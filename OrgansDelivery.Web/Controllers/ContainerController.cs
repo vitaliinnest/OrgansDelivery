@@ -32,17 +32,17 @@ public class ContainerController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult<Container>> CreateContainer(
-        [FromBody] CreateContainerModel model)
+        [FromBody] ContainerFormValues model)
     {
         var result = await _containerService.CreateContainerAsync(model);
         return this.ToActionResult(result);
     }
 
     [HttpPut("{containerId}")]
-    public ActionResult<Container> UpdateContainer(
-        Guid containerId, [FromBody] UpdateContainerModel model)
+    public async Task<ActionResult<Container>> UpdateContainer(
+        Guid containerId, [FromBody] ContainerFormValues model)
     {
-        var result = _containerService.UpdateContainer(containerId, model);
+        var result = await _containerService.UpdateContainerAsync(containerId, model);
         return this.ToActionResult(result);
     }
 
@@ -50,22 +50,6 @@ public class ContainerController : ControllerBase
     public ActionResult DeleteContainer(Guid containerId)
     {
         var result = _containerService.DeleteContainer(containerId);
-        return this.ToActionResult(result);
-    }
-
-    [HttpPost("{containerId}/addorgan/{organId}")]
-    public ActionResult<Container> AddOrganToContainer(Guid containerId, Guid organId)
-    {
-        var result = _containerService.AddOrganToContainerAsync(containerId, organId);
-        return this.ToActionResult(result);
-    }
-
-    // todo: replace organ
-
-    [HttpPost("{containerId}/removeorgan")]
-    public ActionResult<Container> RemoveOrganFromContainer(Guid containerId)
-    {
-        var result = _containerService.RemoveOrganFromContainer(containerId);
         return this.ToActionResult(result);
     }
 }

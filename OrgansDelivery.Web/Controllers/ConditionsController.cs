@@ -12,38 +12,32 @@ namespace OrganStorage.Web.Controllers;
 [Authorize]
 public class ConditionsController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly IConditionsService _conditionsService;
 
     public ConditionsController(
-        AppDbContext context,
         IConditionsService conditionPresetService)
     {
-        _context = context;
         _conditionsService = conditionPresetService;
     }
 
 	[HttpGet]
-	public ActionResult<List<Conditions>> GetConditions()
+	public ActionResult<List<ConditionsDto>> GetConditions()
     {
-        var conditionsList = _context.Conditions
-            .Where(c => !c.IsArchival)
-            .ToList();
-
-        return Ok(conditionsList);
+        var conditions = _conditionsService.GetConditions();
+        return Ok(conditions);
     }
 
     [HttpPost]
-    public async Task<ActionResult<Conditions>> CreateConditions(
-        [FromBody] CreateConditionsModel model)
+    public async Task<ActionResult<ConditionsDto>> CreateConditions(
+        [FromBody] ConditionsFormValues model)
     {
         var result = await _conditionsService.CreateConditionsAsync(model);
         return this.ToActionResult(result);
     }
 
     [HttpPut("{conditionsId}")]
-    public async Task<ActionResult<Conditions>> UpdateConditions(
-        Guid conditionsId, [FromBody] UpdateConditionsModel model)
+    public async Task<ActionResult<ConditionsDto>> UpdateConditions(
+        Guid conditionsId, [FromBody] ConditionsFormValues model)
     {
         var result = await _conditionsService.UpdateConditionsAsync(conditionsId, model);
         return this.ToActionResult(result);

@@ -26,21 +26,14 @@ public class OrganDto
 	public string Description { get; set; }
 	public DateTime OrganCreationDate { get; set; }
 	public Guid ContainerId { get; set; }
-	public string ContainerName { get; set; }
+	public Guid ConditionsId { get; set; }
 }
 
-public class CreateOrganModel
+public class OrganFormValues
 {
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime OrganCreationDate { get; set; }
+    public Guid ContainerId { get; set; }
 	public Guid ConditionsId { get; set; }
-}
-
-public class UpdateOrganModel
-{
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public DateTime? OrganCreationDate { get; set; }
-	public Guid? ConditionsId { get; set; }
 }

@@ -26,7 +26,7 @@ public class OrganController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<OrganDto>> CreateOrgan([FromBody] CreateOrganModel model)
+    public async Task<ActionResult<OrganDto>> CreateOrgan([FromBody] OrganFormValues model)
     {
         var result = await _organService.CreateOrganAsync(model);
         return this.ToActionResult(result);
@@ -34,7 +34,7 @@ public class OrganController : ControllerBase
 
     [HttpPut("{organId}")]
     public async Task<ActionResult<OrganDto>> UpdateOrgan(
-        Guid organId, [FromBody] UpdateOrganModel model)
+        Guid organId, [FromBody] OrganFormValues model)
     {
         var result = await _organService.UpdateOrganAsync(organId, model);
         return this.ToActionResult(result);

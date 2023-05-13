@@ -20,14 +20,37 @@ public class Conditions : IEntity, IMustHaveTenant,
     public ICollection<Organ> Organs { get;set; }
 }
 
+public class ConditionsDto
+{
+	public Guid Id { get; set; }
+	public string Name { get; set; }
+	public string Description { get; set; }
+	public Condition<decimal> Humidity { get; set; }
+	public Condition<decimal> Light { get; set; }
+	public Condition<decimal> Temperature { get; set; }
+	public Condition<Orientation> Orientation { get; set; }
+}
+
 [Owned]
-public class Condition<T>
+public class Condition<T> : IEquatable<Condition<T>>
+    where T : IEquatable<T>
 {
-    public T ExpectedValue { get; set; }
+	public T ExpectedValue { get; set; }
     public T AllowedDeviation { get; set; }
+
+    public bool Equals(Condition<T> condition)
+	{
+        return ExpectedValue.Equals(condition.ExpectedValue)
+            && AllowedDeviation.Equals(condition.AllowedDeviation);
+	}
+
+	public override int GetHashCode()
+	{
+		return base.GetHashCode();
+	}
 }
 
-public class CreateConditionsModel
+public class ConditionsFormValues
 {
     public string Name { get; set; }
     public string Description { get; set; }
@@ -35,17 +58,9 @@ public class CreateConditionsModel
     public Condition<decimal> Light { get; set; }
     public Condition<decimal> Temperature { get; set; }
     public Condition<Orientation> Orientation { get; set; }
-}
-
-public class UpdateConditionsModel
-{
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public Condition<decimal> Humidity { get; set; }
-    public Condition<decimal> Light { get; set; }
-    public Condition<decimal> Temperature { get; set; }
-    public Condition<Orientation> Orientation { get; set; }
-    
-    public bool AreConditionsUpdated() =>
-        Humidity != null || Light != null || Orientation != null;
+	
+    public bool ConditionsChanged(Conditions conditions) =>
+           !Humidity.Equals(conditions.Humidity)
+        || !Light.Equals(conditions.Light)
+        || !Orientation.Equals(conditions.Orientation);
 }

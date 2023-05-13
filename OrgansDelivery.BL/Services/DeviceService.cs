@@ -3,13 +3,14 @@ using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
+using System.ComponentModel;
 
 namespace OrganStorage.BL.Services;
 
 public interface IDeviceService
 {
-	Task<Result<Device>> AddDeviceAsync(AddDeviceModel model);
-	Task<Result<Device>> UpdateDeviceConfigurationAsync(Guid deviceId, UpdateDeviceConfigurationModel model);
+	Task<Result<Device>> AddDeviceAsync(DeviceFormValues model);
+	Task<Result<Device>> UpdateDeviceAsync(Guid deviceId, DeviceFormValues model);
 	Result RemoveDevice(Guid deviceId);
 }
 
@@ -32,7 +33,68 @@ public class DeviceService : IDeviceService
 		_mqttClientService = mqttClientService;
 	}
 
-	public async Task<Result<Device>> AddDeviceAsync(AddDeviceModel model)
+	public async Task<Result<Device>> AddDeviceAsync(DeviceFormValues model)
+	{
+		var validationResult = await ValidateDeviceFormValuesAsync(model);
+		if (validationResult.IsFailed)
+		{
+			return validationResult;
+		}
+
+		var device = _mapper.Map<Device>(model);
+
+		_context.Add(device);
+		_context.SaveChanges();
+
+		await PublishUpdateDeviceConfigurationMessageAsync(device);
+
+		return device;
+	}
+
+	public async Task<Result<Device>> UpdateDeviceAsync(Guid deviceId, DeviceFormValues model)
+	{
+		var validationResult = await ValidateDeviceFormValuesAsync(model);
+		if (validationResult.IsFailed)
+		{
+			return validationResult;
+		}
+
+		var findResult = FindDevice(deviceId);
+		if (findResult.IsFailed)
+		{
+			return findResult.ToResult();
+		}
+
+		var updatedDevice = _mapper.Map(model, findResult.Value);
+
+		_context.Add(updatedDevice);
+		_context.SaveChanges();
+
+		await PublishUpdateDeviceConfigurationMessageAsync(updatedDevice);
+
+		return updatedDevice;
+	}
+
+	public Result RemoveDevice(Guid deviceId)
+	{
+		var findResult = FindDevice(deviceId);
+		if (findResult.IsFailed)
+		{
+			return findResult.ToResult();
+		}
+
+		if (findResult.Value.Container != null)
+		{
+			return Result.Fail("Device is used by a container");
+		}
+
+		_context.Remove(findResult.Value);
+		_context.SaveChanges();
+
+		return Result.Ok();
+	}
+
+	private async Task<Result> ValidateDeviceFormValuesAsync(DeviceFormValues model)
 	{
 		var validationResult = await _genericValidator.ValidateAsync(model);
 		if (!validationResult.IsValid)
@@ -43,61 +105,26 @@ public class DeviceService : IDeviceService
 		var foundDevice = _context.Devices.IgnoreQueryFilters().FirstOrDefault(d => d.Id == model.Id);
 		if (foundDevice != null)
 		{
-			return Result.Fail("Device with given id is already used");
+			return Result.Fail("Device with given id already exists");
 		}
 
-		//var isContainerIdUsed = _context.Devices.Any(d => d.ContainerId == model.ContainerId);
-		//if (isContainerIdUsed)
-		//{
-		//	return Result.Fail("Container with given containerId already has a device");
-		//}
+		return Result.Ok();
+	}
 
-		var device = _mapper.Map<Device>(model);
-
-		_context.Add(device);
-		_context.SaveChanges();
+	private Result<Device> FindDevice(Guid deviceId)
+	{
+		var device = _context.Devices.FirstOrDefault(d => d.Id == deviceId);
+		if (device == null)
+		{
+			return Result.Fail("Container not found");
+		}
 
 		return device;
 	}
 
-	public async Task<Result<Device>> UpdateDeviceConfigurationAsync(Guid deviceId, UpdateDeviceConfigurationModel model)
+	private async Task PublishUpdateDeviceConfigurationMessageAsync(Device device)
 	{
-		// todo: add validation
-		//var validationResult = await _genericValidator.ValidateAsync(model);
-		//if (!validationResult.IsValid)
-		//{
-		//	return Result.Fail(validationResult.ToString());
-		//}
-
-		var device = _context.Devices.IgnoreQueryFilters().FirstOrDefault(d => d.Id == deviceId);
-		if (device == null)
-		{
-			return Result.Fail("Device not found");
-		}
-
-		var updated = _mapper.Map(model, device);
-		_context.Update(updated);
-		_context.SaveChanges();
-
-		// todo: add mapping profile
-		var message = _mapper.Map<DeviceConfigurationMessage>(model);
-		await _mqttClientService.PublishUpdateDeviceConfigurationMessageAsync(deviceId, message);
-
-		return updated;
-	}
-
-
-	public Result RemoveDevice(Guid deviceId)
-	{
-		var device = _context.Devices.FirstOrDefault(i => i.Id == deviceId);
-		if (device == null)
-		{
-			return Result.Fail("Device not found");
-		}
-
-		_context.Remove(device);
-		_context.SaveChanges();
-
-		return Result.Ok();
+		var message = _mapper.Map<DeviceConfigurationMessage>(device);
+		await _mqttClientService.PublishUpdateDeviceConfigurationMessageAsync(device.Id, message);
 	}
 }

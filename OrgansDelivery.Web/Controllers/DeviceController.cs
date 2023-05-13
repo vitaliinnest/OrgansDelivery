@@ -29,17 +29,17 @@ public class DeviceController : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<Device>> AddDevice([FromBody] AddDeviceModel model)
+	public async Task<ActionResult<Device>> AddDevice([FromBody] DeviceFormValues model)
 	{
 		var result = await _deviceService.AddDeviceAsync(model);
 		return this.ToActionResult(result);
 	}
 
-	[HttpPut("configuration/{deviceId}")]
+	[HttpPut("{deviceId}")]
 	public async Task<ActionResult<Device>> UpdateDeviceConfiguration(
-		Guid deviceId, [FromBody] UpdateDeviceConfigurationModel model)
+		Guid deviceId, [FromBody] DeviceFormValues model)
 	{
-		var result = await _deviceService.UpdateDeviceConfigurationAsync(deviceId, model);
+		var result = await _deviceService.UpdateDeviceAsync(deviceId, model);
 		return this.ToActionResult(result);
 	}
 

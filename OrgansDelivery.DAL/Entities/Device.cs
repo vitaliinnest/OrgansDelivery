@@ -13,24 +13,11 @@ public class Device : IEntity, IMustHaveTenant, IWithName, IWithDescription
 	public Container Container { get; set; }
 }
 
-public class AddDeviceModel
+public class DeviceFormValues
 {
 	public Guid Id { get; set; }
 	public string Name { get; set; }
 	public string Description { get; set; }
-	public Guid ContainerId { get; set; }
-	public int ConditionsIntervalCheckInMs { get; set; }
-}
-
-//public class UpdateDeviceModel
-//{
-//	public string Name { get; set; }
-//	public string Description { get; set; }
-//	public Guid ContainerId { get; set; }
-//}
-
-public class UpdateDeviceConfigurationModel
-{
 	public int ConditionsIntervalCheckInMs { get; set; }
 }
 

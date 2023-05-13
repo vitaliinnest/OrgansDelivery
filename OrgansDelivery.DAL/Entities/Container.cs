@@ -15,18 +15,9 @@ public class Container : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public Device Device { get; set; }
 }
 
-public class CreateContainerModel
+public class ContainerFormValues
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public Guid? OrganId { get; set; }
-	public Guid? DeviceId { get; set; }
-}
-
-public class UpdateContainerModel
-{
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public Guid? OrganId { get; set; }
-    public Guid? DeviceId { get; set; }
+	public Guid DeviceId { get; set; }
 }

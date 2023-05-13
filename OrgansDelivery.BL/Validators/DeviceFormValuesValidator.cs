@@ -5,9 +5,9 @@ using static OrganStorage.BL.Consts.ValidatorConsts;
 
 namespace OrganStorage.BL.Validators;
 
-public class CreateDeviceValidator : AbstractValidator<AddDeviceModel>
+public class DeviceFormValuesValidator : AbstractValidator<DeviceFormValues>
 {
-    public CreateDeviceValidator()
+    public DeviceFormValuesValidator()
 	{
 		RuleFor(d => d.Id)
 			.NotEmpty();
@@ -25,8 +25,5 @@ public class CreateDeviceValidator : AbstractValidator<AddDeviceModel>
 			.InclusiveBetween(
 				ConditionConsts.ConditionsIntervalCheckInMs.MIN,
 				ConditionConsts.ConditionsIntervalCheckInMs.MAX);
-
-		RuleFor(d => d.ContainerId)
-			.NotEmpty();
 	}
 }

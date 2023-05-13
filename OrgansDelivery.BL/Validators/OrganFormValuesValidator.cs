@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
+using OrganStorage.BL.Extensions;
 using OrganStorage.DAL.Entities;
 using static OrganStorage.BL.Consts.ValidatorConsts;
 
 namespace OrganStorage.BL.Validators;
 
-public class CreateContainerValidator : AbstractValidator<CreateContainerModel>
+public class OrganFormValuesValidator : AbstractValidator<OrganFormValues>
 {
-    public CreateContainerValidator()
+    public OrganFormValuesValidator()
     {
         RuleFor(t => t.Name)
             .NotNull()
@@ -16,5 +17,9 @@ public class CreateContainerValidator : AbstractValidator<CreateContainerModel>
 
         RuleFor(t => t.Description)
             .MaximumLength(GeneralConsts.MAX_LENGTH);
+
+        RuleFor(t => t.OrganCreationDate)
+            .NotNull()
+            .OrganCreationDate();
     }
 }

@@ -7,11 +7,9 @@ namespace OrganStorage.BL.Services;
 
 public interface IContainerService
 {
-    Task<Result<Container>> CreateContainerAsync(CreateContainerModel model);
-    Result<Container> UpdateContainer(Guid containerId, UpdateContainerModel model);
-    Result DeleteContainer(Guid containerId);
-    Result<Container> AddOrganToContainerAsync(Guid containerId, Guid organId);
-    Result<Container> RemoveOrganFromContainer(Guid containerId);
+    Task<Result<Container>> CreateContainerAsync(ContainerFormValues model);
+    Task<Result<Container>> UpdateContainerAsync(Guid containerId, ContainerFormValues model);
+	Result DeleteContainer(Guid containerId);
 }
 
 public class ContainerService : IContainerService
@@ -30,151 +28,102 @@ public class ContainerService : IContainerService
         _context = context;
     }
 
-    public async Task<Result<Container>> CreateContainerAsync(CreateContainerModel model)
+    public async Task<Result<Container>> CreateContainerAsync(ContainerFormValues model)
     {
-        var validationResult = await _genericValidator.ValidateAsync(model);
-        if (!validationResult.IsValid)
-        {
-            return Result.Fail(validationResult.ToString());
-        }
-
-		if (model.OrganId != null)
-        {
-            var organExists = _context.Organs
-                .Any(p => p.Id == model.OrganId);
-
-            if (!organExists)
-            {
-                return Result.Fail("Condition not found");
-            }
-        }
-
-        if (model.DeviceId != null)
-        {
-			var deviceExists = _context.Devices
-	            .Any(p => p.Id == model.DeviceId);
-
-			if (!deviceExists)
-			{
-				return Result.Fail("Device not found");
-			}
+        var validationResult = await ValidateContainerFormValuesAsync(model);
+		if (validationResult.IsFailed)
+		{
+			return validationResult;
 		}
 
-        var container = _mapper.Map<Container>(model);
+		if (_context.Containers.Any(c => c.Name.ToLower() == model.Name.ToLower()))
+		{
+			return Result.Fail("Container with given name already exists");
+		}
+
+		var container = _mapper.Map<Container>(model);
         _context.Add(container);
         _context.SaveChanges();
 
         return container;
     }
 
-    public Result<Container> UpdateContainer(Guid containerId, UpdateContainerModel model)
+    public async Task<Result<Container>> UpdateContainerAsync(Guid containerId, ContainerFormValues model)
     {
-        // todo: model validation
-
-		if (model.OrganId != null)
+		var validationResult = await ValidateContainerFormValuesAsync(model);
+		if (validationResult.IsFailed)
 		{
-			var organExists = _context.Organs
-				.Any(p => p.Id == model.OrganId);
-
-			if (!organExists)
-			{
-				return Result.Fail("Condition not found");
-			}
+			return validationResult;
 		}
 
-		if (model.DeviceId != null)
+		if (_context.Containers.Any(c => c.Id != containerId && c.Name.ToLower() == model.Name.ToLower()))
 		{
-			var deviceExists = _context.Devices
-				.Any(p => p.Id == model.DeviceId);
-
-			if (!deviceExists)
-			{
-				return Result.Fail("Device not found");
-			}
+			return Result.Fail("Container with given name already exists");
 		}
 
-		var container = _context.Containers.FirstOrDefault(o => o.Id == containerId);
-        if (container == null)
-        {
-            return Result.Fail("Container not found");
-        }
+		var findResult = FindContainer(containerId);
+		if (findResult.IsFailed)
+		{
+			return findResult.ToResult();
+		}
 
-        var updated = _mapper.Map(model, container);
+		var updatedContainer = _mapper.Map(model, findResult.Value);
 
-        _context.Update(updated);
+        _context.Update(updatedContainer);
         _context.SaveChanges();
 
-        return updated;
+        return updatedContainer;
     }
 
     public Result DeleteContainer(Guid containerId)
     {
-        var container = _context.Containers.FirstOrDefault(i => i.Id == containerId);
-        if (container == null)
+		var findResult = FindContainer(containerId);
+		if (findResult.IsFailed)
+		{
+			return findResult.ToResult();
+		}
+
+        if (findResult.Value.Organ != null)
         {
-            return Result.Fail("Container not found");
+            return Result.Fail("Container contains an organ");
         }
 
-        //if (container.OrganId.HasValue)
-        //{
-        //    return Result.Fail("Organ is in container. Get it out of the container first");
-        //}
-
-        _context.Remove(container);
+        _context.Remove(findResult.Value);
         _context.SaveChanges();
 
         return Result.Ok();
     }
 
-    public Result<Container> AddOrganToContainerAsync(Guid containerId, Guid organId)
+	private Result<Container> FindContainer(Guid containerId)
+	{
+		var container = _context.Containers.FirstOrDefault(c => c.Id == containerId);
+		if (container == null)
+		{
+			return Result.Fail("Container not found");
+		}
+
+		return container;
+	}
+
+	private async Task<Result> ValidateContainerFormValuesAsync(ContainerFormValues model)
     {
-        var container = _context.Containers.FirstOrDefault(c => c.Id == containerId);
-        if (container == null)
+		var validationResult = await _genericValidator.ValidateAsync(model);
+		if (!validationResult.IsValid)
+		{
+			return Result.Fail(validationResult.ToString());
+		}
+
+        var device = _context.Devices.FirstOrDefault(d => d.Id == model.DeviceId);
+        if (device == null)
         {
-            return Result.Fail("Container not found");
+            return Result.Fail("Device not found");
         }
 
-        var organExists = _context.Organs.Any(o => o.Id == organId);
-        if (!organExists)
+        if (device.Container != null)
         {
-            return Result.Fail("Organ not found");
+            return Result.Fail("Device is already used");
         }
 
-        //container.OrganId = organId;
-        _context.SaveChanges();
-
-        return container;
-    }
-
-    public Result<Container> RemoveOrganFromContainer(Guid containerId)
-    {
-        var container = _context.Containers.FirstOrDefault(c => c.Id == containerId);
-        if (container == null)
-        {
-            return Result.Fail("Container not found");
-        }
-
-        //if (!container.OrganId.HasValue)
-        //{
-        //    return Result.Fail("Container contains no organ");
-        //}
-
-        //container.OrganId = null;
-        _context.SaveChanges();
-
-        return container;
-    }
-
-    //private Result<ExpectedConditions> BuildContainerConditions(CreateContainerModel model)
-    //{
-    //    if (model.ConditionPresetId.HasValue)
-    //    {
-    //        var condition = _context.Conditions
-    //            .FirstOrDefault(p => p.Id == model.ConditionPresetId.Value);
-
-    //        return Result.OkIf(condition != null, "Condition Preset not found");
-    //    }
-
-    //    return Result.OkIf(model.Conditions != null, "Condition is not set");
-    //}
+        return Result.Ok();
+	}
 }

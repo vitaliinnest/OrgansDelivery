@@ -41,35 +41,21 @@ public class AuthMappingProfile : Profile
         CreateMap<IdentityRole<Guid>, RoleDto>();
 
 
-        // ConditionPreset
-        CreateMap<CreateConditionsModel, Conditions>();
-
-        CreateMap<UpdateConditionsModel, Conditions>()
-            .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
+        // Conditions
+        CreateMap<Conditions, Conditions>();
+        CreateMap<Conditions, ConditionsDto>();
+        CreateMap<ConditionsFormValues, Conditions>();
 
         // Container
-        CreateMap<CreateContainerModel, Container>();
-
-        CreateMap<UpdateContainerModel, Container>()
-            .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
+        CreateMap<ContainerFormValues, Container>();
 
 
         // Organ
-        CreateMap<CreateOrganModel, Organ>();
-        
-        CreateMap<Organ, OrganDto>()
-            .ForMember(
-                dest => dest.ContainerName,
-                opt => opt.MapFrom(src => src.Container.Name));
-
-        CreateMap<UpdateOrganModel, Organ>()
-            .ForMember(
-                dest => dest.OrganCreationDate,
-                opt => opt.MapFrom((src, dest) => src.OrganCreationDate ?? dest.OrganCreationDate))
-            .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
+        CreateMap<Organ, OrganDto>();
+        CreateMap<OrganFormValues, Organ>();
 
 
-        // ContainerConditionsHistory
+        // ConditionsRecord
         CreateMap<CreateConditionsRecordModel, ConditionsRecord>()
             .ForMember(
                 dest => dest.Orientation,
@@ -80,12 +66,8 @@ public class AuthMappingProfile : Profile
 
 
         // Device
-        CreateMap<AddDeviceModel, Device>();
-        
-        CreateMap<UpdateDeviceConfigurationModel, Device>()
-			.ForAllMembers(o => o.Condition((src, dest, value) => value != null));
-
-        CreateMap<UpdateDeviceConfigurationModel, DeviceConfigurationMessage>()
-            .ForMember(dest => dest.Interval_ms, opt => opt.MapFrom(src => src.ConditionsIntervalCheckInMs));
+        CreateMap<DeviceFormValues, Device>();
+		CreateMap<Device, DeviceConfigurationMessage>()
+			.ForMember(dest => dest.Interval_ms, opt => opt.MapFrom(src => src.ConditionsIntervalCheckInMs));
 	}
 }
