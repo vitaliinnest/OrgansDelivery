@@ -36,10 +36,6 @@ const OrganModal = (props: Props) => {
     const noContainers = containers.length === 0;
     const noConditions = conditions.length === 0;
 
-    // const onChangeContainer = (event: SelectChangeEvent) => {
-    //     const containerId = event.target.value;
-    // }
-
     return (
         <EntityFormModal
             entityName="Organ"
