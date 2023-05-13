@@ -31,7 +31,7 @@ const EntityFormModal = (props: PropsWithChildren<Props>) => {
 
     return (
         <Dialog
-            maxWidth={maxWidth ?? "sm"}
+            maxWidth={maxWidth}
             open={modalStore.modal.open}
             onClose={modalStore.closeModal}
         >
