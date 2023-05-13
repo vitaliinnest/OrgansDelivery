@@ -5,6 +5,7 @@ import { Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { ConditionsFormValues } from "../../app/models/conditions";
 import DecimalConditionField from "../../app/layout/DecimalConditionField";
+import OrientationConditionField from "../../app/layout/OrientationConditionField";
 
 const conditionValidationSchema = Yup.object({
     expectedValue: Yup.number().required(),
@@ -36,6 +37,7 @@ const ConditionsModal = (props: Props) => {
 
     return (
         <EntityFormModal
+            maxWidth="md"
             entityName="Organ"
             actionName={actionName}
             onSubmit={formik.handleSubmit}
@@ -93,6 +95,13 @@ const ConditionsModal = (props: Props) => {
                     condition={formik.values.temperature}
                     onChange={(temperature) => {
                         formik.setFieldValue('temperature', temperature, true)
+                    }}
+                />
+                <OrientationConditionField
+                    conditionName="Orientation"
+                    condition={formik.values.orientation}
+                    onChange={(orientation) => {
+                        formik.setFieldValue('orientation', orientation, true)
                     }}
                 />
             </Grid>

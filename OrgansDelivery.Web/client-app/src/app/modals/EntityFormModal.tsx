@@ -6,13 +6,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { observer } from "mobx-react-lite";
-import { Box } from "@mui/material";
+import { Box, Breakpoint } from "@mui/material";
 import { useStore } from "../stores/store";
 
 type Props = {
     entityName: string;
     description?: string;
     actionName: string;
+    maxWidth?: Breakpoint | false;
     onSubmit: () => void;
 };
 
@@ -20,15 +21,17 @@ const EntityFormModal = (props: PropsWithChildren<Props>) => {
     const {
         entityName,
         description,
-        onSubmit,
         children,
         actionName,
+        maxWidth,
+        onSubmit,
     } = props;
 
     const { modalStore } = useStore();
 
     return (
         <Dialog
+            maxWidth={maxWidth ?? "sm"}
             open={modalStore.modal.open}
             onClose={modalStore.closeModal}
         >

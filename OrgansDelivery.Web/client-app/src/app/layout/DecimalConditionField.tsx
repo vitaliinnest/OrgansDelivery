@@ -29,7 +29,6 @@ const DecimalConditionField = (props: Props) => {
         <>
             <Grid item sm={6}>
                 <TextField
-                    name="name"
                     label="Expected Value"
                     required
                     fullWidth
@@ -41,7 +40,6 @@ const DecimalConditionField = (props: Props) => {
             </Grid>
             <Grid item sm={6}>
                 <TextField
-                    name="name"
                     label="Allowed Deviation"
                     required
                     fullWidth
