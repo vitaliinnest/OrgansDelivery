@@ -41,6 +41,10 @@ const mainOptions: NavigationMenuOption[] = [
         title: "Conditions",
         path: "/conditions",
     },
+    {
+        title: "Devices",
+        path: "/devices",
+    }
 ];
 
 const NavBar = () => {

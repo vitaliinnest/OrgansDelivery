@@ -62,31 +62,26 @@ const OrgansList = () => {
             headCells={[
                 {
                     id: "name",
-                    numeric: false,
                     disablePadding: true,
                     label: "Organ Name",
                 },
                 {
                     id: "description",
-                    numeric: false,
                     disablePadding: false,
                     label: "Description",
                 },
                 {
                     id: "creation-date",
-                    numeric: false,
                     disablePadding: false,
                     label: "Creation Date",
                 },
                 {
                     id: "container-name",
-                    numeric: false,
                     disablePadding: false,
                     label: "Container Name",
                 },
                 {
                     id: "container-name",
-                    numeric: true,
                     disablePadding: false,
                     label: "Conditions Name",
                 }

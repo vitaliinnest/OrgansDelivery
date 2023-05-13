@@ -156,7 +156,7 @@ const DeviceActions = {
     addDevice: (device: DeviceFormValues) =>
         requests.post<Device>("/device", device),
     updateDevice: (deviceId: string, update: DeviceFormValues) =>
-        requests.put(`/device/${deviceId}`, update),
+        requests.put<Device>(`/device/${deviceId}`, update),
     deleteDevice: (deviceId: string) =>
         requests.del(`/device/${deviceId}`),
 };

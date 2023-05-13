@@ -10,6 +10,8 @@ import CreateTenantPage from "../../features/tenants/CreateTenantPage";
 import RequireTenant from "./RequireTenant";
 import OrgansList from "../../features/organs/OrgansList";
 import OrganDetails from "../../features/organs/OrganDetails";
+import ContainersList from "../../features/containers/ContainersList";
+import DevicesList from "../../features/devices/DevicesList";
 
 export const routes: RouteObject[] = [
     {
@@ -34,10 +36,9 @@ export const routes: RouteObject[] = [
                         children: [
                             { path: "organs", element: <OrgansList /> },
                             { path: "organs/:organId", element: <OrganDetails /> },
-                            // { path: "containers", element: <ContainersList /> },
-                            // { path: "containers/:containerId", element: <ContainerDetails /> },
+                            { path: "containers", element: <ContainersList /> },
                             // { path: "conditions", element: <ConditionsList /> },
-                            // { path: "conditions/:conditionId", element: <ConditionsDetails /> },
+                            { path: "devices", element: <DevicesList /> },
                             // { path: "invites", element: <InvitesList /> },
                             // { path: "users", element: <UsersList /> },
                         ],

@@ -12,7 +12,6 @@ export interface HeadCell {
     disablePadding: boolean;
     id: string;
     label: string;
-    numeric: boolean;
 }
 
 type Props = {
@@ -53,7 +52,7 @@ const EnhancedTableHead = (props: Props) => {
                 {headCells.map((headCell, index) => (
                     <TableCell
                         key={headCell.id}
-                        align={headCell.numeric ? "right" : "left"}
+                        align="left"
                         padding={headCell.disablePadding ? "none" : "normal"}
                         sortDirection={orderBy === index ? order : false}
                         sx={{

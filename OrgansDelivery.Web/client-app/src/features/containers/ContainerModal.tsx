@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import EntityFormModal from "../../app/modals/EntityFormModal";
 import { useFormik } from "formik";
-import { Grid, TextField } from "@mui/material";
+import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { ContainerFormValues } from "../../app/models/container";
 import { Device } from "../../app/models/device";
@@ -28,9 +28,11 @@ const ContainerModal = (props: Props) => {
         validationSchema,
     });
 
+    const noDevices = devices.length === 0;
+
     return (
         <EntityFormModal
-            entityName="Organ"
+            entityName="Container"
             actionName={actionName}
             onSubmit={formik.handleSubmit}
         >
@@ -38,7 +40,7 @@ const ContainerModal = (props: Props) => {
                 <Grid item xs={12}>
                     <TextField
                         name="name"
-                        label="Organ Name"
+                        label="Container Name"
                         required
                         fullWidth
                         autoFocus
@@ -63,6 +65,37 @@ const ContainerModal = (props: Props) => {
                         }
                         helperText={formik.touched.description && formik.errors.description}
                     />
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl
+                        required
+                        fullWidth
+                        disabled={noDevices}
+                        error={noDevices}
+                    >
+                        <InputLabel>
+                            Device
+                        </InputLabel>
+                        <Select
+                            name="deviceId"
+                            value={formik.values.deviceId}
+                            label="Device *"
+                            fullWidth
+                            onChange={formik.handleChange}
+                            error={
+                                formik.touched.deviceId &&
+                                Boolean(formik.errors.deviceId)
+                            }
+                        >
+                            {devices.map(d => (
+                                <MenuItem value={d.id}>{d.name}</MenuItem>
+                            ))}
+                        </Select>
+                        <FormHelperText>
+                            {(noDevices && "Add a device first")
+                            || (formik.touched.deviceId && formik.errors.deviceId)}
+                        </FormHelperText>
+                    </FormControl>
                 </Grid>
             </Grid>
         </EntityFormModal>

@@ -182,7 +182,7 @@ const EntitiesTable = (props: Props) => {
                                             {row[1]}
                                         </TableCell>
                                         {row.slice(2).map((cell) => (
-                                            <TableCell key={cell} align="right">
+                                            <TableCell key={cell} align="left">
                                                 {cell}
                                             </TableCell>
                                         ))}

@@ -51,13 +51,11 @@ const ContainersList = () => {
             headCells={[
                 {
                     id: "name",
-                    numeric: false,
                     disablePadding: true,
                     label: "Container Name",
                 },
                 {
                     id: "description",
-                    numeric: true,
                     disablePadding: false,
                     label: "Description",
                 },
