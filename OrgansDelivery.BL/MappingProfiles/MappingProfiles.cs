@@ -34,7 +34,7 @@ public class AuthMappingProfile : Profile
 
 
         // Invite
-        CreateMap<InviteUserModel, Invite>();
+        CreateMap<InviteFormValues, Invite>();
 
 
         // Role

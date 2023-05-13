@@ -33,7 +33,7 @@ public class InviteController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Invite>> InviteUser([FromBody] InviteUserModel model)
+    public async Task<ActionResult<Invite>> InviteUser([FromBody] InviteFormValues model)
     {
         var result = await _inviteService.InviteUserAsync(model);
         return this.ToActionResult(result);

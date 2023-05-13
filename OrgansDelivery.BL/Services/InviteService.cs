@@ -13,7 +13,7 @@ namespace OrganStorage.BL.Services;
 
 public interface IInviteService
 {
-    Task<Result<Invite>> InviteUserAsync(InviteUserModel model);
+    Task<Result<Invite>> InviteUserAsync(InviteFormValues model);
     Task<Result> AcceptInviteAsync(User user, RegisterRequest registerRequest);
     Result DeleteInvite(Guid inviteId);
     Invite GetRegisterInvite(RegisterRequest registerRequest);
@@ -47,7 +47,7 @@ public class InviteService : IInviteService
         _tenantRepository = tenantRepository;
     }
 
-    public async Task<Result<Invite>> InviteUserAsync(InviteUserModel model)
+    public async Task<Result<Invite>> InviteUserAsync(InviteFormValues model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)

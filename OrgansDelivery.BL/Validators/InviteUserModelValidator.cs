@@ -5,7 +5,7 @@ using OrganStorage.BL.Models;
 
 namespace OrganStorage.BL.Validators;
 
-public class InviteUserModelValidator : AbstractValidator<InviteUserModel>
+public class InviteUserModelValidator : AbstractValidator<InviteFormValues>
 {
     public InviteUserModelValidator(IRoleService roleService)
     {
