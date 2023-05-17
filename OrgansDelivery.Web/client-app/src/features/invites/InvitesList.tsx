@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useStore } from "../../app/stores/store";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { observer } from "mobx-react-lite";
 import EntitiesTable from "../../app/layout/EntitiesTable";
-import { router } from "../../app/router/Routes";
+import InviteUserModal from "./InviteUserModal";
 
-const OrgansList = () => {
+const InvitesList = () => {
     const { inviteStore, modalStore } = useStore();
 
     useEffect(() => {
@@ -46,4 +46,4 @@ const OrgansList = () => {
     );
 };
 
-export default observer(OrgansList);
+export default observer(InvitesList);

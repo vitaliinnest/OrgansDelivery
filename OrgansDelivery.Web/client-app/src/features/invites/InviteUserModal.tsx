@@ -1,22 +1,19 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../app/stores/store";
+import InviteModal from "./InviteModal";
 
 const InviteUserModal = () => {
-    const { devices } = props;
-    const { containerStore, modalStore } = useStore();
+    const { inviteStore, modalStore } = useStore();
 
     return (
-        <ContainerModal
+        <InviteModal
             initialValues={{
-                name: "",
-                description: "",
-                deviceId: ""
+                email: "",
             }}
-            actionName="Add"
-            devices={devices}
-            onSubmit={(container) => {
-                containerStore.createContainer(container)
+            actionName="Create"
+            onSubmit={(invite) => {
+                inviteStore.createInvite(invite)
                     .then(modalStore.closeModal);
             }}            
         />

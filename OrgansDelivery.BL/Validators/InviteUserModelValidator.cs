@@ -13,8 +13,5 @@ public class InviteUserModelValidator : AbstractValidator<InviteFormValues>
             .NotNull()
             .NotEmpty()
             .EmailAddress();
-
-        RuleFor(u => u.RoleId)
-            .RoleId(roleService);
     }
 }
