@@ -4,6 +4,7 @@ import { Employee } from "../models/employee";
 
 export default class EmployeeStore {
     employees: Employee[] = [];
+    isLoading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -11,15 +12,19 @@ export default class EmployeeStore {
 
     loadEmployees = async () => {
         try {
+            runInAction(() => this.isLoading = true);
             const employees = await agent.EmployeeActions.getEmployees();
             runInAction(() => (this.employees = employees));
         } catch (error) {
             console.log(error);
+        } finally {
+            runInAction(() => this.isLoading = false);
         }
     };
 
     deleteEmployee = async (employeeId: string) => {
         try {
+            runInAction(() => this.isLoading = true);
             await agent.EmployeeActions.deleteEmployee(employeeId);
             runInAction(() => {
                 this.employees = this.employees.filter(
@@ -28,6 +33,8 @@ export default class EmployeeStore {
             });
         } catch (error) {
             console.log(error);
+        } finally {
+            runInAction(() => this.isLoading = false);
         }
     };
 }

@@ -13,6 +13,7 @@ import OrganDetails from "../../features/organs/OrganDetails";
 import ContainersList from "../../features/containers/ContainersList";
 import DevicesList from "../../features/devices/DevicesList";
 import ConditionsList from "../../features/conditions/ConditionsList";
+import UsersList from "../../features/users/UsersList";
 
 export const routes: RouteObject[] = [
     {
@@ -39,8 +40,8 @@ export const routes: RouteObject[] = [
                             { path: "containers", element: <ContainersList /> },
                             { path: "conditions", element: <ConditionsList /> },
                             { path: "devices", element: <DevicesList /> },
+                            { path: "users", element: <UsersList /> },
                             // { path: "invites", element: <InvitesList /> },
-                            // { path: "users", element: <UsersList /> },
                         ],
                     },
                 ],

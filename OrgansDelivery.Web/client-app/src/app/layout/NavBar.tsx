@@ -148,7 +148,10 @@ const NavBar = () => {
                             {profileOptions.map((option) => (
                                 <MenuItem
                                     key={option.title}
-                                    onClick={option.onClick}
+                                    onClick={() => {
+                                        option.onClick();
+                                        onAccountMenuClose();
+                                    }}
                                 >
                                     <Typography textAlign="center">
                                         {option.title}
@@ -168,12 +171,12 @@ export default observer(NavBar);
 
 const threeDotsMenuOptions: NavigationMenuOption[] = [
     {
-        title: "Invites",
-        path: "/invites"
-    },
-    {
         title: "Users",
         path: "/users",
+    },
+    {
+        title: "Invites",
+        path: "/invites"
     },
 ];
 
@@ -220,7 +223,10 @@ const ThreeDotsMenu = () => {
                 {threeDotsMenuOptions.map((option) => (
                     <MenuItem
                         key={option.title}
-                        onClick={() => navigate(option.path)}
+                        onClick={() => {
+                            navigate(option.path);
+                            handleClose();
+                        }}
                     >
                         {option.title}
                     </MenuItem>

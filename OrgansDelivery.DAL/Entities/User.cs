@@ -12,7 +12,7 @@ public class User : IdentityUser<Guid>, IMustHaveTenant
     public Language Language { get; set; }
 }
 
-public class UpdateUserModel
+public class UserFormValues
 {
     public string Name { get; set; }
     public string Surname { get; set; }

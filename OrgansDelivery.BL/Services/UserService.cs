@@ -10,7 +10,7 @@ namespace OrganStorage.BL.Services;
 public interface IUserService
 {
     Task<Result<UserDto>> GetCurrentUserAsync();
-    Task<Result<UserDto>> UpdateUser(UpdateUserModel model);
+    Task<Result<UserDto>> UpdateUser(UserFormValues model);
     Result<List<User>> GetUsersByTenantId(Guid tenantId);
 }
 
@@ -44,7 +44,7 @@ public class UserService : IUserService
         return await UserToDtoAsync(user);
     }
 
-    public async Task<Result<UserDto>> UpdateUser(UpdateUserModel model)
+    public async Task<Result<UserDto>> UpdateUser(UserFormValues model)
     {
         // imagine validation here
 

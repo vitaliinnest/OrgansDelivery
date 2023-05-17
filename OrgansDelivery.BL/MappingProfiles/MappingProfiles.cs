@@ -18,8 +18,8 @@ public class MappingProfiles : Profile
         CreateMap<User, LoginResponse>();
         CreateMap<User, RegisterResponse>();
         CreateMap<User, UserDto>();
-        CreateMap<UpdateUserModel, User>()
-            .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
+        CreateMap<User, EmployeeDto>();
+        CreateMap<UserFormValues, User>();
 
         // Tenant
         CreateMap<TenantFormValues, Tenant>();

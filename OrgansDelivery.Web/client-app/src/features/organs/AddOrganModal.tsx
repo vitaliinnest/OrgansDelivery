@@ -12,7 +12,7 @@ type Props = {
 
 const AddOrganModal = (props: Props) => {
     const { containers, conditions } = props;
-    const { organStore, containerStore, modalStore } = useStore();
+    const { organStore, modalStore } = useStore();
 
     return (
         <OrganModal
