@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { Condition } from "../models/conditions";
 
 type Props = {
@@ -35,7 +35,7 @@ const DecimalConditionField = (props: Props) => {
                     type="number"
                     onChange={onChangeExpectedValue}
                     value={condition.expectedValue}
-                    helperText={conditionName}
+                    helperText={<Typography fontWeight="bold" variant="subtitle2" >{conditionName}</Typography>}
                 />
             </Grid>
             <Grid item sm={6}>

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrganStorage.BL.Services;
-using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
 using OrganStorage.Web.Common.Extensions;
 
@@ -12,31 +11,29 @@ namespace OrganStorage.Web.Controllers;
 [Authorize]
 public class DeviceController : ControllerBase
 {
-	private readonly AppDbContext _context;
 	private readonly IDeviceService _deviceService;
 
-	public DeviceController(AppDbContext context, IDeviceService deviceService)
+	public DeviceController(IDeviceService deviceService)
 	{
-		_context = context;
 		_deviceService = deviceService;
 	}
 
 	[HttpGet]
-	public ActionResult<List<Device>> GetDevices()
+	public ActionResult<List<DeviceDto>> GetDevices()
 	{
-		var devices = _context.Devices.ToList();
+		var devices = _deviceService.GetDevices();
 		return Ok(devices);
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<Device>> AddDevice([FromBody] DeviceFormValues model)
+	public async Task<ActionResult<DeviceDto>> AddDevice([FromBody] DeviceFormValues model)
 	{
 		var result = await _deviceService.AddDeviceAsync(model);
 		return this.ToActionResult(result);
 	}
 
 	[HttpPut("{deviceId}")]
-	public async Task<ActionResult<Device>> UpdateDeviceConfiguration(
+	public async Task<ActionResult<DeviceDto>> UpdateDeviceConfiguration(
 		Guid deviceId, [FromBody] DeviceFormValues model)
 	{
 		var result = await _deviceService.UpdateDeviceAsync(deviceId, model);

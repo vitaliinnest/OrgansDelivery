@@ -17,13 +17,12 @@ const validationSchema = Yup.object({
     humidity: conditionValidationSchema,
     light: conditionValidationSchema,
     temperature: conditionValidationSchema,
-    orientation: conditionValidationSchema,
 });
 
 type Props = {
     initialValues: ConditionsFormValues;
     actionName: string;
-    onSubmit: (conditions: ConditionsFormValues) => void;
+    onSubmit: (conditions: ConditionsFormValues) => Promise<void> | void;
 };
 
 const ConditionsModal = (props: Props) => {
@@ -35,10 +34,11 @@ const ConditionsModal = (props: Props) => {
         validationSchema,
     });
 
+    console.log(formik.errors);
     return (
         <EntityFormModal
             maxWidth="md"
-            entityName="Organ"
+            entityName="Conditions"
             actionName={actionName}
             onSubmit={formik.handleSubmit}
         >
@@ -46,7 +46,7 @@ const ConditionsModal = (props: Props) => {
                 <Grid item xs={12}>
                     <TextField
                         name="name"
-                        label="Organ Name"
+                        label="Conditions Name"
                         required
                         fullWidth
                         autoFocus

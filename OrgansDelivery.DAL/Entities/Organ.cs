@@ -19,7 +19,7 @@ public class Organ : IEntity, IMustHaveTenant, IWithName, IWithDescription
     public ICollection<ConditionsRecord> Records { get; set; }
 }
 
-public class OrganDto
+public class OrganRef
 {
 	public Guid Id { get; set; }
 	public string Name { get; set; }
@@ -27,6 +27,16 @@ public class OrganDto
 	public DateTime OrganCreationDate { get; set; }
 	public Guid ContainerId { get; set; }
 	public Guid ConditionsId { get; set; }
+}
+
+public class OrganDto
+{
+	public Guid Id { get; set; }
+	public string Name { get; set; }
+	public string Description { get; set; }
+	public DateTime OrganCreationDate { get; set; }
+	public ContainerRef Container { get; set; }
+	public ConditionsRef Conditions { get; set; }
 }
 
 public class OrganFormValues

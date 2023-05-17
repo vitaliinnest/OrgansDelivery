@@ -24,14 +24,14 @@ public class ContainerController : ControllerBase
     }
 
 	[HttpGet]
-	public ActionResult<List<Container>> GetContainers()
+	public ActionResult<List<ContainerDto>> GetContainers()
     {
         var containers = _context.Containers.ToList();
         return Ok(containers);
     }
 
     [HttpPost]
-    public async Task<ActionResult<Container>> CreateContainer(
+    public async Task<ActionResult<ContainerDto>> CreateContainer(
         [FromBody] ContainerFormValues model)
     {
         var result = await _containerService.CreateContainerAsync(model);
@@ -39,7 +39,7 @@ public class ContainerController : ControllerBase
     }
 
     [HttpPut("{containerId}")]
-    public async Task<ActionResult<Container>> UpdateContainer(
+    public async Task<ActionResult<ContainerDto>> UpdateContainer(
         Guid containerId, [FromBody] ContainerFormValues model)
     {
         var result = await _containerService.UpdateContainerAsync(containerId, model);

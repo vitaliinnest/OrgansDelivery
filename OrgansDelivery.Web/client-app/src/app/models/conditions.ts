@@ -1,4 +1,4 @@
-import { IEntity, IWithTenant } from "./common";
+import { IEntity } from "./common";
 
 export interface Condition<T> {
     expectedValue: T;
@@ -10,8 +10,16 @@ export interface Orientation {
     y: number;
 }
 
-export interface Conditions extends IEntity, IWithTenant {
-    id: string;
+export interface Conditions extends IEntity {
+    name: string;
+    description: string;
+    humidity: Condition<number>;
+    light: Condition<number>;
+    temperature: Condition<number>;
+    orientation: Condition<Orientation>;
+}
+
+export interface ConditionsRef extends IEntity {
     name: string;
     description: string;
     humidity: Condition<number>;

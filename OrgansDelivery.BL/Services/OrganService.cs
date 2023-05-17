@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
 
@@ -31,7 +32,10 @@ public class OrganService : IOrganService
 
     public Result<List<OrganDto>> GetOrgans()
     {
-		var organs = _context.Organs.ToList();
+		var organs = _context.Organs
+			.Include(o => o.Container)
+			.Include(o => o.Conditions)
+			.ToList();
         return _mapper.Map<List<OrganDto>>(organs);
 	}
 

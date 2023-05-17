@@ -1,7 +1,7 @@
-import { IEntity, IWithTenant } from "./common";
+import { IEntity } from "./common";
 import { Condition, Orientation } from "./conditions";
 
-export interface ConditionsRecord extends IEntity, IWithTenant {
+export interface ConditionsRecord extends IEntity {
     containerId: string;
     dateTime: Date;
     temperature: number;

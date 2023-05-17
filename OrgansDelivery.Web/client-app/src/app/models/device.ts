@@ -1,8 +1,16 @@
-import { IEntity, IWithTenant } from "./common";
+import { IEntity } from "./common";
+import { ContainerRef } from "./container";
 
-export interface Device extends IEntity, IWithTenant {
+export interface Device extends IEntity {
     name: string;
     conditionsIntervalCheckInMs: number;
+    container?: ContainerRef;
+}
+
+export interface DeviceRef extends IEntity {
+    name: string;
+    conditionsIntervalCheckInMs: number;
+    containerId: string;
 }
 
 export interface DeviceFormValues {

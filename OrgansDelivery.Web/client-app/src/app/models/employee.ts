@@ -1,7 +1,7 @@
-import { IEntity, IWithTenant } from "./common";
+import { IEntity } from "./common";
 import { Role } from "./role";
 
-export interface Employee extends IEntity, IWithTenant {
+export interface Employee extends IEntity {
     name: string;
     surname: string;
     language: string;

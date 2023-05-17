@@ -1,6 +1,6 @@
-import { IEntity, IWithTenant } from "./common";
+import { IEntity } from "./common";
 
-export interface User extends IEntity, IWithTenant {
+export interface User extends IEntity {
     name: string;
     surname: string;
     language: string; // todo: enum?

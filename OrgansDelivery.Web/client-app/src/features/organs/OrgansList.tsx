@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useStore } from "../../app/stores/store";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { observer } from "mobx-react-lite";
@@ -20,11 +20,15 @@ const OrgansList = () => {
         router.navigate(`/organs/${organId}`);
     }
 
+    const unusedContainers = useMemo(
+        () => containerStore.containers.filter(c => c.organ === undefined),
+        [containerStore.containers]);
+
     const onOrganCreate = () => {
         modalStore.openModal(
             <AddOrganModal
                 conditions={conditionsStore.conditions}
-                containers={containerStore.containers}
+                containers={unusedContainers}
             />
         );
     };
@@ -38,7 +42,7 @@ const OrgansList = () => {
         modalStore.openModal(
             <UpdateOrganModal
                 conditions={conditionsStore.conditions}
-                containers={containerStore.containers}
+                containers={unusedContainers}
                 organ={organ}
             />
         );
@@ -91,8 +95,8 @@ const OrgansList = () => {
                 o.name,
                 o.description,
                 o.organCreationDate.toString(),
-                containerStore.containers.find(c => c.id === o.containerId)?.name ?? "Not found",
-                conditionsStore.conditions.find(c => c.id === o.conditionsId)?.name ?? "Not found",
+                o.container.name,
+                o.conditions.name,
             ])}
             onClick={onOrganClick}
             onCreate={onOrganCreate}

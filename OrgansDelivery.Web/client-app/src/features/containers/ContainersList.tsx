@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../app/stores/store";
 import { useEffect } from "react";
@@ -15,9 +15,15 @@ const ContainersList = () => {
         deviceStore.loadDevices();
     }, [containerStore, deviceStore]);
 
+    const unusedDevices = useMemo(
+        () => deviceStore.devices.filter(d => d.container === undefined),
+        [deviceStore.devices]);
+
     const onContainerCreate = () => {
         modalStore.openModal(
-            <AddContainerModal devices={deviceStore.devices} />
+            <AddContainerModal
+                devices={unusedDevices}
+            />
         );
     };
 
@@ -32,7 +38,7 @@ const ContainersList = () => {
         modalStore.openModal(
             <UpdateContainerModal
                 container={container}
-                devices={deviceStore.devices}
+                devices={unusedDevices}
             />
         );
     };
@@ -41,7 +47,7 @@ const ContainersList = () => {
         containerStore.deleteContainer(containerId);
     }
 
-    if (containerStore.isLoading || containerStore.isLoading) {
+    if (containerStore.isLoading || deviceStore.isLoading) {
         return <LoadingBackdrop />;
     }
 

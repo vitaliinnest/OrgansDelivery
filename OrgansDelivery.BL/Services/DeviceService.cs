@@ -3,14 +3,14 @@ using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
-using System.ComponentModel;
 
 namespace OrganStorage.BL.Services;
 
 public interface IDeviceService
 {
-	Task<Result<Device>> AddDeviceAsync(DeviceFormValues model);
-	Task<Result<Device>> UpdateDeviceAsync(Guid deviceId, DeviceFormValues model);
+	List<DeviceDto> GetDevices();
+	Task<Result<DeviceDto>> AddDeviceAsync(DeviceFormValues model);
+	Task<Result<DeviceDto>> UpdateDeviceAsync(Guid deviceId, DeviceFormValues model);
 	Result RemoveDevice(Guid deviceId);
 }
 
@@ -33,7 +33,13 @@ public class DeviceService : IDeviceService
 		_mqttClientService = mqttClientService;
 	}
 
-	public async Task<Result<Device>> AddDeviceAsync(DeviceFormValues model)
+	public List<DeviceDto> GetDevices()
+	{
+		var devices = _context.Devices.ToList();
+		return _mapper.Map<List<DeviceDto>>(devices);
+	}
+
+	public async Task<Result<DeviceDto>> AddDeviceAsync(DeviceFormValues model)
 	{
 		var validationResult = await ValidateDeviceFormValuesAsync(model);
 		if (validationResult.IsFailed)
@@ -48,10 +54,10 @@ public class DeviceService : IDeviceService
 
 		await PublishUpdateDeviceConfigurationMessageAsync(device);
 
-		return device;
+		return _mapper.Map<DeviceDto>(device);
 	}
 
-	public async Task<Result<Device>> UpdateDeviceAsync(Guid deviceId, DeviceFormValues model)
+	public async Task<Result<DeviceDto>> UpdateDeviceAsync(Guid deviceId, DeviceFormValues model)
 	{
 		var validationResult = await ValidateDeviceFormValuesAsync(model);
 		if (validationResult.IsFailed)
@@ -72,7 +78,7 @@ public class DeviceService : IDeviceService
 
 		await PublishUpdateDeviceConfigurationMessageAsync(updatedDevice);
 
-		return updatedDevice;
+		return _mapper.Map<DeviceDto>(updatedDevice);
 	}
 
 	public Result RemoveDevice(Guid deviceId)

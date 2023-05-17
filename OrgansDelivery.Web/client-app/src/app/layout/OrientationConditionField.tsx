@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { Condition, Orientation } from "../models/conditions";
 
 type Props = {
@@ -61,7 +61,7 @@ const OrientationConditionField = (props: Props) => {
                     type="number"
                     onChange={onChangeExpectedValueX}
                     value={condition.expectedValue.x}
-                    helperText={conditionName}
+                    helperText={<Typography fontWeight="bold" variant="subtitle2" >{conditionName}</Typography>}
                 />
             </Grid>
             <Grid item sm={3}>

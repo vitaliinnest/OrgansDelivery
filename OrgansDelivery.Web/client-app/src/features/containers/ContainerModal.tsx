@@ -6,6 +6,7 @@ import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextFi
 import * as Yup from "yup";
 import { ContainerFormValues } from "../../app/models/container";
 import { Device } from "../../app/models/device";
+import { useStore } from "../../app/stores/store";
 
 const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -25,9 +26,10 @@ const ContainerModal = (props: Props) => {
     const formik = useFormik<ContainerFormValues>({
         initialValues,
         onSubmit,
-        validationSchema,
+        validationSchema
     });
 
+    console.log(devices);
     const noDevices = devices.length === 0;
 
     return (
@@ -81,7 +83,10 @@ const ContainerModal = (props: Props) => {
                             value={formik.values.deviceId}
                             label="Device *"
                             fullWidth
-                            onChange={formik.handleChange}
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                formik.handleChange(e);
+                            }}
                             error={
                                 formik.touched.deviceId &&
                                 Boolean(formik.errors.deviceId)

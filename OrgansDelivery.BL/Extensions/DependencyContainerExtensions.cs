@@ -17,7 +17,7 @@ public static class DependencyContainerExtensions
 		services.Configure<SmtpSettings>(configuration.GetSection("Smtp"));
         services.Configure<BrokerHostSettings>(configuration.GetSection("BrokerHostSettings"));
 		services.Configure<ClientSettings>(configuration.GetSection("ClientSettings"));
-        services.AddAutoMapper(typeof(AuthMappingProfile));
+        services.AddAutoMapper(typeof(MappingProfiles.MappingProfiles));
         services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
         services.AddScoped<IGenericValidator, GenericValidator>();
         services.AddScoped<IClaimsService, ClaimsService>();

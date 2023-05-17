@@ -1,6 +1,6 @@
-import { IEntity, IWithTenant } from "./common";
+import { IEntity } from "./common";
 
-export interface Invite extends IEntity, IWithTenant {
+export interface Invite extends IEntity {
     email: string;
     inviteCode: string;
     roleId: string;

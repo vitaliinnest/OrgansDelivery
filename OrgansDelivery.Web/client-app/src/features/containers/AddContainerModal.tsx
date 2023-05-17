@@ -10,7 +10,7 @@ type Props = {
 
 const AddContainerModal = (props: Props) => {
     const { devices } = props;
-    const { containerStore } = useStore();
+    const { containerStore, deviceStore } = useStore();
 
     return (
         <ContainerModal
@@ -22,7 +22,8 @@ const AddContainerModal = (props: Props) => {
             actionName="Add"
             devices={devices}
             onSubmit={(container) => {
-                containerStore.createContainer(container);
+                containerStore.createContainer(container)
+                    .then(deviceStore.loadDevices);
             }}            
         />
     );

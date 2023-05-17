@@ -12,7 +12,7 @@ type Props = {
 
 const AddOrganModal = (props: Props) => {
     const { containers, conditions } = props;
-    const { organStore } = useStore();
+    const { organStore, containerStore } = useStore();
 
     return (
         <OrganModal
@@ -27,7 +27,8 @@ const AddOrganModal = (props: Props) => {
             conditions={conditions}
             containers={containers}
             onSubmit={(organ) => {
-                organStore.createOrgan(organ);
+                organStore.createOrgan(organ)
+                    .then(containerStore.loadContainers)
             }}            
         />
     );

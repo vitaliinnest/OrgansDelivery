@@ -20,6 +20,17 @@ public class Conditions : IEntity, IMustHaveTenant,
     public ICollection<Organ> Organs { get;set; }
 }
 
+public class ConditionsRef
+{
+	public Guid Id { get; set; }
+	public string Name { get; set; }
+	public string Description { get; set; }
+	public Condition<decimal> Humidity { get; set; }
+	public Condition<decimal> Light { get; set; }
+	public Condition<decimal> Temperature { get; set; }
+	public Condition<Orientation> Orientation { get; set; }
+}
+
 public class ConditionsDto
 {
 	public Guid Id { get; set; }

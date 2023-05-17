@@ -7,8 +7,8 @@ namespace OrganStorage.BL.Services;
 
 public interface IContainerService
 {
-    Task<Result<Container>> CreateContainerAsync(ContainerFormValues model);
-    Task<Result<Container>> UpdateContainerAsync(Guid containerId, ContainerFormValues model);
+    Task<Result<ContainerDto>> CreateContainerAsync(ContainerFormValues model);
+    Task<Result<ContainerDto>> UpdateContainerAsync(Guid containerId, ContainerFormValues model);
 	Result DeleteContainer(Guid containerId);
 }
 
@@ -28,7 +28,7 @@ public class ContainerService : IContainerService
         _context = context;
     }
 
-    public async Task<Result<Container>> CreateContainerAsync(ContainerFormValues model)
+    public async Task<Result<ContainerDto>> CreateContainerAsync(ContainerFormValues model)
     {
         var validationResult = await ValidateContainerFormValuesAsync(model);
 		if (validationResult.IsFailed)
@@ -45,10 +45,10 @@ public class ContainerService : IContainerService
         _context.Add(container);
         _context.SaveChanges();
 
-        return container;
+        return _mapper.Map<ContainerDto>(container);
     }
 
-    public async Task<Result<Container>> UpdateContainerAsync(Guid containerId, ContainerFormValues model)
+    public async Task<Result<ContainerDto>> UpdateContainerAsync(Guid containerId, ContainerFormValues model)
     {
 		var validationResult = await ValidateContainerFormValuesAsync(model);
 		if (validationResult.IsFailed)
@@ -72,7 +72,7 @@ public class ContainerService : IContainerService
         _context.Update(updatedContainer);
         _context.SaveChanges();
 
-        return updatedContainer;
+        return _mapper.Map<ContainerDto>(updatedContainer);
     }
 
     public Result DeleteContainer(Guid containerId)

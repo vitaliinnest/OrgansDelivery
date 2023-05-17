@@ -4,7 +4,7 @@ import DeviceModal from "./DeviceModal";
 import { useStore } from "../../app/stores/store";
 
 const AddOrganModal = () => {
-    const { deviceStore, modalStore } = useStore();
+    const { deviceStore } = useStore();
 
     return (
         <DeviceModal
@@ -15,7 +15,7 @@ const AddOrganModal = () => {
             }}
             actionName="Add"
             onSubmit={(device) => {
-                deviceStore.addDevice(device).then(() => modalStore.closeModal());
+                deviceStore.addDevice(device);
             }}
         />
     );
