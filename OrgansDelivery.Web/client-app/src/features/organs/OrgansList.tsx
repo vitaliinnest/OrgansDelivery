@@ -39,10 +39,15 @@ const OrgansList = () => {
             return;
         }
 
+        const container = containerStore.containers.find(c => c.organ?.id === organId);
+
         modalStore.openModal(
             <UpdateOrganModal
                 conditions={conditionsStore.conditions}
-                containers={unusedContainers}
+                containers={[
+                    ...(container ? [container] : []),
+                    ...unusedContainers,
+                ]}
                 organ={organ}
             />
         );

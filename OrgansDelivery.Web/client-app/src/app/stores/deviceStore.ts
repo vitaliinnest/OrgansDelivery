@@ -16,7 +16,6 @@ export default class DeviceStore {
                 this.isLoading = true;
             });
             const devices = await agent.DeviceActions.getDevices();
-            console.log(devices);
             runInAction(() => {
                 this.devices = devices;
             });

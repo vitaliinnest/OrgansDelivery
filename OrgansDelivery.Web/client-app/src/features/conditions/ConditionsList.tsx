@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import EntitiesTable from "../../app/layout/EntitiesTable";
 import AddConditionsModal from "./AddConditionsModal";
+import UpdateConditionsModal from "./UpdateConditionsModal";
 
 const ConditionsList = () => {
     const { modalStore, conditionsStore } = useStore();
@@ -19,20 +20,19 @@ const ConditionsList = () => {
         );
     };
 
-    const onConditionsUpdate = (containerId: string) => {
-        // const container = containerStore.containers.find(
-        //     (c) => c.id === containerId
-        // );
-        // if (!container) {
-        //     return;
-        // }
+    const onConditionsUpdate = (conditionsId: string) => {
+        const conditions = conditionsStore.conditions.find(
+            (c) => c.id === conditionsId
+        );
+        if (!conditions) {
+            return;
+        }
 
-        // modalStore.openModal(
-        //     <UpdateContainerModal
-        //         container={container}
-        //         devices={deviceStore.devices}
-        //     />
-        // );
+        modalStore.openModal(
+            <UpdateConditionsModal
+                conditions={conditions}
+            />
+        );
     };
 
     const onConditionsDeleteConfirmation = (conditionsId: string) => {

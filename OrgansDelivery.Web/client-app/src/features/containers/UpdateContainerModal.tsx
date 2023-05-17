@@ -12,20 +12,19 @@ type Props = {
 
 const UpdateContainerModal = (props: Props) => {
     const { container, devices } = props;
-    const { containerStore, deviceStore } = useStore();
+    const { containerStore,  modalStore } = useStore();
 
     return (
         <ContainerModal
             initialValues={{
-                name: container.name,
-                description: container.description,
+                ...container,
                 deviceId: container.device.id,
             }}
-            actionName="Add"
+            actionName="Update"
             devices={devices}
             onSubmit={(values) => {
                 containerStore.updateContainer(container.id, values)
-                    .then(deviceStore.loadDevices);
+                    .then(modalStore.closeModal);
             }}            
         />
     );

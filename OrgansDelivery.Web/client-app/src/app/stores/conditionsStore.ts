@@ -30,6 +30,27 @@ export default class ConditionsStore {
         }
     };
 
+    updateConditions = async (conditionsId: string, update: ConditionsFormValues) => {
+        try {
+            runInAction(() => {
+                this.isLoading = true;
+            });
+            const updated = await agent.ConditionsActions.updateConditions(conditionsId, update);
+            runInAction(() => {
+                this.conditions = this.conditions.map((c) =>
+                    c.id === conditionsId ? updated : c
+                );
+            });
+        } catch (error) {
+            console.log(error);
+            throw error;
+        } finally {
+            runInAction(() => {
+                this.isLoading = false;
+            });
+        }
+    }
+
     deleteConditions = async (conditionsId: string) => {
         try {
             await agent.ConditionsActions.deleteConditions(conditionsId);

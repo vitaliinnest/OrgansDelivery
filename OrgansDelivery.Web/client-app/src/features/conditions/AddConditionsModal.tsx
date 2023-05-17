@@ -1,10 +1,9 @@
 import { observer } from "mobx-react-lite";
-import { ConditionsFormValues } from "../../app/models/conditions";
 import ConditionsModal from "./ConditionsModal";
 import { useStore } from "../../app/stores/store";
 
 const AddConditionsModal = () => {
-    const { conditionsStore } = useStore();
+    const { conditionsStore, modalStore } = useStore();
 
     return (
         <ConditionsModal
@@ -30,7 +29,8 @@ const AddConditionsModal = () => {
             }}
             actionName="Add"
             onSubmit={(conditions) => {
-                conditionsStore.createCondition(conditions);
+                conditionsStore.createCondition(conditions)
+                    .then(modalStore.closeModal);
             }}
         />
     );

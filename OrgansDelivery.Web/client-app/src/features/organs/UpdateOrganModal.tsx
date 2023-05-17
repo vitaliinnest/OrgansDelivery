@@ -14,7 +14,7 @@ type Props = {
 
 const UpdateOrganModal = (props: Props) => {
     const { organ, containers, conditions } = props;
-    const { organStore, containerStore } = useStore();
+    const { organStore, containerStore, modalStore } = useStore();
 
     return (
         <OrganModal
@@ -30,7 +30,7 @@ const UpdateOrganModal = (props: Props) => {
             conditions={conditions}
             onSubmit={(values) => {
                 organStore.updateOrgan(organ.id, values)
-                    .then(containerStore.loadContainers)
+                    .then(modalStore.closeModal)
             }}
         />
     );

@@ -10,7 +10,7 @@ type Props = {
 
 const UpdateDeviceModal = (props: Props) => {
     const { device } = props;
-    const { deviceStore } = useStore();
+    const { deviceStore, modalStore } = useStore();
 
     return (
         <DeviceModal
@@ -21,7 +21,8 @@ const UpdateDeviceModal = (props: Props) => {
             }}
             actionName="Update"
             onSubmit={(values) => {
-                deviceStore.updateDevice(device.id, values);
+                deviceStore.updateDevice(device.id, values)
+                    .then(modalStore.closeModal);
             }}
         />
     );

@@ -19,8 +19,6 @@ const ContainersList = () => {
         () => deviceStore.devices.filter(d => d.container === undefined),
         [deviceStore.devices]);
 
-    // console.log(unusedDevices);
-
     const onContainerCreate = () => {
         modalStore.openModal(
             <AddContainerModal
@@ -37,10 +35,15 @@ const ContainersList = () => {
             return;
         }
 
+        const device = deviceStore.devices.find(d => d.container?.id === containerId);
+
         modalStore.openModal(
             <UpdateContainerModal
                 container={container}
-                devices={unusedDevices}
+                devices={[
+                    ...(device ? [device] : []),
+                    ...unusedDevices
+                ]}
             />
         );
     };

@@ -19,7 +19,6 @@ export default class TenantStore {
         try {
             runInAction(() => this.isLoading = true);
             const tenant = await agent.TenantActions.getTenant();
-            console.log(tenant);
             runInAction(() => this.tenant = tenant);
         } catch (error) {
             console.log(error);

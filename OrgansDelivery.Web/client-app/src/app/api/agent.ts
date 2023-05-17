@@ -140,6 +140,8 @@ const ConditionsActions = {
     getConditions: () => requests.get<Conditions[]>("/conditions"),
     createConditions: (conditions: ConditionsFormValues) =>
         requests.post<Conditions>("/conditions", conditions),
+    updateConditions: (conditionsId: string, conditions: ConditionsFormValues) =>
+        requests.put<Conditions>(`/conditions/${conditionsId}`, conditions),
     deleteConditions: (conditionsId: string) =>
         requests.del(`/conditions/${conditionsId}`),
 };

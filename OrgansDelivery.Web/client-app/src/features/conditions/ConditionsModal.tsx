@@ -34,7 +34,6 @@ const ConditionsModal = (props: Props) => {
         validationSchema,
     });
 
-    console.log(formik.errors);
     return (
         <EntityFormModal
             maxWidth="md"
