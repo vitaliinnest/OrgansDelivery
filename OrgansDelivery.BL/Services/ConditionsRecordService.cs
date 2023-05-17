@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
 
@@ -10,8 +9,8 @@ namespace OrganStorage.BL.Services;
 public interface IConditionsRecordService
 {
     Result<List<ConditionsRecordDto>> GetOrganRecords(Guid organId);
+    Result AddConditionsRecord(CreateConditionsRecordModel model);
     List<ConditionsViolation> GetOrganViolations(Guid organId);
-    Result<ConditionsRecordDto> AddConditionsRecord(CreateConditionsRecordModel model);
 }
 
 public class ConditionsRecordService : IConditionsRecordService
@@ -47,78 +46,72 @@ public class ConditionsRecordService : IConditionsRecordService
         return dtos;
     }
 
-    public List<ConditionsViolation> GetOrganViolations(Guid organId)
-    {
-        var records = _context.Records
-            .Where(r => r.OrganId == organId)
-            .ToList();
-
-        var violations = records
-            .Select(r =>
-            {
-                return new ConditionsViolation()
-                {
-                    RecordId = r.Id,
-                    Temperature = new()
-                    {
-                        ExpectedValue = r.Conditions.Temperature.ExpectedValue,
-                        AllowedDeviation = r.Conditions.Temperature.AllowedDeviation,
-                        Actual = r.Temperature,
-                        IsViolated = IsViolatedDecimalCondition(r.Temperature, r.Conditions.Temperature)
-                    },
-                    Humidity = new()
-                    {
-                        ExpectedValue = r.Conditions.Humidity.ExpectedValue,
-                        AllowedDeviation = r.Conditions.Humidity.AllowedDeviation,
-                        Actual = r.Humidity,
-                        IsViolated = IsViolatedDecimalCondition(r.Humidity, r.Conditions.Humidity)
-                    },
-                    Light = new()
-                    {
-                        ExpectedValue = r.Conditions.Light.ExpectedValue,
-                        AllowedDeviation = r.Conditions.Light.AllowedDeviation,
-                        Actual = r.Light,
-                        IsViolated = IsViolatedDecimalCondition(r.Light, r.Conditions.Light)
-                    },
-                    Orientation = new()
-                    {
-                        ExpectedValue = r.Conditions.Orientation.ExpectedValue,
-                        AllowedDeviation = r.Conditions.Orientation.AllowedDeviation,
-                        Actual = r.Orientation,
-                        IsViolated = IsViolatedOrientationCondition(r, r.Conditions.Orientation)
-                    }
-                };
-            })
-            .Where(r => r.IsViolated())
-            .ToList();
-
-        return violations;
-    }
-
-	public Result<ConditionsRecordDto> AddConditionsRecord(CreateConditionsRecordModel model)
+	public Result AddConditionsRecord(CreateConditionsRecordModel model)
 	{
 		var device = _context.Devices
-            .IgnoreQueryFilters()
-            .Include(d => d.Container)
-            .ThenInclude(c => c.Organ)
-            .FirstOrDefault(d => d.Id == model.Device_id);
+			.IgnoreQueryFilters()
+			.Include(d => d.Container)
+			.ThenInclude(c => c.Organ)
+			.FirstOrDefault(d => d.Id == model.Device_id);
 
 		if (device == null)
 		{
 			return Result.Fail("Device not found");
 		}
 
-        var organ = device.Container.Organ;
+		var organ = device.Container.Organ;
 
 		var record = _mapper.Map<ConditionsRecord>(model);
-        record.OrganId = organ.Id;
-        record.ConditionsId = organ.ConditionsId;
+		record.OrganId = organ.Id;
+		record.ConditionsId = organ.ConditionsId;
 
 		_context.Add(record);
 		_context.SaveChanges();
 
-		return _mapper.Map<ConditionsRecordDto>(record);
+		return Result.Ok();
 	}
+
+	public List<ConditionsViolation> GetOrganViolations(Guid organId)
+    {
+        var records = _context.Records
+            .Where(r => r.OrganId == organId)
+            .ToList();
+
+        return records.Select(r => new ConditionsViolation()
+		{
+			RecordId = r.Id,
+			Temperature = new()
+			{
+				ExpectedValue = r.Conditions.Temperature.ExpectedValue,
+				AllowedDeviation = r.Conditions.Temperature.AllowedDeviation,
+				Actual = r.Temperature,
+				IsViolated = IsViolatedDecimalCondition(r.Temperature, r.Conditions.Temperature)
+			},
+			Humidity = new()
+			{
+				ExpectedValue = r.Conditions.Humidity.ExpectedValue,
+				AllowedDeviation = r.Conditions.Humidity.AllowedDeviation,
+				Actual = r.Humidity,
+				IsViolated = IsViolatedDecimalCondition(r.Humidity, r.Conditions.Humidity)
+			},
+			Light = new()
+			{
+				ExpectedValue = r.Conditions.Light.ExpectedValue,
+				AllowedDeviation = r.Conditions.Light.AllowedDeviation,
+				Actual = r.Light,
+				IsViolated = IsViolatedDecimalCondition(r.Light, r.Conditions.Light)
+			},
+			Orientation = new()
+			{
+				ExpectedValue = r.Conditions.Orientation.ExpectedValue,
+				AllowedDeviation = r.Conditions.Orientation.AllowedDeviation,
+				Actual = r.Orientation,
+				IsViolated = IsViolatedOrientationCondition(r, r.Conditions.Orientation)
+			}
+		})
+        .Where(r => r.IsViolated())
+        .ToList();
+    }
 
 	private static bool IsViolatedDecimalCondition(decimal actualVal, Condition<decimal> condition)
     {
