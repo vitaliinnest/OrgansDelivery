@@ -69,6 +69,7 @@ const DevicesList = () => {
                 d.name,
                 d.conditionsIntervalCheckInMs,
             ])}
+            onClick={onDeviceUpdate}
             onCreate={onDeviceCreate}
             onUpdate={onDeviceUpdate}
             onDeleteConfirmation={onDeviceDeleteConfirmation}

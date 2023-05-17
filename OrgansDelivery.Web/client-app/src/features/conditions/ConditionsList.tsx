@@ -63,6 +63,7 @@ const ConditionsList = () => {
                 c.name,
                 c.description,
             ])}
+            onClick={onConditionsUpdate}
             onCreate={onConditionsCreate}
             onUpdate={onConditionsUpdate}
             onDeleteConfirmation={onConditionsDeleteConfirmation}

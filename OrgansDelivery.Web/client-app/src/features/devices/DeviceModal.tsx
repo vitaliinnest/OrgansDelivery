@@ -29,7 +29,7 @@ const DeviceModal = (props: Props) => {
 
     return (
         <EntityFormModal
-            entityName="Organ"
+            entityName="Device"
             actionName={actionName}
             onSubmit={formik.handleSubmit}
         >

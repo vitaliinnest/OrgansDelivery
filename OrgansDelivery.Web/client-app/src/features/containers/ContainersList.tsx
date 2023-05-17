@@ -82,6 +82,7 @@ const ContainersList = () => {
                 c.description,
                 c.device.name,
             ])}
+            onClick={onContainerUpdate}
             onCreate={onContainerCreate}
             onUpdate={onContainerUpdate}
             onDeleteConfirmation={onContainerDeleteConfirmation}
