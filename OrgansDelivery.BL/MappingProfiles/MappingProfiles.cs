@@ -43,26 +43,30 @@ public class MappingProfiles : Profile
         CreateMap<Organ, OrganDto>()
             .ForMember(
                 dest => dest.Conditions,
-                opt => opt.MapFrom(src => new ConditionsRef
-                {
-                    Id = src.Conditions.Id,
-                    Name = src.Conditions.Name,
-                    Description = src.Conditions.Description,
-                    Humidity = src.Conditions.Humidity,
-                    Light = src.Conditions.Light,
-                    Orientation = src.Conditions.Orientation,
-                    Temperature = src.Conditions.Temperature,
-                }))
+                opt => opt.MapFrom(src => src != null
+                    ? new ConditionsRef
+                    {
+                        Id = src.Conditions.Id,
+                        Name = src.Conditions.Name,
+                        Description = src.Conditions.Description,
+                        Humidity = src.Conditions.Humidity,
+                        Light = src.Conditions.Light,
+                        Orientation = src.Conditions.Orientation,
+                        Temperature = src.Conditions.Temperature,
+                    }
+                    : null))
             .ForMember(
                 dest => dest.Container,
-                opt => opt.MapFrom(src => new ContainerRef
-                {
-                    Id = src.Container.Id,
-                    Name = src.Container.Name,
-                    Description = src.Container.Description,
-                    DeviceId = src.Container.DeviceId,
-                    OrganId = src.Container.Organ.Id
-                }));
+                opt => opt.MapFrom(src => src != null
+                    ? new ContainerRef
+                    {
+                        Id = src.Container.Id,
+                        Name = src.Container.Name,
+                        Description = src.Container.Description,
+                        DeviceId = src.Container.DeviceId,
+                        OrganId = src.Container.Organ.Id
+                    }
+                    : null));
         //CreateMap<Organ, OrganDto>();
 			//.ForPath(
 			//	dest => dest.Container.OrganId,
