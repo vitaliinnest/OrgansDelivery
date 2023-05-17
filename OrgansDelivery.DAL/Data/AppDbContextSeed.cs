@@ -91,15 +91,9 @@ public static class AppDbContextSeed
         modelBuilder.Entity<IdentityRole<Guid>>().HasData(
             new()
             {
-                Id = RoleConsts.MANAGER_ID,
-                Name = UserRoles.MANAGER,
-                NormalizedName = UserRoles.MANAGER.ToUpper(),
-            },
-            new()
-            {
-                Id = RoleConsts.WORKER_ID,
-                Name = UserRoles.WORKER,
-                NormalizedName = UserRoles.WORKER.ToUpper(),
+                Id = RoleConsts.USER_ID,
+                Name = UserRoles.USER,
+                NormalizedName = UserRoles.USER.ToUpper(),
             },
             new()
             {
@@ -116,17 +110,17 @@ public static class AppDbContextSeed
             new()
             {
                 UserId = UserConsts.MEDTRONIC_MANAGER_USER_ID,
-                RoleId = RoleConsts.MANAGER_ID,
+                RoleId = RoleConsts.USER_ID,
             },
             new()
             {
                 UserId = UserConsts.MEDTRONIC_WORKER_USER_ID,
-                RoleId = RoleConsts.WORKER_ID,
+                RoleId = RoleConsts.USER_ID,
             },
             new()
             {
                 UserId = UserConsts.BOSTON_MANAGER_ID,
-                RoleId = RoleConsts.MANAGER_ID,
+                RoleId = RoleConsts.USER_ID,
             },
             new()
             {
@@ -144,8 +138,7 @@ public static class AppDbContextSeed
 
     private static class RoleConsts
     {
-        public static readonly Guid MANAGER_ID = new("afab5690-50ea-4043-bf7b-0f825f068b94");
-        public static readonly Guid WORKER_ID = new("afd73abe-c965-44b6-a5ac-42a728507f68");
+        public static readonly Guid USER_ID = new("afab5690-50ea-4043-bf7b-0f825f068b94");
         public static readonly Guid ADMIN_ID = new("ca8531d7-5592-4678-80d2-aecdcb462208");
     }
 

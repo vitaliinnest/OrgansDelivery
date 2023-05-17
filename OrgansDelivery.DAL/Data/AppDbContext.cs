@@ -107,6 +107,11 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
                 .OnDelete(DeleteBehavior.Cascade);
 
             record
+                .HasOne(r => r.Conditions)
+                .WithMany(c => c.Records)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            record
                 .OwnsOne(r => r.Orientation);
             
             record

@@ -7,6 +7,7 @@ using OrganStorage.BL.Consts;
 using OrganStorage.DAL.Enums;
 using OrganStorage.DAL.Entities;
 using OrganStorage.BL.Models.Options;
+using OrganStorage.DAL.Services;
 
 namespace OrganStorage.BL.Services;
 
@@ -20,15 +21,19 @@ public class EmailMessageBuilder : IEmailMessageBuilder
 {
     private readonly IConfiguration _configuration;
     private readonly SmtpSettings _smtpSetting;
+    private readonly IEnvironmentProvider _environmentProvider;
 
     public EmailMessageBuilder(
         IConfiguration configuration,
-        IOptions<SmtpSettings> smtpSetting
-        )
+        IOptions<SmtpSettings> smtpSetting,
+		IEnvironmentProvider environmentProvider
+		)
     {
         _configuration = configuration;
         _smtpSetting = smtpSetting.Value;
-    }
+		_environmentProvider = environmentProvider;
+
+	}
 
     public MailMessage BuildEmailConfirmationMessage(User user, string emailConfirmationToken)
     {
@@ -53,7 +58,7 @@ public class EmailMessageBuilder : IEmailMessageBuilder
 
     public MailMessage BuildInviteMessage(Invite invite)
     {
-        return invite.Language switch
+        return _environmentProvider.User.Language switch
         {
             Language.Ukrainian => new MailMessage(
                 from: _smtpSetting.Sender,

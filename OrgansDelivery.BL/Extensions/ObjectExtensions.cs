@@ -1,14 +1,16 @@
-﻿using System.Text.Json;
+﻿using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace OrganStorage.BL.Extensions;
 
 public static class ObjectExtensions
 {
-	public static TObject DumpToConsole<TObject>(this TObject @object, string msg = null)
+	public static TObject LogObject<TObject, TEntity>(this TObject @object, ILogger<TEntity> logger, string msg = null)
+		where TEntity : class
 	{
 		if (msg != null)
 		{
-			Console.WriteLine(msg);
+			logger.LogInformation(msg);
 		}
 		var output = "NULL";
 		if (@object != null)
@@ -19,7 +21,7 @@ public static class ObjectExtensions
 			});
 		}
 
-		Console.WriteLine($"[{@object?.GetType().Name}]:\r\n{output}");
+		logger.LogInformation($"[{@object?.GetType().Name}]:\r\n{output}");
 		return @object;
 	}
 }

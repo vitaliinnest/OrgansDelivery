@@ -2,7 +2,7 @@ import React from "react";
 import EntityFormModal from "../../app/modals/EntityFormModal";
 import { useFormik } from "formik";
 import { OrganFormValues } from "../../app/models/organ";
-import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";

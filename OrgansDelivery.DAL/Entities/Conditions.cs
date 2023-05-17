@@ -18,6 +18,7 @@ public class Conditions : IEntity, IMustHaveTenant,
     public Condition<Orientation> Orientation { get; set; }
     
     public ICollection<Organ> Organs { get;set; }
+	public ICollection<ConditionsRecord> Records { get; set; }
 }
 
 public class ConditionsRef

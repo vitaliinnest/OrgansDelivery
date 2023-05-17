@@ -2,7 +2,6 @@
 
 public static class UserRoles
 {
-    public const string MANAGER = "manager";
-    public const string WORKER = "worker";
+    public const string USER = "user";
     public const string ADMIN = "admin";
 }

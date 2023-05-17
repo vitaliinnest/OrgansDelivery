@@ -93,7 +93,7 @@ public class MqttClientService : IHostedService
 			.Build();
 
 		await _mqttClient.PublishAsync(msg);
-		msg.DumpToConsole("MESSAGE PUBLISHED");
+		msg.LogObject(_logger, "MESSAGE PUBLISHED");
 	}
 
 	private IMqttClient CreateMqttClient()
@@ -106,19 +106,19 @@ public class MqttClientService : IHostedService
 	
 	private Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
 	{
-		Console.WriteLine("MESSAGE RECEIVED");
+		_logger.LogInformation("MESSAGE RECEIVED");
 		
 		var payloadString = Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
 		var conditionRecord = JsonConvert.DeserializeObject<CreateConditionsRecordModel>(payloadString);
 		
 		if (conditionRecord != null)
 		{
-			conditionRecord.DumpToConsole();
+			conditionRecord.LogObject(_logger);
 			
 			using var scope = _serviceScopeFactory.CreateScope();
 			var recordsService = scope.ServiceProvider.GetService<IConditionsRecordService>();
 
-			recordsService.AddConditionsRecordAsync(conditionRecord);
+			recordsService.AddConditionsRecord(conditionRecord);
 		}
 		else
 		{

@@ -22,14 +22,13 @@ public class ConditionsRecord : IEntity, IMustHaveTenant, IWithOrientation
 public class ConditionsRecordDto
 {
     public Guid Id { get; set; }
-    public Guid TenantId { get; set; }
     public Guid ContainerId { get; set; }
     public DateTime DateTime { get; set; }
     public decimal Temperature { get; set; }
     public decimal Humidity { get; set; }
     public decimal Light { get; set; }
     public Orientation Orientation { get; set; }
-	public Conditions AppliedConditions { get; set; }
+	public ConditionsRef Conditions { get; set; }
 }
 
 public class CreateConditionsRecordModel

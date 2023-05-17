@@ -3,12 +3,8 @@ import { IEntity } from "./common";
 export interface Invite extends IEntity {
     email: string;
     inviteCode: string;
-    roleId: string;
-    language: string;
 }
 
-export interface CreateInvite {
+export interface InviteFormValues {
     email: string;
-    roleId: string;
-    language: string;
 }

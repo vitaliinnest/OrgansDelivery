@@ -14,6 +14,7 @@ import ContainersList from "../../features/containers/ContainersList";
 import DevicesList from "../../features/devices/DevicesList";
 import ConditionsList from "../../features/conditions/ConditionsList";
 import UsersList from "../../features/users/UsersList";
+import InvitesList from "../../features/invites/InvitesList";
 
 export const routes: RouteObject[] = [
     {
@@ -41,7 +42,7 @@ export const routes: RouteObject[] = [
                             { path: "conditions", element: <ConditionsList /> },
                             { path: "devices", element: <DevicesList /> },
                             { path: "users", element: <UsersList /> },
-                            // { path: "invites", element: <InvitesList /> },
+                            { path: "invites", element: <InvitesList /> },
                         ],
                     },
                 ],

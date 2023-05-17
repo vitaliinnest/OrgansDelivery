@@ -7,7 +7,7 @@ import { TenantFormValues, Tenant } from "../models/tenant";
 import { OrganFormValues, Organ } from "../models/organ";
 import { Container, ContainerFormValues } from "../models/container";
 import { Conditions, ConditionsFormValues } from "../models/conditions";
-import { CreateInvite, Invite } from "../models/invite";
+import { InviteFormValues, Invite } from "../models/invite";
 import { Employee } from "../models/employee";
 import {
     ConditionsRecord,
@@ -106,7 +106,7 @@ const TenantActions = {
 
 const InviteActions = {
     getInvites: () => requests.get<Invite[]>("/invite"),
-    createInvite: (invite: CreateInvite) =>
+    createInvite: (invite: InviteFormValues) =>
         requests.post<Invite>("/invite", invite),
     deleteInvite: (inviteId: string) => requests.del(`/invite/${inviteId}`),
 };

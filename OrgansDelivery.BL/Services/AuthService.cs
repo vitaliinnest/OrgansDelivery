@@ -107,7 +107,7 @@ public class AuthService : IAuthService
             return Result.Fail(result.ErrorsToString());
         }
 
-        await _rolesService.InitializeUserRoleAsync(user, registerRequest);
+        await _rolesService.AddUserToRoleAsync(user, registerRequest);
 
         await _inviteService.AcceptInviteAsync(user, registerRequest);
 

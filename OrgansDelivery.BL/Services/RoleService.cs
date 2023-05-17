@@ -11,7 +11,7 @@ public interface IRoleService
     List<RoleDto> GetRoles();
     Task<IdentityRole<Guid>> GetUserRoleAsync(Guid userId);
     Task<IdentityRole<Guid>> GetUserRoleAsync(User user);
-    Task InitializeUserRoleAsync(User user, RegisterRequest registerRequest);
+    Task AddUserToRoleAsync(User user, RegisterRequest registerRequest);
 }
 
 public class RoleService : IRoleService
@@ -33,27 +33,9 @@ public class RoleService : IRoleService
         _mapper = mapper;
     }
 
-    public async Task InitializeUserRoleAsync(User user, RegisterRequest registerRequest)
+    public async Task AddUserToRoleAsync(User user, RegisterRequest registerRequest)
     {
-        var roleName = await CalculateUserRoleAsync(registerRequest);
-        if (roleName == null)
-        {
-            return;
-        }
-
-        await _userManager.AddToRoleAsync(user, roleName);
-    }
-
-    private async Task<string> CalculateUserRoleAsync(RegisterRequest registerRequest)
-    {
-        var invite = _inviteService.GetRegisterInvite(registerRequest);
-        if (invite == null)
-        {
-            return UserRoles.MANAGER;
-        }
-
-        var role = await _roleManager.FindByIdAsync(invite.RoleId.ToString());
-        return role?.Name;
+        await _userManager.AddToRoleAsync(user, UserRoles.USER);
     }
 
     public async Task<IdentityRole<Guid>> GetUserRoleAsync(Guid userId)
