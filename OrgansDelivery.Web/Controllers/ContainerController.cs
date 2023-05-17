@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OrganStorage.DAL.Entities;
 using OrganStorage.BL.Services;
-using OrganStorage.DAL.Data;
 using OrganStorage.Web.Common.Extensions;
 
 namespace OrganStorage.Web.Controllers;
@@ -12,21 +11,17 @@ namespace OrganStorage.Web.Controllers;
 [Authorize]
 public class ContainerController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly IContainerService _containerService;
 
-    public ContainerController(
-        AppDbContext context,
-        IContainerService containerService)
+    public ContainerController(IContainerService containerService)
     {
-        _context = context;
         _containerService = containerService;
     }
 
 	[HttpGet]
 	public ActionResult<List<ContainerDto>> GetContainers()
     {
-        var containers = _context.Containers.ToList();
+        var containers = _containerService.GetContainers();
         return Ok(containers);
     }
 

@@ -35,7 +35,10 @@ public class DeviceService : IDeviceService
 
 	public List<DeviceDto> GetDevices()
 	{
-		var devices = _context.Devices.ToList();
+		var devices = _context.Devices
+			.Include(d => d.Container)
+			.ToList();
+
 		return _mapper.Map<List<DeviceDto>>(devices);
 	}
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
 
@@ -7,6 +8,7 @@ namespace OrganStorage.BL.Services;
 
 public interface IContainerService
 {
+    List<ContainerDto> GetContainers();
     Task<Result<ContainerDto>> CreateContainerAsync(ContainerFormValues model);
     Task<Result<ContainerDto>> UpdateContainerAsync(Guid containerId, ContainerFormValues model);
 	Result DeleteContainer(Guid containerId);
@@ -27,6 +29,16 @@ public class ContainerService : IContainerService
         _genericValidator = genericValidator;
         _context = context;
     }
+
+    public List<ContainerDto> GetContainers()
+    {
+		var containers = _context.Containers
+            .Include(c => c.Organ)
+            .Include(c => c.Device)
+            .ToList();
+
+        return _mapper.Map<List<ContainerDto>>(containers);
+	}
 
     public async Task<Result<ContainerDto>> CreateContainerAsync(ContainerFormValues model)
     {

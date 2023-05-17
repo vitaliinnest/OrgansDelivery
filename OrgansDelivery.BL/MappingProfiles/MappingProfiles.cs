@@ -36,8 +36,33 @@ public class MappingProfiles : Profile
         CreateMap<ConditionsFormValues, Conditions>();
 
         // Container
-        CreateMap<Container, ContainerDto>();
-        CreateMap<ContainerFormValues, Container>();
+        CreateMap<Container, ContainerDto>()
+            .ForMember(
+                dest => dest.Organ,
+                opt => opt.MapFrom(src => src != null
+                    ? new OrganRef
+                    {
+                        Id = src.Organ.Id,
+                        Name = src.Organ.Name,
+                        Description = src.Organ.Description,
+                        OrganCreationDate = src.Organ.OrganCreationDate,
+                        ConditionsId = src.Organ.ConditionsId,
+                        ContainerId = src.Id,
+                    }
+                    : null))
+			.ForMember(
+				dest => dest.Device,
+				opt => opt.MapFrom(src => src != null
+					? new DeviceRef
+					{
+						Id = src.Device.Id,
+						Name = src.Device.Name,
+						ConditionsIntervalCheckInMs = src.Device.ConditionsIntervalCheckInMs,
+						ContainerId = src.Id,
+					}
+					: null));
+
+		CreateMap<ContainerFormValues, Container>();
 
         // Organ
         CreateMap<Organ, OrganDto>()
@@ -64,13 +89,10 @@ public class MappingProfiles : Profile
                         Name = src.Container.Name,
                         Description = src.Container.Description,
                         DeviceId = src.Container.DeviceId,
-                        OrganId = src.Container.Organ.Id
+                        OrganId = src.Container.Organ.Id,
                     }
                     : null));
-        //CreateMap<Organ, OrganDto>();
-			//.ForPath(
-			//	dest => dest.Container.OrganId,
-			//	opt => opt.MapFrom(src => src.Container.Organ.Id));
+        
 		CreateMap<OrganFormValues, Organ>();
 
         // ConditionsRecord
@@ -83,8 +105,21 @@ public class MappingProfiles : Profile
 
 
         // Device
-        CreateMap<Device, DeviceDto>();
-        CreateMap<DeviceFormValues, Device>();
+        CreateMap<Device, DeviceDto>()
+            .ForMember(
+                dest => dest.Container,
+                opt => opt.MapFrom(src => src != null
+                    ? new ContainerRef
+                    {
+                        Id = src.Container.Id,
+                        Name= src.Container.Name,
+                        Description = src.Container.Description,
+                        DeviceId = src.Id,
+                        OrganId = src.Container.Organ.Id,
+                    }
+                    : null));
+
+		CreateMap<DeviceFormValues, Device>();
 		CreateMap<Device, DeviceConfigurationMessage>()
 			.ForMember(dest => dest.Interval_ms, opt => opt.MapFrom(src => src.ConditionsIntervalCheckInMs));
 	}
