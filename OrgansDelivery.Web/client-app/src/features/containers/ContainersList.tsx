@@ -19,6 +19,8 @@ const ContainersList = () => {
         () => deviceStore.devices.filter(d => d.container === undefined),
         [deviceStore.devices]);
 
+    // console.log(unusedDevices);
+
     const onContainerCreate = () => {
         modalStore.openModal(
             <AddContainerModal
@@ -65,11 +67,17 @@ const ContainersList = () => {
                     disablePadding: false,
                     label: "Description",
                 },
+                {
+                    id: "device-name",
+                    disablePadding: false,
+                    label: "Device name",
+                }
             ]}
             rows={containerStore.containers.map((c) => [
                 c.id,
                 c.name,
                 c.description,
+                c.device.name,
             ])}
             onCreate={onContainerCreate}
             onUpdate={onContainerUpdate}

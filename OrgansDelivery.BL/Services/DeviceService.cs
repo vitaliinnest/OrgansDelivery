@@ -37,6 +37,7 @@ public class DeviceService : IDeviceService
 	{
 		var devices = _context.Devices
 			.Include(d => d.Container)
+			.ThenInclude(c => c.Organ)
 			.ToList();
 
 		return _mapper.Map<List<DeviceDto>>(devices);
