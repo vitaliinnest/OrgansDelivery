@@ -8,7 +8,6 @@ namespace OrganStorage.BL.Services;
 
 public interface IRoleService
 {
-    List<RoleDto> GetRoles();
     Task<IdentityRole<Guid>> GetUserRoleAsync(Guid userId);
     Task<IdentityRole<Guid>> GetUserRoleAsync(User user);
     Task AddUserToRoleAsync(User user, RegisterRequest registerRequest);
@@ -53,11 +52,5 @@ public class RoleService : IRoleService
             return null;
         }
         return await _roleManager.FindByNameAsync(roleName);
-    }
-
-    public List<RoleDto> GetRoles()
-    {
-        var identityRoles = _roleManager.Roles.Where(r => r.Name != UserRoles.ADMIN).ToList();
-        return _mapper.Map<List<RoleDto>>(identityRoles);
     }
 }

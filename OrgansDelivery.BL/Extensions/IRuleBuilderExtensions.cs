@@ -27,12 +27,6 @@ public static class IRuleBuilderExtensions
         }).WithMessage(_ => errMessage.ToString());
     }
 
-    public static IRuleBuilderOptions<T, Guid> RoleId<T>(
-       this IRuleBuilder<T, Guid> ruleBuilder, IRoleService roleService)
-    {
-        return ruleBuilder.Must(roleId => roleService.GetRoles().Any(r => r.Id == roleId));
-    }
-
     public static IRuleBuilderOptions<T, Condition<decimal>> TemperatureCondition<T>(
         this IRuleBuilder<T, Condition<decimal>> ruleBuilder)
     {
