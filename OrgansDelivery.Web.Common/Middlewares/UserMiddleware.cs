@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using OrganStorage.DAL.Services;
 using OrganStorage.Web.Common.Services;
+using System.Security.Claims;
 
 namespace OrganStorage.Web.Common.Middlewares;
 
@@ -15,15 +16,14 @@ public class UserMiddleware
 
     public async Task Invoke(
         HttpContext context,
-        IDbContextTenantEnvironmentProvider environmentProvider,
-        IUserRequestResolver userRequestResolver,
         IServiceProvider provider)
     {
-        var user = userRequestResolver.ResolveUser(environmentProvider.UserId);
-        if (user != null)
-        {
-            EnvironmentSetter.SetUser(user, provider);
-        }
+		var userIdString = context?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+		var userId = Guid.TryParse(userIdString, out var _userId)
+            ? _userId
+            : Guid.Empty;
+
+        EnvironmentSetter.SetUser(new() { Id = userId }, provider);
 
         await _next(context);
     }

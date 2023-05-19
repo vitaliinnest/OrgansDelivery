@@ -1,9 +1,10 @@
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { useStore } from "../../app/stores/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { Typography } from "@mui/material";
+import ConditionsLineChart from "../../app/layout/charts/LineChart";
 
 const OrganDetails = () => {
     const { organStore } = useStore();
@@ -20,7 +21,12 @@ const OrganDetails = () => {
     }
 
     return (
-        <Typography variant="body1">Organ Details Here</Typography>
+        <>
+            <Typography variant="body1">Organ Details Here</Typography>
+            <ConditionsLineChart
+                data={[]}
+            />
+        </>
     );
 }
 

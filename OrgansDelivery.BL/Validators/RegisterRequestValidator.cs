@@ -35,9 +35,9 @@ public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
             .NotEmpty()
             .PasswordAsync(userManager);
 
-        RuleFor(u => u.RepeatPassword)
-            .NotNull()
-            .NotEmpty()
-            .Equal(u => u.Password);
+        //RuleFor(u => u.RepeatPassword)
+        //    .NotNull()
+        //    .NotEmpty()
+        //    .Equal(u => u.Password);
     }
 }

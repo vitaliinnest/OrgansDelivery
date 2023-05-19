@@ -11,15 +11,16 @@ namespace OrganStorage.DAL.Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
-	//private readonly ILogger<AppDbContext> _logger;
+	private readonly IEnvironmentProvider _environmentProvider;
+    public readonly Guid TenantId;
+    //private readonly ILogger<AppDbContext> _logger;
 
-	public AppDbContext(DbContextOptions options)
-        : base(options)
+	public AppDbContext(IEnvironmentProvider environmentProvider, DbContextOptions options) : base(options)
     {
+        _environmentProvider = environmentProvider;
+        TenantId = environmentProvider.Tenant?.Id ?? Guid.Empty;
 		//_logger = logger;
 	}
-
-    public Guid TenantId { get; set; }
 
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<Invite> Invites { get; set; }

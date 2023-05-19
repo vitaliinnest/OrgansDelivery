@@ -15,6 +15,7 @@ using OrganStorage.DAL.Data;
 using OrganStorage.Web.Common.Middlewares;
 using OrganStorage.Web.Common.Services;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,10 +59,11 @@ builder.Services.AddCors(options =>
 	});
 });
 
-builder.Services.AddPooledDbContextFactory<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-builder.Services.AddScoped<AppDbContextFactory>();
-builder.Services.AddScoped(sp => sp.GetRequiredService<AppDbContextFactory>().CreateDbContext());
+builder.Services.AddDbContext<AppDbContext>(opts =>
+{
+    opts.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+    opts.ReplaceService<IModelCacheKeyFactory, MultiTenantModelCacheKeyFactory>();
+});
 
 builder.Services.AddIdentityCore<User>(options =>
 {
@@ -104,24 +106,6 @@ builder.Services.AddScoped<IUserRequestResolver, UserRequestResolver>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IDbContextTenantEnvironmentProvider>(sp =>
-{
-    var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
-	var httpContext = httpContextAccessor.HttpContext;
-    
-    var userIdString = httpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
-    var tenantIdString = httpContext?.User.FindFirstValue("tenantId");
-
-    return new DbContextTenantEnvironmentProvider()
-    {
-        UserId = Guid.TryParse(userIdString, out var userId)
-            ? userId
-            : Guid.Empty,
-        TenantId = Guid.TryParse(tenantIdString, out var tenantId)
-            ? tenantId
-            : Guid.Empty,
-    };
-});
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
