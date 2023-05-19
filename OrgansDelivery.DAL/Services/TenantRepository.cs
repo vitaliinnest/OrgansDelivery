@@ -21,11 +21,6 @@ public class TenantRepository : ITenantRepository
 
     public Tenant GetTenantById(Guid tenantId)
     {
-        return FindTenant(t => t.Id == tenantId);
-    }
-
-    private Tenant FindTenant(Func<Tenant, bool> predicate)
-    {
-        return _appDbContext.Tenants.FirstOrDefault(predicate);
+		return _appDbContext.Tenants.FirstOrDefault(t => t.Id == tenantId);
     }
 }

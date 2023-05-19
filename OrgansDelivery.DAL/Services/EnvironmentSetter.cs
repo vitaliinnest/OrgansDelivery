@@ -16,4 +16,10 @@ public static class EnvironmentSetter
         var environmentProvider = serviceProvider.GetService<IEnvironmentProvider>();
         environmentProvider.User = user;
     }
+
+    public static void SetEnvironment(User user, Tenant tenant, IServiceProvider serviceProvider)
+    {
+        SetUser(user, serviceProvider);
+        SetTenant(tenant, serviceProvider);
+    }
 }

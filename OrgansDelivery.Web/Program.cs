@@ -123,8 +123,8 @@ app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<UserMiddleware>();
-app.UseMiddleware<TenantMiddleware>();
+app.UseMiddleware<MultitenancyDbContextMiddleware>();
+app.UseMiddleware<EnvironmentMiddleware>();
 app.MapControllers();
 
 app.Run();

@@ -5,19 +5,16 @@ using OrganStorage.DAL.Entities;
 using OrganStorage.DAL.Extensions;
 using OrganStorage.DAL.Services;
 using OrganStorage.DAL.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace OrganStorage.DAL.Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
-	private readonly IEnvironmentProvider _environmentProvider;
     public readonly Guid TenantId;
     //private readonly ILogger<AppDbContext> _logger;
 
 	public AppDbContext(IEnvironmentProvider environmentProvider, DbContextOptions options) : base(options)
     {
-        _environmentProvider = environmentProvider;
         TenantId = environmentProvider.Tenant?.Id ?? Guid.Empty;
 		//_logger = logger;
 	}
