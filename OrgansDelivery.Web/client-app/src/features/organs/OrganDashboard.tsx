@@ -59,9 +59,8 @@ const OrganDashboard = (props: Props) => {
                 sx={{
                     backgroundColor: grey[100],
                     flexGrow: 1,
-                    height: "100vh",
+                    height: "93vh",
                     overflow: "auto",
-                    // pb: 5
                 }}
             >
                 <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
