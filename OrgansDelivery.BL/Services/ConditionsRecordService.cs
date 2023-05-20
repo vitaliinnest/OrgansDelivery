@@ -31,17 +31,17 @@ public class ConditionsRecordService : IConditionsRecordService
 
     public Result<List<ConditionsRecordDto>> GetOrganRecords(Guid organId)
     {
-        var deviceExists = _context.Devices.Any(c => c.Id == organId);
-        if (!deviceExists)
+        var organExists = _context.Organs.Any(o => o.Id == organId);
+        if (!organExists)
         {
-            return Result.Fail("Device not found");
+            return Result.Fail("Organ not found");
         }
 
-        var history = _context.Records
+        var records = _context.Records
             .Where(c => c.OrganId == organId)
             .ToList();
 
-        var dtos = _mapper.Map<List<ConditionsRecordDto>>(history);
+        var dtos = _mapper.Map<List<ConditionsRecordDto>>(records);
 
         return dtos;
     }

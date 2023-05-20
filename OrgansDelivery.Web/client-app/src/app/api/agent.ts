@@ -147,10 +147,10 @@ const ConditionsActions = {
 };
 
 const ConditionsRecordActions = {
-    getConditionsRecords: () =>
-        requests.get<Map<string, ConditionsRecord[]>>("/record"),
-    getViolations: () =>
-        requests.get<Map<string, ConditionsViolation[]>>(`/record/violations`),
+    getConditionsRecords: (organId: string) =>
+        requests.get<ConditionsRecord[]>(`/record/${organId}`),
+    getViolations: (organId: string) =>
+        requests.get<ConditionsViolation[]>(`/record/${organId}/violations`),
 };
 
 const DeviceActions = {

@@ -1,28 +1,50 @@
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { useStore } from "../../app/stores/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
-import { Typography } from "@mui/material";
-import OrganDashboard from "./Dashboard";
+import OrganDashboard from "./OrganDashboard";
+import { ConditionsRecord } from "../../app/models/conditionsRecord";
+
+const chartConditionsOptions: (keyof ConditionsRecord)[] = [
+    'humidity',
+    'light',
+    'temperature',
+];
 
 const OrganDetails = () => {
-    const { organStore } = useStore();
     const { organId } = useParams();
+    const { organStore, recordStore } = useStore();
     
-    useEffect(() => {
-        if (organId) {
-            organStore.loadOrgan(organId);
-        }
-    }, [organId, organStore]);
+    const [chartOption, setChartOption] = useState<keyof ConditionsRecord>('temperature');
 
-    if (organStore.isLoading || !organStore.selectedOrgan) {
+    useEffect(() => {
+        if (!organId) {
+            return;
+        }
+        organStore.loadOrgan(organId);
+        recordStore.loadRecords(organId);
+        recordStore.loadViolations(organId);
+    }, [organId, organStore, recordStore]);
+
+    if (
+        organStore.isLoading ||
+        !organStore.selectedOrgan ||
+        recordStore.isLoading
+    ) {
         return <LoadingBackdrop />;
     }
 
     return (
         <>
-            <OrganDashboard />
+            <OrganDashboard
+                organ={organStore.selectedOrgan}
+                records={recordStore.records}
+                violations={recordStore.violations}
+                chartOption={chartOption}
+                chartOptions={chartConditionsOptions}
+                onChangeChartOption={name => setChartOption(name)}
+            />
         </>
     );
 }

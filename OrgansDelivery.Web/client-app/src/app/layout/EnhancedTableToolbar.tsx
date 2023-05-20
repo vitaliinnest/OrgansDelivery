@@ -74,19 +74,19 @@ const EnhancedTableToolbar = (props: Props) => {
             )}
             {selected.length === 1 && (
                 <>
-                    <Tooltip title="Update">
+                    {onUpdateSelected && <Tooltip title="Update">
                         <IconButton onClick={onUpdateSelected}>
                             <EditIcon />
                         </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
+                    </Tooltip>}
+                    {onDeleteSelected && <Tooltip title="Delete">
                         <IconButton onClick={onDeleteSelected}>
                             <DeleteIcon />
                         </IconButton>
-                    </Tooltip>
+                    </Tooltip>}
                 </>
             )}
-            {selected.length === 0 && (
+            {selected.length === 0 && onCreate && (
                 <Tooltip title="Add">
                     <IconButton onClick={onCreate}>
                         <AddCircleIcon color="inherit" />

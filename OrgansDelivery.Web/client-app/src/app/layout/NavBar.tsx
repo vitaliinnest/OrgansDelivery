@@ -96,7 +96,7 @@ const NavBar = () => {
                         }}
                         onClick={() => navigate('/organs')}
                     >
-                        Organs Delivery
+                        Organs Storage
                     </Typography>
                     <Box
                         sx={{
