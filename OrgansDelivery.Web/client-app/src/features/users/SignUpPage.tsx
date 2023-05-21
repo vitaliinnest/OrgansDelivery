@@ -54,7 +54,7 @@ const SignUpPage = () => {
     return (
         <Container
             sx={{
-                marginTop: 12,
+                marginTop: 4,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",

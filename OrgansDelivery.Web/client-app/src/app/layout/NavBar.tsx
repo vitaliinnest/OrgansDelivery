@@ -67,7 +67,6 @@ const NavBar = () => {
 
     const profileOptions: ActionMenuOption[] = [
         {
-            // todo: add profile editing
             title: t("profile"),
             onClick: () => navigate("/profile"),
         },
