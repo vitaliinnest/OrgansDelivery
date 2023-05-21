@@ -22,7 +22,7 @@ const ServerError = () => {
                         </Typography>
                         <Button
                             variant="contained"
-                            onClick={() => router.navigate('/orans')}
+                            onClick={() => router.navigate('/organs')}
                         >
                             Back Home
                         </Button>
