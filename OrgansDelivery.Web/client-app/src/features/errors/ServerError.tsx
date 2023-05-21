@@ -1,20 +1,44 @@
-import { observer } from "mobx-react-lite";
-import { useStore } from "../../app/stores/store";
-import { Typography } from "@mui/material";
+import React from "react";
+import { Box, Button, Container, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import { router } from "../../app/router/Routes";
 
-export default observer(function ServerError() {
-    const {commonStore} = useStore();
+const ServerError = () => {
     return (
-        <Typography>Server Error</Typography>
-        // <Container>
-        //     <Header as='h1' content='Server Error' />
-        //     <Header sub as='h5' color="red" content={commonStore.error?.message} />
-        //     {commonStore.error?.details && (
-        //         <Segment>
-        //             <Header as='h4' content='Stack trace' color="teal" />
-        //             <code style={{marginTop: '10px'}}>{commonStore.error.details}</code>
-        //         </Segment>
-        //     )}
-        // </Container>
-    )
-})
+        <Box
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100vh",
+            }}
+        >
+            <Container maxWidth="md">
+                <Grid container spacing={2}>
+                    <Grid xs={6}>
+                        <Typography variant="h1">500</Typography>
+                        <Typography variant="h6">
+                            Server Error.
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            onClick={() => router.navigate('/orans')}
+                        >
+                            Back Home
+                        </Button>
+                    </Grid>
+                    <Grid xs={6}>
+                        <img
+                            src="https://www.hostpapa.com/blog/app/uploads/2022/12/What-Is-the-Mysterious-500-Internal-Server-Error-Header-1-1568x882.jpg"
+                            alt=""
+                            width={500}
+                            height={250}
+                        />
+                    </Grid>
+                </Grid>
+            </Container>
+        </Box>
+    );
+}
+
+export default ServerError;
