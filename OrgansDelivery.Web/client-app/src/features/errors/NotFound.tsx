@@ -1,19 +1,42 @@
-import { Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Box, Button, Container, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import { router } from "../../app/router/Routes";
 
 export default function NotFound() {
     return (
-        <Typography>Not Found</Typography>
-        // <Segment placeholder>
-        //     <Header icon>
-        //         <Icon name='search' />
-        //         Oops - we've looked everywhere but could not find what you are looking for!
-        //     </Header>
-        //     <Segment.Inline>
-        //         <Button as={Link} to='/activities'>
-        //             Return to activities page
-        //         </Button>
-        //     </Segment.Inline>
-        // </Segment>
-    )
+        <Box
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100vh",
+            }}
+        >
+            <Container maxWidth="md">
+                <Grid container spacing={2}>
+                    <Grid xs={6}>
+                        <Typography variant="h1">404</Typography>
+                        <Typography variant="h6">
+                            The page you’re looking for doesn’t exist.
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            onClick={() => router.navigate('/orans')}
+                        >
+                            Back Home
+                        </Button>
+                    </Grid>
+                    <Grid xs={6}>
+                        <img
+                            src="https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__340.jpg"
+                            alt=""
+                            width={500}
+                            height={250}
+                        />
+                    </Grid>
+                </Grid>
+            </Container>
+        </Box>
+    );
 }
