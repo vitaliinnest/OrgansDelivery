@@ -1,0 +1,20 @@
+{
+    "navbar": {
+        "organs": "Organs",
+        "containers": "Containers",
+        "conditions": "Conditions",
+        "devices": "Devices"
+    },
+    "lists": {
+        "add": "Add",
+        "update": "Update",
+        "delete": "Delete",
+        "organs": {
+            "organName": "OrganName",
+            "description": "Description",
+            "creationDate": "Creation Date",
+            "containerName": "Container Name",
+            "conditionsName": "Conditions Name"
+        }
+    }
+}

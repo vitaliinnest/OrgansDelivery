@@ -8,17 +8,23 @@ import theme from "./app/layout/theme";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import './i18n';
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
 root.render(
     <React.StrictMode>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <RouterProvider router={router} />
-            </ThemeProvider>
-        </LocalizationProvider>
+        <React.Suspense fallback="loading">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {/* // todo: pass language locale to mui
+                    need to map i18n locale to mui's one
+                */}
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <RouterProvider router={router} />
+                </ThemeProvider>
+            </LocalizationProvider>
+        </React.Suspense>
     </React.StrictMode>
 );

@@ -11,16 +11,18 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../stores/store";
+import LanguageSwitcher from "./LanguageSwitcher";
+import ThreeDotsMenu from "./ThreeDotsMenu";
+import { useTranslation } from "react-i18next";
 
 type MenuOption = {
     title: string;
 };
 
-type NavigationMenuOption = MenuOption & {
+export type NavigationMenuOption = MenuOption & {
     path: string;
 };
 
@@ -28,26 +30,29 @@ type ActionMenuOption = MenuOption & {
     onClick: () => void;
 }
 
-const mainOptions: NavigationMenuOption[] = [
-    {
-        title: "Organs",
-        path: "/organs",
-    },
-    {
-        title: "Containers",
-        path: "/containers",
-    },
-    {
-        title: "Conditions",
-        path: "/conditions",
-    },
-    {
-        title: "Devices",
-        path: "/devices",
-    }
-];
 
 const NavBar = () => {
+    const { t } = useTranslation();
+    
+    const mainOptions: NavigationMenuOption[] = [
+        {
+            title: t('navbar.organs'),
+            path: "/organs",
+        },
+        {
+            title: t('navbar.containers'),
+            path: "/containers",
+        },
+        {
+            title: t('navbar.conditions'),
+            path: "/conditions",
+        },
+        {
+            title: t('navbar.devices'),
+            path: "/devices",
+        }
+    ];
+
     const [accountMenuAnchorEl, setAccountMenuAnchorEl] = useState<null | HTMLElement>(null);
     const { userStore, tenantStore } = useStore();
     
@@ -120,6 +125,7 @@ const NavBar = () => {
                             </Button>
                         ))}
                     </Box>
+                    <LanguageSwitcher />
                     {userStore.isLoggedIn && tenantStore.hasTenant && <ThreeDotsMenu />}
                     {userStore.isLoggedIn && <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Profile">
@@ -167,71 +173,3 @@ const NavBar = () => {
 };
 
 export default observer(NavBar);
-
-
-const threeDotsMenuOptions: NavigationMenuOption[] = [
-    {
-        title: "Users",
-        path: "/users",
-    },
-    {
-        title: "Invites",
-        path: "/invites"
-    },
-];
-
-const ThreeDotsMenu = () => {
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const navigate = useNavigate();
-
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    return (
-        <Box
-            sx={{
-                mr: 1
-            }}
-        >
-            <Tooltip
-                title="Tenant Settings"
-            >
-                <IconButton
-                    aria-label="more"
-                    id="long-button"
-                    aria-controls={open ? "long-menu" : undefined}
-                    aria-expanded={open ? "true" : undefined}
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                    sx={{
-                        color: "inherit"
-                    }}
-                >
-                    <MoreVertIcon />
-                </IconButton>
-            </Tooltip>
-            <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-            >
-                {threeDotsMenuOptions.map((option) => (
-                    <MenuItem
-                        key={option.title}
-                        onClick={() => {
-                            navigate(option.path);
-                            handleClose();
-                        }}
-                    >
-                        {option.title}
-                    </MenuItem>
-                ))}
-            </Menu>
-        </Box>
-    );
-}

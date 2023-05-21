@@ -6,9 +6,11 @@ import EntitiesTable from "../../app/layout/EntitiesTable";
 import { router } from "../../app/router/Routes";
 import AddOrganModal from "./AddOrganModal";
 import UpdateOrganModal from "./UpdateOrganModal";
+import { useTranslation } from "react-i18next";
 
 const OrgansList = () => {
     const { organStore, containerStore, conditionsStore, modalStore } = useStore();
+    const { t } = useTranslation();
 
     useEffect(() => {
         organStore.loadOrgans();
@@ -67,7 +69,7 @@ const OrgansList = () => {
 
     return (
         <EntitiesTable
-            tableTitle="Organs"
+            tableTitle={t('organs')}
             headCells={[
                 {
                     id: "name",
