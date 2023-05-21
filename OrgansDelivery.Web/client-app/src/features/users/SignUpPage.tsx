@@ -46,7 +46,7 @@ const initialValues: Register = {
 const SignUpPage = () => {
     const { userStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: 'auth' });
-
+    
     if (userStore.isLoading) {
         return <LoadingBackdrop />;
     }

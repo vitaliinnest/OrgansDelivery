@@ -28,41 +28,42 @@ export type NavigationMenuOption = MenuOption & {
 
 type ActionMenuOption = MenuOption & {
     onClick: () => void;
-}
+};
 
 const NavBar = () => {
-    const { t } = useTranslation('translation', { keyPrefix: 'navbar' });
-    
+    const { t } = useTranslation("translation", { keyPrefix: "navbar" });
+
     const mainOptions: NavigationMenuOption[] = [
         {
-            title: t('organs'),
+            title: t("organs"),
             path: "/organs",
         },
         {
-            title: t('containers'),
+            title: t("containers"),
             path: "/containers",
         },
         {
-            title: t('conditions'),
+            title: t("conditions"),
             path: "/conditions",
         },
         {
-            title: t('devices'),
+            title: t("devices"),
             path: "/devices",
-        }
+        },
     ];
 
-    const [accountMenuAnchorEl, setAccountMenuAnchorEl] = useState<null | HTMLElement>(null);
+    const [accountMenuAnchorEl, setAccountMenuAnchorEl] =
+        useState<null | HTMLElement>(null);
     const { userStore, tenantStore } = useStore();
-    
+
     const onAccountMenuClick = (event: React.MouseEvent<HTMLElement>) => {
         setAccountMenuAnchorEl(event.currentTarget);
     };
-    
+
     const onAccountMenuClose = () => {
         setAccountMenuAnchorEl(null);
     };
-    
+
     const navigate = useNavigate();
 
     const profileOptions: ActionMenuOption[] = [
@@ -72,7 +73,7 @@ const NavBar = () => {
         },
         {
             title: t("logout"),
-            onClick: () => userStore.logout()
+            onClick: () => userStore.logout(),
         },
     ];
 
@@ -83,7 +84,7 @@ const NavBar = () => {
                     <SelfImprovementIcon
                         sx={{
                             mr: 1,
-                            fontSize: 45
+                            fontSize: 45,
                         }}
                     />
                     <Typography
@@ -96,9 +97,9 @@ const NavBar = () => {
                             fontWeight: 700,
                             color: "inherit",
                             textDecoration: "none",
-                            cursor: "pointer"
+                            cursor: "pointer",
                         }}
-                        onClick={() => navigate('/organs')}
+                        onClick={() => navigate("/organs")}
                     >
                         Organs Storage
                     </Typography>
@@ -108,63 +109,72 @@ const NavBar = () => {
                             display: "flex",
                         }}
                     >
-                        {tenantStore.hasTenant && mainOptions.map((page) => (
-                            <Button
-                                key={page.title}
-                                sx={{ my: 2, mr: 2, color: "white", display: "block" }}
-                                onClick={() => navigate(page.path)}
-                            >
-                                <Typography
-                                    variant="h6"
-                                    component="div"
-                                    textTransform="capitalize"
+                        {userStore.isLoggedIn &&
+                            tenantStore.hasTenant &&
+                            mainOptions.map((page) => (
+                                <Button
+                                    key={page.title}
+                                    sx={{
+                                        my: 2,
+                                        mr: 2,
+                                        color: "white",
+                                        display: "block",
+                                    }}
+                                    onClick={() => navigate(page.path)}
                                 >
-                                    {page.title}
-                                </Typography>
-                            </Button>
-                        ))}
+                                    <Typography
+                                        variant="h6"
+                                        component="div"
+                                        textTransform="capitalize"
+                                    >
+                                        {page.title}
+                                    </Typography>
+                                </Button>
+                            ))}
                     </Box>
                     <LanguageSwitcher />
-                    {userStore.isLoggedIn && tenantStore.hasTenant && <ThreeDotsMenu />}
-                    {userStore.isLoggedIn && <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title={t("profile")}>
-                            <IconButton
-                                onClick={onAccountMenuClick}
+                    {userStore.isLoggedIn && tenantStore.hasTenant && (
+                        <ThreeDotsMenu />
+                    )}
+                    {userStore.isLoggedIn && (
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title={t("profile")}>
+                                <IconButton onClick={onAccountMenuClick}>
+                                    <Avatar />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                anchorEl={accountMenuAnchorEl}
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(accountMenuAnchorEl)}
+                                onClose={onAccountMenuClose}
                             >
-                                <Avatar />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            anchorEl={accountMenuAnchorEl}
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(accountMenuAnchorEl)}
-                            onClose={onAccountMenuClose}
-                        >
-                            {profileOptions.map((option) => (
-                                <MenuItem
-                                    key={option.title}
-                                    onClick={() => {
-                                        option.onClick();
-                                        onAccountMenuClose();
-                                    }}
-                                >
-                                    <Typography textAlign="center">
-                                        {option.title}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>}
+                                {profileOptions.map((option) => (
+                                    <MenuItem
+                                        key={option.title}
+                                        onClick={() => {
+                                            option.onClick();
+                                            onAccountMenuClose();
+                                        }}
+                                    >
+                                        <Typography textAlign="center">
+                                            {option.title}
+                                        </Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>
