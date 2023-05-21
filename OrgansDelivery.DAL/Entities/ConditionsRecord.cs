@@ -28,6 +28,7 @@ public class ConditionsRecordDto
     public decimal Light { get; set; }
     public Orientation Orientation { get; set; }
 	public ConditionsRef Conditions { get; set; }
+    public OrganRef Organ { get; set; }
 }
 
 public class CreateConditionsRecordModel

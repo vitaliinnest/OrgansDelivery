@@ -1,5 +1,6 @@
 import { IEntity } from "./common";
 import { Condition, ConditionsRef, Orientation } from "./conditions";
+import { OrganRef } from "./organ";
 
 export interface ConditionsRecord extends IEntity {
     dateTime: Date;
@@ -8,6 +9,7 @@ export interface ConditionsRecord extends IEntity {
     light: number;
     orientation: Orientation;
     conditions: ConditionsRef;
+    organ: OrganRef;
 }
 
 export interface ConditionsRecordRef extends IEntity {

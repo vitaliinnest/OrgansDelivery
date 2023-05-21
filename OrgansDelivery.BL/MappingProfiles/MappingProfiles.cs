@@ -102,8 +102,35 @@ public class MappingProfiles : Profile
             .ForMember(
                 dest => dest.Orientation,
                 opt => opt.MapFrom(src => new Orientation() { X = src.Ort_x, Y = src.Ort_y }))
-            .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.Sent_at_utc));        
-        CreateMap<ConditionsRecord, ConditionsRecordDto>();
+            .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.Sent_at_utc));
+        CreateMap<ConditionsRecord, ConditionsRecordDto>()
+			.ForMember(
+                dest => dest.Conditions,
+                opt => opt.MapFrom(src => src != null
+                    ? new ConditionsRef
+                    {
+                        Id = src.Conditions.Id,
+                        Name = src.Conditions.Name,
+                        Description = src.Conditions.Description,
+                        Humidity = src.Conditions.Humidity,
+                        Light = src.Conditions.Light,
+                        Orientation = src.Conditions.Orientation,
+                        Temperature = src.Conditions.Temperature,
+                    }
+                    : null))
+            .ForMember(
+                dest => dest.Organ,
+                opt => opt.MapFrom(src => src != null
+                    ? new OrganRef
+                    {
+						Id = src.Organ.Id,
+						Name = src.Organ.Name,
+						Description = src.Organ.Description,
+						OrganCreationDate = src.Organ.OrganCreationDate,
+						ConditionsId = src.Organ.ConditionsId,
+						ContainerId = src.Id,
+					}
+                    : null));
 
 
         // Device

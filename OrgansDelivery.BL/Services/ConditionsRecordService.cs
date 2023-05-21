@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
 
@@ -38,12 +39,12 @@ public class ConditionsRecordService : IConditionsRecordService
         }
 
         var records = _context.Records
+            .Include(r => r.Conditions)
+            .Include(r => r.Organ)
             .Where(c => c.OrganId == organId)
             .ToList();
 
-        var dtos = _mapper.Map<List<ConditionsRecordDto>>(records);
-
-        return dtos;
+        return _mapper.Map<List<ConditionsRecordDto>>(records);
     }
 
 	public Result AddConditionsRecord(CreateConditionsRecordModel model)
@@ -62,6 +63,7 @@ public class ConditionsRecordService : IConditionsRecordService
 		var organ = device.Container.Organ;
 
 		var record = _mapper.Map<ConditionsRecord>(model);
+        record.TenantId = organ.TenantId;
 		record.OrganId = organ.Id;
 		record.ConditionsId = organ.ConditionsId;
 
@@ -74,6 +76,7 @@ public class ConditionsRecordService : IConditionsRecordService
 	public List<ConditionsViolation> GetOrganViolations(Guid organId)
     {
         var records = _context.Records
+            .Include(r => r.Conditions)
             .Where(r => r.OrganId == organId)
             .ToList();
 
