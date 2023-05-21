@@ -15,6 +15,7 @@ import DevicesList from "../../features/devices/DevicesList";
 import ConditionsList from "../../features/conditions/ConditionsList";
 import UsersList from "../../features/users/UsersList";
 import InvitesList from "../../features/invites/InvitesList";
+import RequireUnauthozed from "./RequireUnauthozed";
 
 export const routes: RouteObject[] = [
     {
@@ -22,12 +23,17 @@ export const routes: RouteObject[] = [
         element: <App />,
         children: [
             {
-                path: "/sign-in",
-                element: <SignInPage />,
-            },
-            {
-                path: "/sign-up",
-                element: <SignUpPage />,
+                element: <RequireUnauthozed />,
+                children: [
+                    {
+                        path: "/sign-in",
+                        element: <SignInPage />,
+                    },
+                    {
+                        path: "/sign-up",
+                        element: <SignUpPage />,
+                    },
+                ]
             },
             {
                 element: <RequireAuth />,

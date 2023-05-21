@@ -61,6 +61,9 @@ axios.interceptors.response.use(
                 break;
             case 401:
                 toast.error("unauthorised");
+                if (localStorage.getItem("jwt")) {
+                    localStorage.removeItem("jwt");
+                }
                 break;
             case 403:
                 toast.error("forbidden");
