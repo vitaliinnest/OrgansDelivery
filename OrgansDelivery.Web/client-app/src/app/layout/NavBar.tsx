@@ -30,25 +30,24 @@ type ActionMenuOption = MenuOption & {
     onClick: () => void;
 }
 
-
 const NavBar = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('translation', { keyPrefix: 'navbar' });
     
     const mainOptions: NavigationMenuOption[] = [
         {
-            title: t('navbar.organs'),
+            title: t('organs'),
             path: "/organs",
         },
         {
-            title: t('navbar.containers'),
+            title: t('containers'),
             path: "/containers",
         },
         {
-            title: t('navbar.conditions'),
+            title: t('conditions'),
             path: "/conditions",
         },
         {
-            title: t('navbar.devices'),
+            title: t('devices'),
             path: "/devices",
         }
     ];
@@ -68,11 +67,11 @@ const NavBar = () => {
 
     const profileOptions: ActionMenuOption[] = [
         {
-            title: "Profile",
+            title: t("profile"),
             onClick: () => navigate("/profile"),
         },
         {
-            title: "Logout",
+            title: t("logout"),
             onClick: () => userStore.logout()
         },
     ];
@@ -128,7 +127,7 @@ const NavBar = () => {
                     <LanguageSwitcher />
                     {userStore.isLoggedIn && tenantStore.hasTenant && <ThreeDotsMenu />}
                     {userStore.isLoggedIn && <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Profile">
+                        <Tooltip title={t("profile")}>
                             <IconButton
                                 onClick={onAccountMenuClick}
                             >

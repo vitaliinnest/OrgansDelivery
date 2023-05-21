@@ -7,19 +7,11 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from "react-router-dom";
 import { NavigationMenuOption } from "./NavBar";
-
-const threeDotsMenuOptions: NavigationMenuOption[] = [
-    {
-        title: "Users",
-        path: "/users",
-    },
-    {
-        title: "Invites",
-        path: "/invites"
-    },
-];
+import { useTranslation } from "react-i18next";
 
 const ThreeDotsMenu = () => {
+    const { t } = useTranslation('translation', { keyPrefix: 'navbar' });
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
@@ -27,10 +19,22 @@ const ThreeDotsMenu = () => {
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+    
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    
+    const threeDotsMenuOptions: NavigationMenuOption[] = [
+        {
+            title: t("users"),
+            path: "/users",
+        },
+        {
+            title: t("invites"),
+            path: "/invites"
+        },
+    ];
+    
     return (
         <Box
             sx={{
@@ -38,7 +42,7 @@ const ThreeDotsMenu = () => {
             }}
         >
             <Tooltip
-                title="Tenant Settings"
+                title={t("threeDotsMenu")}
             >
                 <IconButton
                     aria-label="more"

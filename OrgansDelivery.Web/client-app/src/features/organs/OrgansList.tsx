@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 const OrgansList = () => {
     const { organStore, containerStore, conditionsStore, modalStore } = useStore();
-    const { t } = useTranslation();
+    const { t } = useTranslation('translation', { keyPrefix: "lists.organs" });
 
     useEffect(() => {
         organStore.loadOrgans();
@@ -69,32 +69,32 @@ const OrgansList = () => {
 
     return (
         <EntitiesTable
-            tableTitle={t('organs')}
+            tableTitle={t('entityName')}
             headCells={[
                 {
                     id: "name",
                     disablePadding: true,
-                    label: "Organ Name",
+                    label: t("organName"),
                 },
                 {
                     id: "description",
                     disablePadding: false,
-                    label: "Description",
+                    label: t("description"),
                 },
                 {
                     id: "creation-date",
                     disablePadding: false,
-                    label: "Creation Date",
+                    label: t("creationDate"),
                 },
                 {
                     id: "container-name",
                     disablePadding: false,
-                    label: "Container Name",
+                    label: t("containerName"),
                 },
                 {
                     id: "container-name",
                     disablePadding: false,
-                    label: "Conditions Name",
+                    label: t("conditionsName"),
                 }
             ]}
             rows={organStore.organs.map(o => [

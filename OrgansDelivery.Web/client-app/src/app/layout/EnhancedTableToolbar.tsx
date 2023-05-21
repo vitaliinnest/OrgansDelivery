@@ -10,6 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../stores/store";
 import DeleteDialog from "../modals/DeleteDialog";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     tableTitle: string;
@@ -22,6 +23,7 @@ type Props = {
 const EnhancedTableToolbar = (props: Props) => {
     const { selected, tableTitle, onCreate, onUpdate, onDelete } = props;
     const { modalStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: 'lists' });
 
     const onUpdateSelected = () => {
         onUpdate?.(selected[0]);
@@ -60,7 +62,7 @@ const EnhancedTableToolbar = (props: Props) => {
                     variant="subtitle1"
                     component="div"
                 >
-                    {selected.length} item(s) selected
+                    {selected.length} {t('itemsSelected')}
                 </Typography>
             ) : (
                 <Typography
@@ -74,12 +76,12 @@ const EnhancedTableToolbar = (props: Props) => {
             )}
             {selected.length === 1 && (
                 <>
-                    {onUpdateSelected && <Tooltip title="Update">
+                    {onUpdateSelected && <Tooltip title={t('update')}>
                         <IconButton onClick={onUpdateSelected}>
                             <EditIcon />
                         </IconButton>
                     </Tooltip>}
-                    {onDeleteSelected && <Tooltip title="Delete">
+                    {onDeleteSelected && <Tooltip title={t("delete")}>
                         <IconButton onClick={onDeleteSelected}>
                             <DeleteIcon />
                         </IconButton>
@@ -87,7 +89,7 @@ const EnhancedTableToolbar = (props: Props) => {
                 </>
             )}
             {selected.length === 0 && onCreate && (
-                <Tooltip title="Add">
+                <Tooltip title={t("add")}>
                     <IconButton onClick={onCreate}>
                         <AddCircleIcon color="inherit" />
                     </IconButton>

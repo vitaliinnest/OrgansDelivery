@@ -3,18 +3,48 @@
         "organs": "Organs",
         "containers": "Containers",
         "conditions": "Conditions",
-        "devices": "Devices"
+        "devices": "Devices",
+        "threeDotsMenu": "Manage Tenant",
+        "users": "Users",
+        "invites": "Invites",
+        "profile": "Profile",
+        "logout": "Logout"
     },
     "lists": {
         "add": "Add",
         "update": "Update",
         "delete": "Delete",
+        "itemsSelected": "item(s) selected",
         "organs": {
-            "organName": "OrganName",
+            "entityName": "Organ",
+            "organName": "Organ Name",
             "description": "Description",
             "creationDate": "Creation Date",
             "containerName": "Container Name",
             "conditionsName": "Conditions Name"
+        },
+        "containers": {
+            "entityName": "Container",
+            "containerName": "Container Name",
+            "description": "Description",
+            "deviceName": "Device Name"
+        },
+        "conditions": {
+            "entityName": "Conditions",
+            "conditionsName": "Conditions Name",
+            "description": "Description"
+        },
+        "devices": {
+            "entityName": "Device",
+            "deviceId": "Device Id",
+            "deviceName":"Device Name",
+            "interval": "Interval (ms)"
         }
+    },
+    "signIn": {
+
+    },
+    "signUp": {
+
     }
 }

@@ -3,6 +3,42 @@
         "organs": "Органи",
         "containers": "Контейнери",
         "conditions": "Умови",
-        "devices": "Пристрої"
+        "devices": "Пристрої",
+        "threeDotsMenu": "Управління Тенантом",
+        "users": "Користувачі",
+        "invites": "Запрошення",
+        "profile": "Профіль",
+        "logout": "Вийти"
+    },
+    "lists": {
+        "add": "Додати",
+        "update": "Оновити",
+        "delete": "Видалити",
+        "itemsSelected": "елемент(ів) виділено",
+        "organs": {
+            "entityName": "Орган",
+            "organName": "Назва Органу",
+            "description": "Опис",
+            "creationDate": "Дата створення",
+            "containerName": "Назва Контейнера",
+            "conditionsName": "Назва Умов"
+        },
+        "containers": {
+            "entityName": "Контейнер",
+            "containerName": "Назва Контейнера",
+            "description": "Опис",
+            "deviceName": "Назва Пристрою"
+        },
+        "conditions": {
+            "entityName": "Умова",
+            "conditionsName": "Назва Умов",
+            "description": "Опис"
+        },
+        "devices": {
+            "entityName": "Пристрій",
+            "deviceId": "Id Пристрою",
+            "deviceName":"Назва Пристрою",
+            "interval": "Інтервал (мс)"
+        }
     }
 }
