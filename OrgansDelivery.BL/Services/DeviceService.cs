@@ -51,6 +51,12 @@ public class DeviceService : IDeviceService
 			return validationResult;
 		}
 
+		var foundDevice = _context.Devices.IgnoreQueryFilters().FirstOrDefault(d => d.Id == model.Id);
+		if (foundDevice != null)
+		{
+			return Result.Fail("Device with given id already exists");
+		}
+
 		var device = _mapper.Map<Device>(model);
 
 		_context.Add(device);
@@ -77,7 +83,7 @@ public class DeviceService : IDeviceService
 
 		var updatedDevice = _mapper.Map(model, findResult.Value);
 
-		_context.Add(updatedDevice);
+		_context.Update(updatedDevice);
 		_context.SaveChanges();
 
 		await PublishUpdateDeviceConfigurationMessageAsync(updatedDevice);
@@ -110,12 +116,6 @@ public class DeviceService : IDeviceService
 		if (!validationResult.IsValid)
 		{
 			return Result.Fail(validationResult.ToString());
-		}
-
-		var foundDevice = _context.Devices.IgnoreQueryFilters().FirstOrDefault(d => d.Id == model.Id);
-		if (foundDevice != null)
-		{
-			return Result.Fail("Device with given id already exists");
 		}
 
 		return Result.Ok();

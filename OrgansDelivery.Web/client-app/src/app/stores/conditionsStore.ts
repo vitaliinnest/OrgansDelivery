@@ -12,21 +12,27 @@ export default class ConditionsStore {
 
     loadConditions = async () => {
         try {
+            runInAction(() => this.isLoading = true);
             const conditions = await agent.ConditionsActions.getConditions();
             runInAction(() => (this.conditions = conditions));
         } catch (error) {
             console.log(error);
+        } finally {
+            runInAction(() => this.isLoading = false);
         }
     };
 
     createCondition = async (conditions: ConditionsFormValues) => {
         try {
+            runInAction(() => this.isLoading = true);
             const created = await agent.ConditionsActions.createConditions(
                 conditions
             );
             runInAction(() => this.conditions.push(created));
         } catch (error) {
             console.log(error);
+        } finally {
+            runInAction(() => this.isLoading = false);
         }
     };
 
@@ -53,6 +59,7 @@ export default class ConditionsStore {
 
     deleteConditions = async (conditionsId: string) => {
         try {
+            runInAction(() => this.isLoading = true);
             await agent.ConditionsActions.deleteConditions(conditionsId);
             runInAction(() => {
                 this.conditions = this.conditions.filter(
@@ -61,6 +68,10 @@ export default class ConditionsStore {
             });
         } catch (error) {
             console.log(error);
+        } finally {
+            runInAction(() => {
+                this.isLoading = false;
+            });
         }
     };
 }

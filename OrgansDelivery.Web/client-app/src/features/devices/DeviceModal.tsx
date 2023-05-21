@@ -16,10 +16,11 @@ type Props = {
     initialValues: DeviceFormValues;
     actionName: string;
     onSubmit: (device: DeviceFormValues) => void;
+    readonlyDeviceId?: boolean;
 };
 
 const DeviceModal = (props: Props) => {
-    const { initialValues, actionName, onSubmit } = props;
+    const { initialValues, actionName, readonlyDeviceId, onSubmit } = props;
 
     const formik = useFormik<DeviceFormValues>({
         initialValues,
@@ -41,6 +42,7 @@ const DeviceModal = (props: Props) => {
                         required
                         fullWidth
                         autoFocus
+                        disabled={readonlyDeviceId}
                         onChange={formik.handleChange}
                         value={formik.values.id}
                         error={

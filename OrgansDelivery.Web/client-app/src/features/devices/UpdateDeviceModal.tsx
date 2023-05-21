@@ -19,6 +19,7 @@ const UpdateDeviceModal = (props: Props) => {
                 name: device.name,
                 conditionsIntervalCheckInMs: device.conditionsIntervalCheckInMs,
             }}
+            readonlyDeviceId
             actionName="Update"
             onSubmit={(values) => {
                 deviceStore.updateDevice(device.id, values)

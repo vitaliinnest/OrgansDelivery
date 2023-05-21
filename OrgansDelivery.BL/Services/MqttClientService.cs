@@ -92,8 +92,15 @@ public class MqttClientService : IHostedService
 			.WithPayload(payloadJson)
 			.Build();
 
-		await _mqttClient.PublishAsync(msg);
-		msg.LogObject(_logger, "MESSAGE PUBLISHED");
+		try
+		{
+			await _mqttClient.PublishAsync(msg);
+			msg.LogObject(_logger, "MESSAGE PUBLISHED");
+		}
+		catch (Exception)
+		{
+			_logger.LogError("Failed to publish configuration message to MQTT");
+		}
 	}
 
 	private IMqttClient CreateMqttClient()
