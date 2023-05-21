@@ -19,6 +19,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link as RouterLink } from "react-router-dom";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { router } from "../../app/router/Routes";
+import { useTranslation } from "react-i18next";
 YupPassword(Yup);
 
 const validationSchema = Yup.object({
@@ -33,6 +34,7 @@ const initialValues: Login = {
 
 const SignInPage = () => {
     const { userStore, tenantStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: 'auth' });
 
     if (userStore.isLoading || tenantStore.isLoading) {
         return <LoadingBackdrop />;
@@ -52,7 +54,7 @@ const SignInPage = () => {
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Sign In
+                {t('signIn')}
             </Typography>
             <Formik
                 initialValues={initialValues}
@@ -82,7 +84,7 @@ const SignInPage = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="email"
-                                    label="Email Address"
+                                    label={t('email')}
                                     margin="normal"
                                     required
                                     fullWidth
@@ -98,7 +100,7 @@ const SignInPage = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="password"
-                                    label="Password"
+                                    label={t('password')}
                                     type="password"
                                     margin="normal"
                                     required
@@ -121,12 +123,12 @@ const SignInPage = () => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            {t('signIn')}
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <Link variant="body2" component={RouterLink} to="/sign-up">
-                                    Don't have an account? Sign Up
+                                    {t('signUpQuestion')}
                                 </Link>
                             </Grid>
                         </Grid>

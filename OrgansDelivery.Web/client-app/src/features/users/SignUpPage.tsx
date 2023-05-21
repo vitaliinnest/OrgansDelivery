@@ -20,6 +20,7 @@ import { validate } from "uuid";
 import { Link as RouterLink } from "react-router-dom";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { guid } from "../../app/util/validation";
+import { useTranslation } from "react-i18next";
 YupPassword(Yup);
 
 const validationSchema = Yup.object({
@@ -44,7 +45,8 @@ const initialValues: Register = {
 
 const SignUpPage = () => {
     const { userStore } = useStore();
-    
+    const { t } = useTranslation('translation', { keyPrefix: 'auth' });
+
     if (userStore.isLoading) {
         return <LoadingBackdrop />;
     }
@@ -63,7 +65,7 @@ const SignUpPage = () => {
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Sign Up
+                {t('signUp')}
             </Typography>
             <Formik
                 initialValues={initialValues}
@@ -89,7 +91,7 @@ const SignUpPage = () => {
                             <Grid item sm={6}>
                                 <TextField
                                     name="name"
-                                    label="First Name"
+                                    label={t("firstName")}
                                     margin="normal"
                                     required
                                     fullWidth
@@ -105,7 +107,7 @@ const SignUpPage = () => {
                             <Grid item sm={6}>
                                 <TextField
                                     name="surname"
-                                    label="Last Name"
+                                    label={t("lastName")}
                                     margin="normal"
                                     required
                                     fullWidth
@@ -123,7 +125,7 @@ const SignUpPage = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="email"
-                                    label="Email Address"
+                                    label={t("email")}
                                     margin="normal"
                                     required
                                     fullWidth
@@ -141,7 +143,7 @@ const SignUpPage = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="password"
-                                    label="Password"
+                                    label={t("password")}
                                     type="password"
                                     margin="normal"
                                     required
@@ -160,7 +162,7 @@ const SignUpPage = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="inviteCode"
-                                    label="Invite Code"
+                                    label={t("inviteCode")}
                                     margin="normal"
                                     fullWidth
                                     onChange={handleChange}
@@ -182,12 +184,12 @@ const SignUpPage = () => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign Up
+                            {t('signUp')}
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <Link variant="body2" component={RouterLink} to="/sign-in">
-                                    Already have an account? Sign in
+                                    {t('signUpQuestion')}
                                 </Link>
                             </Grid>
                         </Grid>

@@ -41,10 +41,18 @@
             "interval": "Interval (ms)"
         }
     },
-    "signIn": {
-
+    "auth": {
+        "email": "Email",
+        "password": "Password",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "inviteCode": "Invite Code",
+        "signUp": "Sign Up",
+        "signIn": "Sign In",
+        "signUpQuestion": "Already have an account? Sign in",
+        "signInQuestion": "Don't have an account? Sign Up"
     },
-    "signUp": {
+    "createTenant": {
 
     }
 }
