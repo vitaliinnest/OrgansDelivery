@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import EnhancedTableHead, { HeadCell } from "./EnhancedTableHead";
-import { Typography } from "@mui/material";
+import { SxProps, Theme, Typography } from "@mui/material";
 
 // 0 - id
 // 1 - name
@@ -21,6 +21,7 @@ type Props = {
     tableTitle: string;
     headCells: HeadCell[];
     rows: Row[];
+    cellSx?: (entityId: string, columnName: string | undefined) => SxProps<Theme> | undefined;
     onClick?: (entityId: string) => void;
     onCreate?: () => void;
     onUpdate?: (entityId: string) => void;
@@ -32,6 +33,7 @@ const EntitiesTable = (props: Props) => {
         tableTitle,
         headCells,
         rows,
+        cellSx,
         onClick,
         onCreate,
         onUpdate,
@@ -39,7 +41,7 @@ const EntitiesTable = (props: Props) => {
     } = props;
 
     const [order, setOrder] = React.useState<Order>("asc");
-    const [orderBy, setOrderBy] = React.useState(1);
+    const [orderBy, setOrderBy] = React.useState(0);
     const [selected, setSelected] = React.useState<string[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -98,8 +100,7 @@ const EntitiesTable = (props: Props) => {
     const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     const visibleRows = React.useMemo(
         () =>
@@ -185,11 +186,17 @@ const EntitiesTable = (props: Props) => {
                                                 >
                                                     {row[1]}
                                                 </TableCell>
-                                                {row.slice(2).map((cell) => (
-                                                    <TableCell key={cell} align="left">
-                                                        {cell}
-                                                    </TableCell>
-                                                ))}
+                                                {row.slice(2).map((cell, ind) => {
+                                                    return (
+                                                        <TableCell key={cell} align="left">
+                                                            <Typography
+                                                                sx={cellSx?.(row[0], headCells[ind + 1]?.id)}
+                                                            >
+                                                                {cell}
+                                                            </Typography>
+                                                        </TableCell>
+                                                    );
+                                                })}
                                             </TableRow>
                                         );
                                     })}

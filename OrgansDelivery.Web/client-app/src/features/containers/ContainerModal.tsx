@@ -28,7 +28,6 @@ const ContainerModal = (props: Props) => {
         validationSchema
     });
 
-    console.log(formik.errors);
     const noDevices = devices.length === 0;
 
     return (

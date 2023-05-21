@@ -19,6 +19,18 @@ public class ConditionsRecord : IEntity, IMustHaveTenant, IWithOrientation
     public Organ Organ { get; set; }
 }
 
+public class ConditionsRecordRef
+{
+	public Guid Id { get; set; }
+	public DateTime DateTime { get; set; }
+	public decimal Temperature { get; set; }
+	public decimal Humidity { get; set; }
+	public decimal Light { get; set; }
+	public Orientation Orientation { get; set; }
+	public Guid ConditionsId { get; set; }
+	public Guid OrganId { get; set; }
+}
+
 public class ConditionsRecordDto
 {
     public Guid Id { get; set; }

@@ -56,5 +56,5 @@ const RecordsList = (props: Props) => {
 export default observer(RecordsList);
 
 export const orientationToString = (orientation: Orientation) => {
-    return `${orientation.x}, ${orientation.y}`;
+    return `{${orientation.x}, ${orientation.y}}`;
 }

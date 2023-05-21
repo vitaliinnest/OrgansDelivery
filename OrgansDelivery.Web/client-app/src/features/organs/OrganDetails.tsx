@@ -30,7 +30,8 @@ const OrganDetails = () => {
     if (
         organStore.isLoading ||
         !organStore.selectedOrgan ||
-        recordStore.isLoading
+        recordStore.areRecordsLoading ||
+        recordStore.areViolationsLoading
     ) {
         return <LoadingBackdrop />;
     }

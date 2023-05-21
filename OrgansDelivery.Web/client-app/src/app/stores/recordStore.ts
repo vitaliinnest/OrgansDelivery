@@ -9,7 +9,8 @@ import { parseDateString } from "../util/common";
 export default class RecordStore {
     records: ConditionsRecord[] = [];
     violations: ConditionsViolation[] = [];
-    isLoading = false;
+    areRecordsLoading = false;
+    areViolationsLoading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -17,7 +18,7 @@ export default class RecordStore {
 
     loadRecords = async (organId: string) => {
         try {
-            runInAction(() => this.isLoading = true);
+            runInAction(() => this.areRecordsLoading = true);
             const records = await agent.ConditionsRecordActions.getConditionsRecords(organId);
             for (const record of records) {
                 record.dateTime = parseDateString(record.dateTime.toString());
@@ -26,13 +27,13 @@ export default class RecordStore {
         } catch (error) {
             console.log(error);
         } finally {
-            runInAction(() => this.isLoading = false);
+            runInAction(() => this.areRecordsLoading = false);
         }
     };
 
     loadViolations = async (organId: string) => {
         try {
-            runInAction(() => this.isLoading = true);
+            runInAction(() => this.areViolationsLoading = true);
             const violations = await agent.ConditionsRecordActions.getViolations(organId);
             for (const violation of violations) {
                 violation.record.dateTime = parseDateString(violation.record.dateTime.toString());
@@ -41,7 +42,7 @@ export default class RecordStore {
         } catch (error) {
             console.log(error);
         } finally {
-            runInAction(() => this.isLoading = false);
+            runInAction(() => this.areViolationsLoading = false);
         }
     };
 }

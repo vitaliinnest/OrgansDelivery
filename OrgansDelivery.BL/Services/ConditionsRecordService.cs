@@ -82,7 +82,17 @@ public class ConditionsRecordService : IConditionsRecordService
 
         return records.Select(r => new ConditionsViolation()
 		{
-			RecordId = r.Id,
+			Record = new()
+            {
+                Id = r.Id,
+                ConditionsId = r.ConditionsId,
+				OrganId = r.OrganId,
+				DateTime = r.DateTime,
+                Humidity = r.Humidity,
+                Light = r.Light,
+                Orientation = r.Orientation,
+                Temperature = r.Temperature,
+            },
 			Temperature = new()
 			{
 				ExpectedValue = r.Conditions.Temperature.ExpectedValue,

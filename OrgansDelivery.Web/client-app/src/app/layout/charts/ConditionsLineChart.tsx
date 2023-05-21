@@ -13,6 +13,7 @@ import ConditionsTooltip, { RawConditionsRecordUnit } from "./ConditionsTooltip"
 import { AxisDomain } from "recharts/types/util/types";
 import { capitalize } from "@mui/material";
 import { ConditionsRecord } from "../../models/conditionsRecord";
+import { unitByValueNameMap } from "../../util/common";
 
 export type ConditionsRecordUnit = {
     value: number;
@@ -28,13 +29,6 @@ const dateFormatter = (date: number) => {
     return format(new Date(date), "MM/dd/yyyy");
 };
 
-const unitByValueNameMap: Partial<Record<keyof ConditionsRecord, string>> = {
-    temperature: "°C",
-    humidity: "hum",
-    light: "light",
-    orientation: "orient",
-};
-
 type Props = {
     valueName: keyof ConditionsRecord;
     data: ConditionsRecordUnit[];
@@ -46,7 +40,7 @@ const ConditionsLineChart = (props: Props) => {
     const data = useMemo(
         () => props.data.map<RawConditionsRecordUnit>(d => ({...d, dateTimeTimestamp: d.dateTime.getTime() })),
         [props.data]);
-    
+
     const domain: AxisDomain = ['dataMin', 'dataMax'];
 
     const unit = unitByValueNameMap[valueName] ?? "";

@@ -2,11 +2,11 @@
 
 public class ConditionsViolation
 {
-	public Guid RecordId { get; set; }
 	public ComparedResult<decimal> Temperature { get; set; }
 	public ComparedResult<decimal> Humidity { get; set; }
 	public ComparedResult<decimal> Light { get; set; }
 	public ComparedResult<Orientation> Orientation { get; set; }
+	public ConditionsRecordRef Record { get; set; }
 
 	public bool IsViolated() =>
 		   Temperature.IsViolated
@@ -18,7 +18,6 @@ public class ConditionsViolation
 public class ComparedResult<T> : Condition<T>
 	where T : IEquatable<T>
 {
-
 	public T Actual { get; set; }
 	public bool IsViolated { get; set; }
 }
