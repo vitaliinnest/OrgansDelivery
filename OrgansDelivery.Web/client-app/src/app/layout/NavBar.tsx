@@ -23,7 +23,8 @@ type MenuOption = {
 };
 
 export type NavigationMenuOption = MenuOption & {
-    path: string;
+    path?: string;
+    onClick?: () => void;
 };
 
 type ActionMenuOption = MenuOption & {
@@ -120,7 +121,13 @@ const NavBar = () => {
                                         color: "white",
                                         display: "block",
                                     }}
-                                    onClick={() => navigate(page.path)}
+                                    onClick={() => {
+                                        if (page.path) {
+                                            navigate(page.path)
+                                        } else {
+                                            page.onClick?.();
+                                        }
+                                    }}
                                 >
                                     <Typography
                                         variant="h6"

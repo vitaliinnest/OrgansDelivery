@@ -20,7 +20,7 @@ const UpdateContainerModal = (props: Props) => {
                 ...container,
                 deviceId: container.device.id,
             }}
-            actionName="Update"
+            action="Update"
             devices={devices}
             onSubmit={(values) => {
                 containerStore.updateContainer(container.id, values)

@@ -25,7 +25,7 @@ const UpdateOrganModal = (props: Props) => {
                 containerId: organ.container.id,
                 conditionsId: organ.conditions.id,
             }}
-            actionName="Update"
+            action="Update"
             containers={containers}
             conditions={conditions}
             onSubmit={(values) => {

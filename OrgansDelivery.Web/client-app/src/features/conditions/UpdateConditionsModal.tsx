@@ -14,7 +14,7 @@ const UpdateConditionsModal = (props: Props) => {
     return (
         <ConditionsModal
             initialValues={conditions}
-            actionName="Update"
+            action="Update"
             onSubmit={(values) => {
                 conditionsStore.updateConditions(conditions.id, values)
                     .then(modalStore.closeModal);

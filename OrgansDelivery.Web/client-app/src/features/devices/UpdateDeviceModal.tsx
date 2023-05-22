@@ -20,7 +20,7 @@ const UpdateDeviceModal = (props: Props) => {
                 conditionsIntervalCheckInMs: device.conditionsIntervalCheckInMs,
             }}
             readonlyDeviceId
-            actionName="Update"
+            action="Update"
             onSubmit={(values) => {
                 deviceStore.updateDevice(device.id, values)
                     .then(modalStore.closeModal);

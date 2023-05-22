@@ -1,5 +1,5 @@
 import React from "react";
-import EntityFormModal from "../../app/modals/EntityFormModal";
+import EntityFormModal, { ActionType } from "../../app/modals/EntityFormModal";
 import { useFormik } from "formik";
 import { Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
@@ -21,12 +21,12 @@ const validationSchema = Yup.object({
 
 type Props = {
     initialValues: ConditionsFormValues;
-    actionName: string;
+    action: ActionType;
     onSubmit: (conditions: ConditionsFormValues) => Promise<void> | void;
 };
 
 const ConditionsModal = (props: Props) => {
-    const { initialValues, actionName, onSubmit } = props;
+    const { initialValues, action, onSubmit } = props;
 
     const formik = useFormik<ConditionsFormValues>({
         initialValues,
@@ -38,7 +38,7 @@ const ConditionsModal = (props: Props) => {
         <EntityFormModal
             maxWidth="md"
             entityName="Conditions"
-            actionName={actionName}
+            action={action}
             onSubmit={formik.handleSubmit}
         >
             <Grid container spacing={2}>

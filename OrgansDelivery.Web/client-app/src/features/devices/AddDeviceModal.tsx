@@ -13,7 +13,7 @@ const AddOrganModal = () => {
                 name: "",
                 conditionsIntervalCheckInMs: 30000,
             }}
-            actionName="Add"
+            action="Add"
             onSubmit={(device) => {
                 deviceStore.addDevice(device)
                     .then(modalStore.closeModal);

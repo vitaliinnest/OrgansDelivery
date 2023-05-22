@@ -8,11 +8,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { observer } from "mobx-react-lite";
 import { Box, Breakpoint } from "@mui/material";
 import { useStore } from "../stores/store";
+import { useTranslation } from "react-i18next";
+
+export type ActionType =
+    | 'Create'
+    | 'Add'
+    | 'Update';
 
 type Props = {
     entityName: string;
     description?: string;
-    actionName: string;
+    action: ActionType;
     maxWidth?: Breakpoint | false;
     onSubmit: () => void;
 };
@@ -22,12 +28,25 @@ const EntityFormModal = (props: PropsWithChildren<Props>) => {
         entityName,
         description,
         children,
-        actionName,
+        action,
         maxWidth,
         onSubmit,
     } = props;
 
+    const { t } = useTranslation('translation', { keyPrefix: 'modal' });
+
     const { modalStore } = useStore();
+
+    const getActionName = () => {
+        switch (action) {
+            case 'Create': return t('create');
+            case 'Add': return t('add');
+            case 'Update': return t('update');
+            default: return t('update');
+        }
+    }
+
+    const actionName = getActionName();
 
     return (
         <Dialog
@@ -46,7 +65,7 @@ const EntityFormModal = (props: PropsWithChildren<Props>) => {
                     {children}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={modalStore.closeModal}>Close</Button>
+                    <Button onClick={modalStore.closeModal}>{t('cancel')}</Button>
                     <Button type="submit">{actionName}</Button>
                 </DialogActions>
             </Box>

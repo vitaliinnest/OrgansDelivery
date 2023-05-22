@@ -8,10 +8,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from "react-router-dom";
 import { NavigationMenuOption } from "./NavBar";
 import { useTranslation } from "react-i18next";
+import { useStore } from "../stores/store";
 
 const ThreeDotsMenu = () => {
     const { t } = useTranslation('translation', { keyPrefix: 'navbar' });
 
+    const { modalStore } = useStore();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
@@ -24,7 +26,15 @@ const ThreeDotsMenu = () => {
         setAnchorEl(null);
     };
     
+    const onTenantDetailsClick = () => {
+
+    }
+
     const threeDotsMenuOptions: NavigationMenuOption[] = [
+        {
+            title: t("tenantDetails"),
+            onClick: onTenantDetailsClick,
+        },
         {
             title: t("users"),
             path: "/users",
@@ -67,7 +77,11 @@ const ThreeDotsMenu = () => {
                     <MenuItem
                         key={option.title}
                         onClick={() => {
-                            navigate(option.path);
+                            if (option.path) {
+                                navigate(option.path)
+                            } else {
+                                option.onClick?.();
+                            }
                             handleClose();
                         }}
                     >

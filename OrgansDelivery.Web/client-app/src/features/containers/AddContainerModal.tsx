@@ -19,7 +19,7 @@ const AddContainerModal = (props: Props) => {
                 description: "",
                 deviceId: ""
             }}
-            actionName="Add"
+            action="Add"
             devices={devices}
             onSubmit={(container) => {
                 containerStore.createContainer(container)

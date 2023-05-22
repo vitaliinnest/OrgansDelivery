@@ -1,7 +1,7 @@
 import React from "react";
-import EntityFormModal from "../../app/modals/EntityFormModal";
+import EntityFormModal, { ActionType } from "../../app/modals/EntityFormModal";
 import { useFormik } from "formik";
-import { Grid, Select, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { InviteFormValues } from "../../app/models/invite";
 
@@ -11,12 +11,12 @@ const validationSchema = Yup.object({
 
 type Props = {
     initialValues: InviteFormValues;
-    actionName: string;
+    action: ActionType;
     onSubmit: (invite: InviteFormValues) => void;
 };
 
 const InviteModal = (props: Props) => {
-    const { initialValues, actionName, onSubmit } = props;
+    const { initialValues, action, onSubmit } = props;
 
     const formik = useFormik<InviteFormValues>({
         initialValues,
@@ -27,7 +27,7 @@ const InviteModal = (props: Props) => {
     return (
         <EntityFormModal
             entityName="Invite"
-            actionName={actionName}
+            action={action}
             onSubmit={formik.handleSubmit}
         >
             <Grid container spacing={2}>

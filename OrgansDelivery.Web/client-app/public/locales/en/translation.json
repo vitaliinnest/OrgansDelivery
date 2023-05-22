@@ -6,6 +6,7 @@
         "devices": "Devices",
         "threeDotsMenu": "Manage Tenant",
         "users": "Users",
+        "tenantDetails": "Tenant Details",
         "invites": "Invites",
         "profile": "Profile",
         "logout": "Logout"
@@ -93,5 +94,11 @@
         "content": "Are you sure you want to delete this item?",
         "cancel": "Cancel",
         "delete": "Delete"
+    },
+    "modal": {
+        "cancel": "Close",
+        "create": "Create",
+        "add": "Add",
+        "update": "Update"
     }
 }

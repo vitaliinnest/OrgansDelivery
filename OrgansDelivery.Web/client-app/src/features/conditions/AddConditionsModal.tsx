@@ -27,7 +27,7 @@ const AddConditionsModal = () => {
                     expectedValue: { x: 10, y: 10 },
                 },
             }}
-            actionName="Add"
+            action="Add"
             onSubmit={(conditions) => {
                 conditionsStore.createCondition(conditions)
                     .then(modalStore.closeModal);

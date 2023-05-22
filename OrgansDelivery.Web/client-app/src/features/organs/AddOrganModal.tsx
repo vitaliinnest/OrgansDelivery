@@ -23,7 +23,7 @@ const AddOrganModal = (props: Props) => {
                 conditionsId: "",
                 containerId: "",
             }}
-            actionName="Add"
+            action="Add"
             conditions={conditions}
             containers={containers}
             onSubmit={(organ) => {

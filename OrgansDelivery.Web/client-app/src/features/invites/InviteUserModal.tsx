@@ -11,7 +11,7 @@ const InviteUserModal = () => {
             initialValues={{
                 email: "",
             }}
-            actionName="Create"
+            action="Create"
             onSubmit={(invite) => {
                 inviteStore.createInvite(invite)
                     .then(modalStore.closeModal);

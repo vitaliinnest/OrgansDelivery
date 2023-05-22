@@ -1,5 +1,5 @@
 import React from "react";
-import EntityFormModal from "../../app/modals/EntityFormModal";
+import EntityFormModal, { ActionType } from "../../app/modals/EntityFormModal";
 import { useFormik } from "formik";
 import { OrganFormValues } from "../../app/models/organ";
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
@@ -18,14 +18,14 @@ const validationSchema = Yup.object({
 
 type Props = {
     initialValues: OrganFormValues;
-    actionName: string;
+    action: ActionType;
     containers: Container[];
     conditions: Conditions[];
     onSubmit: (organ: OrganFormValues) => void;
 };
 
 const OrganModal = (props: Props) => {
-    const { initialValues, actionName, containers, conditions, onSubmit } = props;
+    const { initialValues, action, containers, conditions, onSubmit } = props;
 
     const formik = useFormik<OrganFormValues>({
         initialValues,
@@ -39,7 +39,7 @@ const OrganModal = (props: Props) => {
     return (
         <EntityFormModal
             entityName="Organ"
-            actionName={actionName}
+            action={action}
             onSubmit={formik.handleSubmit}
         >
             <Grid container spacing={2}>

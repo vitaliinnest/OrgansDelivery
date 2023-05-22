@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import EntityFormModal from "../../app/modals/EntityFormModal";
+import EntityFormModal, { ActionType } from "../../app/modals/EntityFormModal";
 import { useFormik } from "formik";
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import * as Yup from "yup";
@@ -14,13 +14,13 @@ const validationSchema = Yup.object({
 
 type Props = {
     initialValues: ContainerFormValues;
-    actionName: string;
+    action: ActionType;
     devices: Device[];
     onSubmit: (organ: ContainerFormValues) => void;
 };
 
 const ContainerModal = (props: Props) => {
-    const { initialValues, actionName, devices, onSubmit } = props;
+    const { initialValues, action, devices, onSubmit } = props;
 
     const formik = useFormik<ContainerFormValues>({
         initialValues,
@@ -33,7 +33,7 @@ const ContainerModal = (props: Props) => {
     return (
         <EntityFormModal
             entityName="Container"
-            actionName={actionName}
+            action={action}
             onSubmit={formik.handleSubmit}
         >
             <Grid container spacing={2}>
