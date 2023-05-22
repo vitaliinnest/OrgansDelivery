@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import OrganDashboard from "./OrganDashboard";
 import { ConditionsRecord } from "../../app/models/conditionsRecord";
+import { useTranslation } from "react-i18next";
 
 const chartConditionsOptions: (keyof ConditionsRecord)[] = [
     'humidity',
@@ -15,6 +16,7 @@ const chartConditionsOptions: (keyof ConditionsRecord)[] = [
 const OrganDetails = () => {
     const { organId } = useParams();
     const { organStore, recordStore } = useStore();
+    const { t } = useTranslation("translation", { keyPrefix: "details.organ" });
     
     const [chartOption, setChartOption] = useState<keyof ConditionsRecord>('temperature');
 

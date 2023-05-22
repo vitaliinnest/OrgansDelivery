@@ -50,6 +50,21 @@
         "signUp": "Зареєструватися",
         "signIn": "Увійти",
         "signInQuestion": "Немає облікового запису? Зареєструватися",
-        "signUpQuestion": "Вже є аккаунт? Увійти"
+        "signUpQuestion": "Вже є аккаунт? Увійти",
+        "signUpSuccess": "Підтвердіть Електронну Пошту, щоб увійти"
+    },
+    "tenant": {
+        "heading": "Створити Тенант",
+        "tenantName": "Назва Тенанту",
+        "createBtn": "Створити"
+    },
+    "details": {
+        "organ": {
+            "chartOptions": {
+                "humidity": "Humidity",
+                "light": "Light",
+                "temperature": "Temperature"
+            }
+        }
     }
 }

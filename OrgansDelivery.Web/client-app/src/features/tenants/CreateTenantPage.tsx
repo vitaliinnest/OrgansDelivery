@@ -15,6 +15,7 @@ import {
 import { TenantFormValues } from "../../app/models/tenant";
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -26,6 +27,7 @@ const initialValues: TenantFormValues = {
 
 const CreateTenantPage = () => {
     const { tenantStore } = useStore();
+    const { t } = useTranslation("translation", { keyPrefix: "tenant" });
 
     if (tenantStore.isLoading) {
         return <LoadingBackdrop />;
@@ -45,7 +47,7 @@ const CreateTenantPage = () => {
                 <ApartmentOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Create Tenant
+                {t('heading')}
             </Typography>
             <Formik
                 initialValues={initialValues}
@@ -71,7 +73,7 @@ const CreateTenantPage = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="name"
-                                    label="Tenant Name"
+                                    label={t('tenantName')}
                                     margin="normal"
                                     required
                                     fullWidth
@@ -91,7 +93,7 @@ const CreateTenantPage = () => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Create
+                            {t('createBtn')}
                         </Button>
                     </Box>
                 )}

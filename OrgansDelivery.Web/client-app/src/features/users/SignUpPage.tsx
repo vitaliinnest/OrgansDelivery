@@ -21,17 +21,19 @@ import { Link as RouterLink } from "react-router-dom";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { guid } from "../../app/util/validation";
 import { useTranslation } from "react-i18next";
+import { router } from "../../app/router/Routes";
+import { toast } from "react-toastify";
 YupPassword(Yup);
 
 const validationSchema = Yup.object({
     name: Yup.string().required(),
     surname: Yup.string().required(),
-    email: Yup.string().email(),
-    password: Yup.string().required().min(8).minLowercase(1),
-    repeatPassword: Yup.string().oneOf(
-        [Yup.ref("password"), undefined],
-        "Passwords must match"
-    ),
+    email: Yup.string().email().required(),
+    password: Yup.string().required().min(8).minLowercase(1).required(),
+    // todo: add repeat password field
+    // repeatPassword: Yup.string()
+    //     .oneOf([Yup.ref("password"), undefined], "Passwords must match")
+    //     .required(),
     inviteCode: guid(),
 });
 
@@ -69,7 +71,13 @@ const SignUpPage = () => {
             </Typography>
             <Formik
                 initialValues={initialValues}
-                onSubmit={(creds) => userStore.register(creds)}
+                onSubmit={(creds) => {
+                    userStore.register(creds)
+                        .then(() => {
+                            router.navigate('/sign-in');
+                            toast.success(t('signUpSuccess'));
+                        })
+                }}
                 validationSchema={validationSchema}
             >
                 {({

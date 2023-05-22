@@ -8,10 +8,9 @@ import LoadingBackdrop from "./LoadingBackdrop";
 import ModalContainer from "../modals/ModalContainer";
 import { ThemeProvider } from "@emotion/react";
 import { createThemeWithLng } from "./theme";
-import { I18nextProvider, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import i18next from "i18next";
 
 const App = () => {
     const { commonStore, userStore, tenantStore } = useStore();
@@ -43,19 +42,17 @@ const App = () => {
             <LocalizationProvider
                 dateAdapter={AdapterDayjs}
             >
-                <I18nextProvider i18n={i18next}>    
-                    <ScrollRestoration />
-                    <ModalContainer />
-                    <ToastContainer
-                        position="bottom-right"
-                        hideProgressBar
-                        theme="colored"
-                    />
-                    <>
-                        <NavBar />
-                        <Outlet />
-                    </>
-                </I18nextProvider>
+                <ScrollRestoration />
+                <ModalContainer />
+                <ToastContainer
+                    position="bottom-right"
+                    hideProgressBar
+                    theme="colored"
+                />
+                <>
+                    <NavBar />
+                    <Outlet />
+                </>
             </LocalizationProvider>
         </ThemeProvider>
     );

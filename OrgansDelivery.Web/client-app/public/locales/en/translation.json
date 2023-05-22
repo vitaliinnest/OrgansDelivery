@@ -50,9 +50,21 @@
         "signUp": "Sign Up",
         "signIn": "Sign In",
         "signUpQuestion": "Already have an account? Sign in",
-        "signInQuestion": "Don't have an account? Sign Up"
+        "signInQuestion": "Don't have an account? Sign Up",
+        "signUpSuccess": "Confirm email to Sign In"
     },
-    "createTenant": {
-
+    "tenant": {
+        "heading": "Create Tenant",
+        "tenantName": "Tenant Name",
+        "createBtn": "Create"
+    },
+    "details": {
+        "organ": {
+            "chartOptions": {
+                "humidity": "Humidity",
+                "light": "Light",
+                "temperature": "Temperature"
+            }
+        }
     }
 }

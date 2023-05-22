@@ -32,10 +32,7 @@ export default class UserStore {
     register = async (creds: Register) => {
         try {
             runInAction(() => (this.isLoading = true));
-            const user = await agent.UserActions.register(creds);
-            store.commonStore.setToken(user.token);
-            runInAction(() => (this.user = user));
-            router.navigate('/create-tenant');
+            await agent.UserActions.register(creds);
         } catch (error) {
             console.log(error);
         } finally {

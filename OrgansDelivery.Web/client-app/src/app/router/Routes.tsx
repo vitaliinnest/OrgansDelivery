@@ -16,8 +16,8 @@ import ConditionsList from "../../features/conditions/ConditionsList";
 import UsersList from "../../features/users/UsersList";
 import InvitesList from "../../features/invites/InvitesList";
 import RequireUnauthozed from "./RequireUnauthozed";
-import EditTenantPage from "../../features/tenants/EditTenantPage";
-import EditProfilePage from "../../features/users/EditProfilePage";
+import EditTenantPage from "../../features/tenants/UpdateTenantModal";
+import EditProfilePage from "../../features/users/UpdateProfileModal";
 
 export const routes: RouteObject[] = [
     {
