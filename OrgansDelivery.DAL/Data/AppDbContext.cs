@@ -10,12 +10,14 @@ namespace OrganStorage.DAL.Data;
 
 public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
+    public readonly bool AdminMode;
     public readonly Guid TenantId;
     //private readonly ILogger<AppDbContext> _logger;
 
 	public AppDbContext(IEnvironmentProvider environmentProvider, DbContextOptions options) : base(options)
     {
-        TenantId = environmentProvider.Tenant?.Id ?? Guid.Empty;
+		AdminMode = environmentProvider.User?.Id == Consts.Consts.ADMIN_ID;
+		TenantId = environmentProvider.Tenant?.Id ?? Guid.Empty;
 		//_logger = logger;
 	}
 
@@ -169,7 +171,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 
         foreach (var entityType in mustHaveTenantTypes)
         {
-            entityType.AddTenantQueryFilter(TenantId);
+            entityType.AddTenantQueryFilter(TenantId, AdminMode);
         }
     }
 
