@@ -16,7 +16,7 @@ import ConditionsList from "../../features/conditions/ConditionsList";
 import UsersList from "../../features/users/UsersList";
 import InvitesList from "../../features/invites/InvitesList";
 import RequireUnauthozed from "./RequireUnauthozed";
-import EditTenantPage from "../../features/tenants/UpdateTenantModal";
+import UpdateTenantModal from "../../features/tenants/UpdateTenantModal";
 import EditProfilePage from "../../features/users/UpdateProfileModal";
 
 export const routes: RouteObject[] = [
@@ -45,7 +45,7 @@ export const routes: RouteObject[] = [
                         element: <RequireTenant />,
                         children: [
                             { path: "profile", element: <EditProfilePage /> },
-                            { path: "tenant", element: <EditTenantPage /> },
+                            { path: "tenant", element: <UpdateTenantModal /> },
                             { path: "users", element: <UsersList /> },
                             { path: "invites", element: <InvitesList /> },
                             { path: "organs", element: <OrgansList /> },

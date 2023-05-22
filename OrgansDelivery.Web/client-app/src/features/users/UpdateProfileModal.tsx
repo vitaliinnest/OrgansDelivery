@@ -2,10 +2,10 @@ import React from "react";
 import { observe } from "mobx";
 import { observer } from "mobx-react-lite";
 
-const EditProfilePage = () => {
+const UpdateProfileModal = () => {
     return (
         <></>
     );
 }
 
-export default observer(EditProfilePage);
+export default observer(UpdateProfileModal);

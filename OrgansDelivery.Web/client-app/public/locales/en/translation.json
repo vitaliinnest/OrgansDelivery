@@ -87,5 +87,11 @@
             "containerName": "Container Name",
             "conditionsName": "Conditions Name"
         }
+    },
+    "deleteDialog": {
+        "title": "Deletion",
+        "content": "Are you sure you want to delete this item?",
+        "cancel": "Cancel",
+        "delete": "Delete"
     }
 }

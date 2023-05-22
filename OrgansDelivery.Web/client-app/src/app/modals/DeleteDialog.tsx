@@ -7,6 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../stores/store";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     onConfirm: (confirmed: boolean) => void;
@@ -15,6 +16,7 @@ type Props = {
 const AlertDialog = (props: Props) => {
     const { onConfirm } = props;
     const { modalStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: 'deleteDialog' });
 
     return (
         <div>
@@ -24,29 +26,30 @@ const AlertDialog = (props: Props) => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">Deletion</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{t('title')}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete this item?
+                        {t('content')}
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{ pr: 3, pb: 2 }} >
                     <Button
                         onClick={() => {
                             onConfirm(false);
                             modalStore.closeModal();
                         }}
                     >
-                        Cancel
+                        {t('cancel')}
                     </Button>
                     <Button
+                        color="error"
                         onClick={() => {
                             onConfirm(true);
                             modalStore.closeModal();
                         }}
-                        autoFocus
+                        variant="contained"
                     >
-                        Delete
+                        {t('delete')}
                     </Button>
                 </DialogActions>
             </Dialog>
