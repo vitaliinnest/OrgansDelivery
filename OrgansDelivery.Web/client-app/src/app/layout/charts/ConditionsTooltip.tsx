@@ -1,7 +1,7 @@
 import React from "react";
-import { format } from "date-fns";
 import { TooltipProps } from 'recharts';
 import { Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const style = {
     padding: 6,
@@ -15,29 +15,30 @@ export type RawConditionsRecordUnit = {
 };
 
 type Props = TooltipProps<any, any> & {
-    valueName: string
+    valueTitle: string;
     unitName: string;
 };
 
 const ConditionsTooltip = (props: Props) => {
-    const { active, payload, valueName, unitName } = props;
+    const { active, payload, valueTitle, unitName } = props;
+    const { t } = useTranslation("translation", { keyPrefix: "details" });
 
     if (!active) {
         return null;
-    }
-    
+    }        
+
     const data = !!payload?.length
         ? (payload[0].payload as RawConditionsRecordUnit)
         : undefined;
     
     const dateTime = data
-        ? format(new Date(data.dateTimeTimestamp), "MM/dd/yyyy")
+        ? new Date(data.dateTimeTimestamp).toLocaleString()
         : " -- ";
 
     return (
         <div className="area-chart-tooltip" style={style}>
-            <Typography variant="body1" >Date: {dateTime}</Typography>
-            <Typography variant="body1" >{valueName}: {data?.value} {unitName}</Typography>
+            <Typography variant="body1" >{t('chartDate')}: {dateTime}</Typography>
+            <Typography variant="body1" >{valueTitle}: {data?.value} {unitName}</Typography>
         </div>
     );
 };

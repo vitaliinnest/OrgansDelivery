@@ -84,7 +84,7 @@ const ConditionsLineChart = (props: Props) => {
             <Tooltip
                 content={
                     <ConditionsTooltip
-                        valueName={valueName}
+                        valueTitle={valueTitle}
                         unitName={unit}
                     />
                 }
