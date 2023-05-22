@@ -79,6 +79,14 @@
         "violations": "Порушення Умов",
         "actual": "Фактично",
         "expected": "Очікувано",
-        "allowedDeviation": "Допустиме Відхилення"
+        "allowedDeviation": "Допустиме Відхилення",
+        "infoSection": {
+            "organDetails": "Опис Контейнера",
+            "name": "Назва",
+            "description": "Опис",
+            "creationDate": "Дата створення",
+            "containerName": "Назва Контейнера",
+            "conditionsName": "Назва Умов"
+        }
     }
 }

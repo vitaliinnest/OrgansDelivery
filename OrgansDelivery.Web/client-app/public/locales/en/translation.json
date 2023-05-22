@@ -78,6 +78,14 @@
         "violations": "Violations",
         "actual": "Actual",
         "expected": "Expected",
-        "allowedDeviation": "Allowed Deviation"
+        "allowedDeviation": "Allowed Deviation",
+        "infoSection": {
+            "organDetails": "Organ Details",
+            "name": "Name",
+            "description": "Description",
+            "creationDate": "Creation Date",
+            "containerName": "Container Name",
+            "conditionsName": "Conditions Name"
+        }
     }
 }
