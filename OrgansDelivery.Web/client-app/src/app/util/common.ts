@@ -6,7 +6,7 @@ export function parseDateString(dateString: string): Date {
 
 export const unitByValueNameMap: Partial<Record<keyof ConditionsRecord, string>> = {
     temperature: "°C",
-    humidity: "hum",
-    light: "light",
+    humidity: "%",
+    light: "lm",
     orientation: "(X, Y)",
 };

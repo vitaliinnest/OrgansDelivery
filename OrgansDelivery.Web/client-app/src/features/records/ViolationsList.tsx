@@ -5,6 +5,7 @@ import { ComparedResult, ConditionsViolation } from "../../app/models/conditions
 import { Orientation } from "../../app/models/conditions";
 import { orientationToString } from "./RecordsList";
 import { unitByValueNameMap } from "../../app/util/common";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     violations: ConditionsViolation[];
@@ -12,6 +13,8 @@ type Props = {
 
 const ViolationsList = (props: Props) => {
     const { violations } = props;
+    const { t } = useTranslation('translation', { keyPrefix: 'details' });
+
     const violationByRecordIdMap = useMemo(
         () => violations.reduce((map, obj) => {
             map.set(obj.record.id, obj);
@@ -22,32 +25,32 @@ const ViolationsList = (props: Props) => {
 
     return (
         <EntitiesTable
-            tableTitle="Violations (Actual / Expected / Allowed Deviation)"
+            tableTitle={`${t("violations")} (${t('actual')} / ${t("expected")} / ${t("allowedDeviation")})`}
             headCells={[
                 {
                     id: "record-date",
                     disablePadding: true,
-                    label: "Record Date",
+                    label: t("recordDate"),
                 },
                 {
                     id: "temperature",
                     disablePadding: false,
-                    label: `Temperature, ${unitByValueNameMap['temperature']}`,
+                    label: `${t('temperature')}, ${unitByValueNameMap['temperature']}`,
                 },
                 {
                     id: "humidity",
                     disablePadding: false,
-                    label: `Humidity, ${unitByValueNameMap['humidity']}`,
+                    label: `${t("humidity")}, ${unitByValueNameMap['humidity']}`,
                 },
                 {
                     id: "light",
                     disablePadding: false,
-                    label: `Light, ${unitByValueNameMap['light']}`,
+                    label: `${t("light")}, ${unitByValueNameMap['light']}`,
                 },
                 {
                     id: "orientation",
                     disablePadding: false,
-                    label: `Orientation, ${unitByValueNameMap['orientation']}`,
+                    label: `${t("orientation")}, ${unitByValueNameMap['orientation']}`,
                 }
             ]}
             rows={violations.map(v => [
@@ -59,7 +62,6 @@ const ViolationsList = (props: Props) => {
                 orientationComparedResultToString(v.orientation),
             ])}
             cellSx={(recordId, columnId) => {
-                console.log(recordId, columnId);
                 if (!columnId) return;
 
                 const violation = violationByRecordIdMap.get(recordId);

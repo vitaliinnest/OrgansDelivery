@@ -15,18 +15,21 @@ import RecordsList from "../records/RecordsList";
 import ViolationsList from "../records/ViolationsList";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     organ: Organ;
     records: ConditionsRecord[];
     violations: ConditionsViolation[];
     chartOption: keyof ConditionsRecord;
-    chartOptions: (keyof ConditionsRecord)[];
+    optionTitle: string;
+    chartOptions: ChartOptions;
     onChangeChartOption: (name: keyof ConditionsRecord) => void;
 };
 
 const OrganDashboard = (props: Props) => {
-    const { organ, chartOption, chartOptions, onChangeChartOption } = props;
+    const { organ, optionTitle, chartOption, chartOptions, onChangeChartOption } = props;
+    const { t } = useTranslation("translation", { keyPrefix: "details" });
 
     const [range, setRange] = useState<DateRange>({
         start: getDate(7),
@@ -73,8 +76,9 @@ const OrganDashboard = (props: Props) => {
                                     flexDirection: "column",
                                 }}
                             >
-                                <Typography align="center" variant="h5">{capitalize(chartOption)} Chart</Typography>
+                                <Typography align="center" variant="h5">{optionTitle} {t('chartName')}</Typography>
                                 <ConditionsLineChart
+                                    valueTitle={optionTitle}
                                     valueName={chartOption}
                                     data={chartData}
                                 />
@@ -141,33 +145,37 @@ const OrganDashboard = (props: Props) => {
 
 export default observer(OrganDashboard);
 
+export type ChartOptions = {
+    opt: keyof ConditionsRecord;
+    title: string;
+}[];
+
 type ChartOptionsSelectorProps = {
-    option: string;
-    options: string[]
+    option: keyof ConditionsRecord;
+    options: ChartOptions;
     onChange: (name: keyof ConditionsRecord) => void;
-}
+};
 
 const ChartOptionsSelector = (props: ChartOptionsSelectorProps) => {
     const { option, onChange } = props;
+    const { t } = useTranslation('translation', { keyPrefix: 'details' });
     
     const options = useMemo(
-        () => props.options.map((o) => capitalize(o)).sort(),
+        () => props.options.sort(),
         [props.options]
     );
 
     return <FormControl
         required
     >
-        <InputLabel>
-            Condition
-        </InputLabel>
+        <InputLabel>{t('condition')}</InputLabel>
         <Select
-            label="Condition"
+            label={t('condition')}
             value={option}
             onChange={(e) => onChange(e.target.value as keyof ConditionsRecord)}
         >
             {options.map(o => (
-                <MenuItem value={o.toLowerCase()}>{o}</MenuItem>
+                <MenuItem value={o.opt}>{o.title}</MenuItem>
             ))}
         </Select>
     </FormControl>;
@@ -185,18 +193,20 @@ type DateRangePickerProps = {
 
 const DateRangePicker = (props: DateRangePickerProps) => {
     const { range, onChange } = props;
+    const { t } = useTranslation('translation', { keyPrefix: 'details' });
+
     return (
         <Grid mt={1} container spacing={2}>
             <Grid item>
                 <DatePicker
-                    label="Start"
+                    label={t('start')}
                     value={dayjs(range.start)}
                     onChange={val => val && onChange({ ...range, start: val.toDate() })}
                 />
             </Grid>
             <Grid item>
                 <DatePicker
-                    label="End"
+                    label={t('end')}
                     value={dayjs(range.end)}
                     onChange={val => val && onChange({ ...range, end: val.toDate() })}
                 />

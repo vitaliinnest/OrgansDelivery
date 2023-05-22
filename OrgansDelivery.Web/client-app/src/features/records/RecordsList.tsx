@@ -3,6 +3,8 @@ import { observer } from "mobx-react-lite";
 import EntitiesTable from "../../app/layout/EntitiesTable";
 import { ConditionsRecord } from "../../app/models/conditionsRecord";
 import { Orientation } from "../../app/models/conditions";
+import { useTranslation } from "react-i18next";
+import { unitByValueNameMap } from "../../app/util/common";
 
 type Props = {
     records: ConditionsRecord[];
@@ -10,35 +12,36 @@ type Props = {
 
 const RecordsList = (props: Props) => {
     const { records } = props;
+    const { t } = useTranslation('translation', { keyPrefix: 'details' });
 
     return (
         <EntitiesTable
-            tableTitle="Records"
+            tableTitle={t("records")}
             headCells={[
                 {
                     id: "name",
                     disablePadding: true,
-                    label: "Record Date",
+                    label: t("recordDate"),
                 },
                 {
                     id: "temperature",
                     disablePadding: false,
-                    label: "Temperature",
+                    label: `${t('temperature')}, ${unitByValueNameMap['temperature']}`,
                 },
                 {
                     id: "humidity",
                     disablePadding: false,
-                    label: "Humidity",
+                    label: `${t("humidity")}, ${unitByValueNameMap['humidity']}`,
                 },
                 {
                     id: "light",
                     disablePadding: false,
-                    label: "Light",
+                    label: `${t("light")}, ${unitByValueNameMap['light']}`,
                 },
                 {
                     id: "orientation",
                     disablePadding: false,
-                    label: "Orientation",
+                    label: `${t("orientation")}, ${unitByValueNameMap['orientation']}`,
                 }
             ]}
             rows={records.map(r => [

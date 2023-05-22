@@ -14,6 +14,7 @@ import { AxisDomain } from "recharts/types/util/types";
 import { capitalize } from "@mui/material";
 import { ConditionsRecord } from "../../models/conditionsRecord";
 import { unitByValueNameMap } from "../../util/common";
+import { useTranslation } from "react-i18next";
 
 export type ConditionsRecordUnit = {
     value: number;
@@ -30,16 +31,19 @@ const dateFormatter = (date: number) => {
 };
 
 type Props = {
+    valueTitle: string;
     valueName: keyof ConditionsRecord;
     data: ConditionsRecordUnit[];
     range?: DateRange;
 };
 
 const ConditionsLineChart = (props: Props) => {
-    const { valueName } = props;
+    const { valueName, valueTitle } = props;
     const data = useMemo(
         () => props.data.map<RawConditionsRecordUnit>(d => ({...d, dateTimeTimestamp: d.dateTime.getTime() })),
         [props.data]);
+
+    const { t } = useTranslation('translation', { keyPrefix: 'details' });
 
     const domain: AxisDomain = ['dataMin', 'dataMax'];
 
@@ -50,7 +54,7 @@ const ConditionsLineChart = (props: Props) => {
             width={800}
             height={380}
             data={data}
-            margin={{ top: 40, right: 20, bottom: 50, left: 25 }}
+            margin={{ top: 40, right: 20, bottom: 50, left: 40 }}
         >
             <Line type="monotone" dataKey="value" stroke="#8884d8" />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
@@ -62,7 +66,7 @@ const ConditionsLineChart = (props: Props) => {
                 type="number"
             >
                 <Label
-                    value="Date"
+                    value={t('chartDate').toString()}
                     style={{ textAnchor: "middle" }}
                     position="insideBottom"
                     offset={-20}
@@ -70,11 +74,11 @@ const ConditionsLineChart = (props: Props) => {
             </XAxis>
             <YAxis name="y axis">
                 <Label
-                    value={`${capitalize(valueName)}, ${unit}`}
+                    value={`${valueTitle}, ${unit}`}
                     style={{ textAnchor: "middle" }}
                     angle={-90}
                     position="insideLeft"
-                    offset={0}
+                    offset={-15}
                 />
             </YAxis>
             <Tooltip

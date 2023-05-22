@@ -59,12 +59,26 @@
         "createBtn": "Створити"
     },
     "details": {
-        "organ": {
-            "chartOptions": {
-                "humidity": "Humidity",
-                "light": "Light",
-                "temperature": "Temperature"
-            }
-        }
+        "chartName": "Графік",
+        "chartOptions": {
+            "humidity": "Вологість",
+            "light": "Світло",
+            "temperature": "Температура"
+        },
+        "chartDate": "Час",
+        "condition": "Умова",
+        "start": "Початок",
+        "end": "Кінець",
+        "records": "Записи Умов",
+        "recordDate": "Час Запису",
+        "humidity": "Вологість",
+        "light": "Світло",
+        "lightUnitShort": "лм",
+        "temperature": "Температура",
+        "orientation": "Орієнтація",
+        "violations": "Порушення Умов",
+        "actual": "Фактично",
+        "expected": "Очікувано",
+        "allowedDeviation": "Допустиме Відхилення"
     }
 }

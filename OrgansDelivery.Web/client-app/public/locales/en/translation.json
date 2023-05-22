@@ -59,12 +59,25 @@
         "createBtn": "Create"
     },
     "details": {
-        "organ": {
-            "chartOptions": {
-                "humidity": "Humidity",
-                "light": "Light",
-                "temperature": "Temperature"
-            }
-        }
+        "chartName": "Chart",
+        "chartOptions": {
+            "humidity": "Humidity",
+            "light": "Light",
+            "temperature": "Temperature"
+        },
+        "chartDate": "Date",
+        "condition": "Condition",
+        "start": "Start",
+        "end": "End",
+        "records": "Conditions Records",
+        "recordDate": "Record Date",
+        "humidity": "Humidity",
+        "light": "Light",
+        "temperature": "Temperature",
+        "orientation": "Orientation",
+        "violations": "Violations",
+        "actual": "Actual",
+        "expected": "Expected",
+        "allowedDeviation": "Allowed Deviation"
     }
 }
