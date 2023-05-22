@@ -16,7 +16,7 @@
         "delete": "Видалити",
         "itemsSelected": "елемент(ів) виділено",
         "organs": {
-            "entityName": "Органи",
+            "entitiesName": "Органи",
             "organName": "Назва Органу",
             "description": "Опис",
             "creationDate": "Дата створення",
@@ -24,18 +24,18 @@
             "conditionsName": "Назва Умов"
         },
         "containers": {
-            "entityName": "Контейнери",
+            "entitiesName": "Контейнери",
             "containerName": "Назва Контейнера",
             "description": "Опис",
             "deviceName": "Назва Пристрою"
         },
         "conditions": {
-            "entityName": "Умови",
+            "entitiesName": "Умови",
             "conditionsName": "Назва Умов",
             "description": "Опис"
         },
         "devices": {
-            "entityName": "Пристрої",
+            "entitiesName": "Пристрої",
             "deviceId": "Id Пристрою",
             "deviceName":"Назва Пристрою",
             "interval": "Інтервал (мс)"

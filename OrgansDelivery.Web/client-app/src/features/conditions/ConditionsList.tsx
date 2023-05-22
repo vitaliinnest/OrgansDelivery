@@ -47,7 +47,7 @@ const ConditionsList = () => {
 
     return (
         <EntitiesTable
-            tableTitle={t('entityName')}
+            tableTitle={t('entitiesName')}
             headCells={[
                 {
                     id: "name",

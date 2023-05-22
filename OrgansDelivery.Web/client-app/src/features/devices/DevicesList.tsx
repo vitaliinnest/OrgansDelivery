@@ -47,7 +47,7 @@ const DevicesList = () => {
 
     return (
         <EntitiesTable
-            tableTitle={t('entityName')}
+            tableTitle={t('entitiesName')}
             headCells={[
                 {
                     id: "id",
