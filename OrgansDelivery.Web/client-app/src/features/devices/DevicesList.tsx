@@ -6,9 +6,11 @@ import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import EntitiesTable from "../../app/layout/EntitiesTable";
 import AddDeviceModal from "./AddDeviceModal";
 import UpdateDeviceModal from "./UpdateDeviceModal";
+import { useTranslation } from "react-i18next";
 
 const DevicesList = () => {
     const { modalStore, deviceStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: "lists.devices" });
 
     useEffect(() => {
         deviceStore.loadDevices();
@@ -45,22 +47,22 @@ const DevicesList = () => {
 
     return (
         <EntitiesTable
-            tableTitle="Devices"
+            tableTitle={t('entityName')}
             headCells={[
                 {
                     id: "id",
                     disablePadding: true,
-                    label: "Device Id",
+                    label: t("deviceId"),
                 },
                 {
                     id: "description",
                     disablePadding: false,
-                    label: "Device Name",
+                    label: t("deviceName"),
                 },
                 {
                     id: "interval",
                     disablePadding: false,
-                    label: "Interval (ms)",
+                    label: t("interval"),
                 }
             ]}
             rows={deviceStore.devices.map((d) => [

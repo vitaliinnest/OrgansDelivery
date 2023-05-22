@@ -17,7 +17,7 @@
         "delete": "Delete",
         "itemsSelected": "item(s) selected",
         "organs": {
-            "entityName": "Organ",
+            "entityName": "Organs",
             "organName": "Organ Name",
             "description": "Description",
             "creationDate": "Creation Date",
@@ -25,7 +25,7 @@
             "conditionsName": "Conditions Name"
         },
         "containers": {
-            "entityName": "Container",
+            "entityName": "Containers",
             "containerName": "Container Name",
             "description": "Description",
             "deviceName": "Device Name"
@@ -36,7 +36,7 @@
             "description": "Description"
         },
         "devices": {
-            "entityName": "Device",
+            "entityName": "Devices",
             "deviceId": "Device Id",
             "deviceName":"Device Name",
             "interval": "Interval (ms)"

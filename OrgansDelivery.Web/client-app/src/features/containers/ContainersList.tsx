@@ -6,9 +6,11 @@ import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import EntitiesTable from "../../app/layout/EntitiesTable";
 import AddContainerModal from "./AddContainerModal";
 import UpdateContainerModal from "./UpdateContainerModal";
+import { useTranslation } from "react-i18next";
 
 const ContainersList = () => {
     const { modalStore, containerStore, deviceStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: "lists.containers" });
 
     useEffect(() => {
         containerStore.loadContainers();
@@ -58,22 +60,22 @@ const ContainersList = () => {
 
     return (
         <EntitiesTable
-            tableTitle="Containers"
+            tableTitle={t('entityName')}
             headCells={[
                 {
                     id: "name",
                     disablePadding: true,
-                    label: "Container Name",
+                    label: t('containerName'),
                 },
                 {
                     id: "description",
                     disablePadding: false,
-                    label: "Description",
+                    label: t("description"),
                 },
                 {
                     id: "device-name",
                     disablePadding: false,
-                    label: "Device name",
+                    label: t("deviceName"),
                 }
             ]}
             rows={containerStore.containers.map((c) => [

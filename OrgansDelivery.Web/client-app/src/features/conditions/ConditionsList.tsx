@@ -6,9 +6,11 @@ import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import EntitiesTable from "../../app/layout/EntitiesTable";
 import AddConditionsModal from "./AddConditionsModal";
 import UpdateConditionsModal from "./UpdateConditionsModal";
+import { useTranslation } from "react-i18next";
 
 const ConditionsList = () => {
     const { modalStore, conditionsStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: "lists.conditions" });
 
     useEffect(() => {
         conditionsStore.loadConditions();
@@ -45,17 +47,17 @@ const ConditionsList = () => {
 
     return (
         <EntitiesTable
-            tableTitle="Conditions"
+            tableTitle={t('entityName')}
             headCells={[
                 {
                     id: "name",
                     disablePadding: true,
-                    label: "Conditions Name",
+                    label: t("conditionsName"),
                 },
                 {
                     id: "description",
                     disablePadding: false,
-                    label: "Description",
+                    label: t("description"),
                 },
             ]}
             rows={conditionsStore.conditions.map((c) => [
