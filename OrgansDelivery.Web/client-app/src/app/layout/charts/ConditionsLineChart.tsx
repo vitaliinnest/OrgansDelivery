@@ -27,7 +27,7 @@ export type DateRange = {
 }
 
 const dateFormatter = (date: number) => {
-    return format(new Date(date), "MM/dd/yyyy");
+    return new Date(date).toLocaleString();
 };
 
 type Props = {

@@ -177,7 +177,7 @@ const OrganInfoCard = (props: OrganInfoCardProps) => {
             </Typography>
             <Divider />
             <Typography variant="h6" mt={1} mb={1}>
-                {t('creationDate')}: {organ.organCreationDate.toString()}
+                {t('creationDate')}: {organ.organCreationDate.toLocaleString()}
             </Typography>
             <Divider />
             <Typography variant="h6" mt={1} mb={1}>
