@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../app/stores/store";
@@ -9,7 +9,9 @@ import {
     Avatar,
     Box,
     Button,
+    Checkbox,
     Container,
+    FormControlLabel,
     Grid,
     Link,
     TextField,
@@ -30,10 +32,9 @@ const validationSchema = Yup.object({
     surname: Yup.string().required(),
     email: Yup.string().email().required(),
     password: Yup.string().required().min(8).minLowercase(1).required(),
-    // todo: add repeat password field
-    // repeatPassword: Yup.string()
-    //     .oneOf([Yup.ref("password"), undefined], "Passwords must match")
-    //     .required(),
+    repeatPassword: Yup.string()
+        .oneOf([Yup.ref("password"), undefined], "Passwords must match")
+        .required(),
     inviteCode: guid(),
 });
 
@@ -42,13 +43,15 @@ const initialValues: Register = {
     surname: "",
     email: "",
     password: "",
+    repeatPassword: "",
     inviteCode: "",
 };
 
 const SignUpPage = () => {
     const { userStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: 'auth' });
-    
+    const [useInviteCode, setUseInviteCode] = useState(false);
+
     if (userStore.isLoading) {
         return <LoadingBackdrop />;
     }
@@ -67,16 +70,15 @@ const SignUpPage = () => {
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                {t('signUp')}
+                {t("signUp")}
             </Typography>
             <Formik
                 initialValues={initialValues}
                 onSubmit={(creds) => {
-                    userStore.register(creds)
-                        .then(() => {
-                            router.navigate('/sign-in');
-                            toast.success(t('signUpSuccess'));
-                        })
+                    userStore.register(creds).then(() => {
+                        router.navigate("/sign-in");
+                        toast.success(t("signUpSuccess"));
+                    });
                 }}
                 validationSchema={validationSchema}
             >
@@ -106,9 +108,7 @@ const SignUpPage = () => {
                                     autoFocus
                                     onChange={handleChange}
                                     value={values.name}
-                                    error={
-                                        touched.name && Boolean(errors.name)
-                                    }
+                                    error={touched.name && Boolean(errors.name)}
                                     helperText={touched.name && errors.name}
                                 />
                             </Grid>
@@ -140,12 +140,9 @@ const SignUpPage = () => {
                                     onChange={handleChange}
                                     value={values.email}
                                     error={
-                                        touched.email &&
-                                        Boolean(errors.email)
+                                        touched.email && Boolean(errors.email)
                                     }
-                                    helperText={
-                                        touched.email && errors.email
-                                    }
+                                    helperText={touched.email && errors.email}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -169,21 +166,52 @@ const SignUpPage = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    name="inviteCode"
-                                    label={t("inviteCode")}
+                                    name="repeatPassword"
+                                    label={t("repeatPassword")}
+                                    type="password"
                                     margin="normal"
+                                    required
                                     fullWidth
                                     onChange={handleChange}
-                                    value={values.inviteCode}
+                                    value={values.repeatPassword}
                                     error={
-                                        touched.inviteCode &&
-                                        Boolean(errors.inviteCode)
+                                        touched.repeatPassword &&
+                                        Boolean(errors.repeatPassword)
                                     }
                                     helperText={
-                                        touched.inviteCode &&
-                                        errors.inviteCode
+                                        touched.repeatPassword && errors.repeatPassword
                                     }
                                 />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={useInviteCode}
+                                            onChange={(e) => {
+                                                setUseInviteCode(e.target.checked);
+                                            }}
+                                        />
+                                    }
+                                    label={t('useInviteCode')}
+                                />
+                                {useInviteCode && (
+                                    <TextField
+                                        name="inviteCode"
+                                        label={t("inviteCode")}
+                                        margin="normal"
+                                        fullWidth
+                                        onChange={handleChange}
+                                        value={values.inviteCode}
+                                        error={
+                                            touched.inviteCode &&
+                                            Boolean(errors.inviteCode)
+                                        }
+                                        helperText={
+                                            touched.inviteCode && errors.inviteCode
+                                        }
+                                    />
+                                )}
                             </Grid>
                         </Grid>
                         <Button
@@ -192,12 +220,16 @@ const SignUpPage = () => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            {t('signUp')}
+                            {t("signUp")}
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link variant="body2" component={RouterLink} to="/sign-in">
-                                    {t('signUpQuestion')}
+                                <Link
+                                    variant="body2"
+                                    component={RouterLink}
+                                    to="/sign-in"
+                                >
+                                    {t("signUpQuestion")}
                                 </Link>
                             </Grid>
                         </Grid>

@@ -16,6 +16,7 @@ export interface Register {
     surname: string;
     email: string;
     password: string;
+    repeatPassword: string;
     inviteCode?: string;
 }
 

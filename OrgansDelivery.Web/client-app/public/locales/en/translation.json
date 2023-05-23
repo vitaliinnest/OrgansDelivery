@@ -47,6 +47,7 @@
     "auth": {
         "email": "Email",
         "password": "Password",
+        "repeatPassword": "Repeat Password",
         "firstName": "First Name",
         "lastName": "Last Name",
         "inviteCode": "Invite Code",
@@ -54,7 +55,8 @@
         "signIn": "Sign In",
         "signUpQuestion": "Already have an account? Sign in",
         "signInQuestion": "Don't have an account? Sign Up",
-        "signUpSuccess": "Confirm email to Sign In"
+        "signUpSuccess": "Confirm email to Sign In",
+        "useInviteCode": "Use Invite Code"
     },
     "tenant": {
         "heading": "Create Tenant",
