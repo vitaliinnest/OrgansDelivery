@@ -56,7 +56,8 @@
         "signUpQuestion": "Already have an account? Sign in",
         "signInQuestion": "Don't have an account? Sign Up",
         "signUpSuccess": "Confirm email to Sign In",
-        "useInviteCode": "Use Invite Code"
+        "useInviteCode": "Use Invite Code",
+        "emailConfirmed": "Email Confirmed! You can Sign In now"
     },
     "tenant": {
         "heading": "Create Tenant",

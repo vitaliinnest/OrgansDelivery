@@ -33,7 +33,7 @@ public class TenantController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Tenant>> CreateTenant([FromBody] TenantFormValues model)
+    public async Task<ActionResult<CreateTenantDto>> CreateTenant([FromBody] TenantFormValues model)
     {
         var result = await _tenantService.CreateTenantAsync(model);
         return this.ToActionResult(result);

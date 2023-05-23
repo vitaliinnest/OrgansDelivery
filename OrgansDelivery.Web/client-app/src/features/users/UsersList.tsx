@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import EntitiesTable from "../../app/layout/EntitiesTable";
 
 const UsersList = () => {
-    const { employeeStore } = useStore();
+    const { employeeStore, userStore } = useStore();
 
     useEffect(() => {
         employeeStore.loadEmployees();
@@ -36,7 +36,7 @@ const UsersList = () => {
             ]}
             rows={employeeStore.employees.map(e => [
                 e.id,
-                `${e.name} ${e.surname}`,
+                `${e.name} ${e.surname} ${e.id === userStore.user?.id ? '(You)' : ''}`,
                 e.email,
             ])}
             onDeleteConfirmation={onUserDeleteConfirmation}

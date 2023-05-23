@@ -10,7 +10,7 @@ namespace OrganStorage.BL.Services;
 
 public interface ITenantService
 {
-    Task<Result<Tenant>> CreateTenantAsync(TenantFormValues model);
+    Task<Result<CreateTenantDto>> CreateTenantAsync(TenantFormValues model);
     Result<Tenant> UpdateTenant(TenantFormValues model);
     Task AddUserToTenantAsync(User user, Tenant tenant);
 }
@@ -23,14 +23,16 @@ public class TenantService : ITenantService
     private readonly AppDbContext _context;
     private readonly IEnvironmentProvider _environmentProvider;
     private readonly IGenericValidator _genericValidator;
+	private readonly ITokenBuilder _tokenBuilder;
 
-    public TenantService(
+	public TenantService(
         UserManager<User> userManager,
         IServiceProvider serviceProvider,
         IMapper mapper,
         AppDbContext context,
         IEnvironmentProvider environmentProvider,
-        IGenericValidator genericValidator)
+        IGenericValidator genericValidator,
+		ITokenBuilder tokenBuilder)
     {
         _userManager = userManager;
         _serviceProvider = serviceProvider;
@@ -38,9 +40,10 @@ public class TenantService : ITenantService
         _context = context;
         _environmentProvider = environmentProvider;
         _genericValidator = genericValidator;
+        _tokenBuilder = tokenBuilder;
     }
 
-    public async Task<Result<Tenant>> CreateTenantAsync(TenantFormValues model)
+    public async Task<Result<CreateTenantDto>> CreateTenantAsync(TenantFormValues model)
     {
         var validationResult = await _genericValidator.ValidateAsync(model);
         if (!validationResult.IsValid)
@@ -55,21 +58,23 @@ public class TenantService : ITenantService
 
         var tenant = _mapper.Map<Tenant>(model);
 
-        // todo: check if tenant.Id is set
         _context.Tenants.Add(tenant);
         _context.SaveChanges();
 
         EnvironmentSetter.SetTenant(tenant, _serviceProvider);
 
-        await AddUserToTenantAsync(_environmentProvider.User, tenant);
+		User user = _environmentProvider.User;
+		await AddUserToTenantAsync(user, tenant);
 
-        return tenant;
+        return new CreateTenantDto()
+        {
+            Tenant = tenant,
+            Token = await _tokenBuilder.GenerateJwtTokenAsync(user, tenant)
+	    };
     }
 
     public Result<Tenant> UpdateTenant(TenantFormValues model)
     {
-        // imagine validation here
-
         var tenant = _environmentProvider.Tenant;
         if (tenant == null)
         {

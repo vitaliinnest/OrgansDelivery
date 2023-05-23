@@ -127,11 +127,12 @@ public class AuthService : IAuthService
         var token = HttpUtility.UrlDecode(encodedToken).ToBase64Decoded();
 
         var user = _userManager.FindByIdIgnoreQueryFilters(userId);
-        var result = await _userManager.ConfirmEmailAsync(user, token);
-        if (!result.Succeeded)
+        try
         {
-            return Result.Fail(result.ErrorsToString());
-        }
+            await _userManager.ConfirmEmailAsync(user, token);
+        } catch (Exception)
+        {
+		}
 
         return _mapper.Map<RegisterResponse>(user);
     }

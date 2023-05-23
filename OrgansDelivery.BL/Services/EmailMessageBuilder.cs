@@ -21,18 +21,14 @@ public class EmailMessageBuilder : IEmailMessageBuilder
 {
     private readonly IConfiguration _configuration;
     private readonly SmtpSettings _smtpSetting;
-    private readonly IEnvironmentProvider _environmentProvider;
 
     public EmailMessageBuilder(
         IConfiguration configuration,
-        IOptions<SmtpSettings> smtpSetting,
-		IEnvironmentProvider environmentProvider
+        IOptions<SmtpSettings> smtpSetting
 		)
     {
         _configuration = configuration;
         _smtpSetting = smtpSetting.Value;
-		_environmentProvider = environmentProvider;
-
 	}
 
     public MailMessage BuildEmailConfirmationMessage(User user, string emailConfirmationToken)
@@ -59,6 +55,6 @@ public class EmailMessageBuilder : IEmailMessageBuilder
     private string BuildEmailConfirmationLink(User user, string emailConfirmationToken)
     {
         var encodedToken = HttpUtility.UrlEncode(emailConfirmationToken.ToBase64Encoded());
-        return $"{_configuration["EmailConfirmationUrl"]}?userId={user.Id}&encodedToken={encodedToken}";
+        return $"{_configuration["EmailConfirmationUrl"]}?userId={user.Id}&token={encodedToken}";
     }
 }

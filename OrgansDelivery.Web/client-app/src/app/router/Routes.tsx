@@ -19,7 +19,6 @@ import RequireUnauthozed from "./RequireUnauthozed";
 
 export const routes: RouteObject[] = [
     {
-        path: "/",
         element: <App />,
         children: [
             {

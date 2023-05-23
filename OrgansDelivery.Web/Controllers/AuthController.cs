@@ -38,9 +38,9 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("confirmEmail")]
-    public async Task<ActionResult<RegisterResponse>> ConfirmEmail(Guid userId, string encodedToken)
+    public async Task<ActionResult<RegisterResponse>> ConfirmEmail(Guid userId, string token)
     {
-        var response = await _authService.ConfirmEmailAsync(userId, encodedToken);
+        var response = await _authService.ConfirmEmailAsync(userId, token);
         return this.ToActionResult(response);
     }
 }

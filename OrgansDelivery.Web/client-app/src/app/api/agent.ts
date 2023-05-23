@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { User, Login, Register, UpdateUser } from "../models/user";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
-import { TenantFormValues, Tenant } from "../models/tenant";
+import { TenantFormValues, Tenant, CreateTenant } from "../models/tenant";
 import { OrganFormValues, Organ } from "../models/organ";
 import { Container, ContainerFormValues } from "../models/container";
 import { Conditions, ConditionsFormValues } from "../models/conditions";
@@ -105,7 +105,7 @@ const UserActions = {
 const TenantActions = {
     getTenant: () => requests.get<Tenant>("/tenant"),
     createTenant: (tenant: TenantFormValues) =>
-        requests.post<Tenant>("/tenant", tenant),
+        requests.post<CreateTenant>("/tenant", tenant),
     updateTenant: (tenant: TenantFormValues) =>
         requests.put<Tenant>("/tenant", tenant),
 };

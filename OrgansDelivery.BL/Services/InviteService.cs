@@ -28,6 +28,7 @@ public class InviteService : IInviteService
     private readonly IGenericValidator _genericValidator;
     private readonly UserManager<User> _userManager;
     private readonly ITenantRepository _tenantRepository;
+    private readonly IEnvironmentProvider _environmentProvider;
 
     public InviteService(
         AppDbContext appDbContext,
@@ -36,7 +37,8 @@ public class InviteService : IInviteService
         IEmailService emailService,
         IGenericValidator genericValidator,
         UserManager<User> userManager,
-        ITenantRepository tenantRepository)
+        ITenantRepository tenantRepository,
+        IEnvironmentProvider environmentProvider)
     {
         _appDbContext = appDbContext;
         _tenantService = tenantService;
@@ -45,7 +47,8 @@ public class InviteService : IInviteService
         _genericValidator = genericValidator;
         _userManager = userManager;
         _tenantRepository = tenantRepository;
-    }
+        _environmentProvider = environmentProvider;
+	}
 
     public async Task<Result<Invite>> InviteUserAsync(InviteFormValues model)
     {
@@ -111,7 +114,8 @@ public class InviteService : IInviteService
 
     private Result DeleteInvite(Invite invite)
     {
-        var exists = _appDbContext.Invites.Any(i => i.Id == invite.Id);
+        var exists = _appDbContext.Invites.IgnoreQueryFilters()
+            .Any(i => i.Id == invite.Id);
         if (!exists)
         {
             return Result.Fail("Invite not found");

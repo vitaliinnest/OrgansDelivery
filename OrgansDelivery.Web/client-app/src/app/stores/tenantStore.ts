@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { TenantFormValues, Tenant } from "../models/tenant";
+import { store } from "./store";
 
 export default class TenantStore {
     tenant: Tenant | null = null;
@@ -29,7 +30,8 @@ export default class TenantStore {
     createTenant = async (tenant: TenantFormValues) => {
         try {
             runInAction(() => this.isLoading = true);
-            const created = await agent.TenantActions.createTenant(tenant);
+            const { tenant: created, token } = await agent.TenantActions.createTenant(tenant);
+            store.commonStore.setToken(token);
             runInAction(() => (this.tenant = created));
         } catch (error) {
             console.log(error);
