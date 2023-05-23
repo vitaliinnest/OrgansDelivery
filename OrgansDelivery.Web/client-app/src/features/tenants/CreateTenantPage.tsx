@@ -16,6 +16,7 @@ import { TenantFormValues } from "../../app/models/tenant";
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { useTranslation } from "react-i18next";
+import { router } from "../../app/router/Routes";
 
 const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -51,7 +52,11 @@ const CreateTenantPage = () => {
             </Typography>
             <Formik
                 initialValues={initialValues}
-                onSubmit={(tenant) => tenantStore.createTenant(tenant)}
+                onSubmit={(tenant) => {
+                    tenantStore.createTenant(tenant).then(() => {
+                        router.navigate('/organs');
+                    });
+                }}
                 validationSchema={validationSchema}
             >
                 {({

@@ -9,7 +9,8 @@
         "tenantDetails": "Tenant Details",
         "invites": "Invites",
         "profile": "Profile",
-        "logout": "Logout"
+        "logout": "Logout",
+        "tenantUpdated": "Tenant updated successfully"
     },
     "lists": {
         "add": "Add",

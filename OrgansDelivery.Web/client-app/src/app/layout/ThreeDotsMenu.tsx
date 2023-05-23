@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { NavigationMenuOption } from "./NavBar";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../stores/store";
+import UpdateTenantModal from "../../features/tenants/UpdateTenantModal";
 
 const ThreeDotsMenu = () => {
     const { t } = useTranslation('translation', { keyPrefix: 'navbar' });
@@ -27,7 +28,9 @@ const ThreeDotsMenu = () => {
     };
     
     const onTenantDetailsClick = () => {
-
+        modalStore.openModal(
+            <UpdateTenantModal />
+        )
     }
 
     const threeDotsMenuOptions: NavigationMenuOption[] = [

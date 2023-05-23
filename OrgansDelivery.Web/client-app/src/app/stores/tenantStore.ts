@@ -1,6 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { router } from "../router/Routes";
 import { TenantFormValues, Tenant } from "../models/tenant";
 
 export default class TenantStore {
@@ -32,11 +31,22 @@ export default class TenantStore {
             runInAction(() => this.isLoading = true);
             const created = await agent.TenantActions.createTenant(tenant);
             runInAction(() => (this.tenant = created));
-            router.navigate('/organs');
         } catch (error) {
-            throw error;
+            console.log(error);
         } finally {
             runInAction(() => this.isLoading = false);
         }
     };
+
+    updateTenant = async (tenant: TenantFormValues) => {
+        try {
+            runInAction(() => this.isLoading = true);
+            const updated = await agent.TenantActions.updateTenant(tenant);
+            runInAction(() => (this.tenant = updated));
+        } catch (error) {
+            console.log(error);
+        } finally {
+            runInAction(() => this.isLoading = false);
+        }
+    }
 }

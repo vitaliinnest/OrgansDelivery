@@ -9,7 +9,8 @@
         "users": "Користувачі",
         "invites": "Запрошення",
         "profile": "Профіль",
-        "logout": "Вийти"
+        "logout": "Вийти",
+        "tenantUpdated": "Тенант Оновлено"
     },
     "lists": {
         "add": "Додати",

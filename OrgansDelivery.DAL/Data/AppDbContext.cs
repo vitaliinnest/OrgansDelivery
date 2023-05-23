@@ -13,7 +13,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     public readonly bool AdminMode;
     public readonly Guid TenantId;
     //private readonly ILogger<AppDbContext> _logger;
-
+    
 	public AppDbContext(IEnvironmentProvider environmentProvider, DbContextOptions options) : base(options)
     {
 		AdminMode = environmentProvider.User?.Id == Consts.Consts.ADMIN_ID;

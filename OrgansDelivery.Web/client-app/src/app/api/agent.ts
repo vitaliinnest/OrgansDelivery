@@ -105,6 +105,8 @@ const TenantActions = {
     getTenant: () => requests.get<Tenant>("/tenant"),
     createTenant: (tenant: TenantFormValues) =>
         requests.post<Tenant>("/tenant", tenant),
+    updateTenant: (tenant: TenantFormValues) =>
+        requests.put<Tenant>("/tenant", tenant),
 };
 
 const InviteActions = {
