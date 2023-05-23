@@ -4,7 +4,7 @@ using System.Net.Mail;
 using System.Web;
 using OrganStorage.BL.Extensions;
 using OrganStorage.BL.Consts;
-using OrganStorage.DAL.Enums;
+
 using OrganStorage.DAL.Entities;
 using OrganStorage.BL.Models.Options;
 using OrganStorage.DAL.Services;
@@ -38,40 +38,23 @@ public class EmailMessageBuilder : IEmailMessageBuilder
     public MailMessage BuildEmailConfirmationMessage(User user, string emailConfirmationToken)
     {
         var confirmationLink = BuildEmailConfirmationLink(user, emailConfirmationToken);
-
-        return user.Language switch
-        {
-            Language.Ukrainian => new MailMessage(
-                from: _smtpSetting.Sender,
-                to: user.Email,
-                subject: $"{MetadataConsts.COMPANY_NAME}: підтвердіть вашу електронну адресу",
-                body: $"Перейдіть за цим посиланням для підтвердження вашої електронної адреси:\n" +
-                    $"{confirmationLink}"),
-            Language.English or _ => new MailMessage(
+        return new MailMessage(
                 from: _smtpSetting.Sender,
                 to: user.Email,
                 subject: $"{MetadataConsts.COMPANY_NAME}: confirm your email",
                 body: $"Please click on this link to confirm your email address:\n" +
-                    $"{confirmationLink}"),
-        };
+                    $"{confirmationLink}");
     }
 
     public MailMessage BuildInviteMessage(Invite invite)
     {
-        return _environmentProvider.User.Language switch
-        {
-            Language.Ukrainian => new MailMessage(
-                from: _smtpSetting.Sender,
-                to: invite.Email,
-                subject: $"{MetadataConsts.COMPANY_NAME}: запрошення",
-                body: $"Код запрошення: <b>{invite.InviteCode}</b>"),
-            Language.English or _ => new MailMessage(
+        return new MailMessage(
                 from: _smtpSetting.Sender,
                 to: invite.Email,
                 subject: $"{MetadataConsts.COMPANY_NAME}: invitation",
-                body: $"Invite code: <b>{invite.InviteCode}</b>"),
-        };
-    }
+                body: $"Invite code: <b>{invite.InviteCode}</b>");
+
+	}
 
     private string BuildEmailConfirmationLink(User user, string emailConfirmationToken)
     {

@@ -1,6 +1,4 @@
-﻿using OrganStorage.DAL.Enums;
-
-namespace OrganStorage.BL.Models;
+﻿namespace OrganStorage.BL.Models;
 
 public class InviteFormValues
 {

@@ -1,4 +1,4 @@
-﻿using OrganStorage.DAL.Enums;
+﻿
 
 namespace OrganStorage.BL.Models.Auth;
 
@@ -9,6 +9,5 @@ public class RegisterRequest
     public string Email { get; set; }
     public string Password { get; set; }
     public string RepeatPassword { get; set; }
-    public Language Language { get; set; }
     public Guid? InviteCode { get; set; }
 }

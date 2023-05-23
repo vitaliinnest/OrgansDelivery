@@ -1,4 +1,4 @@
-﻿using OrganStorage.DAL.Enums;
+﻿
 
 namespace OrganStorage.DAL.Entities;
 
@@ -8,6 +8,5 @@ public class EmployeeDto
 	public string Name { get; set; }
 	public string Surname { get; set; }
 	public string Email { get; set; }
-	public Language Language { get; set; }
 	public RoleDto Role { get; set; }
 }

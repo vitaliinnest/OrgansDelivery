@@ -1,5 +1,4 @@
-﻿using OrganStorage.DAL.Enums;
-
+﻿
 namespace OrganStorage.BL.Models.Auth;
 
 public class LoginResponse
@@ -8,7 +7,6 @@ public class LoginResponse
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Email { get; set; }
-    public Language Language { get; set; }
     public Guid? RoleId { get; set; }
     public string RoleName { get; set; }
     public string Token { get; set; }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using OrganStorage.DAL.Enums;
 using OrganStorage.DAL.Interfaces;
 
 namespace OrganStorage.DAL.Entities;
@@ -9,14 +8,12 @@ public class User : IdentityUser<Guid>, IMustHaveTenant
     public Guid TenantId { get; set; }
     public string Name { get; set; }
     public string Surname { get; set; }
-    public Language Language { get; set; }
 }
 
 public class UserFormValues
 {
     public string Name { get; set; }
     public string Surname { get; set; }
-    public Language Language { get; set; }
 }
 
 public class UserDto
@@ -24,7 +21,6 @@ public class UserDto
     public Guid Id { get; set; }
     public string Name { get; set; }
     public string Surname { get; set; }
-    public Language Language { get; set; }
     public Tenant Tenant { get; set; }
     public RoleDto Role { get; set; }
 }

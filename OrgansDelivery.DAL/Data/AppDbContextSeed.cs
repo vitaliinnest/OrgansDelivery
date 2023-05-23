@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Consts;
 using OrganStorage.DAL.Entities;
-using OrganStorage.DAL.Enums;
+
 
 namespace OrganStorage.DAL.Data;
 
@@ -46,7 +46,6 @@ public static class AppDbContextSeed
                 Email = "CharlesHuber@medtronic.com",
                 NormalizedEmail = "CharlesHuber@medtronic.com".ToUpper(),
                 EmailConfirmed = true,
-                Language = Language.English,
                 PasswordHash = passwordHasher.HashPassword(user: null, "CharlesHuber123"),
             },
             new()
@@ -58,7 +57,6 @@ public static class AppDbContextSeed
                 Email = "ReganLewis@medtronic.com",
                 NormalizedEmail = "ReganLewis@medtronic.com".ToUpper(),
                 EmailConfirmed = true,
-                Language = Language.English,
                 PasswordHash = passwordHasher.HashPassword(user: null, "ReganLewis123"),
             },
             new()
@@ -69,7 +67,6 @@ public static class AppDbContextSeed
                 Surname = "Blake",
                 Email = "AndresBlake@bostoncorp.com",
                 NormalizedEmail = "AndresBlake@bostoncorp.com".ToUpper(),
-                Language = Language.English,
                 PasswordHash = passwordHasher.HashPassword(user: null, "AndresBlake123"),
             },
             new()
@@ -80,7 +77,6 @@ public static class AppDbContextSeed
                 Email = "JavonSpencer@data.com",
                 NormalizedEmail = "JavonSpencer@data.com".ToUpper(),
                 EmailConfirmed = true,
-                Language = Language.English,
                 PasswordHash = passwordHasher.HashPassword(user: null, "JavonSpencer123"),
             }
         );
