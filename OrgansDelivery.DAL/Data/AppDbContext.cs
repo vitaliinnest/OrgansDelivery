@@ -160,7 +160,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
             }
         }
     }
-
+    
     private void AddTenantQueryFilter(ModelBuilder builder)
     {
         var mustHaveTenantTypes = builder.Model.GetEntityTypes()

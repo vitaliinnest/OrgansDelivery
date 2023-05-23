@@ -44,7 +44,7 @@ const DevicesList = () => {
     if (deviceStore.isLoading) {
         return <LoadingBackdrop />;
     }
-
+    
     return (
         <EntitiesTable
             tableTitle={t('entitiesName')}
@@ -63,7 +63,7 @@ const DevicesList = () => {
                     id: "interval",
                     disablePadding: false,
                     label: t("interval"),
-                }
+                },
             ]}
             rows={deviceStore.devices.map((d) => [
                 d.id,
