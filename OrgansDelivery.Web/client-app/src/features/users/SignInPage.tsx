@@ -128,7 +128,7 @@ const SignInPage = () => {
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <Link variant="body2" component={RouterLink} to="/sign-up">
-                                    {t('signUpQuestion')}
+                                    {t('signInQuestion')}
                                 </Link>
                             </Grid>
                         </Grid>
