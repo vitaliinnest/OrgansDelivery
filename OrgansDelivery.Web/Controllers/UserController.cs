@@ -26,7 +26,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UserFormValues model)
+    public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UpdateUser model)
     {
         var result = await _userService.UpdateUser(model);
         return this.ToActionResult(result);

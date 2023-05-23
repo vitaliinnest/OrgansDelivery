@@ -3,7 +3,6 @@ import { IEntity } from "./common";
 export interface User extends IEntity {
     name: string;
     surname: string;
-    language: string; // todo: enum?
     token: string;
 }
 
@@ -21,7 +20,6 @@ export interface Register {
 }
 
 export interface UpdateUser {
-    name: string
-    surname: string
-    language: string
+    name: string;
+    surname: string;
 }

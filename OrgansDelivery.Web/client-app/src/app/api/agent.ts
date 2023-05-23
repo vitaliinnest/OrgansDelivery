@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { User, Login, Register } from "../models/user";
+import { User, Login, Register, UpdateUser } from "../models/user";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
 import { TenantFormValues, Tenant } from "../models/tenant";
@@ -99,6 +99,7 @@ const UserActions = {
             {}
         ),
     current: () => requests.get<User>("/user"),
+    update: (update: UpdateUser) => requests.put<User>("/user", update),
 };
 
 const TenantActions = {

@@ -19,7 +19,7 @@ public class MappingProfiles : Profile
         CreateMap<User, RegisterResponse>();
         CreateMap<User, UserDto>();
         CreateMap<User, EmployeeDto>();
-        CreateMap<UserFormValues, User>();
+        CreateMap<UpdateUser, User>();
 
         // Tenant
         CreateMap<TenantFormValues, Tenant>();

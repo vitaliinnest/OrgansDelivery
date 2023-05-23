@@ -30,7 +30,7 @@ const ThreeDotsMenu = () => {
     const onTenantDetailsClick = () => {
         modalStore.openModal(
             <UpdateTenantModal />
-        )
+        );
     }
 
     const threeDotsMenuOptions: NavigationMenuOption[] = [

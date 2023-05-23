@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -17,6 +12,7 @@ import { useStore } from "../stores/store";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThreeDotsMenu from "./ThreeDotsMenu";
 import { useTranslation } from "react-i18next";
+import ProfileMenu from "./ProfileMenu";
 
 type MenuOption = {
     title: string;
@@ -27,12 +23,14 @@ export type NavigationMenuOption = MenuOption & {
     onClick?: () => void;
 };
 
-type ActionMenuOption = MenuOption & {
+export type ActionMenuOption = MenuOption & {
     onClick: () => void;
 };
 
 const NavBar = () => {
     const { t } = useTranslation("translation", { keyPrefix: "navbar" });
+    const { userStore, tenantStore } = useStore();
+    const navigate = useNavigate();
 
     const mainOptions: NavigationMenuOption[] = [
         {
@@ -50,31 +48,6 @@ const NavBar = () => {
         {
             title: t("devices"),
             path: "/devices",
-        },
-    ];
-
-    const [accountMenuAnchorEl, setAccountMenuAnchorEl] =
-        useState<null | HTMLElement>(null);
-    const { userStore, tenantStore } = useStore();
-
-    const onAccountMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAccountMenuAnchorEl(event.currentTarget);
-    };
-
-    const onAccountMenuClose = () => {
-        setAccountMenuAnchorEl(null);
-    };
-
-    const navigate = useNavigate();
-
-    const profileOptions: ActionMenuOption[] = [
-        {
-            title: t("profile"),
-            onClick: () => navigate("/profile"),
-        },
-        {
-            title: t("logout"),
-            onClick: () => userStore.logout(),
         },
     ];
 
@@ -123,7 +96,7 @@ const NavBar = () => {
                                     }}
                                     onClick={() => {
                                         if (page.path) {
-                                            navigate(page.path)
+                                            navigate(page.path);
                                         } else {
                                             page.onClick?.();
                                         }
@@ -144,43 +117,7 @@ const NavBar = () => {
                         <ThreeDotsMenu />
                     )}
                     {userStore.isLoggedIn && (
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title={t("profile")}>
-                                <IconButton onClick={onAccountMenuClick}>
-                                    <Avatar />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                anchorEl={accountMenuAnchorEl}
-                                sx={{ mt: "45px" }}
-                                id="menu-appbar"
-                                anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                open={Boolean(accountMenuAnchorEl)}
-                                onClose={onAccountMenuClose}
-                            >
-                                {profileOptions.map((option) => (
-                                    <MenuItem
-                                        key={option.title}
-                                        onClick={() => {
-                                            option.onClick();
-                                            onAccountMenuClose();
-                                        }}
-                                    >
-                                        <Typography textAlign="center">
-                                            {option.title}
-                                        </Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
+                        <ProfileMenu />
                     )}
                 </Toolbar>
             </Container>

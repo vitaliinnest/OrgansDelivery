@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useStore } from '../../app/stores/store';
-import TenantModal from './OrganModal';
+import TenantModal from './TenantModal';
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 

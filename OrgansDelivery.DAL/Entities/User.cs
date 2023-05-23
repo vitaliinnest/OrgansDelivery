@@ -10,7 +10,7 @@ public class User : IdentityUser<Guid>, IMustHaveTenant
     public string Surname { get; set; }
 }
 
-public class UserFormValues
+public class UpdateUser
 {
     public string Name { get; set; }
     public string Surname { get; set; }

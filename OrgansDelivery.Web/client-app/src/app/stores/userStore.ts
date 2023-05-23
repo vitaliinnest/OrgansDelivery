@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { router } from "../router/Routes";
 import { store } from "./store";
-import { Login, Register, User } from "../models/user";
+import { Login, Register, UpdateUser, User } from "../models/user";
 
 export default class UserStore {
     user: User | null = null;
@@ -43,7 +43,6 @@ export default class UserStore {
     logout = () => {
         store.commonStore.setToken(null);
         this.user = null;
-        router.navigate("/sign-in");
     };
 
     getUser = async () => {
@@ -51,6 +50,18 @@ export default class UserStore {
             runInAction(() => (this.isLoading = true));
             const user = await agent.UserActions.current();
             runInAction(() => (this.user = user));
+        } catch (error) {
+            console.log(error);
+        } finally {
+            runInAction(() => (this.isLoading = false));
+        }
+    };
+
+    updateUser = async (user: UpdateUser) => {
+        try {
+            runInAction(() => (this.isLoading = true));
+            const updated = await agent.UserActions.update(user);
+            runInAction(() => (this.user = updated));
         } catch (error) {
             console.log(error);
         } finally {

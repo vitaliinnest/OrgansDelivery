@@ -10,7 +10,8 @@
         "invites": "Запрошення",
         "profile": "Профіль",
         "logout": "Вийти",
-        "tenantUpdated": "Тенант Оновлено"
+        "tenantUpdated": "Тенант Оновлено",
+        "profileUpdated": "Профіль Оновлено"
     },
     "lists": {
         "add": "Додати",
