@@ -57,6 +57,8 @@ public class OrganService : IOrganService
 
         _context.Add(organ);
         _context.SaveChanges();
+		var conditions = _context.Conditions.FirstOrDefault(c => c.Id == organ.ConditionsId);
+		organ.Conditions = conditions;
 
         return _mapper.Map<OrganDto>(organ);
     }

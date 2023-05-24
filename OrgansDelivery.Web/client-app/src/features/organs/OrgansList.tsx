@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { useStore } from "../../app/stores/store";
 import LoadingBackdrop from "../../app/layout/LoadingBackdrop";
 import { observer } from "mobx-react-lite";
-import EntitiesTable from "../../app/layout/EntitiesTable";
+import EntitiesTable, { Row } from "../../app/layout/EntitiesTable";
 import { router } from "../../app/router/Routes";
 import AddOrganModal from "./AddOrganModal";
 import UpdateOrganModal from "./UpdateOrganModal";
@@ -56,7 +56,9 @@ const OrgansList = () => {
     };
 
     const onOrganDeleteConfirmation = (organId: string) => {
-        organStore.deleteOrgan(organId);
+        organStore.deleteOrgan(organId).then(() => {
+            containerStore.loadContainers();
+        });
     }
 
     if (
@@ -66,6 +68,15 @@ const OrgansList = () => {
     ) {
         return <LoadingBackdrop />;
     }
+
+    const rows: Row[] = organStore.organs.map(o => [
+        o.id,
+        o.name,
+        o.description,
+        o.organCreationDate.toString(),
+        o.container.name,
+        o.conditions.name,
+    ]);
 
     return (
         <EntitiesTable
@@ -97,14 +108,7 @@ const OrgansList = () => {
                     label: t("conditionsName"),
                 }
             ]}
-            rows={organStore.organs.map(o => [
-                o.id,
-                o.name,
-                o.description,
-                o.organCreationDate.toString(),
-                o.container.name,
-                o.conditions.name,
-            ])}
+            rows={rows}
             onClick={onOrganClick}
             onCreate={onOrganCreate}
             onUpdate={onOrganUpdate}
