@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 const UpdateTenantModal = () => {
     const { modalStore, tenantStore } = useStore();
-    const { t } = useTranslation('translation', { keyPrefix: "navbar" });
+    const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     if (!tenantStore.tenant) {
         return null;
@@ -20,7 +20,7 @@ const UpdateTenantModal = () => {
             onSubmit={(values) => {
                 tenantStore.updateTenant(values).then(() => {
                     modalStore.closeModal();
-                    toast.success(t('tenantUpdated'));
+                    toast.success(t('updated'));
                 })
             }}
         />

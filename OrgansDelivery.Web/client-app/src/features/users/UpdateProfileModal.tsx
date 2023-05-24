@@ -7,7 +7,7 @@ import ProfileModal from "./ProfileModal";
 
 const UpdateProfileModal = () => {
     const { modalStore, userStore } = useStore();
-    const { t } = useTranslation('translation', { keyPrefix: "navbar" });
+    const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     if (!userStore.user) {
         return null;
@@ -20,7 +20,7 @@ const UpdateProfileModal = () => {
             onSubmit={(values) => {
                 userStore.updateUser(values).then(() => {
                     modalStore.closeModal();
-                    toast.success(t('profileUpdated'));
+                    toast.success(t('updated'));
                 })
             }}
         />

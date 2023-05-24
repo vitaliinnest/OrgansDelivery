@@ -9,9 +9,7 @@
         "users": "Користувачі",
         "invites": "Запрошення",
         "profile": "Профіль",
-        "logout": "Вийти",
-        "tenantUpdated": "Тенант Оновлено",
-        "profileUpdated": "Профіль Оновлено"
+        "logout": "Вийти"
     },
     "lists": {
         "add": "Додати",
@@ -35,7 +33,13 @@
         "conditions": {
             "entitiesName": "Умови",
             "conditionsName": "Назва Умов",
-            "description": "Опис"
+            "description": "Опис",
+            "humidity": "Вологість",
+            "light": "Світло",
+            "temperature": "Температура",
+            "orientation": "Орієнтація",
+            "expected": "Очікуване Значення",
+            "allowedDeviation": "Допустиме Відхилення"
         },
         "devices": {
             "entitiesName": "Пристрої",
@@ -79,7 +83,6 @@
         "recordDate": "Час Запису",
         "humidity": "Вологість",
         "light": "Світло",
-        "lightUnitShort": "лм",
         "temperature": "Температура",
         "orientation": "Орієнтація",
         "violations": "Порушення Умов",
@@ -106,5 +109,12 @@
         "create": "Створити",
         "add": "Додати",
         "update": "Оновити"
+    },
+    "toast": {
+        "updated": "Оновлено",
+        "added": "Додано",
+        "created": "Створено",
+        "deleted": "Видалено",
+        "invited": "Запрошено"
     }
 }

@@ -35,7 +35,7 @@ const OrientationConditionField = (props: Props) => {
         onChange({
             ...condition,
             allowedDeviation: {
-                ...condition.expectedValue,
+                ...condition.allowedDeviation,
                 x: Number(e.target.value)
             },
         });
@@ -45,7 +45,7 @@ const OrientationConditionField = (props: Props) => {
         onChange({
             ...condition,
             allowedDeviation: {
-                ...condition.expectedValue,
+                ...condition.allowedDeviation,
                 y: Number(e.target.value)
             },
         });

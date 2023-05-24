@@ -8,6 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../stores/store";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 type Props = {
     onConfirm: (confirmed: boolean) => void;
@@ -16,7 +17,7 @@ type Props = {
 const AlertDialog = (props: Props) => {
     const { onConfirm } = props;
     const { modalStore } = useStore();
-    const { t } = useTranslation('translation', { keyPrefix: 'deleteDialog' });
+    const { t } = useTranslation('translation');
 
     return (
         <div>
@@ -26,10 +27,10 @@ const AlertDialog = (props: Props) => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{t('title')}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{t('deleteDialog.title')}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        {t('content')}
+                        {t('deleteDialog.content')}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions sx={{ pr: 3, pb: 2 }} >
@@ -39,17 +40,18 @@ const AlertDialog = (props: Props) => {
                             modalStore.closeModal();
                         }}
                     >
-                        {t('cancel')}
+                        {t('deleteDialog.cancel')}
                     </Button>
                     <Button
                         color="error"
                         onClick={() => {
                             onConfirm(true);
                             modalStore.closeModal();
+                            toast.success(t('toast.deleted'));
                         }}
                         variant="contained"
                     >
-                        {t('delete')}
+                        {t('deleteDialog.delete')}
                     </Button>
                 </DialogActions>
             </Dialog>

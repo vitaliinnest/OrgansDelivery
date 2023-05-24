@@ -4,6 +4,8 @@ import { useStore } from "../../app/stores/store";
 import ContainerModal from "./ContainerModal";
 import { Device } from "../../app/models/device";
 import { Container } from "../../app/models/container";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     container: Container;
@@ -13,6 +15,7 @@ type Props = {
 const UpdateContainerModal = (props: Props) => {
     const { container, devices } = props;
     const { containerStore,  modalStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
         <ContainerModal
@@ -23,8 +26,10 @@ const UpdateContainerModal = (props: Props) => {
             action="Update"
             devices={devices}
             onSubmit={(values) => {
-                containerStore.updateContainer(container.id, values)
-                    .then(modalStore.closeModal);
+                containerStore.updateContainer(container.id, values).then(() => {
+                    modalStore.closeModal();
+                    toast.success(t('updated'));
+                });
             }}            
         />
     );

@@ -9,9 +9,7 @@
         "tenantDetails": "Tenant Details",
         "invites": "Invites",
         "profile": "Profile",
-        "logout": "Logout",
-        "tenantUpdated": "Tenant updated successfully",
-        "profileUpdated": "Profile updated successfully"
+        "logout": "Logout"
     },
     "lists": {
         "add": "Add",
@@ -35,7 +33,13 @@
         "conditions": {
             "entitiesName": "Conditions",
             "conditionsName": "Conditions Name",
-            "description": "Description"
+            "description": "Description",
+            "humidity": "Humidity",
+            "light": "Light",
+            "temperature": "Temperature",
+            "orientation": "Orientation",
+            "expected": "Expected Value",
+            "allowedDeviation": "Allowed Deviation"
         },
         "devices": {
             "entitiesName": "Devices",
@@ -105,5 +109,12 @@
         "create": "Create",
         "add": "Add",
         "update": "Update"
+    },
+    "toast": {
+        "updated": "Updated",
+        "added": "Added",
+        "created": "Created",
+        "deleted": "Deleted",
+        "invited": "Invited"
     }
 }

@@ -80,13 +80,11 @@ const ViolationsList = (props: Props) => {
 
 export default observer(ViolationsList);
 
-// todo: add background color to violated cells
 const numberComparedResultToString = (result: ComparedResult<number>) => {
     const { actual, expectedValue, allowedDeviation } = result;
     return `${actual} / ${expectedValue} / ${allowedDeviation}`;
 }
 
-// todo: add background color to violated cells
 const orientationComparedResultToString = (result: ComparedResult<Orientation>) => {
     const { actual, expectedValue, allowedDeviation } = result;
     return `${orientationToString(actual)} / ${orientationToString(expectedValue)} / ${orientationToString(allowedDeviation)}`;

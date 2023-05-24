@@ -1,9 +1,12 @@
 import { observer } from "mobx-react-lite";
 import ConditionsModal from "./ConditionsModal";
 import { useStore } from "../../app/stores/store";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const AddConditionsModal = () => {
     const { conditionsStore, modalStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
         <ConditionsModal
@@ -29,8 +32,10 @@ const AddConditionsModal = () => {
             }}
             action="Add"
             onSubmit={(conditions) => {
-                conditionsStore.createCondition(conditions)
-                    .then(modalStore.closeModal);
+                conditionsStore.createCondition(conditions).then(() => {
+                    modalStore.closeModal();
+                    toast.success(t('added'));
+                });
             }}
         />
     );

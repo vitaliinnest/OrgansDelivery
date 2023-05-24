@@ -7,6 +7,9 @@ import EntitiesTable from "../../app/layout/EntitiesTable";
 import AddConditionsModal from "./AddConditionsModal";
 import UpdateConditionsModal from "./UpdateConditionsModal";
 import { useTranslation } from "react-i18next";
+import { orientationToString } from "../records/RecordsList";
+import { Condition, Orientation } from "../../app/models/conditions";
+import { unitByValueNameMap } from "../../app/util/common";
 
 const ConditionsList = () => {
     const { modalStore, conditionsStore } = useStore();
@@ -47,7 +50,7 @@ const ConditionsList = () => {
 
     return (
         <EntitiesTable
-            tableTitle={t('entitiesName')}
+            tableTitle={`${t('entitiesName')} (${t('expected')} / ${t('allowedDeviation')})`}
             headCells={[
                 {
                     id: "name",
@@ -59,11 +62,35 @@ const ConditionsList = () => {
                     disablePadding: false,
                     label: t("description"),
                 },
+                {
+                    id: "temperature",
+                    disablePadding: false,
+                    label: `${t('temperature')}, ${unitByValueNameMap['temperature']}`,
+                },
+                {
+                    id: "humidity",
+                    disablePadding: false,
+                    label: `${t("humidity")}, ${unitByValueNameMap['humidity']}`,
+                },
+                {
+                    id: "light",
+                    disablePadding: false,
+                    label: `${t("light")}, ${unitByValueNameMap['light']}`,
+                },
+                {
+                    id: "orientation",
+                    disablePadding: false,
+                    label: `${t("orientation")}, ${unitByValueNameMap['orientation']}`,
+                }
             ]}
             rows={conditionsStore.conditions.map((c) => [
                 c.id,
                 c.name,
                 c.description,
+                numberConditionToString(c.temperature),
+                numberConditionToString(c.humidity),
+                numberConditionToString(c.light),
+                orientationConditionToString(c.orientation),
             ])}
             onClick={onConditionsUpdate}
             onCreate={onConditionsCreate}
@@ -74,3 +101,13 @@ const ConditionsList = () => {
 };
 
 export default observer(ConditionsList);
+
+const numberConditionToString = (result: Condition<number>) => {
+    const { expectedValue, allowedDeviation } = result;
+    return `${expectedValue} / ${allowedDeviation}`;
+}
+
+const orientationConditionToString = (result: Condition<Orientation>) => {
+    const { expectedValue, allowedDeviation } = result;
+    return `${orientationToString(expectedValue)} / ${orientationToString(allowedDeviation)}`;
+}

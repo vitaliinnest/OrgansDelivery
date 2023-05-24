@@ -2,6 +2,8 @@ import { observer } from "mobx-react-lite";
 import ConditionsModal from "./ConditionsModal";
 import { useStore } from "../../app/stores/store";
 import { Conditions } from "../../app/models/conditions";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     conditions: Conditions;
@@ -10,6 +12,7 @@ type Props = {
 const UpdateConditionsModal = (props: Props) => {
     const { conditions } = props;
     const { conditionsStore, modalStore } = useStore();
+    const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
         <ConditionsModal
@@ -17,7 +20,10 @@ const UpdateConditionsModal = (props: Props) => {
             action="Update"
             onSubmit={(values) => {
                 conditionsStore.updateConditions(conditions.id, values)
-                    .then(modalStore.closeModal);
+                    .then(() => {
+                        modalStore.closeModal();
+                        toast.success(t('updated'));
+                    });
             }}
         />
     );
