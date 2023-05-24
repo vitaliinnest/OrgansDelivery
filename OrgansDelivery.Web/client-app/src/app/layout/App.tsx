@@ -48,6 +48,7 @@ const App = () => {
                     position="bottom-right"
                     hideProgressBar
                     theme="colored"
+                    autoClose={2000}
                 />
                 <>
                     <NavBar />
