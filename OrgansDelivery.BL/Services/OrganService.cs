@@ -48,6 +48,12 @@ public class OrganService : IOrganService
             return validationResult;
         }
 
+		var container = _context.Containers.FirstOrDefault(c => c.Id == model.ContainerId);
+		if (container.Organ != null)
+		{
+			return Result.Fail("Container already contains an organ");
+		}
+
 		if (_context.Organs.Any(p => p.Name.ToLower() == model.Name.ToLower()))
 		{
 			return Result.Fail("Organ with given name already exists");
@@ -84,10 +90,13 @@ public class OrganService : IOrganService
 
 		var updatedOrgan = _mapper.Map(model, findResult.Value);
 
-        _context.Update(updatedOrgan);
+		_context.Update(updatedOrgan);
         _context.SaveChanges();
-        
-        return _mapper.Map<OrganDto>(updatedOrgan);
+
+		var conditions = _context.Conditions.FirstOrDefault(c => c.Id == updatedOrgan.ConditionsId);
+		updatedOrgan.Conditions = conditions;
+
+		return _mapper.Map<OrganDto>(updatedOrgan);
     }
 
     public Result DeleteOrgan(Guid organId)
@@ -133,11 +142,6 @@ public class OrganService : IOrganService
 		if (container == null)
 		{
 			return Result.Fail("Container not found");
-		}
-
-		if (container.Organ != null)
-		{
-			return Result.Fail("Container already contains an organ");
 		}
 
 		return Result.Ok();

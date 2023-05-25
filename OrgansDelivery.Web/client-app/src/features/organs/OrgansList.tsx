@@ -23,7 +23,7 @@ const OrgansList = () => {
     }
 
     const unusedContainers = useMemo(
-        () => containerStore.containers.filter(c => c.organ === undefined),
+        () => containerStore.containers.filter(c => !c.organ),
         [containerStore.containers]);
 
     const onOrganCreate = () => {
@@ -73,7 +73,7 @@ const OrgansList = () => {
         o.id,
         o.name,
         o.description,
-        o.organCreationDate.toString(),
+        o.organCreationDate.toLocaleString(),
         o.container.name,
         o.conditions.name,
     ]);
