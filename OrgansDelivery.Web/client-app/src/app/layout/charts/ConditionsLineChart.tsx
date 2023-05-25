@@ -52,7 +52,7 @@ const ConditionsLineChart = (props: Props) => {
     return (
         <LineChart
             width={800}
-            height={380}
+            height={400}
             data={data}
             margin={{ top: 40, right: 20, bottom: 50, left: 40 }}
         >
