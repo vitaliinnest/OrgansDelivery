@@ -6,13 +6,13 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
 import { useStore } from "../stores/store";
 import { useTranslation } from "react-i18next";
 import { ActionMenuOption } from "./NavBar";
 import { observer } from "mobx-react-lite";
 import UpdateProfileModal from "../../features/users/UpdateProfileModal";
 import { router } from "../router/Routes";
+import LoadingBackdrop from "./LoadingBackdrop";
 
 const ProfileMenu = () => {
     const { t } = useTranslation("translation", { keyPrefix: "navbar" });
@@ -50,6 +50,10 @@ const ProfileMenu = () => {
 
     if (!userStore.user) {
         return null;
+    }
+
+    if (userStore.isLoading) {
+        return <LoadingBackdrop />;
     }
 
     return (

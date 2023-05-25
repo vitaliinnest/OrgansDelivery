@@ -60,6 +60,7 @@ export default class UserStore {
     updateUser = async (user: UpdateUser) => {
         try {
             runInAction(() => (this.isLoading = true));
+            store.modalStore.closeModal();
             const updated = await agent.UserActions.update(user);
             runInAction(() => (this.user = updated));
         } catch (error) {
