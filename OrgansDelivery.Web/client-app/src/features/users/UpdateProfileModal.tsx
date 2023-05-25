@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import ProfileModal from "./ProfileModal";
 
 const UpdateProfileModal = () => {
-    const { modalStore, userStore } = useStore();
+    const { userStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     if (!userStore.user) {
@@ -19,7 +19,6 @@ const UpdateProfileModal = () => {
             action="Update"
             onSubmit={(values) => {
                 userStore.updateUser(values).then(() => {
-                    modalStore.closeModal();
                     toast.success(t('updated'));
                 })
             }}

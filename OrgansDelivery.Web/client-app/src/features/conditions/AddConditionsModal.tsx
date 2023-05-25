@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 const AddConditionsModal = () => {
-    const { conditionsStore, modalStore } = useStore();
+    const { conditionsStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
@@ -32,8 +32,7 @@ const AddConditionsModal = () => {
             }}
             action="Add"
             onSubmit={(conditions) => {
-                conditionsStore.createCondition(conditions).then(() => {
-                    modalStore.closeModal();
+                conditionsStore.createConditions(conditions).then(() => {
                     toast.success(t('added'));
                 });
             }}

@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { InviteFormValues, Invite } from "../models/invite";
 import agent from "../api/agent";
+import { store } from "./store";
 
 export default class InviteStore {
     invites: Invite[] = [];
@@ -25,6 +26,7 @@ export default class InviteStore {
     createInvite = async (invite: InviteFormValues) => {
         try {
             runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
             const created = await agent.InviteActions.createInvite(invite);
             runInAction(() => this.invites.push(created));
         } catch (error) {
@@ -37,6 +39,7 @@ export default class InviteStore {
     deleteInvite = async (inviteId: string) => {
         try {
             runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
             await agent.InviteActions.deleteInvite(inviteId);
             runInAction(() => {
                 this.invites = this.invites.filter((e) => e.id !== inviteId);

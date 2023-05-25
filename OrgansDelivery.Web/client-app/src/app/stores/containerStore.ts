@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Container, ContainerFormValues } from "../models/container";
+import { store } from "./store";
 
 export default class ContainerStore {
     containers: Container[] = [];
@@ -28,12 +29,9 @@ export default class ContainerStore {
 
     createContainer = async (container: ContainerFormValues) => {
         try {
-            runInAction(() => {
-                this.isLoading = true;
-            });
-            const created = await agent.ContainerActions.createContainer(
-                container
-            );
+            runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
+            const created = await agent.ContainerActions.createContainer(container);
             runInAction(() => this.containers.push(created));
         } catch (error) {
             console.log(error);
@@ -46,9 +44,8 @@ export default class ContainerStore {
 
     updateContainer = async (containerId: string, update: ContainerFormValues) => {
         try {
-            runInAction(() => {
-                this.isLoading = true;
-            });
+            runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
             const updated = await agent.ContainerActions.updateContainer(containerId, update);
             runInAction(() => {
                 this.containers = this.containers.map((c) =>

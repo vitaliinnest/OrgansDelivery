@@ -16,7 +16,7 @@ type Props = {
 
 const UpdateOrganModal = (props: Props) => {
     const { organ, containers, conditions } = props;
-    const { organStore, modalStore } = useStore();
+    const { organStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
@@ -33,7 +33,6 @@ const UpdateOrganModal = (props: Props) => {
             conditions={conditions}
             onSubmit={(values) => {
                 organStore.updateOrgan(organ.id, values).then(() => {
-                    modalStore.closeModal();
                     toast.success(t('updated'));
                 });
             }}

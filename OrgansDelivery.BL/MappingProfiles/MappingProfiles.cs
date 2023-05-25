@@ -144,7 +144,9 @@ public class MappingProfiles : Profile
                         Name= src.Container.Name,
                         Description = src.Container.Description,
                         DeviceId = src.Id,
-                        OrganId = src.Container.Organ.Id,
+                        OrganId = src.Container.Organ != null
+                            ? src.Container.Organ.Id
+                            : Guid.Empty,
                     }
                     : null));
 

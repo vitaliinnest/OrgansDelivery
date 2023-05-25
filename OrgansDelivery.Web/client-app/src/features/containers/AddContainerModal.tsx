@@ -12,7 +12,7 @@ type Props = {
 
 const AddContainerModal = (props: Props) => {
     const { devices } = props;
-    const { containerStore, modalStore } = useStore();
+    const { containerStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
@@ -26,7 +26,6 @@ const AddContainerModal = (props: Props) => {
             devices={devices}
             onSubmit={(container) => {
                 containerStore.createContainer(container).then(() => {
-                    modalStore.closeModal();
                     toast.success(t('added'));
                 });
             }}            

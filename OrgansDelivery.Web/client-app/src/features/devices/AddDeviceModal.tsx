@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
 const AddOrganModal = () => {
-    const { deviceStore, modalStore } = useStore();
+    const { deviceStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
     
     return (
@@ -19,7 +19,6 @@ const AddOrganModal = () => {
             action="Add"
             onSubmit={(device) => {
                 deviceStore.addDevice(device).then(() => {
-                    modalStore.closeModal();
                     toast.success(t('added'));
                 });
             }}

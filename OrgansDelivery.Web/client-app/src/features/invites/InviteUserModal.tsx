@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
 const InviteUserModal = () => {
-    const { inviteStore, modalStore } = useStore();
+    const { inviteStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
@@ -17,7 +17,6 @@ const InviteUserModal = () => {
             action="Create"
             onSubmit={(invite) => {
                 inviteStore.createInvite(invite).then(() => {
-                    modalStore.closeModal();
                     toast.success(t('invited'));
                 });
             }}            

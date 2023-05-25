@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 
 const UpdateTenantModal = () => {
-    const { modalStore, tenantStore } = useStore();
+    const { tenantStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     if (!tenantStore.tenant) {
@@ -19,7 +19,6 @@ const UpdateTenantModal = () => {
             action="Update"
             onSubmit={(values) => {
                 tenantStore.updateTenant(values).then(() => {
-                    modalStore.closeModal();
                     toast.success(t('updated'));
                 })
             }}

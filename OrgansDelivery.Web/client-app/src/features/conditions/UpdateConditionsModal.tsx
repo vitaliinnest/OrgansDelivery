@@ -11,7 +11,7 @@ type Props = {
 
 const UpdateConditionsModal = (props: Props) => {
     const { conditions } = props;
-    const { conditionsStore, modalStore } = useStore();
+    const { conditionsStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
@@ -21,7 +21,6 @@ const UpdateConditionsModal = (props: Props) => {
             onSubmit={(values) => {
                 conditionsStore.updateConditions(conditions.id, values)
                     .then(() => {
-                        modalStore.closeModal();
                         toast.success(t('updated'));
                     });
             }}

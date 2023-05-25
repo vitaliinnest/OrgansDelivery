@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { Device, DeviceFormValues } from "../models/device";
 import agent from "../api/agent";
+import { store } from "./store";
 
 export default class DeviceStore {
     devices: Device[] = [];
@@ -30,9 +31,8 @@ export default class DeviceStore {
 
     addDevice = async (device: DeviceFormValues) => {
         try {
-            runInAction(() => {
-                this.isLoading = true;
-            });
+            runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
             const created = await agent.DeviceActions.addDevice(device);
             runInAction(() => this.devices.push(created));
         } catch (error) {
@@ -49,6 +49,7 @@ export default class DeviceStore {
             runInAction(() => {
                 this.isLoading = true;
             });
+            store.modalStore.closeModal();
             const updated = await agent.DeviceActions.updateDevice(
                 deviceId,
                 update
@@ -73,6 +74,7 @@ export default class DeviceStore {
             runInAction(() => {
                 this.isLoading = true;
             });
+            store.modalStore.closeModal();
             await agent.ConditionsActions.deleteConditions(deviceId);
             runInAction(() => {
                 this.devices = this.devices.filter((d) => d.id !== deviceId);

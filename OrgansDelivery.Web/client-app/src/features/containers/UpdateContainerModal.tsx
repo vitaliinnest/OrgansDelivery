@@ -14,7 +14,7 @@ type Props = {
 
 const UpdateContainerModal = (props: Props) => {
     const { container, devices } = props;
-    const { containerStore,  modalStore } = useStore();
+    const { containerStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
@@ -27,7 +27,6 @@ const UpdateContainerModal = (props: Props) => {
             devices={devices}
             onSubmit={(values) => {
                 containerStore.updateContainer(container.id, values).then(() => {
-                    modalStore.closeModal();
                     toast.success(t('updated'));
                 });
             }}            

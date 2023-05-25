@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { Conditions, ConditionsFormValues } from "../models/conditions";
 import agent from "../api/agent";
+import { store } from "./store";
 
 export default class ConditionsStore {
     conditions: Conditions[] = [];
@@ -22,9 +23,10 @@ export default class ConditionsStore {
         }
     };
 
-    createCondition = async (conditions: ConditionsFormValues) => {
+    createConditions = async (conditions: ConditionsFormValues) => {
         try {
             runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
             const created = await agent.ConditionsActions.createConditions(
                 conditions
             );
@@ -38,9 +40,8 @@ export default class ConditionsStore {
 
     updateConditions = async (conditionsId: string, update: ConditionsFormValues) => {
         try {
-            runInAction(() => {
-                this.isLoading = true;
-            });
+            runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
             const updated = await agent.ConditionsActions.updateConditions(conditionsId, update);
             runInAction(() => {
                 this.conditions = this.conditions.map((c) =>
@@ -60,6 +61,7 @@ export default class ConditionsStore {
     deleteConditions = async (conditionsId: string) => {
         try {
             runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
             await agent.ConditionsActions.deleteConditions(conditionsId);
             runInAction(() => {
                 this.conditions = this.conditions.filter(

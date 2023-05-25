@@ -14,7 +14,7 @@ type Props = {
 
 const AddOrganModal = (props: Props) => {
     const { containers, conditions } = props;
-    const { organStore, modalStore } = useStore();
+    const { organStore } = useStore();
     const { t } = useTranslation('translation', { keyPrefix: "toast" });
 
     return (
@@ -31,7 +31,6 @@ const AddOrganModal = (props: Props) => {
             containers={containers}
             onSubmit={(organ) => {
                 organStore.createOrgan(organ).then(() => {
-                    modalStore.closeModal()
                     toast.success(t('added'));
                 });
             }}            

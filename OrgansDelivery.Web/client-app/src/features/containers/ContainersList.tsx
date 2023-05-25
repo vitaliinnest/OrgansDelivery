@@ -18,7 +18,7 @@ const ContainersList = () => {
     }, [containerStore, deviceStore]);
 
     const unusedDevices = useMemo(
-        () => deviceStore.devices.filter(d => d.container === undefined),
+        () => deviceStore.devices.filter(d => !d.container),
         [deviceStore.devices]);
 
     const onContainerCreate = () => {

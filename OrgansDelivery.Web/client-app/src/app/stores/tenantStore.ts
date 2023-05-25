@@ -43,6 +43,7 @@ export default class TenantStore {
     updateTenant = async (tenant: TenantFormValues) => {
         try {
             runInAction(() => this.isLoading = true);
+            store.modalStore.closeModal();
             const updated = await agent.TenantActions.updateTenant(tenant);
             runInAction(() => (this.tenant = updated));
         } catch (error) {
