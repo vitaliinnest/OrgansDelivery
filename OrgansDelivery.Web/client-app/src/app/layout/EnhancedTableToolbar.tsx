@@ -76,12 +76,12 @@ const EnhancedTableToolbar = (props: Props) => {
             )}
             {selected.length === 1 && (
                 <>
-                    {onUpdateSelected && <Tooltip title={t('update')}>
+                    {onUpdate && <Tooltip title={t('update')}>
                         <IconButton onClick={onUpdateSelected}>
                             <EditIcon />
                         </IconButton>
                     </Tooltip>}
-                    {onDeleteSelected && <Tooltip title={t("delete")}>
+                    {onDelete && <Tooltip title={t("delete")}>
                         <IconButton onClick={onDeleteSelected}>
                             <DeleteIcon />
                         </IconButton>
