@@ -74,7 +74,7 @@ struct conditions_record
 
 struct device_configuration
 {
-    int interval_ms = 8000; // 8 sec
+    int interval_ms = 4000; // 4 sec
     
     json to_json()
     {

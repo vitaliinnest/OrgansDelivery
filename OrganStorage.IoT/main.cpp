@@ -11,7 +11,7 @@
 using namespace std;
 
 const string SERVER_ADDRESS{ "tcp://localhost:1883" };
-const string DEVICE_ID{ "d0909a8e-0b1b-4abc-a7f7-7913bdd310a6" };
+const string DEVICE_ID{ "52f71534-d1cd-4b38-9ee7-e57a4b5b6137" };
 
 const string CONDITIONS_RECORD_TOPIC{ "conditions_record" };
 const string CONFIGURE_DEVICE_TOPIC{ "configure_device/" + DEVICE_ID };

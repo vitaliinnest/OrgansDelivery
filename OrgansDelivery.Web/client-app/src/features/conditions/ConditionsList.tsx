@@ -102,12 +102,12 @@ const ConditionsList = () => {
 
 export default observer(ConditionsList);
 
-const numberConditionToString = (result: Condition<number>) => {
+export const numberConditionToString = (result: Condition<number>) => {
     const { expectedValue, allowedDeviation } = result;
     return `${expectedValue} / ${allowedDeviation}`;
 }
 
-const orientationConditionToString = (result: Condition<Orientation>) => {
+export const orientationConditionToString = (result: Condition<Orientation>) => {
     const { expectedValue, allowedDeviation } = result;
     return `${orientationToString(expectedValue)} / ${orientationToString(allowedDeviation)}`;
 }

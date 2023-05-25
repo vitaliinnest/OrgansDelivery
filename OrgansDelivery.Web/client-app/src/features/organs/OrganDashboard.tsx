@@ -14,13 +14,15 @@ import {
     ConditionsRecord,
     ConditionsViolation,
 } from "../../app/models/conditionsRecord";
-import { Divider, capitalize } from "@mui/material";
+import { Divider } from "@mui/material";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import RecordsList from "../records/RecordsList";
 import ViolationsList from "../records/ViolationsList";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
+import { numberConditionToString, orientationConditionToString } from "../conditions/ConditionsList";
+import { unitByValueNameMap } from "../../app/util/common";
 
 type Props = {
     organ: Organ;
@@ -183,9 +185,31 @@ const OrganInfoCard = (props: OrganInfoCardProps) => {
             <Typography variant="h6" mt={1} mb={1}>
                 {t('containerName')}: {organ.container.name}
             </Typography>
-            <Divider />
+            <Divider textAlign="left">
+            <Typography variant="h6">{t('conditions')}</Typography>
+            </Divider>
             <Typography variant="h6" mt={1} mb={1}>
                 {t('conditionsName')}: {organ.conditions.name}
+            </Typography>
+            <Divider />
+            <Typography variant="h6" mt={1} mb={1}>
+                {t('conditionsDescription')}: {organ.conditions.description}
+            </Typography>
+            <Divider />
+            <Typography variant="h6" mt={1} mb={1}>
+                {t('conditionsHumidity')}: {numberConditionToString(organ.conditions.humidity)} {unitByValueNameMap['humidity']}
+            </Typography>
+            <Divider />
+            <Typography variant="h6" mt={1} mb={1}>
+                {t('conditionsTemperature')}: {numberConditionToString(organ.conditions.temperature)} {unitByValueNameMap['temperature']}
+            </Typography>
+            <Divider />
+            <Typography variant="h6" mt={1} mb={1}>
+                {t('conditionsLight')}: {numberConditionToString(organ.conditions.light)} {unitByValueNameMap['light']}
+            </Typography>
+            <Divider />
+            <Typography variant="h6" mt={1} mb={1}>
+                {t('conditionsOrientation')}: {orientationConditionToString(organ.conditions.orientation)} {unitByValueNameMap['orientation']}
             </Typography>
         </Paper>
     );

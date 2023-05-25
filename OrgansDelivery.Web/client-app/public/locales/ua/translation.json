@@ -95,7 +95,13 @@
             "description": "Опис",
             "creationDate": "Дата створення",
             "containerName": "Назва Контейнера",
-            "conditionsName": "Назва Умов"
+            "conditionsName": "Назва Умов",
+            "conditions": "Умови",
+            "conditionsDescription": "Опис",
+            "conditionsHumidity": "Вологість",
+            "conditionsLight": "Світло",
+            "conditionsTemperature": "Температура",
+            "conditionsOrientation": "Орієнтація"
         }
     },
     "deleteDialog": {

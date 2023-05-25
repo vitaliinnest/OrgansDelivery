@@ -95,7 +95,13 @@
             "description": "Description",
             "creationDate": "Creation Date",
             "containerName": "Container Name",
-            "conditionsName": "Conditions Name"
+            "conditionsName": "Conditions Name",
+            "conditions": "Conditions",
+            "conditionsDescription": "Description",
+            "conditionsHumidity": "Humidity",
+            "conditionsLight": "Light",
+            "conditionsTemperature": "Temperature",
+            "conditionsOrientation": "Orientation"
         }
     },
     "deleteDialog": {
