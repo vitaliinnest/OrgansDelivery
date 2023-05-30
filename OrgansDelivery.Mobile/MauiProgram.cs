@@ -3,6 +3,7 @@ using OrgansDelivery.Mobile.Options;
 using OrgansDelivery.Mobile.Services;
 
 namespace OrgansDelivery.Mobile;
+
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()

@@ -1,8 +1,6 @@
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Services;
-using OrganStorage.DAL.Entities;
 using OrganStorage.DAL.Consts;
 
 var builder = WebApplication.CreateBuilder(args);
