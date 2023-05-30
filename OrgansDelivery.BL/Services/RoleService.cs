@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using OrganStorage.BL.Models.Auth;
 using OrganStorage.DAL.Consts;
 using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Entities.Auth;
 
 namespace OrganStorage.BL.Services;
 

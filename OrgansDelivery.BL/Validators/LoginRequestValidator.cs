@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using OrganStorage.BL.Extensions;
-using OrganStorage.BL.Models.Auth;
 using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Entities.Auth;
 
 namespace OrganStorage.BL.Validators;
 

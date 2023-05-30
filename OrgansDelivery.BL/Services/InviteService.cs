@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OrganStorage.BL.Extensions;
 using OrganStorage.BL.Models;
-using OrganStorage.BL.Models.Auth;
 using OrganStorage.DAL.Data;
 using OrganStorage.DAL.Entities;
+using OrganStorage.DAL.Entities.Auth;
 using OrganStorage.DAL.Services;
 
 namespace OrganStorage.BL.Services;
