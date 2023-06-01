@@ -16,7 +16,7 @@ public class AuthService : IAuthService
 	public AuthService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.AppendToBaseUrl("/auth");
+		_apiService.SetPathPrefix("/auth");
 	}
 
 	public async Task<LoginResponse> LoginAsync(LoginRequest login)

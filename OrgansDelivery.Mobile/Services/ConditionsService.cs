@@ -18,7 +18,7 @@ public class ConditionsService : IConditionsService
 	public ConditionsService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.AppendToBaseUrl("/conditions");
+		_apiService.SetPathPrefix("/conditions");
 	}
 
 	public async Task<List<ConditionsDto>> GetConditionsAsync()

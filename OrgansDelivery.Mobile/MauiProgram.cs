@@ -40,12 +40,20 @@ public static class MauiProgram
 		// Views
 		builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddSingleton<LoginPage>();
+		builder.Services.AddSingleton<RegisterPage>();
 		builder.Services.AddSingleton<LoadingPage>();
+		builder.Services.AddSingleton<OrgansListPage>();
+		builder.Services.AddTransient<OrganDetailsPage>();
+		//builder.Services.AddSingleton<ContainersListPage>();
+		//builder.Services.AddSingleton<ConditionsListPage>();
+		//builder.Services.AddSingleton<DevicesListPage>();
 
 		// ViewModels
-		builder.Services.AddSingleton<OrgansViewModel>();
-		builder.Services.AddSingleton<LoginViewModel>();
 		builder.Services.AddSingleton<LoadingViewModel>();
+		builder.Services.AddSingleton<LoginViewModel>();
+		builder.Services.AddSingleton<RegisterViewModel>();
+		builder.Services.AddSingleton<OrgansViewModel>();
+		builder.Services.AddSingleton<OrganDetailsViewModel>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

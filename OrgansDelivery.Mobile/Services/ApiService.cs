@@ -17,19 +17,17 @@ public interface IApiService
 	Task<T> PutAsync<T>(object payload);
 	Task<T> PutAsync<T>(string endpoint, object payload);
 	Task DeleteAsync(string endpoint);
-	void AppendToBaseUrl(string path);
+	void SetPathPrefix(string path);
 }
 
 public class ApiService : IApiService
 {
 	private readonly HttpClient _httpClient;
-	private readonly ApiSettings _apiSettings;
+	private string _pathPrefix;
 
 	public ApiService(
 		IOptions<ApiSettings> apiSettings)
 	{
-		_apiSettings = apiSettings.Value;
-
 		var handler = new HttpClientHandler()
 		{
 			ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
@@ -41,9 +39,9 @@ public class ApiService : IApiService
 		};
 	}
 
-	public void AppendToBaseUrl(string path)
+	public void SetPathPrefix(string prefix)
 	{
-		_httpClient.BaseAddress = new Uri(_apiSettings.BaseUrl + path);
+		_pathPrefix = prefix;
 	}
 
 	public async Task<T> GetAsync<T>()
@@ -107,7 +105,7 @@ public class ApiService : IApiService
 
 	private string BuildPath(string endpoint)
 	{
-		return _httpClient.BaseAddress.AbsolutePath + endpoint;
+		return _httpClient.BaseAddress.AbsolutePath + _pathPrefix + endpoint;
 	}
 
 	private static StringContent BuildJsonContent(object payload)

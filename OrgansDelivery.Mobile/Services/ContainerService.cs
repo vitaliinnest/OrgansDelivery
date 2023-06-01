@@ -17,7 +17,7 @@ public class ContainerService : IContainerService
 	public ContainerService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.AppendToBaseUrl("/container");
+		_apiService.SetPathPrefix("/container");
 	}
 
 	public async Task<List<ContainerDto>> GetContainersAsync()

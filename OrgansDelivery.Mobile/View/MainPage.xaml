@@ -1,99 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="OrgansDelivery.Mobile.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:model="clr-namespace:OrganStorage.DAL.Entities;assembly=OrganStorage.DAL"
-    xmlns:viewmodel="clr-namespace:OrgansDelivery.Mobile.ViewModel"
-    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-    xmlns:loc="clr-namespace:OrgansDelivery.Mobile.Resources.Locales"
-    ios:Page.UseSafeArea="True"
-    Title="Organ Storage"
-    x:DataType="viewmodel:OrgansViewModel">
-    <Grid
-        ColumnDefinitions="*,*"
-        ColumnSpacing="5"
-        RowDefinitions="*,Auto"
-        RowSpacing="0">
-        <RefreshView
-            Grid.ColumnSpan="2"
-            Command="{Binding GetOrgansCommand}"
-            IsRefreshing="{Binding IsRefreshing}">
-            <ContentView>
-                <CollectionView
-                    ItemsSource="{Binding Organs}"
-                    SelectionMode="None">
-                    <!--<CollectionView.EmptyView>
-                        <StackLayout Padding="100">
-                            <Image
-                                HorizontalOptions="Center"
-                                Source="nodata.png"
-                                HeightRequest="160"
-                                WidthRequest="160"
-                                VerticalOptions="Center" />
-                        </StackLayout>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout  Orientation="Horizontal" Span="3"/>
-                    </CollectionView.ItemsLayout>-->
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:OrganDto">
-                            <Grid Padding="10">
-                                <Frame HeightRequest="125" Style="{StaticResource CardView}">
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer 
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:OrgansViewModel}}, Path=GoToDetailsCommand}"
-                                            CommandParameter="{Binding .}"/>
-                                    </Frame.GestureRecognizers>
-                                    <Grid Padding="0" ColumnDefinitions="125,*">
-                                        <!--<Image
-                                            Aspect="AspectFill"
-                                            HeightRequest="125"
-                                            Source="{Binding Image}"
-                                            WidthRequest="125" />-->
-                                        <VerticalStackLayout
-                                            Grid.Column="1"
-                                            VerticalOptions="Center"
-                                            Padding="10">
-                                            <Label Style="{StaticResource LargeLabel}" Text="{Binding Name}" />
-                                            <Label Style="{StaticResource MediumLabel}" Text="{Binding Description}" />
-                                        </VerticalStackLayout>
-                                    </Grid>
-                                </Frame>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </ContentView>
-        </RefreshView>
+    Shell.NavBarIsVisible="False"
+    xmlns:handlers="clr-namespace:OrgansDelivery.Mobile.Handlers"
+    x:Class="OrgansDelivery.Mobile.MainPage">
 
-        <Button
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="8"
-            Command="{Binding GetOrgansCommand}"
-            IsEnabled="{Binding IsNotBusy}"
-            Style="{StaticResource ButtonOutline}"
-            Text="Get Monkeys" />
+    <VerticalStackLayout 
+            Spacing="25" 
+            Padding="30,0" 
+            VerticalOptions="Center">
 
-        <!--  Add this  -->
-        <Button
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="8"
-            Command="{Binding GetOrgansCommand}"
-            IsEnabled="{Binding IsNotBusy}"
-            Style="{StaticResource ButtonOutline}"
-            Text="Find Closest (to remove)" />
-
-
-        <ActivityIndicator
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="2"
-            HorizontalOptions="Fill"
-            IsRunning="{Binding IsBusy}"
-            IsVisible="{Binding IsBusy}"
-            Color="{StaticResource Primary}"
-            VerticalOptions="Center" />
-    </Grid>
+    </VerticalStackLayout>
 </ContentPage>

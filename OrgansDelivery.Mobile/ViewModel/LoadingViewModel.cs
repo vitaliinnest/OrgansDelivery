@@ -1,4 +1,5 @@
 ﻿using OrgansDelivery.Mobile.Consts;
+using OrgansDelivery.Mobile.Services;
 using OrgansDelivery.Mobile.View;
 
 namespace OrgansDelivery.Mobile.ViewModel;
@@ -20,7 +21,7 @@ public class LoadingViewModel
 		}
 		else
 		{
-			await Shell.Current.DisplayAlert("Logged in!", "Press OK to continue", "OK");
+			FlyoutService.AddFlyoutMenusDetails();
 			await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
 		}
 	}

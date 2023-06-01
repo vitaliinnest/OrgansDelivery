@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MonkeyFinder.ViewModel;
 using OrgansDelivery.Mobile.Services;
+using OrgansDelivery.Mobile.View;
 using System.Diagnostics;
 
 namespace OrgansDelivery.Mobile.ViewModel;
@@ -9,10 +9,10 @@ namespace OrgansDelivery.Mobile.ViewModel;
 public partial class LoginViewModel : BaseViewModel
 {
 	[ObservableProperty]
-	string email;
+	string email = "vitalii.nesterenko@nure.ua";
 
 	[ObservableProperty]
-	string password;
+	string password = "blahblahbsomepassword123456";
 
 	private readonly IAuthService _authService;
 	private readonly IConnectivity _connectivity;
@@ -46,6 +46,9 @@ public partial class LoginViewModel : BaseViewModel
 				Email = Email,
 				Password = Password
 			});
+
+			FlyoutService.AddFlyoutMenusDetails();
+			await Shell.Current.GoToAsync($"//{nameof(OrgansListPage)}");
 		}
 		catch (Exception ex)
 		{
@@ -56,5 +59,11 @@ public partial class LoginViewModel : BaseViewModel
 		{
 			IsBusy = false;
 		}
+	}
+
+	[RelayCommand]
+	async Task GoToSingUp()
+	{
+		await Shell.Current.GoToAsync(nameof(RegisterPage), animate: true);
 	}
 }

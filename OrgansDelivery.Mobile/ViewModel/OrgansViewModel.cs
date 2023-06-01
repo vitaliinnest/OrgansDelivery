@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MonkeyFinder.ViewModel;
 using OrgansDelivery.Mobile.Services;
+using OrgansDelivery.Mobile.View;
 using OrganStorage.DAL.Entities;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -56,6 +56,20 @@ public partial class OrgansViewModel : BaseViewModel
 			IsBusy = false;
 			IsRefreshing = false;
 		}
+	}
+
+	[RelayCommand]
+	async Task GoToOrganDetails(Organ organ)
+	{
+		if (organ == null)
+		{
+			return;
+		}
+
+		await Shell.Current.GoToAsync(nameof(OrganDetailsPage), animate: true, new Dictionary<string, object>
+		{
+			{ "Organ", organ }
+		});
 	}
 
 	private async Task GetOrgansAsyncImpl()
