@@ -15,19 +15,25 @@ public partial class OrgansViewModel : BaseViewModel
 	
 	[ObservableProperty]
 	bool isRefreshing;
+
+	[ObservableProperty]
+	string search;
 	
+
 	public OrgansViewModel(
 		IOrganService organService,
 		IConnectivity connectivity)
 	{
 		_organService = organService;
 		_connectivity = connectivity;
+
+		Task.Run(GetOrgans);
 	}
 
-	public ObservableCollection<OrganDto> Organs { get; set; }
+	public ObservableCollection<OrganDto> Organs { get; set; } = new();
 
 	[RelayCommand]
-	async Task GetOrgansAsync()
+	async Task GetOrgans()
 	{
 		if (IsBusy)
 		{
@@ -48,8 +54,7 @@ public partial class OrgansViewModel : BaseViewModel
 		}
 		catch (Exception ex)
 		{
-			Debug.WriteLine($"Unable to get monkeys: {ex.Message}");
-			await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
+			await Shell.Current.DisplayAlert("Ooops!", ex.Message, "OK");
 		}
 		finally
 		{
@@ -66,7 +71,7 @@ public partial class OrgansViewModel : BaseViewModel
 			return;
 		}
 
-		await Shell.Current.GoToAsync(nameof(OrganDetailsPage), animate: true, new Dictionary<string, object>
+		await Shell.Current.GoToAsync($"//{nameof(OrganDetailsPage)}", animate: true, new Dictionary<string, object>
 		{
 			{ "Organ", organ }
 		});
@@ -81,7 +86,11 @@ public partial class OrgansViewModel : BaseViewModel
 			Organs.Clear();
 		}
 
-		foreach (var organ in organs)
+		var filteredOrgans = organs
+			.Where(o => Search == null || (o.Name + o.Description).ToLower().Contains(Search.ToLower()))
+			.ToList();
+
+		foreach (var organ in filteredOrgans)
 		{
 			Organs.Add(organ);
 		}

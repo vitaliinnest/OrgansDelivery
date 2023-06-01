@@ -14,7 +14,7 @@
 
         <VerticalStackLayout Spacing="5">
             <Label Text="Organ Storage" FontSize="28" TextColor="Gray" HorizontalTextAlignment="Center" />
-            <Label Text="Login to your account" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
+            <Label Text="Sign In to your account" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 
         <StackLayout Orientation="Horizontal">
