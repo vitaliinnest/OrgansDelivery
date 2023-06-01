@@ -4,6 +4,7 @@ using OrgansDelivery.Mobile.Consts;
 using OrgansDelivery.Mobile.Options;
 using System.Net.Http.Headers;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 namespace OrgansDelivery.Mobile.Services;
 
@@ -23,9 +24,12 @@ public interface IApiService
 public class ApiService : IApiService
 {
 	private readonly HttpClient _httpClient;
+	private readonly ApiSettings _apiSettings;
 
-	public ApiService(IOptions<ApiSettings> apiSettings)
+	public ApiService(
+		IOptions<ApiSettings> apiSettings)
 	{
+		_apiSettings = apiSettings.Value;
 		_httpClient = new()
 		{
 			BaseAddress = new Uri(apiSettings.Value.BaseUrl)
@@ -34,7 +38,7 @@ public class ApiService : IApiService
 
 	public void SetBasePath(string basePath)
 	{
-		_httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, basePath);
+		_httpClient.BaseAddress = new Uri(new Uri(_apiSettings.BaseUrl), basePath);
 	}
 
 	public async Task<T> GetAsync<T>()
@@ -45,7 +49,7 @@ public class ApiService : IApiService
 	public async Task<T> GetAsync<T>(string endpoint)
 	{
 		await AddAuthorizationHeaderAsync();
-		
+
 		var response = await _httpClient.GetAsync(endpoint);
 
 		return DeserializeResponse<T>(response);
@@ -60,8 +64,7 @@ public class ApiService : IApiService
 	{
 		await AddAuthorizationHeaderAsync();
 		
-		var jsonPayload = JsonConvert.SerializeObject(payload);
-		var content = new StringContent(jsonPayload, Encoding.UTF8, MediaTypeConsts.ApplicationJson);
+		var content = BuildJsonContent(payload);
 		var response = await _httpClient.PostAsync(endpoint, content);
 
 		return DeserializeResponse<T>(response);
@@ -69,10 +72,10 @@ public class ApiService : IApiService
 
 	public async Task<T> PostAnonymousAsync<T>(string endpoint, object payload)
 	{
-		await AddAuthorizationHeaderAsync();
-
+		//var url = "https://jsonplaceholder.typicode.com/posts";
+		var url = _apiSettings.BaseUrl + "/api/auth/login";
 		var content = BuildJsonContent(payload);
-		var response = await _httpClient.PostAsync(endpoint, content);
+		var response = await _httpClient.PostAsync(url, content);
 
 		return DeserializeResponse<T>(response);
 	}

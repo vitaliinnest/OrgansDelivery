@@ -15,7 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OrganStorage.IoT", "OrganSt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrganStorage.Admin.Web", "OrganStorage.Admin.Web\OrganStorage.Admin.Web.csproj", "{4C9C2313-989F-43BD-84CE-7A2C68313F80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrgansDelivery.Mobile", "OrgansDelivery.Mobile\OrgansDelivery.Mobile.csproj", "{44F412C4-6845-454C-B53E-2C6F951DB7E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrgansStorage.Mobile", "OrgansDelivery.Mobile\OrgansStorage.Mobile.csproj", "{44F412C4-6845-454C-B53E-2C6F951DB7E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,11 +4,26 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:OrgansDelivery.Mobile"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"
+    xmlns:pages="clr-namespace:OrgansDelivery.Mobile.View"
+    xmlns:models="clr-namespace:OrganStorage.DAL.Entities;assembly=OrganStorage.DAL"
+    Shell.TabBarIsVisible="False"
+>
+
+
+    <ShellContent FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate pages:LoadingPage}" Route="LoadingPage" />
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Login Page" FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate pages:LoginPage}"
+        Route="LoginPage" />
+
+
+    <Shell.FlyoutFooter>
+        <StackLayout Padding="20">
+            <!--<Button Text="Sign Out" Command="{Binding SignOutCommand}" />-->
+        </StackLayout>
+    </Shell.FlyoutFooter>
 
 </Shell>
