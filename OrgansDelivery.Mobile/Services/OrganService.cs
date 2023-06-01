@@ -17,7 +17,7 @@ public class OrganService : IOrganService
 	public OrganService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.SetBasePath("/organ");
+		_apiService.AppendToBaseUrl("/organ");
 	}
 
 	public async Task<List<OrganDto>> GetOrgansAsync()

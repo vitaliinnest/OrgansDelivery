@@ -17,7 +17,7 @@ public class DeviceService : IDeviceService
 	public DeviceService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.SetBasePath("/device");
+		_apiService.AppendToBaseUrl("/device");
 	}
 
 	public async Task<List<DeviceDto>> GetDevicesAsync()

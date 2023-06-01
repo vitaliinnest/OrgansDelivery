@@ -16,12 +16,12 @@ public class AuthService : IAuthService
 	public AuthService(IApiService apiService)
 	{
 		_apiService = apiService;
-		//_apiService.SetBasePath("/auth");
+		_apiService.AppendToBaseUrl("/auth");
 	}
 
 	public async Task<LoginResponse> LoginAsync(LoginRequest login)
 	{
-		var res = await _apiService.PostAnonymousAsync<LoginResponse>("http://10.0.2.2:4000/api/auth/login", login);
+		var res = await _apiService.PostAnonymousAsync<LoginResponse>("/login", login);
 		if (res == null)
 		{
 			return null;

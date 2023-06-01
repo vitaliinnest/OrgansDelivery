@@ -15,6 +15,10 @@ public static class IRuleBuilderExtensions
         var errMessage = new StringBuilder();
         return ruleBuilder.MustAsync(async (password, _) =>
         {
+            if (password == null)
+            {
+                return false;
+            }
             foreach (var validator in userManager.PasswordValidators)
             {
                 var result = await validator.ValidateAsync(userManager, user: new(), password);

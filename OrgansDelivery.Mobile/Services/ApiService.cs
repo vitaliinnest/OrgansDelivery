@@ -4,7 +4,6 @@ using OrgansDelivery.Mobile.Consts;
 using OrgansDelivery.Mobile.Options;
 using System.Net.Http.Headers;
 using System.Text;
-using static System.Net.WebRequestMethods;
 
 namespace OrgansDelivery.Mobile.Services;
 
@@ -18,7 +17,7 @@ public interface IApiService
 	Task<T> PutAsync<T>(object payload);
 	Task<T> PutAsync<T>(string endpoint, object payload);
 	Task DeleteAsync(string endpoint);
-	void SetBasePath(string basePath);
+	void AppendToBaseUrl(string path);
 }
 
 public class ApiService : IApiService
@@ -30,15 +29,21 @@ public class ApiService : IApiService
 		IOptions<ApiSettings> apiSettings)
 	{
 		_apiSettings = apiSettings.Value;
-		_httpClient = new()
+
+		var handler = new HttpClientHandler()
+		{
+			ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+		};
+
+		_httpClient = new(handler)
 		{
 			BaseAddress = new Uri(apiSettings.Value.BaseUrl)
 		};
 	}
 
-	public void SetBasePath(string basePath)
+	public void AppendToBaseUrl(string path)
 	{
-		_httpClient.BaseAddress = new Uri(new Uri(_apiSettings.BaseUrl), basePath);
+		_httpClient.BaseAddress = new Uri(_apiSettings.BaseUrl + path);
 	}
 
 	public async Task<T> GetAsync<T>()
@@ -50,7 +55,7 @@ public class ApiService : IApiService
 	{
 		await AddAuthorizationHeaderAsync();
 
-		var response = await _httpClient.GetAsync(endpoint);
+		var response = await _httpClient.GetAsync(BuildPath(endpoint));
 
 		return DeserializeResponse<T>(response);
 	}
@@ -65,25 +70,17 @@ public class ApiService : IApiService
 		await AddAuthorizationHeaderAsync();
 		
 		var content = BuildJsonContent(payload);
-		var response = await _httpClient.PostAsync(endpoint, content);
+		var response = await _httpClient.PostAsync(BuildPath(endpoint), content);
 
 		return DeserializeResponse<T>(response);
 	}
 
 	public async Task<T> PostAnonymousAsync<T>(string endpoint, object payload)
 	{
-		//var url = "https://jsonplaceholder.typicode.com/posts";
-		var url = _apiSettings.BaseUrl + "/api/auth/login";
 		var content = BuildJsonContent(payload);
-		var response = await _httpClient.PostAsync(url, content);
+		var response = await _httpClient.PostAsync(BuildPath(endpoint), content);
 
 		return DeserializeResponse<T>(response);
-	}
-
-	private static StringContent BuildJsonContent(object payload)
-	{
-		var jsonPayload = JsonConvert.SerializeObject(payload);
-		return new StringContent(jsonPayload, Encoding.UTF8, MediaTypeConsts.ApplicationJson);
 	}
 
 	public async Task<T> PutAsync<T>(object payload)
@@ -96,7 +93,7 @@ public class ApiService : IApiService
 		await AddAuthorizationHeaderAsync();
 
 		var content = BuildJsonContent(payload);
-		var response = await _httpClient.PutAsync(endpoint, content);
+		var response = await _httpClient.PutAsync(BuildPath(endpoint), content);
 
 		return DeserializeResponse<T>(response);
 	}
@@ -105,7 +102,18 @@ public class ApiService : IApiService
 	{
 		await AddAuthorizationHeaderAsync();
 		
-		await _httpClient.DeleteAsync(endpoint);
+		await _httpClient.DeleteAsync(BuildPath(endpoint));
+	}
+
+	private string BuildPath(string endpoint)
+	{
+		return _httpClient.BaseAddress.AbsolutePath + endpoint;
+	}
+
+	private static StringContent BuildJsonContent(object payload)
+	{
+		var jsonPayload = JsonConvert.SerializeObject(payload);
+		return new StringContent(jsonPayload, Encoding.UTF8, MediaTypeConsts.ApplicationJson);
 	}
 
 	private async Task AddAuthorizationHeaderAsync()
