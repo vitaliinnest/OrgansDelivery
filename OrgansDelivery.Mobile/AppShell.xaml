@@ -18,11 +18,6 @@
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="LoginPage" />
 
-    <ShellContent
-        Title="Organs"
-        ContentTemplate="{DataTemplate pages:OrgansListPage}"
-        Route="OrgansListPage" />
-
 
     <Shell.FlyoutFooter>
         <StackLayout Padding="20">

@@ -10,6 +10,7 @@ public static class FlyoutService
 	{
 		Title = "Navigation",
 		Route = nameof(OrgansListPage),
+
 		FlyoutDisplayOptions = FlyoutDisplayOptions.AsMultipleItems,
 		Items =
 			{
@@ -22,26 +23,20 @@ public static class FlyoutService
 				new ShellContent
 				{
 					Icon = Icons.Dashboard,
-					Title = "Organs",
+					Title = "Containers",
 					ContentTemplate = new DataTemplate(typeof(OrgansListPage)),
 				},
 				new ShellContent
 				{
 					Icon = Icons.Dashboard,
-					Title = "Organs",
+					Title = "Conditions",
 					ContentTemplate = new DataTemplate(typeof(OrgansListPage)),
 				},
 				new ShellContent
 				{
 					Icon = Icons.Dashboard,
-					Title = "Organs",
+					Title = "Devices",
 					ContentTemplate = new DataTemplate(typeof(OrgansListPage)),
-				},
-				new ShellContent
-				{
-					Icon = Icons.Dashboard,
-					Title = "Organs",
-					ContentTemplate = new DataTemplate(typeof(OrgansListPage))
 				},
 			}
 	};
