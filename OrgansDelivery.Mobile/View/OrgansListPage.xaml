@@ -54,7 +54,7 @@
             Orientation="Horizontal"
             Grid.Row="5"
             WidthRequest="380"
-            Margin="8"
+            Margin="20,20,20,15"
         >
             <Frame HeightRequest="45" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                 <handlers:BorderlessEntry
