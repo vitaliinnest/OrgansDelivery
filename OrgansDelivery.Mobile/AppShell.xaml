@@ -36,15 +36,26 @@
         Route="OrgansListPage" />
 
     <ShellContent
-        Title="Containers"
-        ContentTemplate="{DataTemplate pages:ContainersListPage}"
-        Route="ContainersListPage" />
-    
-    <ShellContent
         Title="Organ Details"
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:OrganDetailsPage}"
         Route="OrganDetailsPage" />
+
+    <ShellContent
+        Title="Containers"
+        ContentTemplate="{DataTemplate pages:ContainersListPage}"
+        Route="ContainersListPage" />
+
+    <ShellContent
+        Title="Conditions"
+        ContentTemplate="{DataTemplate pages:ConditionsListPage}"
+        Route="ConditionsListPage" />
+    
+    <ShellContent
+        Title="Conditions Details"
+        FlyoutItemIsVisible="False"
+        ContentTemplate="{DataTemplate pages:ConditionsDetailsPage}"
+        Route="ConditionsDetailsPage" />
 
     <Shell.FlyoutFooter>
         <StackLayout Padding="20">

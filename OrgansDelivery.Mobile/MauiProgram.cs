@@ -45,7 +45,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton<OrgansListPage>();
 		builder.Services.AddTransient<OrganDetailsPage>();
 		builder.Services.AddSingleton<ContainersListPage>();
-		//builder.Services.AddSingleton<ConditionsListPage>();
+		builder.Services.AddSingleton<ConditionsListPage>();
+		builder.Services.AddSingleton<ConditionsDetailsPage>();
 		//builder.Services.AddSingleton<DevicesListPage>();
 
 		// ViewModels
@@ -55,6 +56,9 @@ public static class MauiProgram
 		builder.Services.AddSingleton<OrgansViewModel>();
 		builder.Services.AddSingleton<OrganDetailsViewModel>();
 		builder.Services.AddSingleton<ContainersViewModel>();
+		builder.Services.AddSingleton<ConditionsViewModel>();
+		builder.Services.AddSingleton<ConditionsDetailsViewModel>();
+		//builder.Services.AddSingleton<DevicesViewModel>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

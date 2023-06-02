@@ -22,9 +22,9 @@ public partial class ContainersViewModel : BaseViewModel
 		IConnectivity connectivity)
 	{
 		_containerService = containerService;
+		_connectivity = connectivity;
 
 		Task.Run(GetContainers);
-		_connectivity = connectivity;
 	}
 
 	public ObservableCollection<ContainerDto> Containers { get; set; } = new();
