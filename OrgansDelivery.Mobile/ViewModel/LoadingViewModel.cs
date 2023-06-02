@@ -22,7 +22,7 @@ public class LoadingViewModel
 		else
 		{
 			FlyoutService.AddFlyoutMenusDetails();
-			await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+			await Shell.Current.GoToAsync($"//{nameof(OrgansListPage)}");
 		}
 	}
 }
