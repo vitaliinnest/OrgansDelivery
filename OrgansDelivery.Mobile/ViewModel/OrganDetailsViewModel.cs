@@ -3,7 +3,7 @@ using OrganStorage.DAL.Entities;
 
 namespace OrgansDelivery.Mobile.ViewModel;
 
-[QueryProperty("Organ", "Organ")]
+[QueryProperty(nameof(Organ), "Organ")]
 public partial class OrganDetailsViewModel : BaseViewModel
 {
 	[ObservableProperty]

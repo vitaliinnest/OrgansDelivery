@@ -10,18 +10,36 @@
 >
 
 
-    <ShellContent FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
-        ContentTemplate="{DataTemplate pages:LoadingPage}" Route="LoadingPage" />
+    <ShellContent
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate pages:LoadingPage}"
+        Route="LoadingPage" />
 
     <ShellContent
-        Title="Login Page" FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
+        Title="Login Page"
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="LoginPage" />
 
     <ShellContent
-        Title="Register Page" FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
+        Title="Register Page"
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
         ContentTemplate="{DataTemplate pages:RegisterPage}"
         Route="RegisterPage" />
+
+    <ShellContent
+        Title="Organs"
+        ContentTemplate="{DataTemplate pages:OrgansListPage}"
+        Route="OrgansListPage" />
+
+    <ShellContent
+        Title="Organ Details"
+        FlyoutItemIsVisible="False"
+        ContentTemplate="{DataTemplate pages:OrganDetailsPage}"
+        Route="OrganDetailsPage" />
 
     <Shell.FlyoutFooter>
         <StackLayout Padding="20">

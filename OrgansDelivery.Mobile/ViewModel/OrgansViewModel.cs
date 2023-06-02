@@ -4,7 +4,6 @@ using OrgansDelivery.Mobile.Services;
 using OrgansDelivery.Mobile.View;
 using OrganStorage.DAL.Entities;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace OrgansDelivery.Mobile.ViewModel;
 
@@ -64,14 +63,14 @@ public partial class OrgansViewModel : BaseViewModel
 	}
 
 	[RelayCommand]
-	async Task GoToOrganDetails(Organ organ)
+	async Task GoToOrganDetails(OrganDto organ)
 	{
 		if (organ == null)
 		{
 			return;
 		}
 
-		await Shell.Current.GoToAsync($"//{nameof(OrganDetailsPage)}", animate: true, new Dictionary<string, object>
+		await Shell.Current.GoToAsync($"{nameof(OrganDetailsPage)}", animate: true, new Dictionary<string, object>
 		{
 			{ "Organ", organ }
 		});
@@ -90,9 +89,12 @@ public partial class OrgansViewModel : BaseViewModel
 			.Where(o => Search == null || (o.Name + o.Description).ToLower().Contains(Search.ToLower()))
 			.ToList();
 
-		foreach (var organ in filteredOrgans)
+		for (int i = 0; i < 10; i++)
 		{
-			Organs.Add(organ);
+			foreach (var organ in filteredOrgans)
+			{
+				Organs.Add(organ);
+			}
 		}
 	}
 }

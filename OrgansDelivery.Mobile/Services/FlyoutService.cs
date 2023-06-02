@@ -43,13 +43,6 @@ public static class FlyoutService
 
 	public static void AddFlyoutMenusDetails()
 	{
-		var t = Shell.Current.Items.Where(f => f.Route == nameof(OrgansListPage)).FirstOrDefault();
-		if (t != null)
-		{
-			Shell.Current.Items.Remove(t);
-		}
-
 		Shell.Current.FlyoutHeader = new FlyoutHeaderControl();
-		Shell.Current.Items.Add(FlyoutItem);
 	}
 }

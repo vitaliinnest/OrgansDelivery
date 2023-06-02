@@ -2,11 +2,102 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OrgansDelivery.Mobile.View.OrganDetailsPage"
-             Title="OrganDetailsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:viewmodel="clr-namespace:OrgansDelivery.Mobile.ViewModel"
+             x:DataType="viewmodel:OrganDetailsViewModel"
+             Title="{Binding Organ.Name, StringFormat='Organ: {0}'}"
+>
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto,*">
+            <VerticalStackLayout Grid.Row="2" Padding="10" Spacing="10">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    Text="Info"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Name, StringFormat='Name: {0}'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Description, StringFormat='Description: {0}'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.OrganCreationDate, StringFormat='Creation Date: {0}'}"
+                />
+
+                <Label
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"
+                    FontSize="Large"
+                    Text="Humidity"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Humidity.ExpectedValue, StringFormat='Expected: {0} %'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Humidity.AllowedDeviation, StringFormat='Allowed Deviation: {0} %'}"
+                />
+
+                <Label
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"
+                    FontSize="Large"
+                    Text="Temperature"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Temperature.ExpectedValue, StringFormat='Expected: {0} C'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Temperature.AllowedDeviation, StringFormat='Allowed Deviation: {0} C'}"
+                />
+
+                <Label
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"
+                    FontSize="Large"
+                    Text="Light"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Light.ExpectedValue, StringFormat='Expected: {0} lm'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Light.AllowedDeviation, StringFormat='Allowed Deviation: {0} lm'}"
+                />
+
+                <Label
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"
+                    FontSize="Large"
+                    Text="Orientation"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Orientation.ExpectedValue.X, StringFormat='Expected X: {0} lm'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Orientation.ExpectedValue.Y, StringFormat='Expected Y: {0} lm'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Orientation.AllowedDeviation.X, StringFormat='Allowed Deviation X: {0} lm'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Conditions.Orientation.AllowedDeviation.Y, StringFormat='Allowed Deviation Y: {0} lm'}"
+                />
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+
 </ContentPage>
