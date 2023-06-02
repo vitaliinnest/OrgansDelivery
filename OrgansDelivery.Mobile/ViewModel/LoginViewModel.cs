@@ -48,7 +48,7 @@ public partial class LoginViewModel : BaseViewModel
 			});
 
 			FlyoutService.AddFlyoutMenusDetails();
-			await Shell.Current.GoToAsync($"//{nameof(OrgansListPage)}");
+			await Shell.Current.GoToAsync($"//{nameof(OrgansListPage)}", animate: true);
 		}
 		catch (Exception ex)
 		{
@@ -64,6 +64,6 @@ public partial class LoginViewModel : BaseViewModel
 	[RelayCommand]
 	async Task GoToSingUp()
 	{
-		await Shell.Current.GoToAsync(nameof(RegisterPage), animate: true);
+		await Shell.Current.GoToAsync($"//{nameof(RegisterPage)}", animate: true);
 	}
 }

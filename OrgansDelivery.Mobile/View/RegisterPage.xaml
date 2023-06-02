@@ -6,7 +6,7 @@
              xmlns:handlers="clr-namespace:OrgansDelivery.Mobile.Handlers"
              Title="RegisterPage">
     <VerticalStackLayout 
-            Spacing="25" 
+            Spacing="10" 
             Padding="30,0" 
             VerticalOptions="Center">
 
@@ -14,62 +14,43 @@
 
         <VerticalStackLayout Spacing="5">
             <Label Text="Organ Storage" FontSize="28" TextColor="Gray" HorizontalTextAlignment="Center" />
-            <Label Text="Register to your account" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
+            <Label Text="Sign Up" FontSize="18" TextColor="Gray" HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 
         <StackLayout Orientation="Horizontal">
-            <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28">
-                <Image Source="user.png" HeightRequest="20" WidthRequest="20" />
-            </Frame>
-            <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
+            <Frame HeightRequest="45" Margin="0,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
                 <handlers:BorderlessEntry Text="{Binding Name}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Name" />
             </Frame>
-            <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
+            <Frame HeightRequest="45" Margin="5,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
                 <handlers:BorderlessEntry Text="{Binding Surname}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Surname" />
             </Frame>
         </StackLayout>
-        
-        <StackLayout Orientation="Horizontal">
-            <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28">
-                <Image Source="user.png" HeightRequest="20" WidthRequest="20" />
-            </Frame>
-            <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
-                <handlers:BorderlessEntry Text="{Binding Email}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Email" Keyboard="Email" />
-            </Frame>
-        </StackLayout>
 
-        <StackLayout Orientation="Horizontal">
-            <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28">
-                <Image Source="lock.png" HeightRequest="20" WidthRequest="20" />
-            </Frame>
-            <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
-                <handlers:BorderlessEntry Text="{Binding Password}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Password" IsPassword="True" />
-            </Frame>
-        </StackLayout>
+        <Frame HeightRequest="45" Margin="0,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
+            <handlers:BorderlessEntry Text="{Binding Email}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Email" Keyboard="Email" />
+        </Frame>
 
-        <StackLayout Orientation="Horizontal">
-            <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28">
-                <Image Source="lock.png" HeightRequest="20" WidthRequest="20" />
-            </Frame>
-            <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
-                <handlers:BorderlessEntry Text="{Binding RepeatPassword}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Repeat Password" IsPassword="True" />
-            </Frame>
-        </StackLayout>
-        
-        <StackLayout Orientation="Horizontal">
-            <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28">
-                <Image Source="lock.png" HeightRequest="20" WidthRequest="20" />
-            </Frame>
-            <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
-                <handlers:BorderlessEntry Text="{Binding InviteCode}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Invite Code (optional)" />
-            </Frame>
-        </StackLayout>
+        <Frame HeightRequest="45" Margin="0,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
+            <handlers:BorderlessEntry Text="{Binding Password}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Password" IsPassword="True" />
+        </Frame>
 
-        <Button Text="Sign In" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding RegisterCommand}" />
+        <Frame HeightRequest="45" Margin="0,0,0,0" Padding="0" HasShadow="True" BorderColor="White"  HorizontalOptions="FillAndExpand">
+            <handlers:BorderlessEntry Text="{Binding RepeatPassword}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Repeat Password" IsPassword="True" />
+        </Frame>
 
-        <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="Center">
+        <Frame HeightRequest="45" Margin="0,0,0,10" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+            <handlers:BorderlessEntry Text="{Binding InviteCode}" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Invite Code" />
+        </Frame>
+
+        <Button Text="Sign Up" Margin="0,0,0,10" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding RegisterCommand}" />
+
+        <StackLayout Orientation="Vertical" Spacing="5" HorizontalOptions="Center">
             <Label Text="Already have an account?" TextColor="Gray" />
-            <Label Text="Sign In" TextColor="#50b3f2" />
+            <Button
+                Style="{StaticResource ButtonOutline}"
+                Text="Sign In"
+                Command="{Binding GoToSignInCommand}"
+            />
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

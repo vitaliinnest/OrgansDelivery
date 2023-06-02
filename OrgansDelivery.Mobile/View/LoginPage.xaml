@@ -35,11 +35,15 @@
             </Frame>
         </StackLayout>
 
-        <Button Text="Sign In" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding LoginCommand}" />
-
-        <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="Center">
+        <Button Margin="0, 0, 0, 40" Text="Sign In" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding LoginCommand}" />
+        
+        <StackLayout Orientation="Vertical" Spacing="5" HorizontalOptions="Center">
             <Label Text="Don't have an account?" TextColor="Gray" />
-            <Label Text="Sign Up" TextColor="#50b3f2" />
+            <Button
+                Style="{StaticResource ButtonOutline}"
+                Text="Sign Up"
+                Command="{Binding GoToSingUpCommand}"
+            />
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

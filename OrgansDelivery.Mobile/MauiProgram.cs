@@ -8,7 +8,7 @@ namespace OrgansDelivery.Mobile;
 
 public static class MauiProgram
 {
-	private const string API_BASE_URL = "https://192.168.0.104:45455/api";
+	private const string API_BASE_URL = "https://192.168.0.102:45456/api";
 
 	public static MauiApp CreateMauiApp()
 	{

@@ -52,7 +52,12 @@ public partial class RegisterViewModel : BaseViewModel
 
 			IsBusy = true;
 
-			var isNnviteCodeValid = Guid.TryParse(InviteCode, out var parsedInviteCode);
+			var isInviteCodeValid = Guid.TryParse(InviteCode, out var parsedInviteCode);
+			if (!isInviteCodeValid)
+			{
+				throw new Exception("Invite code is not valid");
+			}
+
 			await _authService.RegisterAsync(new()
 			{
 				Name = Name,
@@ -60,7 +65,7 @@ public partial class RegisterViewModel : BaseViewModel
 				Email = Email,
 				Password = Password,
 				RepeatPassword = RepeatPassword,
-				InviteCode = isNnviteCodeValid ? parsedInviteCode : null,
+				InviteCode = isInviteCodeValid ? parsedInviteCode : null,
 			});
 
 			await Shell.Current.DisplayAlert("Confirm email", "You successfully Signed Up. Now confirm email", "OK");
