@@ -3,6 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OrgansDelivery.Mobile.Controls.FlyoutHeaderControl">
     <StackLayout Orientation="Horizontal" Spacing="10">
-        <Label Text="Menu" FontSize="28" FontAttributes="Bold" />
+        <Label Text="Organ Details" FontSize="28" FontAttributes="Bold" />
     </StackLayout>
 </StackLayout>

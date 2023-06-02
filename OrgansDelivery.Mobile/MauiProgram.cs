@@ -8,7 +8,7 @@ namespace OrgansDelivery.Mobile;
 
 public static class MauiProgram
 {
-	private const string API_BASE_URL = "https://192.168.0.102:45456/api";
+	private const string API_BASE_URL = "https://192.168.0.102:45457/api";
 
 	public static MauiApp CreateMauiApp()
 	{
@@ -44,7 +44,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<LoadingPage>();
 		builder.Services.AddSingleton<OrgansListPage>();
 		builder.Services.AddTransient<OrganDetailsPage>();
-		//builder.Services.AddSingleton<ContainersListPage>();
+		builder.Services.AddSingleton<ContainersListPage>();
 		//builder.Services.AddSingleton<ConditionsListPage>();
 		//builder.Services.AddSingleton<DevicesListPage>();
 
@@ -54,6 +54,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<RegisterViewModel>();
 		builder.Services.AddSingleton<OrgansViewModel>();
 		builder.Services.AddSingleton<OrganDetailsViewModel>();
+		builder.Services.AddSingleton<ContainersViewModel>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

@@ -96,6 +96,21 @@
                     Text="{Binding Organ.Conditions.Orientation.AllowedDeviation.Y, StringFormat='Allowed Deviation Y: {0} lm'}"
                 />
 
+                <Label
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"
+                    FontSize="Large"
+                    Text="Container"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Container.Name, StringFormat='Name: {0}'}"
+                />
+                <Label
+                    Style="{StaticResource LargeLabel}"
+                    Text="{Binding Organ.Container.Description, StringFormat='Description: {0}'}"
+                />
+                
             </VerticalStackLayout>
         </Grid>
     </ScrollView>

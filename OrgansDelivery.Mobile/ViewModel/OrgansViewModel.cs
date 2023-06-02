@@ -17,7 +17,6 @@ public partial class OrgansViewModel : BaseViewModel
 
 	[ObservableProperty]
 	string search;
-	
 
 	public OrgansViewModel(
 		IOrganService organService,
@@ -49,7 +48,7 @@ public partial class OrgansViewModel : BaseViewModel
 
 			IsBusy = true;
 
-			await GetOrgansAsyncImpl();
+			await GetSearchedOrgansAsync();
 		}
 		catch (Exception ex)
 		{
@@ -76,7 +75,7 @@ public partial class OrgansViewModel : BaseViewModel
 		});
 	}
 
-	private async Task GetOrgansAsyncImpl()
+	private async Task GetSearchedOrgansAsync()
 	{
 		var organs = await _organService.GetOrgansAsync();
 
@@ -86,13 +85,15 @@ public partial class OrgansViewModel : BaseViewModel
 		}
 
 		var filteredOrgans = organs
-			.Where(o => Search == null || (o.Name + o.Description).ToLower().Contains(Search.ToLower()))
+			.Where(o => Search == null || (string.Join(' ', o.Name, o.Description ?? string.Empty, o.Container.Name, o.Conditions.Name)).ToLower().Contains(Search.ToLower()))
 			.ToList();
 
 		for (int i = 0; i < 10; i++)
 		{
 			foreach (var organ in filteredOrgans)
 			{
+				if (string.IsNullOrWhiteSpace(organ.Description))
+				organ.Description = "No Description";
 				Organs.Add(organ);
 			}
 		}

@@ -36,6 +36,11 @@
         Route="OrgansListPage" />
 
     <ShellContent
+        Title="Containers"
+        ContentTemplate="{DataTemplate pages:ContainersListPage}"
+        Route="ContainersListPage" />
+    
+    <ShellContent
         Title="Organ Details"
         FlyoutItemIsVisible="False"
         ContentTemplate="{DataTemplate pages:OrganDetailsPage}"
