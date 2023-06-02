@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="OrgansDelivery.Mobile.View.DevicesListPage"
+    Title="Devices List"
+    xmlns:model="clr-namespace:OrganStorage.DAL.Entities;assembly=OrganStorage.DAL"
+    xmlns:viewmodel="clr-namespace:OrgansDelivery.Mobile.ViewModel"
+    x:DataType="viewmodel:DevicesViewModel"
+    xmlns:handlers="clr-namespace:OrgansDelivery.Mobile.Handlers"
+>
+
+    <Grid
+            ColumnDefinitions="*,*"
+            ColumnSpacing="5"
+            RowDefinitions="*,Auto"
+            RowSpacing="0">
+
+        <RefreshView
+                Grid.ColumnSpan="2"
+                Command="{Binding GetDevicesCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+            <ContentView>
+                <CollectionView
+                        ItemsSource="{Binding Devices}"
+                        SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:DeviceDto">
+                            <Grid Padding="10">
+                                <Frame Style="{StaticResource CardView}">
+                                    <Grid Padding="10">
+                                        <VerticalStackLayout
+                                                Grid.Column="1"
+                                                VerticalOptions="Center"
+                                                Padding="10">
+                                            <Label Style="{StaticResource LargeLabel}" Text="{Binding Name}" />
+                                            <Label Style="{StaticResource MediumLabel}" Text="{Binding ConditionsIntervalCheckInMs, StringFormat='Interval: {0} ms'}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ContentView>
+        </RefreshView>
+
+        <StackLayout
+                Orientation="Horizontal"
+                Grid.Row="5"
+                WidthRequest="380"
+                Margin="20,20,20,15"
+            >
+            <Frame HeightRequest="45" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                <handlers:BorderlessEntry
+                        IsEnabled="{Binding IsNotBusy}"
+                        Text="{Binding Search}"
+                        Margin="20,0,0,0"
+                        VerticalOptions="Center"
+                        Placeholder="Search"
+                    />
+            </Frame>
+            <Button Text="Search" WidthRequest="100" CornerRadius="20" HorizontalOptions="Center" Command="{Binding GetDevicesCommand}" />
+        </StackLayout>
+
+        <ActivityIndicator
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="1"
+                HorizontalOptions="Fill"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="{StaticResource Primary}"
+                VerticalOptions="Center" />
+    </Grid>
+</ContentPage>
