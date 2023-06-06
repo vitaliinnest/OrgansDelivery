@@ -85,16 +85,16 @@ public class ConditionsService : IConditionsService
 
 		var conditions = findResult.Value;
 		var conditionsChanged = model.ConditionsChanged(conditions);
-		var archivalConditions = _mapper.Map(model, conditions);
+		var currentConditions = _mapper.Map(model, conditions);
 		
 		if (conditionsChanged)
 		{
-			archivalConditions.IsArchival = true;
+			currentConditions.IsArchival = true;
 
-			var newConditions = CreateConditionsCopy(archivalConditions);
+			var newConditions = CreateConditionsCopy(currentConditions);
 			_context.Add(newConditions);
 
-			var organIds = archivalConditions.Organs.Select(o => o.Id).ToList();
+			var organIds = currentConditions.Organs.Select(o => o.Id).ToList();
 			var organs = _context.Organs.Where(o => organIds.Contains(o.Id)).ToList();
 			foreach (var organ in organs)
 			{
@@ -106,7 +106,7 @@ public class ConditionsService : IConditionsService
 		}
 
 		_context.SaveChanges();
-		return _mapper.Map<ConditionsDto>(archivalConditions);
+		return _mapper.Map<ConditionsDto>(currentConditions);
 	}
 
 	public Result DeleteConditions(Guid conditionId)
