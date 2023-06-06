@@ -127,7 +127,7 @@ const OrganDashboard = (props: Props) => {
                                     flexDirection: "column",
                                 }}
                             >
-                                <RecordsList records={rangeRecords} />
+                                <ViolationsList violations={rangeViolations} />
                             </Paper>
                         </Grid>
                         <Grid item md={12}>
@@ -138,7 +138,7 @@ const OrganDashboard = (props: Props) => {
                                     flexDirection: "column",
                                 }}
                             >
-                                <ViolationsList violations={rangeViolations} />
+                                <RecordsList records={rangeRecords} />
                             </Paper>
                         </Grid>
                     </Grid>
