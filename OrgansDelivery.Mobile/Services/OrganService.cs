@@ -17,26 +17,25 @@ public class OrganService : IOrganService
 	public OrganService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.SetPathPrefix("/organ");
 	}
 
 	public async Task<List<OrganDto>> GetOrgansAsync()
 	{
-		return await _apiService.GetAsync<List<OrganDto>>();
+		return await _apiService.GetAsync<List<OrganDto>>("/organ");
 	}
 	
 	public async Task<OrganDto> CreateOrganAsync(OrganFormValues model)
 	{
-		return await _apiService.PostAsync<OrganDto>(model);
+		return await _apiService.PostAsync<OrganDto>("/organ", model);
 	}
 
 	public async Task<OrganDto> UpdateOrganAsync(Guid organId, OrganFormValues model)
 	{
-		return await _apiService.PutAsync<OrganDto>($"/{organId}", model);
+		return await _apiService.PutAsync<OrganDto>($"/organ/{organId}", model);
 	}
 
 	public async Task DeleteOrganAsync(Guid organId)
 	{
-		await _apiService.DeleteAsync($"/{organId}");
+		await _apiService.DeleteAsync($"/organ/{organId}");
 	}
 }

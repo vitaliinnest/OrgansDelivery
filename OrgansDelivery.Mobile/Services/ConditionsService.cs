@@ -18,26 +18,25 @@ public class ConditionsService : IConditionsService
 	public ConditionsService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.SetPathPrefix("/conditions");
 	}
 
 	public async Task<List<ConditionsDto>> GetConditionsAsync()
 	{
-		return await _apiService.GetAsync<List<ConditionsDto>>();
+		return await _apiService.GetAsync<List<ConditionsDto>>("/conditions");
 	}
 
 	public async Task<ConditionsDto> CreateConditionsAsync(ConditionsFormValues model)
 	{
-		return await _apiService.PostAsync<ConditionsDto>(model);
+		return await _apiService.PostAsync<ConditionsDto>("/conditions", model);
 	}
 
 	public async Task<ConditionsDto> UpdateConditionsAsync(Guid conditionsId, ConditionsFormValues model)
 	{
-		return await _apiService.PutAsync<ConditionsDto>($"/{conditionsId}", model);
+		return await _apiService.PutAsync<ConditionsDto>($"/conditions/{conditionsId}", model);
 	}
 
 	public async Task DeleteConditionsAsync(Guid conditionsId)
 	{
-		await _apiService.DeleteAsync($"/{conditionsId}");
+		await _apiService.DeleteAsync($"/conditions/{conditionsId}");
 	}
 }

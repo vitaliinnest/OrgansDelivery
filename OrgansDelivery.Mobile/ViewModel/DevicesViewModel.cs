@@ -71,12 +71,9 @@ public partial class DevicesViewModel : BaseViewModel
 			.Where(d => Search == null || string.Join(' ', d.Name, d.ConditionsIntervalCheckInMs.ToString() ?? string.Empty).ToLower().Contains(Search.ToLower()))
 			.ToList();
 
-		for (int i = 0; i < 10; i++)
+		foreach (var device in filteredDevices)
 		{
-			foreach (var device in filteredDevices)
-			{
-				Devices.Add(device);
-			}
+			Devices.Add(device);
 		}
 	}
 }

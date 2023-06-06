@@ -88,14 +88,11 @@ public partial class OrgansViewModel : BaseViewModel
 			.Where(o => Search == null || (string.Join(' ', o.Name, o.Description ?? string.Empty, o.Container.Name, o.Conditions.Name)).ToLower().Contains(Search.ToLower()))
 			.ToList();
 
-		for (int i = 0; i < 10; i++)
+		foreach (var organ in filteredOrgans)
 		{
-			foreach (var organ in filteredOrgans)
-			{
-				if (string.IsNullOrWhiteSpace(organ.Description))
-				organ.Description = "No Description";
-				Organs.Add(organ);
-			}
+			if (string.IsNullOrWhiteSpace(organ.Description))
+			organ.Description = "No Description";
+			Organs.Add(organ);
 		}
 	}
 }

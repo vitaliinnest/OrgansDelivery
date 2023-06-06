@@ -17,26 +17,25 @@ public class ContainerService : IContainerService
 	public ContainerService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.SetPathPrefix("/container");
 	}
 
 	public async Task<List<ContainerDto>> GetContainersAsync()
 	{
-		return await _apiService.GetAsync<List<ContainerDto>>();
+		return await _apiService.GetAsync<List<ContainerDto>>("/container");
 	}
 
 	public async Task<ContainerDto> CreateContainerAsync(ContainerFormValues model)
 	{
-		return await _apiService.PostAsync<ContainerDto>(model);
+		return await _apiService.PostAsync<ContainerDto>("/container", model);
 	}
 
 	public async Task<ContainerDto> UpdateContainerAsync(Guid containerId, ContainerFormValues model)
 	{
-		return await _apiService.PutAsync<ContainerDto>($"/{containerId}", model);
+		return await _apiService.PutAsync<ContainerDto>($"/container/{containerId}", model);
 	}
 
 	public async Task DeleteContainerAsync(Guid containerId)
 	{
-		await _apiService.DeleteAsync($"/{containerId}");
+		await _apiService.DeleteAsync($"/container/{containerId}");
 	}
 }

@@ -50,10 +50,9 @@ public partial class LoginViewModel : BaseViewModel
 			FlyoutService.AddFlyoutMenusDetails();
 			await Shell.Current.GoToAsync($"//{nameof(OrgansListPage)}", animate: true);
 		}
-		catch (Exception ex)
+		catch (Exception)
 		{
-			Debug.WriteLine($"Unable to login: {ex.Message}");
-			await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
+			await Shell.Current.DisplayAlert("Failed", "Wrong credentials", "OK");
 		}
 		finally
 		{

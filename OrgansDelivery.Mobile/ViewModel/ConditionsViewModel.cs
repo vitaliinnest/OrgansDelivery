@@ -86,17 +86,14 @@ public partial class ConditionsViewModel : BaseViewModel
 			.Where(c => Search == null || string.Join(' ', c.Name, c.Description ?? string.Empty).ToLower().Contains(Search.ToLower()))
 			.ToList();
 
-		for (int i = 0; i < 10; i++)
+		foreach (var condition in filteredConditions)
 		{
-			foreach (var condition in filteredConditions)
+			if (string.IsNullOrWhiteSpace(condition.Description))
 			{
-				if (string.IsNullOrWhiteSpace(condition.Description))
-				{
-					condition.Description = "No description";
-				}
-
-				Conditions.Add(condition);
+				condition.Description = "No description";
 			}
+
+			Conditions.Add(condition);
 		}
 	}
 }

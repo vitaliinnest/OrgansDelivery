@@ -16,12 +16,11 @@ public class AuthService : IAuthService
 	public AuthService(IApiService apiService)
 	{
 		_apiService = apiService;
-		_apiService.SetPathPrefix("/auth");
 	}
 
 	public async Task<LoginResponse> LoginAsync(LoginRequest login)
 	{
-		var res = await _apiService.PostAnonymousAsync<LoginResponse>("/login", login);
+		var res = await _apiService.PostAnonymousAsync<LoginResponse>("/auth/login", login);
 		if (res == null)
 		{
 			return null;
@@ -33,7 +32,7 @@ public class AuthService : IAuthService
 
 	public async Task<RegisterResponse> RegisterAsync(RegisterRequest register)
 	{
-		var res = await _apiService.PostAnonymousAsync<RegisterResponse>("/register", register);
+		var res = await _apiService.PostAnonymousAsync<RegisterResponse>("/auth/register", register);
 		if (res == null)
 		{
 			return null;

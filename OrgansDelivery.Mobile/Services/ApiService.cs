@@ -17,13 +17,11 @@ public interface IApiService
 	Task<T> PutAsync<T>(object payload);
 	Task<T> PutAsync<T>(string endpoint, object payload);
 	Task DeleteAsync(string endpoint);
-	void SetPathPrefix(string path);
 }
 
 public class ApiService : IApiService
 {
 	private readonly HttpClient _httpClient;
-	private string _pathPrefix;
 
 	public ApiService(
 		IOptions<ApiSettings> apiSettings)
@@ -37,11 +35,6 @@ public class ApiService : IApiService
 		{
 			BaseAddress = new Uri(apiSettings.Value.BaseUrl)
 		};
-	}
-
-	public void SetPathPrefix(string prefix)
-	{
-		_pathPrefix = prefix;
 	}
 
 	public async Task<T> GetAsync<T>()
@@ -105,7 +98,7 @@ public class ApiService : IApiService
 
 	private string BuildPath(string endpoint)
 	{
-		return _httpClient.BaseAddress.AbsolutePath + _pathPrefix + endpoint;
+		return _httpClient.BaseAddress.AbsolutePath + endpoint;
 	}
 
 	private static StringContent BuildJsonContent(object payload)

@@ -73,16 +73,13 @@ public partial class ContainersViewModel : BaseViewModel
 			.Where(c => Search == null || string.Join(' ', c.Name, c.Description ?? string.Empty, c.Device.Name).ToLower().Contains(Search.ToLower()))
 			.ToList();
 
-		for (int i = 0; i < 10; i++)
+		foreach (var container in filteredContainers)
 		{
-			foreach (var container in filteredContainers)
+			if (string.IsNullOrWhiteSpace(container.Description))
 			{
-				if (string.IsNullOrWhiteSpace(container.Description))
-				{
-					container.Description = "No description";
-				}
-				Containers.Add(container);
+				container.Description = "No description";
 			}
+			Containers.Add(container);
 		}
 	}
 }
